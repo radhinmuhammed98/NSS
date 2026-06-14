@@ -15,15 +15,6 @@ export default defineConfig({
       }),
       imagetools(),
     ],
-    build: {
-      rollupOptions: {
-        external: ["framer-motion", "motion-dom", "motion-utils"],
-      },
-    },
-    ssr: {
-      noExternal: ["framer-motion", "motion-dom", "motion-utils"],
-    },
   },
-
 });
 
