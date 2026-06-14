@@ -4,6 +4,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 
 export default defineConfig({
+  cloudflare: false,
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts
     server: { entry: "server" },
