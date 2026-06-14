@@ -1,0 +1,258 @@
+/* ─── NSS Loader · Styles ─────────────────────────────────────────────────── */
+/* All loader-specific CSS. Imported once in LoadingScreen.tsx.               */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap');
+
+/* ── Custom properties ───────────────────────────────────────────────────── */
+:root {
+  --nss-red:        #C41E3A;
+  --nss-crimson:    #DC143C;
+  --nss-deep-red:   #8B0000;
+  --nss-ivory:      #F5F0E8;
+  --nss-ink:        #0E0C0A;
+  --nss-charcoal:   #1A1612;
+  --nss-gold:       #C9A84C;
+  --nss-red-glow:   rgba(196, 30, 58, 0.18);
+}
+
+/* ── Loader shell ─────────────────────────────────────────────────────────── */
+.nss-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nss-ink);
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Grain texture overlay ────────────────────────────────────────────────── */
+.nss-loader__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: nss-grain-shift 0.8s steps(4) infinite;
+}
+
+@keyframes nss-grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, -1%); }
+  50%  { transform: translate(1%, 2%); }
+  75%  { transform: translate(-1%, 1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── Radial vignette ──────────────────────────────────────────────────────── */
+.nss-loader__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    transparent 40%,
+    rgba(14, 12, 10, 0.65) 100%
+  );
+}
+
+/* ── Ambient red glow at centre ───────────────────────────────────────────── */
+.nss-loader__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 420px at 50% 50%,
+    rgba(196, 30, 58, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+/* ── Central composition ──────────────────────────────────────────────────── */
+.nss-loader__center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  z-index: 2;
+}
+
+/* ── Ring + logo wrapper ──────────────────────────────────────────────────── */
+.nss-loader__ring-wrap {
+  position: relative;
+  width: 204px;
+  height: 204px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Logo container ───────────────────────────────────────────────────────── */
+.nss-loader__logo {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.nss-loader__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Motto ────────────────────────────────────────────────────────────────── */
+.nss-loader__motto {
+  margin-top: 24px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  color: var(--nss-ivory);
+  opacity: 0.55;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ── Brand name ───────────────────────────────────────────────────────────── */
+.nss-loader__brand {
+  margin-top: 6px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--nss-ivory);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ── Tagline ──────────────────────────────────────────────────────────────── */
+.nss-loader__tagline {
+  margin-top: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  color: var(--nss-ivory);
+  opacity: 0.38;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ── Progress label ───────────────────────────────────────────────────────── */
+.nss-loader__progress-label {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: var(--nss-ivory);
+  opacity: 0.42;
+  text-transform: uppercase;
+}
+
+.nss-loader__progress-num {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+  color: var(--nss-red);
+  opacity: 1;
+  font-weight: 500;
+}
+
+/* ── Progress bar (thin, beneath label) ──────────────────────────────────── */
+.nss-loader__bar-wrap {
+  margin-top: 8px;
+  width: 200px;
+  height: 1px;
+  background: rgba(196, 30, 58, 0.15);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.nss-loader__bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--nss-deep-red), var(--nss-crimson));
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--nss-red-glow);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* ── Error state ──────────────────────────────────────────────────────────── */
+.nss-loader__error {
+  margin-top: 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--nss-red);
+  opacity: 0.75;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ── Archive year chips (top-left / top-right corners) ───────────────────── */
+.nss-loader__archive-years {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  pointer-events: none;
+}
+
+.nss-loader__year-chip {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  color: var(--nss-ivory);
+  opacity: 0.22;
+  text-transform: uppercase;
+}
+
+/* ── Logo cross-hair detail lines ────────────────────────────────────────── */
+.nss-loader__crosshair {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nss-loader__crosshair::before,
+.nss-loader__crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(196, 30, 58, 0.12);
+}
+
+.nss-loader__crosshair::before {
+  /* Horizontal rule */
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.nss-loader__crosshair::after {
+  /* Vertical rule */
+  left: 50%;
+  top: 5%;
+  bottom: 5%;
+  width: 1px;
+  transform: translateX(-50%);
+}
