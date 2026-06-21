@@ -1,28 +1,52 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { ArrowUpDown } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
 
 import { formatDate, getTimeline } from "@/lib/data";
 
 export const Route = createFileRoute("/journey")({
-  head: () => ({
-    meta: [
-      { title: "Journey — NSS Digital Legacy" },
-      { name: "description", content: "The NSS unit's journey from its founding to today, milestone by milestone." },
-      { property: "og:title", content: "NSS Journey Timeline" },
-      { property: "og:description", content: "A timeline of the unit's history and milestones." },
-    ],
-    links: [{ rel: "canonical", href: "/journey" }],
-  }),
   component: Journey,
 });
 
 function Journey() {
-  const items = getTimeline();
+  const [newestFirst, setNewestFirst] = useState(false);
+  const items = getTimeline(newestFirst);
+
   return (
     <PageShell>
       <PageHeader eyebrow="Journey" title="The NSS Journey" description="From the very beginning to the future — every milestone preserved." />
       <Container className="py-8">
+        <div className="mb-6 flex items-center gap-2">
+          <ArrowUpDown className="h-4 w-4 text-muted-foreground" aria-hidden />
+          <span className="text-xs font-semibold text-muted-foreground">Order:</span>
+          <div className="flex gap-1">
+            <button
+              type="button"
+              onClick={() => setNewestFirst(false)}
+              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
+                !newestFirst
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
+              }`}
+            >
+              Oldest first
+            </button>
+            <button
+              type="button"
+              onClick={() => setNewestFirst(true)}
+              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
+                newestFirst
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
+              }`}
+            >
+              Newest first
+            </button>
+          </div>
+        </div>
+
         {items.length ? (
           <div className="relative space-y-6 before:absolute before:left-4 before:top-2 before:h-full before:w-0.5 before:bg-border sm:before:left-1/2">
             {items.map((t, i) => (

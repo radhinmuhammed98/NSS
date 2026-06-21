@@ -7,15 +7,6 @@ import { CampCard } from "@/components/media";
 import { getBatches, getCamps } from "@/lib/data";
 
 export const Route = createFileRoute("/camps/")({
-  head: () => ({
-    meta: [
-      { title: "Camps — NSS Digital Legacy" },
-      { name: "description", content: "Explore NSS special camps with day-wise documentary archives." },
-      { property: "og:title", content: "NSS Camps" },
-      { property: "og:description", content: "Day-wise NSS camp archives across the years." },
-    ],
-    links: [{ rel: "canonical", href: "/camps" }],
-  }),
   component: Camps,
 });
 

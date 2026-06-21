@@ -1,23 +1,23 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import { imagetools } from "vite-imagetools";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import netlify from "@netlify/vite-plugin-tanstack-start";
-
+import path from "path";
 
 export default defineConfig({
-  cloudflare: false,
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts
-    server: { entry: "server" },
+  plugins: [
+    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+    imagetools(),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
-  vite: {
-    plugins: [
-      tanstackStart({
-        server: { entry: "src/server.ts" },
-      }),
-      netlify(),
-      imagetools(),
-    ],
+  build: {
+    outDir: "dist",
   },
 });
-

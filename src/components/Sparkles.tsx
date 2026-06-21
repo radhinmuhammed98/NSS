@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import gsap from "gsap";
 
 type SparkleProps = {
   count?: number;
@@ -30,7 +30,7 @@ export function Sparkles({
     if (!el) return;
     const stars = gsap.utils.toArray<HTMLElement>(".sparkle", el);
     const ctx = gsap.context(() => {
-      stars.forEach((star) => {
+      stars.forEach((star: any) => {
         gsap.set(star, {
           x: gsap.utils.random(0, 100, 1) + "%",
           y: gsap.utils.random(0, 100, 1) + "%",

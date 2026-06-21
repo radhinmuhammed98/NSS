@@ -7,15 +7,6 @@ import { ProjectCard } from "@/components/media";
 import { getBatches, getProjects, projectCategories } from "@/lib/data";
 
 export const Route = createFileRoute("/projects/")({
-  head: () => ({
-    meta: [
-      { title: "Projects — NSS Digital Legacy" },
-      { name: "description", content: "Browse all NSS projects across batches, filterable by category, year, and batch." },
-      { property: "og:title", content: "NSS Projects" },
-      { property: "og:description", content: "Every NSS project, organized and searchable." },
-    ],
-    links: [{ rel: "canonical", href: "/projects" }],
-  }),
   component: Projects,
 });
 

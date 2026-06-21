@@ -1,37 +1,106 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
-import { Reveal, EmptyState } from "@/components/clay";
+import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { AlbumCard } from "@/components/media";
 
-import { getAlbums } from "@/lib/data";
+import {
+  getAlbums,
+  getAlbumTypes,
+  getBatches,
+  getYearsFromAlbums,
+} from "@/lib/data";
 
 export const Route = createFileRoute("/gallery/")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — NSS Digital Legacy" },
-      { name: "description", content: "Album-based photo gallery of NSS projects, camps, and events." },
-      { property: "og:title", content: "NSS Gallery" },
-      { property: "og:description", content: "Photo albums organized by project, camp, and batch." },
-    ],
-    links: [{ rel: "canonical", href: "/gallery" }],
-  }),
   component: Gallery,
 });
 
 function Gallery() {
   const albums = getAlbums();
+  const batches = getBatches();
+  const albumTypes = getAlbumTypes();
+  const years = getYearsFromAlbums();
+
+  const [active, setActive] = useState<Record<string, string>>({});
+
+  const handleFilter = (key: string, value: string) => {
+    setActive((prev) =>
+      value === "all" ? { ...prev, [key]: "all" } : { ...prev, [key]: value }
+    );
+  };
+
+  const clearAll = () => setActive({});
+
+  const hasActive = Object.values(active).some((v) => v && v !== "all");
+
+  const filtered = useMemo(() => {
+    return albums.filter((a) => {
+      const batchOk = !active.batch || active.batch === "all" || a.batchSlug === active.batch;
+      const yearOk = !active.year || active.year === "all" || String(a.year) === active.year;
+      const typeOk = !active.type || active.type === "all" || a.type === active.type;
+      return batchOk && yearOk && typeOk;
+    });
+  }, [albums, active]);
+
+  const groups: FilterGroup[] = [
+    {
+      key: "batch",
+      label: "Batch",
+      options: [
+        { value: "all", label: "All" },
+        ...batches.map((b) => ({ value: b.slug, label: b.yearRange })),
+      ],
+    },
+    {
+      key: "year",
+      label: "Year",
+      options: [
+        { value: "all", label: "All" },
+        ...years.map((y) => ({ value: String(y), label: String(y) })),
+      ],
+    },
+    {
+      key: "type",
+      label: "Album Type",
+      options: [
+        { value: "all", label: "All" },
+        ...albumTypes.map((t) => ({ value: t, label: t })),
+      ],
+    },
+  ];
+
   return (
     <PageShell>
-      <PageHeader eyebrow="Gallery" title="Photo Albums" description="Memories preserved album by album." />
+      <PageHeader
+        eyebrow="Gallery"
+        title="Photo Albums"
+        description="Memories preserved album by album."
+      />
       <Container className="py-8">
-        {albums.length ? (
+        <div className="flex items-center justify-between gap-4 mb-2">
+          {hasActive && (
+            <button
+              type="button"
+              onClick={clearAll}
+              className="ml-auto text-xs font-semibold text-primary underline underline-offset-2 hover:no-underline"
+              aria-label="Clear all gallery filters"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
+        <FilterBar groups={groups} active={active} onChange={handleFilter} />
+
+        {filtered.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((a, i) => (
-              <Reveal key={a.slug} delay={i * 0.06}><AlbumCard album={a} /></Reveal>
+            {filtered.map((a, i) => (
+              <Reveal key={a.slug} delay={i * 0.06}>
+                <AlbumCard album={a} />
+              </Reveal>
             ))}
           </div>
         ) : (
-          <EmptyState message="Gallery albums are being prepared." />
+          <EmptyState message="No albums match the selected filters." />
         )}
       </Container>
     </PageShell>

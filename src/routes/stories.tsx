@@ -6,15 +6,6 @@ import { StoryCard } from "@/components/media";
 import { getStories } from "@/lib/data";
 
 export const Route = createFileRoute("/stories")({
-  head: () => ({
-    meta: [
-      { title: "Volunteer Stories — NSS Digital Legacy" },
-      { name: "description", content: "Memories and experiences in the words of NSS volunteers." },
-      { property: "og:title", content: "Volunteer Stories" },
-      { property: "og:description", content: "How service shaped our volunteers." },
-    ],
-    links: [{ rel: "canonical", href: "/stories" }],
-  }),
   component: Stories,
 });
 

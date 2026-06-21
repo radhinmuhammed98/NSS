@@ -23,25 +23,6 @@ import { heroNss } from "@/data";
 import { useGsapIntro, useGsapParallax } from "@/hooks/use-gsap";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "NSS Digital Legacy — A Living Archive of Service" },
-      {
-        name: "description",
-        content:
-          "A permanent, batch-wise digital archive of the NSS unit's projects, camps, highlights, and memories. Every batch serves and leaves, but their journey stays forever.",
-      },
-      { property: "og:title", content: "NSS Digital Legacy" },
-      {
-        property: "og:description",
-        content: "A living archive of service, leadership, camps, projects, and memories.",
-      },
-      { property: "og:type", content: "website" },
-    ],
-    links: [
-      { rel: "preload", as: "image", href: heroNss, fetchpriority: "high" },
-    ],
-  }),
   component: Home,
 });
 

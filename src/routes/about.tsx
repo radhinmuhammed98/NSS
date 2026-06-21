@@ -6,19 +6,6 @@ import { ClayCard, Reveal, Badge } from "@/components/clay";
 import { getSiteSettings } from "@/lib/data";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — NSS Digital Legacy" },
-      {
-        name: "description",
-        content:
-          "The identity, mission, vision, and objectives of our NSS unit, guided by the motto 'Not Me, But You'.",
-      },
-      { property: "og:title", content: "About the NSS Unit" },
-      { property: "og:description", content: "Mission, vision, and the journey of our NSS unit." },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
-  }),
   component: About,
 });
 

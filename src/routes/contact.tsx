@@ -6,15 +6,6 @@ import { ClayCard, Reveal } from "@/components/clay";
 import { getSiteSettings } from "@/lib/data";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact — NSS Digital Legacy" },
-      { name: "description", content: "Get in touch with our NSS unit." },
-      { property: "og:title", content: "Contact the NSS Unit" },
-      { property: "og:description", content: "Reach out to join or collaborate." },
-    ],
-    links: [{ rel: "canonical", href: "/contact" }],
-  }),
   component: Contact,
 });
 

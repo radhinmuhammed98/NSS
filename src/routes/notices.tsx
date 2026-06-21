@@ -6,15 +6,6 @@ import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
 import { formatDate, getNotices } from "@/lib/data";
 
 export const Route = createFileRoute("/notices")({
-  head: () => ({
-    meta: [
-      { title: "Notices — NSS Digital Legacy" },
-      { name: "description", content: "Latest NSS announcements, events, and updates." },
-      { property: "og:title", content: "NSS Notices & Updates" },
-      { property: "og:description", content: "Stay updated with the latest from the unit." },
-    ],
-    links: [{ rel: "canonical", href: "/notices" }],
-  }),
   component: Notices,
 });
 

@@ -109,3 +109,29 @@ export const formatDate = (iso: string) =>
     month: "short",
     year: "numeric",
   });
+
+// ─── Filter-support helpers ────────────────────────────────────────────────
+
+/** Unique album types present in the dataset, alphabetically sorted */
+export const getAlbumTypes = () =>
+  [...new Set(galleryAlbums.map((a) => a.type))].sort();
+
+/** Unique report types present in the dataset, alphabetically sorted */
+export const getReportTypes = () =>
+  [...new Set(reports.map((r) => r.type))].sort();
+
+/** Unique highlight types present in the dataset, alphabetically sorted */
+export const getHighlightTypes = () =>
+  [...new Set(highlights.map((h) => h.type))].sort();
+
+/** Unique years from gallery albums, newest first */
+export const getYearsFromAlbums = () =>
+  [...new Set(galleryAlbums.map((a) => a.year))].sort((a, b) => b - a);
+
+/** Unique years from reports, newest first */
+export const getYearsFromReports = () =>
+  [...new Set(reports.map((r) => r.year))].sort((a, b) => b - a);
+
+/** Unique years from highlights, newest first */
+export const getYearsFromHighlights = () =>
+  [...new Set(highlights.map((h) => h.year))].sort((a, b) => b - a);

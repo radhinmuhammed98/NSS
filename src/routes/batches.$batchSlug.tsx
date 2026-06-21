@@ -19,24 +19,12 @@ import {
 } from "@/lib/data";
 
 export const Route = createFileRoute("/batches/$batchSlug")({
-  loader: ({ params }) => {
+  loader: ({ params }: { params: { batchSlug: string } }) => {
     const batch = getBatchBySlug(params.batchSlug);
     if (!batch) throw notFound();
     return { batch };
   },
-  head: ({ loaderData }) => {
-    const b = loaderData?.batch;
-    return {
-      meta: [
-        { title: `${b?.yearRange ?? "Batch"} — NSS Digital Legacy` },
-        { name: "description", content: b?.description ?? "NSS batch legacy page." },
-        { property: "og:title", content: `${b?.title} (${b?.yearRange})` },
-        { property: "og:description", content: b?.description ?? "" },
-        { property: "og:image", content: b?.coverImage ?? "" },
-      ],
-      links: [{ rel: "canonical", href: `/batches/${b?.slug}` }],
-    };
-  },
+
   notFoundComponent: () => (
     <PageShell>
       <Container className="py-20 text-center">

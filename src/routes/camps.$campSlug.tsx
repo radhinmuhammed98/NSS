@@ -8,24 +8,12 @@ import { formatDate, getBatchTitle, getCampBySlug, getHighlightsBySlugs } from "
 import type { CampDay, ImageAsset, ImpactMetric } from "@/types";
 
 export const Route = createFileRoute("/camps/$campSlug")({
-  loader: ({ params }) => {
+  loader: ({ params }: { params: { campSlug: string } }) => {
     const camp = getCampBySlug(params.campSlug);
     if (!camp) throw notFound();
     return { camp };
   },
-  head: ({ loaderData }) => {
-    const c = loaderData?.camp;
-    return {
-      meta: [
-        { title: `${c?.title ?? "Camp"} | NSS Digital Legacy` },
-        { name: "description", content: c?.summary ?? "" },
-        { property: "og:title", content: c?.title ?? "" },
-        { property: "og:description", content: c?.summary ?? "" },
-        { property: "og:image", content: c?.coverImage ?? "" },
-      ],
-      links: [{ rel: "canonical", href: `/camps/${c?.slug}` }],
-    };
-  },
+
   notFoundComponent: () => (
     <PageShell>
       <Container className="py-20 text-center">

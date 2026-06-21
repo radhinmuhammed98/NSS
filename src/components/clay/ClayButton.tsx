@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { gsap } from "gsap";
+import gsap from "gsap";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 

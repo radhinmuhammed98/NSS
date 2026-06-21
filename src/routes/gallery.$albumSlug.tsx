@@ -6,24 +6,12 @@ import { formatDate, getAlbumBySlug } from "@/lib/data";
 import type { ImageAsset } from "@/types";
 
 export const Route = createFileRoute("/gallery/$albumSlug")({
-  loader: ({ params }) => {
+  loader: ({ params }: { params: { albumSlug: string } }) => {
     const album = getAlbumBySlug(params.albumSlug);
     if (!album) throw notFound();
     return { album };
   },
-  head: ({ loaderData }) => {
-    const a = loaderData?.album;
-    return {
-      meta: [
-        { title: `${a?.title ?? "Album"} | NSS Digital Legacy` },
-        { name: "description", content: a?.description ?? "" },
-        { property: "og:title", content: a?.title ?? "" },
-        { property: "og:description", content: a?.description ?? "" },
-        { property: "og:image", content: a?.coverImage ?? "" },
-      ],
-      links: [{ rel: "canonical", href: `/gallery/${a?.slug}` }],
-    };
-  },
+
   notFoundComponent: () => (
     <PageShell>
       <Container className="py-20 text-center">

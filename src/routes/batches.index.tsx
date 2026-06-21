@@ -6,18 +6,6 @@ import { BatchCard } from "@/components/media";
 import { getBatches } from "@/lib/data";
 
 export const Route = createFileRoute("/batches/")({
-  head: () => ({
-    meta: [
-      { title: "Batches — NSS Digital Legacy" },
-      {
-        name: "description",
-        content: "Explore every NSS batch and its legacy of projects, camps, and highlights.",
-      },
-      { property: "og:title", content: "NSS Batches" },
-      { property: "og:description", content: "Batch-wise NSS history and legacy pages." },
-    ],
-    links: [{ rel: "canonical", href: "/batches" }],
-  }),
   component: Batches,
 });
 

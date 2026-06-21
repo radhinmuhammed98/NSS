@@ -15,24 +15,12 @@ import {
 import type { ImageAsset, ImpactMetric } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
-  loader: ({ params }) => {
+  loader: ({ params }: { params: { projectSlug: string } }) => {
     const project = getProjectBySlug(params.projectSlug);
     if (!project) throw notFound();
     return { project };
   },
-  head: ({ loaderData }) => {
-    const p = loaderData?.project;
-    return {
-      meta: [
-        { title: `${p?.title ?? "Project"} | NSS Digital Legacy` },
-        { name: "description", content: p?.summary ?? "" },
-        { property: "og:title", content: p?.title ?? "" },
-        { property: "og:description", content: p?.summary ?? "" },
-        { property: "og:image", content: p?.coverImage ?? "" },
-      ],
-      links: [{ rel: "canonical", href: `/projects/${p?.slug}` }],
-    };
-  },
+
   notFoundComponent: () => (
     <PageShell>
       <Container className="py-20 text-center">

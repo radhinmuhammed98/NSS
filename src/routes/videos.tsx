@@ -6,15 +6,6 @@ import { MediaThumb } from "@/components/media";
 import { getVideos } from "@/lib/data";
 
 export const Route = createFileRoute("/videos")({
-  head: () => ({
-    meta: [
-      { title: "Videos — NSS Digital Legacy" },
-      { name: "description", content: "Short video clips from NSS projects, camps, and volunteer memories." },
-      { property: "og:title", content: "NSS Video Clips" },
-      { property: "og:description", content: "An organized archive of short NSS clips." },
-    ],
-    links: [{ rel: "canonical", href: "/videos" }],
-  }),
   component: Videos,
 });
 
