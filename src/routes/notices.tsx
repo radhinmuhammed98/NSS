@@ -18,7 +18,11 @@ function Notices() {
   const { list: notices } = Route.useLoaderData() as { list: Notice[] };
   return (
     <PageShell>
-      <PageHeader eyebrow="Notices" title="Notices & Updates" description="Latest announcements from the NSS unit." />
+      <PageHeader
+        eyebrow="Notices"
+        title="Notices & Updates"
+        description="Latest announcements from the NSS unit."
+      />
       <Container className="py-8">
         {notices.length ? (
           <div className="space-y-4">

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import type { VideoClip } from "@/types";
+import { SafeImage } from "./SafeImage";
 
 /**
  * MediaThumb — video thumbnail with modal HTML5 player on click.
@@ -52,7 +53,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             aria-label={`Play video: ${video.title}`}
             aria-haspopup="dialog"
           >
-            <img
+            <SafeImage
               src={video.thumbnail}
               alt={video.title}
               loading="lazy"

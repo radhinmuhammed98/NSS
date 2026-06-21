@@ -25,8 +25,7 @@ import avatar5 from "@/assets/avatar5.jpg?w=256&format=webp&quality=72&imagetool
 
 export { heroNss };
 
-const img = (seed: string, w = 800, h = 600) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
+const img = (seed: string, w = 800, h = 600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const siteSettings: SiteSettings = {
   schoolName: "Govt. Higher Secondary School",
@@ -150,12 +149,10 @@ export const projects: Project[] = [
     category: "Anti-Drug Awareness",
     location: "School Auditorium & Wards",
     status: "completed",
-    summary:
-      "Awareness rally and sessions marking the International Day Against Drug Abuse.",
+    summary: "Awareness rally and sessions marking the International Day Against Drug Abuse.",
     description:
       "A rally through the local market, expert talks, street plays, and a pledge-signing campaign reaching students and the wider community.",
-    problemAddressed:
-      "Rising exposure of adolescents to substance abuse in the locality.",
+    problemAddressed: "Rising exposure of adolescents to substance abuse in the locality.",
     whatNssDid:
       "Organised a 2 km awareness rally, conducted three expert sessions, and collected 800 anti-drug pledges.",
     coverImage: img("antidrug", 1200, 700),
@@ -187,8 +184,7 @@ export const projects: Project[] = [
       "A cleaning drive carried out during the seven-day special camp, restoring a public pond and surrounds.",
     description:
       "As part of the special camp, volunteers cleared a neglected public pond, desilted channels, and planted native species along the banks.",
-    problemAddressed:
-      "A choked public pond had become a mosquito-breeding eyesore for the ward.",
+    problemAddressed: "A choked public pond had become a mosquito-breeding eyesore for the ward.",
     whatNssDid:
       "Cleared 1.2 tonnes of waste, desilted the pond, and planted 120 saplings with community participation.",
     coverImage: img("cleandrive", 1200, 700),
@@ -233,7 +229,8 @@ export const camps: Camp[] = [
         dayNumber: 1,
         date: "2026-01-02",
         title: "Inauguration",
-        description: "Camp inaugurated by the ward councillor with a flag hoisting and orientation.",
+        description:
+          "Camp inaugurated by the ward councillor with a flag hoisting and orientation.",
         activities: ["Flag hoisting", "Orientation", "Team formation"],
         guests: ["Ward Councillor"],
         images: [{ id: "d1", src: img("campd1"), alt: "Inauguration ceremony" }],
@@ -619,7 +616,8 @@ export const notices: Notice[] = [
     title: "Upcoming Blood Donation Camp",
     date: "2026-02-20",
     type: "Upcoming Event",
-    description: "A blood donation camp in association with the district hospital. Volunteers register at the NSS room.",
+    description:
+      "A blood donation camp in association with the district hospital. Volunteers register at the NSS room.",
     important: true,
   },
   {

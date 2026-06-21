@@ -1,9 +1,28 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import type { ImpactMetric, Batch, Project, Camp, Highlight, GalleryAlbum, VideoClip, Report, VolunteerStory, TeamMember } from "@/types";
+import type {
+  ImpactMetric,
+  Batch,
+  Project,
+  Camp,
+  Highlight,
+  GalleryAlbum,
+  VideoClip,
+  Report,
+  VolunteerStory,
+  TeamMember,
+} from "@/types";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat, EmptyState } from "@/components/clay";
-import { MediaThumb, AlbumCard, CampCard, HighlightCard, ProjectCard, StoryCard } from "@/components/media";
+import {
+  SafeImage,
+  MediaThumb,
+  AlbumCard,
+  CampCard,
+  HighlightCard,
+  ProjectCard,
+  StoryCard,
+} from "@/components/media";
 
 import {
   formatDate,
@@ -22,27 +41,20 @@ export const Route = createFileRoute("/batches/$batchSlug")({
   loader: async ({ params }: { params: { batchSlug: string } }) => {
     const batch = await getBatchBySlug(params.batchSlug);
     if (!batch) throw notFound();
-    
+
     // Query related collections concurrently
-    const [
-      projects,
-      camps,
-      highlights,
-      albums,
-      videos,
-      reports,
-      stories,
-      team,
-    ] = await Promise.all([
-      getProjectsByBatch(params.batchSlug),
-      getCampsByBatch(params.batchSlug),
-      getHighlightsByBatch(params.batchSlug),
-      getAlbumsByBatch(params.batchSlug),
-      getVideosByBatch(params.batchSlug),
-      getReportsByBatch(params.batchSlug),
-      getStoriesByBatch(params.batchSlug),
-      getTeamByBatch(params.batchSlug),
-    ]);
+    const [projects, camps, highlights, albums, videos, reports, stories, team] = await Promise.all(
+      [
+        getProjectsByBatch(params.batchSlug),
+        getCampsByBatch(params.batchSlug),
+        getHighlightsByBatch(params.batchSlug),
+        getAlbumsByBatch(params.batchSlug),
+        getVideosByBatch(params.batchSlug),
+        getReportsByBatch(params.batchSlug),
+        getStoriesByBatch(params.batchSlug),
+        getTeamByBatch(params.batchSlug),
+      ],
+    );
 
     return {
       batch,
@@ -61,7 +73,9 @@ export const Route = createFileRoute("/batches/$batchSlug")({
     <PageShell>
       <Container className="py-20 text-center">
         <h1 className="font-display text-3xl font-extrabold">Batch not found</h1>
-        <Link to="/batches" className="mt-4 inline-block text-primary">← Back to batches</Link>
+        <Link to="/batches" className="mt-4 inline-block text-primary">
+          ← Back to batches
+        </Link>
       </Container>
     </PageShell>
   ),
@@ -82,27 +96,18 @@ const TABS = [
 ] as const;
 
 function BatchPage() {
-  const {
-    batch,
-    projects,
-    camps,
-    highlights,
-    albums,
-    videos,
-    reports,
-    stories,
-    team,
-  } = Route.useLoaderData() as {
-    batch: Batch;
-    projects: Project[];
-    camps: Camp[];
-    highlights: Highlight[];
-    albums: GalleryAlbum[];
-    videos: VideoClip[];
-    reports: Report[];
-    stories: VolunteerStory[];
-    team: TeamMember[];
-  };
+  const { batch, projects, camps, highlights, albums, videos, reports, stories, team } =
+    Route.useLoaderData() as {
+      batch: Batch;
+      projects: Project[];
+      camps: Camp[];
+      highlights: Highlight[];
+      albums: GalleryAlbum[];
+      videos: VideoClip[];
+      reports: Report[];
+      stories: VolunteerStory[];
+      team: TeamMember[];
+    };
   const [tab, setTab] = useState<(typeof TABS)[number]>("Overview");
 
   return (
@@ -113,7 +118,7 @@ function BatchPage() {
           <Reveal>
             <div className="clay overflow-hidden p-0">
               <div className="relative">
-                <img
+                <SafeImage
                   src={batch.coverImage}
                   alt={batch.title}
                   width={1280}
@@ -274,10 +279,11 @@ function BatchPage() {
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {team.map((m) => (
                   <ClayCard key={m.slug} className="text-center">
-                    <img
+                    <SafeImage
                       src={m.photo}
                       alt={m.name}
-                      loading="lazy" decoding="async"
+                      loading="lazy"
+                      decoding="async"
                       className="mx-auto h-20 w-20 rounded-full object-cover"
                     />
                     <h3 className="mt-3 font-display font-bold">{m.name}</h3>

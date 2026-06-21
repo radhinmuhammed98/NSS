@@ -10,12 +10,12 @@ export function getContentSource(): "mock" | "sanity" {
     if (!SANITY_PROJECT_ID) {
       if (isDev) {
         console.warn(
-          "Sanity project ID (VITE_SANITY_PROJECT_ID) is missing. Falling back to mock data in development."
+          "Sanity project ID (VITE_SANITY_PROJECT_ID) is missing. Falling back to mock data in development.",
         );
         return "mock";
       } else {
         throw new Error(
-          "Sanity project ID (VITE_SANITY_PROJECT_ID) is required in production when VITE_CONTENT_SOURCE=sanity."
+          "Sanity project ID (VITE_SANITY_PROJECT_ID) is required in production when VITE_CONTENT_SOURCE=sanity.",
         );
       }
     }

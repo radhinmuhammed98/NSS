@@ -22,9 +22,9 @@ export class SanityRepository implements ContentRepository {
     return getSanityClient();
   }
 
-  async getSiteSettings(): Promise<SiteSettings> {
+  async getSiteSettings(): Promise<SiteSettings | null> {
     const raw = await this.client().fetch(queries.SETTINGS_QUERY);
-    if (!raw) throw new Error("No Site Settings document found in Sanity.");
+    if (!raw) return null;
     return mappers.mapSettings(raw);
   }
 
@@ -33,9 +33,9 @@ export class SanityRepository implements ContentRepository {
     return (raw || []).map(mappers.mapBatch);
   }
 
-  async getBatchBySlug(slug: string): Promise<Batch | undefined> {
+  async getBatchBySlug(slug: string): Promise<Batch | null> {
     const raw = await this.client().fetch(queries.BATCH_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapBatch(raw) : undefined;
+    return raw ? mappers.mapBatch(raw) : null;
   }
 
   async getProjects(): Promise<Project[]> {
@@ -43,9 +43,9 @@ export class SanityRepository implements ContentRepository {
     return (raw || []).map(mappers.mapProject);
   }
 
-  async getProjectBySlug(slug: string): Promise<Project | undefined> {
+  async getProjectBySlug(slug: string): Promise<Project | null> {
     const raw = await this.client().fetch(queries.PROJECT_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapProject(raw) : undefined;
+    return raw ? mappers.mapProject(raw) : null;
   }
 
   async getProjectsByBatch(batchSlug: string): Promise<Project[]> {
@@ -63,9 +63,9 @@ export class SanityRepository implements ContentRepository {
     return (raw || []).map(mappers.mapCamp);
   }
 
-  async getCampBySlug(slug: string): Promise<Camp | undefined> {
+  async getCampBySlug(slug: string): Promise<Camp | null> {
     const raw = await this.client().fetch(queries.CAMP_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapCamp(raw) : undefined;
+    return raw ? mappers.mapCamp(raw) : null;
   }
 
   async getCampsByBatch(batchSlug: string): Promise<Camp[]> {
@@ -73,10 +73,10 @@ export class SanityRepository implements ContentRepository {
     return list.filter((c) => c.batchSlug === batchSlug);
   }
 
-  async getFeaturedCamp(): Promise<Camp> {
+  async getFeaturedCamp(): Promise<Camp | null> {
     const list = await this.getCamps();
     const featured = list.find((c) => c.featured) ?? list[0];
-    if (!featured) throw new Error("No Camp documents found in Sanity.");
+    if (!featured) return null;
     return featured;
   }
 
@@ -85,9 +85,9 @@ export class SanityRepository implements ContentRepository {
     return (raw || []).map(mappers.mapGalleryAlbum);
   }
 
-  async getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined> {
+  async getAlbumBySlug(slug: string): Promise<GalleryAlbum | null> {
     const raw = await this.client().fetch(queries.ALBUM_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapGalleryAlbum(raw) : undefined;
+    return raw ? mappers.mapGalleryAlbum(raw) : null;
   }
 
   async getAlbumsByBatch(batchSlug: string): Promise<GalleryAlbum[]> {
@@ -130,9 +130,9 @@ export class SanityRepository implements ContentRepository {
     return (raw || []).map(mappers.mapHighlight);
   }
 
-  async getHighlightBySlug(slug: string): Promise<Highlight | undefined> {
+  async getHighlightBySlug(slug: string): Promise<Highlight | null> {
     const raw = await this.client().fetch(queries.HIGHLIGHT_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapHighlight(raw) : undefined;
+    return raw ? mappers.mapHighlight(raw) : null;
   }
 
   async getHighlightsBySlugs(slugs: string[]): Promise<Highlight[]> {
@@ -145,10 +145,10 @@ export class SanityRepository implements ContentRepository {
     return list.filter((h) => h.batchSlug === batchSlug);
   }
 
-  async getFeaturedHighlight(): Promise<Highlight> {
+  async getFeaturedHighlight(): Promise<Highlight | null> {
     const list = await this.getHighlights();
     const featured = list.find((h) => h.featured) ?? list[0];
-    if (!featured) throw new Error("No Highlights found in Sanity.");
+    if (!featured) return null;
     return featured;
   }
 
@@ -156,7 +156,7 @@ export class SanityRepository implements ContentRepository {
     const raw = await this.client().fetch(queries.TIMELINE_QUERY);
     const list: TimelineItem[] = (raw || []).map(mappers.mapTimelineItem);
     return list.sort((a, b) =>
-      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
+      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date),
     );
   }
 

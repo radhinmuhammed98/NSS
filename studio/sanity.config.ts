@@ -1,95 +1,93 @@
-import { defineConfig } from 'sanity'
-import { structureTool } from 'sanity/structure'
-import { schemaTypes } from './schemaTypes'
+import { defineConfig } from "sanity";
+import { structureTool } from "sanity/structure";
+import { schemaTypes } from "./schemaTypes";
 
 // Define singleton types
-const singletonTypes = new Set(['siteSettings'])
+const singletonTypes = new Set(["siteSettings"]);
 
 // Define singleton actions (prevent delete, duplicate, etc.)
-const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
+const singletonActions = new Set(["publish", "discardChanges", "restore"]);
 
 export default defineConfig({
-  name: 'default',
-  title: 'NSS Digital Legacy Studio',
+  name: "default",
+  title: "NSS Digital Legacy Studio",
 
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'your_project_id',
-  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "your_project_id",
+  dataset: process.env.SANITY_STUDIO_DATASET || "production",
 
   plugins: [
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Content Categories')
+          .title("Content Categories")
           .items([
             // Singleton Site Settings
             S.listItem()
-              .title('Configuration')
-              .id('siteSettings')
+              .title("Configuration")
+              .id("siteSettings")
               .child(
                 S.document()
-                  .schemaType('siteSettings')
-                  .documentId('siteSettings')
-                  .title('Website Configuration')
+                  .schemaType("siteSettings")
+                  .documentId("siteSettings")
+                  .title("Website Configuration"),
               ),
             S.divider(),
-            
+
             // Legacy Group
             S.listItem()
-              .title('Legacy')
+              .title("Legacy")
               .child(
                 S.list()
-                  .title('Legacy Documents')
+                  .title("Legacy Documents")
                   .items([
-                    S.documentTypeListItem('batch').title('Batches'),
-                    S.documentTypeListItem('timelineItem').title('Journey Timeline'),
-                  ])
+                    S.documentTypeListItem("batch").title("Batches"),
+                    S.documentTypeListItem("timelineItem").title("Journey Timeline"),
+                  ]),
               ),
-              
+
             // Activities Group
             S.listItem()
-              .title('Activities')
+              .title("Activities")
               .child(
                 S.list()
-                  .title('Activities Documents')
+                  .title("Activities Documents")
                   .items([
-                    S.documentTypeListItem('project').title('Projects'),
-                    S.documentTypeListItem('camp').title('Camps'),
-                    S.documentTypeListItem('category').title('Project Categories'),
-                  ])
+                    S.documentTypeListItem("project").title("Projects"),
+                    S.documentTypeListItem("camp").title("Camps"),
+                    S.documentTypeListItem("category").title("Project Categories"),
+                  ]),
               ),
-              
+
             // Media Group
             S.listItem()
-              .title('Media')
+              .title("Media")
               .child(
                 S.list()
-                  .title('Media & Documents')
+                  .title("Media & Documents")
                   .items([
-                    S.documentTypeListItem('galleryAlbum').title('Gallery Albums'),
-                    S.documentTypeListItem('videoClip').title('Video Clips'),
-                    S.documentTypeListItem('report').title('Reports'),
-                    S.documentTypeListItem('highlight').title('Highlights'),
-                  ])
+                    S.documentTypeListItem("galleryAlbum").title("Gallery Albums"),
+                    S.documentTypeListItem("videoClip").title("Video Clips"),
+                    S.documentTypeListItem("report").title("Reports"),
+                    S.documentTypeListItem("highlight").title("Highlights"),
+                  ]),
               ),
-              
+
             // People Group
             S.listItem()
-              .title('People')
+              .title("People")
               .child(
                 S.list()
-                  .title('People Documents')
+                  .title("People Documents")
                   .items([
-                    S.documentTypeListItem('teamMember').title('Team Members'),
-                    S.documentTypeListItem('volunteerStory').title('Volunteer Stories'),
-                  ])
+                    S.documentTypeListItem("teamMember").title("Team Members"),
+                    S.documentTypeListItem("volunteerStory").title("Volunteer Stories"),
+                  ]),
               ),
-              
+
             // Notices Group
             S.listItem()
-              .title('Notices')
-              .child(
-                S.documentTypeListItem('notice').title('Notices & Announcements')
-              ),
+              .title("Notices")
+              .child(S.documentTypeListItem("notice").title("Notices & Announcements")),
           ]),
     }),
   ],
@@ -108,4 +106,4 @@ export default defineConfig({
         ? input.filter(({ action }) => action && singletonActions.has(action))
         : input,
   },
-})
+});

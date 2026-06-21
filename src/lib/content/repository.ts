@@ -14,19 +14,19 @@ import type {
 } from "@/types";
 
 export interface ContentRepository {
-  getSiteSettings(): Promise<SiteSettings>;
+  getSiteSettings(): Promise<SiteSettings | null>;
   getBatches(): Promise<Batch[]>;
-  getBatchBySlug(slug: string): Promise<Batch | undefined>;
+  getBatchBySlug(slug: string): Promise<Batch | null>;
   getProjects(): Promise<Project[]>;
-  getProjectBySlug(slug: string): Promise<Project | undefined>;
+  getProjectBySlug(slug: string): Promise<Project | null>;
   getProjectsByBatch(batchSlug: string): Promise<Project[]>;
   getFeaturedProjects(limit?: number): Promise<Project[]>;
   getCamps(): Promise<Camp[]>;
-  getCampBySlug(slug: string): Promise<Camp | undefined>;
+  getCampBySlug(slug: string): Promise<Camp | null>;
   getCampsByBatch(batchSlug: string): Promise<Camp[]>;
-  getFeaturedCamp(): Promise<Camp>;
+  getFeaturedCamp(): Promise<Camp | null>;
   getAlbums(): Promise<GalleryAlbum[]>;
-  getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined>;
+  getAlbumBySlug(slug: string): Promise<GalleryAlbum | null>;
   getAlbumsByBatch(batchSlug: string): Promise<GalleryAlbum[]>;
   getVideos(): Promise<VideoClip[]>;
   getVideosByBatch(batchSlug: string): Promise<VideoClip[]>;
@@ -35,10 +35,10 @@ export interface ContentRepository {
   getReportsByBatch(batchSlug: string): Promise<Report[]>;
   getReportsBySlugs(slugs: string[]): Promise<Report[]>;
   getHighlights(): Promise<Highlight[]>;
-  getHighlightBySlug(slug: string): Promise<Highlight | undefined>;
+  getHighlightBySlug(slug: string): Promise<Highlight | null>;
   getHighlightsBySlugs(slugs: string[]): Promise<Highlight[]>;
   getHighlightsByBatch(batchSlug: string): Promise<Highlight[]>;
-  getFeaturedHighlight(): Promise<Highlight>;
+  getFeaturedHighlight(): Promise<Highlight | null>;
   getTimeline(newestFirst?: boolean): Promise<TimelineItem[]>;
   getTeam(): Promise<TeamMember[]>;
   getTeamByBatch(batchSlug: string): Promise<TeamMember[]>;
@@ -46,7 +46,7 @@ export interface ContentRepository {
   getStoriesByBatch(batchSlug: string): Promise<VolunteerStory[]>;
   getFeaturedStories(limit?: number): Promise<VolunteerStory[]>;
   getNotices(): Promise<Notice[]>;
-  
+
   // Filter-support helpers
   getAlbumTypes(): Promise<string[]>;
   getReportTypes(): Promise<string[]>;

@@ -43,9 +43,7 @@ export function Navbar() {
             <NSSLogo height={36} width={36} decorative />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="font-display text-sm font-bold text-primary tracking-tight">
-              NSS
-            </span>
+            <span className="font-display text-sm font-bold text-primary tracking-tight">NSS</span>
             <span className="font-sans text-[11px] font-medium text-muted-foreground tracking-wide">
               Digital Legacy
             </span>
@@ -107,8 +105,7 @@ export function Navbar() {
                 activeOptions={{ exact: l.to === "/" }}
                 className="rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface hover:text-foreground focus-visible:outline-offset-2"
                 activeProps={{
-                  className:
-                    "bg-surface text-primary font-semibold border-l-2 border-primary",
+                  className: "bg-surface text-primary font-semibold border-l-2 border-primary",
                 }}
               >
                 {l.label}

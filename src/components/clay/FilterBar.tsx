@@ -31,7 +31,11 @@ export function FilterBar({
           >
             {group.label}
           </span>
-          <div role="group" aria-labelledby={`filter-label-${group.key}`} className="flex flex-wrap gap-2">
+          <div
+            role="group"
+            aria-labelledby={`filter-label-${group.key}`}
+            className="flex flex-wrap gap-2"
+          >
             {group.options.map((opt) => {
               const isActive = (active[group.key] ?? "all") === opt.value;
               return (
@@ -44,7 +48,7 @@ export function FilterBar({
                     "rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-sm"
-                      : "bg-background text-muted-foreground hover:text-foreground hover:bg-surface"
+                      : "bg-background text-muted-foreground hover:text-foreground hover:bg-surface",
                   )}
                 >
                   {opt.label}

@@ -20,13 +20,17 @@ function Journey() {
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) =>
-      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
+      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date),
     );
   }, [items, newestFirst]);
 
   return (
     <PageShell>
-      <PageHeader eyebrow="Journey" title="The NSS Journey" description="From the very beginning to the future — every milestone preserved." />
+      <PageHeader
+        eyebrow="Journey"
+        title="The NSS Journey"
+        description="From the very beginning to the future — every milestone preserved."
+      />
       <Container className="py-8">
         <div className="mb-6 flex items-center gap-2">
           <ArrowUpDown className="h-4 w-4 text-muted-foreground" aria-hidden />
@@ -61,8 +65,12 @@ function Journey() {
           <div className="relative space-y-6 before:absolute before:left-4 before:top-2 before:h-full before:w-0.5 before:bg-border sm:before:left-1/2">
             {sortedItems.map((t, i) => (
               <Reveal key={t.slug} delay={i * 0.05}>
-                <div className={`relative pl-12 sm:w-1/2 sm:pl-0 ${i % 2 ? "sm:ml-auto sm:pl-10" : "sm:pr-10 sm:text-right"}`}>
-                  <span className={`clay-accent absolute left-2 top-3 flex h-5 w-5 items-center justify-center rounded-full sm:left-auto ${i % 2 ? "sm:-left-2.5" : "sm:-right-2.5"}`} />
+                <div
+                  className={`relative pl-12 sm:w-1/2 sm:pl-0 ${i % 2 ? "sm:ml-auto sm:pl-10" : "sm:pr-10 sm:text-right"}`}
+                >
+                  <span
+                    className={`clay-accent absolute left-2 top-3 flex h-5 w-5 items-center justify-center rounded-full sm:left-auto ${i % 2 ? "sm:-left-2.5" : "sm:-right-2.5"}`}
+                  />
                   <ClayCard tilt={false}>
                     <Badge variant="accent">{t.type}</Badge>
                     <h3 className="mt-2 font-display text-lg font-bold">{t.title}</h3>

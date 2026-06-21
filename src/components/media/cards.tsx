@@ -2,23 +2,17 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, MapPin, Calendar, Users } from "lucide-react";
 import { ClayCard } from "@/components/clay/ClayCard";
 import { Badge } from "@/components/clay/Badge";
+import { SafeImage } from "./SafeImage";
 
 import { formatDate, getBatchTitle } from "@/lib/data";
-import type {
-  Batch,
-  Camp,
-  GalleryAlbum,
-  Highlight,
-  Project,
-  VolunteerStory,
-} from "@/types";
+import type { Batch, Camp, GalleryAlbum, Highlight, Project, VolunteerStory } from "@/types";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link to="/projects/$projectSlug" params={{ projectSlug: project.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
         <div className="relative">
-          <img
+          <SafeImage
             src={project.coverImage}
             alt={project.title}
             loading="lazy"
@@ -38,9 +32,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <Badge variant="outline">{getBatchTitle(project.batchSlug)}</Badge>
           </div>
           <h3 className="font-display text-lg font-bold">{project.title}</h3>
-          <p className="mt-2 flex-1 text-sm text-muted-foreground">
-            {project.summary}
-          </p>
+          <p className="mt-2 flex-1 text-sm text-muted-foreground">{project.summary}</p>
           <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Calendar className="h-3.5 w-3.5" aria-hidden /> {formatDate(project.date)}
@@ -59,7 +51,7 @@ export function BatchCard({ batch }: { batch: Batch }) {
   return (
     <Link to="/batches/$batchSlug" params={{ batchSlug: batch.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
-        <img
+        <SafeImage
           src={batch.coverImage}
           alt={batch.title}
           loading="lazy"
@@ -73,15 +65,11 @@ export function BatchCard({ batch }: { batch: Batch }) {
             {batch.featured && <Badge>Active</Badge>}
           </div>
           <h3 className="font-display text-xl font-bold">{batch.title}</h3>
-          <p className="mt-2 flex-1 text-sm text-muted-foreground">
-            {batch.description}
-          </p>
+          <p className="mt-2 flex-1 text-sm text-muted-foreground">{batch.description}</p>
           <div className="mt-4 grid grid-cols-3 gap-2 text-center">
             {batch.impactMetrics.slice(0, 3).map((m) => (
               <div key={m.label} className="clay-sm px-2 py-2">
-                <p className="font-display text-base font-extrabold text-primary">
-                  {m.value}
-                </p>
+                <p className="font-display text-base font-extrabold text-primary">{m.value}</p>
                 <p className="text-[10px] text-muted-foreground">{m.label}</p>
               </div>
             ))}
@@ -100,7 +88,7 @@ export function CampCard({ camp }: { camp: Camp }) {
     <Link to="/camps/$campSlug" params={{ campSlug: camp.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
         <div className="relative">
-          <img
+          <SafeImage
             src={camp.coverImage}
             alt={camp.title}
             loading="lazy"
@@ -116,9 +104,7 @@ export function CampCard({ camp }: { camp: Camp }) {
         <div className="flex flex-1 flex-col p-5">
           <Badge variant="outline">{camp.theme}</Badge>
           <h3 className="mt-2 font-display text-lg font-bold">{camp.title}</h3>
-          <p className="mt-2 flex-1 text-sm text-muted-foreground">
-            {camp.summary}
-          </p>
+          <p className="mt-2 flex-1 text-sm text-muted-foreground">{camp.summary}</p>
           <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <MapPin className="h-3.5 w-3.5" aria-hidden /> {camp.location}
@@ -136,7 +122,7 @@ export function CampCard({ camp }: { camp: Camp }) {
 export function HighlightCard({ highlight }: { highlight: Highlight }) {
   return (
     <ClayCard className="flex h-full flex-col p-0">
-      <img
+      <SafeImage
         src={highlight.image}
         alt={highlight.title}
         loading="lazy"
@@ -146,12 +132,8 @@ export function HighlightCard({ highlight }: { highlight: Highlight }) {
       <div className="flex flex-1 flex-col p-5">
         <Badge variant="accent">{highlight.type}</Badge>
         <h3 className="mt-2 font-display text-lg font-bold">{highlight.title}</h3>
-        <p className="mt-2 flex-1 text-sm text-muted-foreground">
-          {highlight.description}
-        </p>
-        <p className="mt-3 text-xs text-muted-foreground">
-          {getBatchTitle(highlight.batchSlug)}
-        </p>
+        <p className="mt-2 flex-1 text-sm text-muted-foreground">{highlight.description}</p>
+        <p className="mt-3 text-xs text-muted-foreground">{getBatchTitle(highlight.batchSlug)}</p>
       </div>
     </ClayCard>
   );
@@ -161,7 +143,7 @@ export function AlbumCard({ album }: { album: GalleryAlbum }) {
   return (
     <Link to="/gallery/$albumSlug" params={{ albumSlug: album.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
-        <img
+        <SafeImage
           src={album.coverImage}
           alt={album.title}
           loading="lazy"
@@ -189,7 +171,7 @@ export function StoryCard({ story }: { story: VolunteerStory }) {
       </p>
       <p className="mt-4 flex-1 text-sm text-muted-foreground">{story.story}</p>
       <div className="mt-5 flex items-center gap-3">
-        <img
+        <SafeImage
           src={story.photo}
           alt={story.name}
           loading="lazy"
@@ -198,9 +180,7 @@ export function StoryCard({ story }: { story: VolunteerStory }) {
         />
         <div>
           <p className="text-sm font-semibold">{story.name}</p>
-          <p className="text-xs text-muted-foreground">
-            {getBatchTitle(story.batchSlug)}
-          </p>
+          <p className="text-xs text-muted-foreground">{getBatchTitle(story.batchSlug)}</p>
         </div>
       </div>
     </ClayCard>

@@ -39,24 +39,21 @@ export function Footer() {
                 <NSSLogo height={40} width={40} decorative />
               </span>
               <div className="leading-tight">
-                <p className="font-display text-base font-bold text-primary">
-                  NSS Digital Legacy
-                </p>
+                <p className="font-display text-base font-bold text-primary">NSS Digital Legacy</p>
                 <p className="font-sans text-xs text-muted-foreground">
-                  {s.unitName}
+                  {s?.unitName ?? "NSS Digital Legacy"}
                 </p>
               </div>
             </Link>
 
             <p className="mt-4 max-w-sm text-sm text-muted-foreground leading-relaxed">
-              A living archive of service, leadership, camps, projects, and
-              memories. Every batch serves and leaves, but their journey stays
-              forever.
+              A living archive of service, leadership, camps, projects, and memories. Every batch
+              serves and leaves, but their journey stays forever.
             </p>
 
             {/* Motto — legacy statement in editorial Playfair */}
             <p className="mt-4 font-display text-sm italic font-semibold text-primary/80">
-              &ldquo;{s.motto}&rdquo;
+              &ldquo;{s?.motto ?? "Not Me, But You"}&rdquo;
             </p>
           </div>
 
@@ -85,15 +82,17 @@ export function Footer() {
               Reach Us
             </p>
             <ul className="space-y-2 text-sm text-muted-foreground" role="list">
-              <li role="listitem">{s.schoolName}</li>
-              <li role="listitem">{s.location}</li>
+              <li role="listitem">{s?.schoolName ?? "School"}</li>
+              <li role="listitem">{s?.location ?? "Location"}</li>
               <li role="listitem">
-                <a
-                  href={`mailto:${s.email}`}
-                  className="hover:text-primary transition-colors focus-visible:rounded"
-                >
-                  {s.email}
-                </a>
+                {s?.email && (
+                  <a
+                    href={`mailto:${s.email}`}
+                    className="hover:text-primary transition-colors focus-visible:rounded"
+                  >
+                    {s.email}
+                  </a>
+                )}
               </li>
               <li role="listitem">
                 <Link
@@ -110,11 +109,9 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-8 border-t border-border pt-5 flex flex-col items-center gap-1 text-center text-xs text-muted-foreground sm:flex-row sm:justify-between">
           <span>
-            © {new Date().getFullYear()} {s.unitName}, {s.schoolName}.
+            © {new Date().getFullYear()} {s?.unitName ?? "NSS Unit"}, {s?.schoolName ?? "School"}.
           </span>
-          <span className="text-muted-foreground/60">
-            Built as a permanent digital legacy.
-          </span>
+          <span className="text-muted-foreground/60">Built as a permanent digital legacy.</span>
         </div>
       </div>
     </footer>

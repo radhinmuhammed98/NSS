@@ -17,11 +17,7 @@ type SparkleProps = {
 export function Sparkles({
   count = 14,
   className,
-  colors = [
-    "var(--color-thread)",
-    "var(--color-legacy-gold)",
-    "oklch(0.95 0.005 80 / 0.7)",
-  ],
+  colors = ["var(--color-thread)", "var(--color-legacy-gold)", "oklch(0.95 0.005 80 / 0.7)"],
 }: SparkleProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -67,9 +63,7 @@ export function Sparkles({
     <div
       ref={ref}
       aria-hidden="true"
-      className={
-        "pointer-events-none absolute inset-0 overflow-hidden " + (className ?? "")
-      }
+      className={"pointer-events-none absolute inset-0 overflow-hidden " + (className ?? "")}
     >
       {Array.from({ length: count }).map((_, i) => (
         <svg

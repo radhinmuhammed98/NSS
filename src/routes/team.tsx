@@ -1,16 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Reveal, EmptyState } from "@/components/clay";
+import { SafeImage } from "@/components/media";
 
 import { getBatches, getTeam } from "@/lib/data";
 import type { Batch, TeamMember } from "@/types";
 
 export const Route = createFileRoute("/team")({
   loader: async () => {
-    const [batches, team] = await Promise.all([
-      getBatches(),
-      getTeam(),
-    ]);
+    const [batches, team] = await Promise.all([getBatches(), getTeam()]);
     return { batches, team };
   },
   component: Team,
@@ -38,7 +36,11 @@ function Team() {
 
   return (
     <PageShell>
-      <PageHeader eyebrow="Team" title="Team & Volunteers" description="The people behind the service." />
+      <PageHeader
+        eyebrow="Team"
+        title="Team & Volunteers"
+        description="The people behind the service."
+      />
       <Container className="py-8">
         {hasAnyTeam ? (
           <div className="space-y-12">
@@ -54,7 +56,7 @@ function Team() {
                   {members.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <ClayCard className="h-full text-center">
-                        <img
+                        <SafeImage
                           src={m.photo}
                           alt={m.name}
                           loading="lazy"
@@ -80,7 +82,7 @@ function Team() {
                   {otherMembers.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <ClayCard className="h-full text-center">
-                        <img
+                        <SafeImage
                           src={m.photo}
                           alt={m.name}
                           loading="lazy"

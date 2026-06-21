@@ -9,10 +9,7 @@ import type { Camp, Batch } from "@/types";
 
 export const Route = createFileRoute("/camps/")({
   loader: async () => {
-    const [allCamps, batchesList] = await Promise.all([
-      getCamps(),
-      getBatches(),
-    ]);
+    const [allCamps, batchesList] = await Promise.all([getCamps(), getBatches()]);
     return { allCamps, batchesList };
   },
   component: Camps,
@@ -28,12 +25,18 @@ function Camps() {
     {
       key: "batch",
       label: "Batch",
-      options: [{ value: "all", label: "All" }, ...batches.map((b) => ({ value: b.slug, label: b.yearRange }))],
+      options: [
+        { value: "all", label: "All" },
+        ...batches.map((b) => ({ value: b.slug, label: b.yearRange })),
+      ],
     },
     {
       key: "featured",
       label: "Show",
-      options: [{ value: "all", label: "All" }, { value: "featured", label: "Featured" }],
+      options: [
+        { value: "all", label: "All" },
+        { value: "featured", label: "Featured" },
+      ],
     },
   ];
   const filtered = all.filter((c) => {
@@ -43,13 +46,23 @@ function Camps() {
   });
   return (
     <PageShell>
-      <PageHeader eyebrow="Camps" title="NSS Camps" description="Each camp is a complete documentary-style archive of a week of service." />
+      <PageHeader
+        eyebrow="Camps"
+        title="NSS Camps"
+        description="Each camp is a complete documentary-style archive of a week of service."
+      />
       <Container className="py-8">
-        <FilterBar groups={groups} active={active} onChange={(k, v) => setActive((s) => ({ ...s, [k]: v }))} />
+        <FilterBar
+          groups={groups}
+          active={active}
+          onChange={(k, v) => setActive((s) => ({ ...s, [k]: v }))}
+        />
         {filtered.length ? (
           <div className="grid gap-6 sm:grid-cols-2">
             {filtered.map((c, i) => (
-              <Reveal key={c.slug} delay={i * 0.06}><CampCard camp={c} /></Reveal>
+              <Reveal key={c.slug} delay={i * 0.06}>
+                <CampCard camp={c} />
+              </Reveal>
             ))}
           </div>
         ) : (

@@ -5,12 +5,7 @@ import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
 
-import {
-  getBatches,
-  getHighlights,
-  getHighlightTypes,
-  getYearsFromHighlights,
-} from "@/lib/data";
+import { getBatches, getHighlights, getHighlightTypes, getYearsFromHighlights } from "@/lib/data";
 import type { Highlight, Batch } from "@/types";
 
 export const Route = createFileRoute("/highlights")({

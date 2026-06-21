@@ -77,9 +77,7 @@ export function useGsapReveals<T extends HTMLElement = HTMLDivElement>() {
 /**
  * Subtle parallax on a single element as the user scrolls past it.
  */
-export function useGsapParallax<T extends HTMLElement = HTMLDivElement>(
-  amount = 60,
-) {
+export function useGsapParallax<T extends HTMLElement = HTMLDivElement>(amount = 60) {
   const ref = useRef<T>(null);
 
   useEffect(() => {

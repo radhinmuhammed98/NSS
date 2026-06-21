@@ -4,12 +4,7 @@ import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { AlbumCard } from "@/components/media";
 
-import {
-  getAlbums,
-  getAlbumTypes,
-  getBatches,
-  getYearsFromAlbums,
-} from "@/lib/data";
+import { getAlbums, getAlbumTypes, getBatches, getYearsFromAlbums } from "@/lib/data";
 import type { GalleryAlbum, Batch } from "@/types";
 
 export const Route = createFileRoute("/gallery/")({
@@ -36,9 +31,7 @@ function Gallery() {
   const [active, setActive] = useState<Record<string, string>>({});
 
   const handleFilter = (key: string, value: string) => {
-    setActive((prev) =>
-      value === "all" ? { ...prev, [key]: "all" } : { ...prev, [key]: value }
-    );
+    setActive((prev) => (value === "all" ? { ...prev, [key]: "all" } : { ...prev, [key]: value }));
   };
 
   const clearAll = () => setActive({});
@@ -74,10 +67,7 @@ function Gallery() {
     {
       key: "type",
       label: "Album Type",
-      options: [
-        { value: "all", label: "All" },
-        ...albumTypes.map((t) => ({ value: t, label: t })),
-      ],
+      options: [{ value: "all", label: "All" }, ...albumTypes.map((t) => ({ value: t, label: t }))],
     },
   ];
 

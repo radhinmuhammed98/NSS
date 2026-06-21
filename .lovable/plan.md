@@ -3,15 +3,18 @@
 A living, batch-wise archive for the NSS unit. This first pass delivers the **complete core archive** fully built, plus **route shells** (working pages with empty/coming-soon states) for every remaining section, all driven by typed mock data so future content slots in without code changes.
 
 ## Stack reality check
+
 This project runs on **TanStack Start** (file-based routing in `src/routes/`, SSR, Tailwind v4) — not Vite + React Router + Sanity as the source doc assumed. The content model, relationships, and page plans carry over unchanged. Data lives in typed mock files now; a CMS (Sanity or Lovable Cloud) can replace the data layer later because all pages read through a single data-access module.
 
 ## Design direction
+
 - **Style:** Claymorphism — soft puffy surfaces, layered inset/outset shadows, rounded-2xl/3xl corners, pastel depth. Mobile-first.
 - **Palette (NSS Blue & Coral):** clay bg `#e8eef7`, mid blue `#7aa5d8`, deep blue `#3b6fa0`, coral accent `#f08a6a`. Defined as `oklch` tokens in `src/styles.css`.
 - **Motion (intensity 3/5):** tasteful 3D — Framer Motion entrance fades/lifts, hover tilt on clay cards, gentle floating hero element, scroll reveals. No heavy WebGL, no autoplay sound.
 - **Typography:** rounded, friendly display + clean body pairing (e.g. Sora / Manrope).
 
 ## Data layer (mock JSON, typed)
+
 `src/data/` holds typed arrays; `src/types/` holds interfaces; `src/lib/data/` exposes accessor functions (getBatches, getProjectBySlug, getCampsByBatch, getFeatured, etc.) so pages never import raw arrays directly.
 
 Content types: SiteSettings, Batch, Project, Camp, CampDay, GalleryAlbum, ImageAsset, VideoClip, Report, Highlight, TimelineItem, TeamMember, VolunteerStory, Notice, Category, ImpactMetric — with the relationships from the source doc (Batch ↔ Projects/Camps/Albums/Videos/Reports/Highlights/Stories/Team; Project ↔ Batch/Category/Camp/media; Camp ↔ Batch/CampDays/Projects/media).
@@ -44,6 +47,7 @@ Demo content seeded: 2 batches (2024–25, 2025–26), 3 projects, 1 seven-day c
 Shells are real pages with header, layout, and either mock content or clean empty states ("No videos added yet.") — never broken sections.
 
 ## Core pages (fully built)
+
 - **Home:** NSS identity hero (floating clay 3D element), motto, active-batch + impact summary, featured highlight, latest projects, camp spotlight, batch legacy preview, gallery/video/report previews, story preview, reach-out section. Previews only (performance rule).
 - **About:** unit identity, motto "Not Me, But You", officers, mission/vision/objectives, short history, achievements.
 - **Batches / Single Batch:** sortable list (newest first); detail page with tabbed sections (Overview, Impact, Projects, Camps, Highlights, Gallery, Videos, Reports, Stories, Team).
@@ -51,6 +55,7 @@ Shells are real pages with header, layout, and either mock content or clean empt
 - **Camps / Single Camp:** filters; documentary-style detail with day-wise timeline (day number, date, title, activities, media, guests, highlights).
 
 ## Cross-cutting
+
 - **Shared layout:** sticky clay navbar with section links + mobile drawer; footer.
 - **Reusable components:** ClayCard, ClayButton, SectionHeading, FilterBar, EmptyState, MediaThumb (click-to-load video), ImpactStat, Badge.
 - **SEO:** per-route `head()` with title, description, og:title/description, og:image at leaf routes, JSON-LD where relevant; relative canonical paths.
@@ -59,6 +64,7 @@ Shells are real pages with header, layout, and either mock content or clean empt
 - **States:** friendly empty states everywhere; clean 404 (already present) and data-fallback handling.
 
 ## Build order
+
 1. Tokens + claymorphism utilities in `src/styles.css`; install framer-motion; fonts.
 2. Types + mock data + data accessors.
 3. Shared layout, navbar/footer, core clay components.
@@ -70,7 +76,9 @@ Shells are real pages with header, layout, and either mock content or clean empt
 9. SEO/meta, accessibility, animation polish, QA pass across routes + mobile.
 
 ## Future-proofing
+
 No hardcoded year/batch in components — everything flows from data. Swapping mock data for a real CMS later means re-implementing only `src/lib/data/`. CMS integration, search, alumni, achievements, and admin workflow are explicitly deferred (your non-goals / future phases).
 
 ## Out of scope (v1)
+
 Login, registration, payments, custom backend, live chat, uploads, attendance, certificates, hosting/domain — per your non-goals.

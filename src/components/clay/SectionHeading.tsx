@@ -24,7 +24,7 @@ export function SectionHeading({
     <div
       className={cn(
         "mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between",
-        className
+        className,
       )}
     >
       <div className="max-w-2xl">
@@ -33,12 +33,8 @@ export function SectionHeading({
             {eyebrow}
           </span>
         )}
-        <h2 className="text-3xl font-extrabold text-balance sm:text-4xl">
-          {title}
-        </h2>
-        {description && (
-          <p className="mt-3 text-muted-foreground">{description}</p>
-        )}
+        <h2 className="text-3xl font-extrabold text-balance sm:text-4xl">{title}</h2>
+        {description && <p className="mt-3 text-muted-foreground">{description}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>

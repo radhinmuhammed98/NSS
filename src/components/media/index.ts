@@ -1,9 +1,3 @@
 export { MediaThumb } from "./MediaThumb";
-export {
-  ProjectCard,
-  BatchCard,
-  CampCard,
-  HighlightCard,
-  AlbumCard,
-  StoryCard,
-} from "./cards";
+export { SafeImage } from "./SafeImage";
+export { ProjectCard, BatchCard, CampCard, HighlightCard, AlbumCard, StoryCard } from "./cards";

@@ -29,15 +29,11 @@ export function PageHeader({
         </span>
       )}
       <h1 className="text-4xl font-extrabold text-balance sm:text-5xl">{title}</h1>
-      {description && (
-        <p className="mt-4 max-w-2xl text-muted-foreground">{description}</p>
-      )}
+      {description && <p className="mt-4 max-w-2xl text-muted-foreground">{description}</p>}
     </div>
   );
 }
 
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`mx-auto max-w-6xl px-4 ${className ?? ""}`}>{children}</div>
-  );
+  return <div className={`mx-auto max-w-6xl px-4 ${className ?? ""}`}>{children}</div>;
 }

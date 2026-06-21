@@ -29,7 +29,7 @@ import type {
 } from "@/types";
 
 export class MockRepository implements ContentRepository {
-  async getSiteSettings(): Promise<SiteSettings> {
+  async getSiteSettings(): Promise<SiteSettings | null> {
     return { ...siteSettings };
   }
 
@@ -37,16 +37,16 @@ export class MockRepository implements ContentRepository {
     return [...batches].sort((a, b) => b.year - a.year);
   }
 
-  async getBatchBySlug(slug: string): Promise<Batch | undefined> {
-    return batches.find((b) => b.slug === slug);
+  async getBatchBySlug(slug: string): Promise<Batch | null> {
+    return batches.find((b) => b.slug === slug) ?? null;
   }
 
   async getProjects(): Promise<Project[]> {
     return [...projects].sort((a, b) => b.date.localeCompare(a.date));
   }
 
-  async getProjectBySlug(slug: string): Promise<Project | undefined> {
-    return projects.find((p) => p.slug === slug);
+  async getProjectBySlug(slug: string): Promise<Project | null> {
+    return projects.find((p) => p.slug === slug) ?? null;
   }
 
   async getProjectsByBatch(batchSlug: string): Promise<Project[]> {
@@ -63,8 +63,8 @@ export class MockRepository implements ContentRepository {
     return [...camps].sort((a, b) => b.year - a.year);
   }
 
-  async getCampBySlug(slug: string): Promise<Camp | undefined> {
-    return camps.find((c) => c.slug === slug);
+  async getCampBySlug(slug: string): Promise<Camp | null> {
+    return camps.find((c) => c.slug === slug) ?? null;
   }
 
   async getCampsByBatch(batchSlug: string): Promise<Camp[]> {
@@ -72,16 +72,16 @@ export class MockRepository implements ContentRepository {
     return list.filter((c) => c.batchSlug === batchSlug);
   }
 
-  async getFeaturedCamp(): Promise<Camp> {
-    return camps.find((c) => c.featured) ?? camps[0];
+  async getFeaturedCamp(): Promise<Camp | null> {
+    return camps.find((c) => c.featured) ?? camps[0] ?? null;
   }
 
   async getAlbums(): Promise<GalleryAlbum[]> {
     return [...galleryAlbums].sort((a, b) => b.date.localeCompare(a.date));
   }
 
-  async getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined> {
-    return galleryAlbums.find((a) => a.slug === slug);
+  async getAlbumBySlug(slug: string): Promise<GalleryAlbum | null> {
+    return galleryAlbums.find((a) => a.slug === slug) ?? null;
   }
 
   async getAlbumsByBatch(batchSlug: string): Promise<GalleryAlbum[]> {
@@ -120,8 +120,8 @@ export class MockRepository implements ContentRepository {
     return [...highlights].sort((a, b) => a.priority - b.priority);
   }
 
-  async getHighlightBySlug(slug: string): Promise<Highlight | undefined> {
-    return highlights.find((h) => h.slug === slug);
+  async getHighlightBySlug(slug: string): Promise<Highlight | null> {
+    return highlights.find((h) => h.slug === slug) ?? null;
   }
 
   async getHighlightsBySlugs(slugs: string[]): Promise<Highlight[]> {
@@ -133,13 +133,14 @@ export class MockRepository implements ContentRepository {
     return list.filter((h) => h.batchSlug === batchSlug);
   }
 
-  async getFeaturedHighlight(): Promise<Highlight> {
-    return highlights.find((h) => h.featured) ?? (await this.getHighlights())[0];
+  async getFeaturedHighlight(): Promise<Highlight | null> {
+    const list = await this.getHighlights();
+    return highlights.find((h) => h.featured) ?? list[0] ?? null;
   }
 
   async getTimeline(newestFirst = false): Promise<TimelineItem[]> {
     return [...timelineItems].sort((a, b) =>
-      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
+      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date),
     );
   }
 
