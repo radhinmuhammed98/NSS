@@ -19,23 +19,40 @@ import {
   getReports,
   getSiteSettings,
 } from "@/lib/data";
+import type { SiteSettings, Batch, Highlight, Project, Camp, GalleryAlbum, VideoClip, Report, VolunteerStory } from "@/types";
 import { heroNss } from "@/data";
 import { useGsapIntro, useGsapParallax } from "@/hooks/use-gsap";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const s = await getSiteSettings();
+    const batch = await getCurrentBatch();
+    const highlight = await getFeaturedHighlight();
+    const projects = await getFeaturedProjects(3);
+    const camp = await getFeaturedCamp();
+    const allAlbums = await getAlbums();
+    const albums = allAlbums.slice(0, 3);
+    const videos = await getFeaturedVideos(2);
+    const allReports = await getReports();
+    const reports = allReports.slice(0, 3);
+    const stories = await getFeaturedStories(2);
+    return { s, batch, highlight, projects, camp, albums, videos, reports, stories };
+  },
   component: Home,
 });
 
 function Home() {
-  const s = getSiteSettings();
-  const batch = getCurrentBatch();
-  const highlight = getFeaturedHighlight();
-  const projects = getFeaturedProjects(3);
-  const camp = getFeaturedCamp();
-  const albums = getAlbums().slice(0, 3);
-  const videos = getFeaturedVideos(2);
-  const reports = getReports().slice(0, 3);
-  const stories = getFeaturedStories(2);
+  const { s, batch, highlight, projects, camp, albums, videos, reports, stories } = Route.useLoaderData() as {
+    s: SiteSettings;
+    batch: Batch;
+    highlight: Highlight;
+    projects: Project[];
+    camp: Camp;
+    albums: GalleryAlbum[];
+    videos: VideoClip[];
+    reports: Report[];
+    stories: VolunteerStory[];
+  };
   const heroScope = useGsapIntro<HTMLDivElement>();
   const heroImg = useGsapParallax<HTMLDivElement>(40);
 

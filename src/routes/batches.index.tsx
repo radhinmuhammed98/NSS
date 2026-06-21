@@ -4,13 +4,18 @@ import { Reveal, EmptyState } from "@/components/clay";
 import { BatchCard } from "@/components/media";
 
 import { getBatches } from "@/lib/data";
+import type { Batch } from "@/types";
 
 export const Route = createFileRoute("/batches/")({
+  loader: async () => {
+    const batchesList = await getBatches();
+    return { batchesList };
+  },
   component: Batches,
 });
 
 function Batches() {
-  const batches = getBatches();
+  const { batchesList: batches } = Route.useLoaderData() as { batchesList: Batch[] };
   return (
     <PageShell>
       <PageHeader

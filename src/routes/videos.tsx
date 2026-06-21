@@ -4,13 +4,18 @@ import { Reveal, EmptyState } from "@/components/clay";
 import { MediaThumb } from "@/components/media";
 
 import { getVideos } from "@/lib/data";
+import type { VideoClip } from "@/types";
 
 export const Route = createFileRoute("/videos")({
+  loader: async () => {
+    const list = await getVideos();
+    return { list };
+  },
   component: Videos,
 });
 
 function Videos() {
-  const videos = getVideos();
+  const { list: videos } = Route.useLoaderData() as { list: VideoClip[] };
   return (
     <PageShell>
       <PageHeader eyebrow="Videos" title="Video Clips Archive" description="Short clips — click to play. Organized by project, camp, and batch." />

@@ -62,7 +62,14 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+import { getSiteSettings } from "../lib/data";
+
 export const Route = createRootRoute({
+  loader: async () => {
+    // Pre-fetch settings to populate the synchronous cache for layout components
+    await getSiteSettings();
+    return {};
+  },
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,

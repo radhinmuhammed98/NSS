@@ -5,14 +5,24 @@ import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/cl
 import { ProjectCard } from "@/components/media";
 
 import { getBatches, getProjects, projectCategories } from "@/lib/data";
+import type { Project, Batch } from "@/types";
 
 export const Route = createFileRoute("/projects/")({
+  loader: async () => {
+    const [allProjects, batchesList] = await Promise.all([
+      getProjects(),
+      getBatches(),
+    ]);
+    return { allProjects, batchesList };
+  },
   component: Projects,
 });
 
 function Projects() {
-  const all = getProjects();
-  const batches = getBatches();
+  const { allProjects: all, batchesList: batches } = Route.useLoaderData() as {
+    allProjects: Project[];
+    batchesList: Batch[];
+  };
   const [active, setActive] = useState<Record<string, string>>({});
 
   const usedCategories = useMemo(

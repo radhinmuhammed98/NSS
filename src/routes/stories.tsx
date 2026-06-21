@@ -4,13 +4,18 @@ import { Reveal, EmptyState } from "@/components/clay";
 import { StoryCard } from "@/components/media";
 
 import { getStories } from "@/lib/data";
+import type { VolunteerStory } from "@/types";
 
 export const Route = createFileRoute("/stories")({
+  loader: async () => {
+    const list = await getStories();
+    return { list };
+  },
   component: Stories,
 });
 
 function Stories() {
-  const stories = getStories();
+  const { list: stories } = Route.useLoaderData() as { list: VolunteerStory[] };
   return (
     <PageShell>
       <PageHeader eyebrow="Stories" title="Volunteer Stories" description="Service, in their own words." />

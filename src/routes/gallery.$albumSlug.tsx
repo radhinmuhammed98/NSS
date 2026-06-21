@@ -3,11 +3,11 @@ import { PageShell, Container } from "@/components/layout";
 import { Badge, Reveal } from "@/components/clay";
 
 import { formatDate, getAlbumBySlug } from "@/lib/data";
-import type { ImageAsset } from "@/types";
+import type { ImageAsset, GalleryAlbum } from "@/types";
 
 export const Route = createFileRoute("/gallery/$albumSlug")({
-  loader: ({ params }: { params: { albumSlug: string } }) => {
-    const album = getAlbumBySlug(params.albumSlug);
+  loader: async ({ params }: { params: { albumSlug: string } }) => {
+    const album = await getAlbumBySlug(params.albumSlug);
     if (!album) throw notFound();
     return { album };
   },
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/gallery/$albumSlug")({
 });
 
 function AlbumPage() {
-  const { album } = Route.useLoaderData();
+  const { album } = Route.useLoaderData() as { album: GalleryAlbum };
   return (
     <PageShell>
       <Container className="py-10">

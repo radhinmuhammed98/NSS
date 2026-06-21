@@ -5,14 +5,24 @@ import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/cl
 import { CampCard } from "@/components/media";
 
 import { getBatches, getCamps } from "@/lib/data";
+import type { Camp, Batch } from "@/types";
 
 export const Route = createFileRoute("/camps/")({
+  loader: async () => {
+    const [allCamps, batchesList] = await Promise.all([
+      getCamps(),
+      getBatches(),
+    ]);
+    return { allCamps, batchesList };
+  },
   component: Camps,
 });
 
 function Camps() {
-  const all = getCamps();
-  const batches = getBatches();
+  const { allCamps: all, batchesList: batches } = Route.useLoaderData() as {
+    allCamps: Camp[];
+    batchesList: Batch[];
+  };
   const [active, setActive] = useState<Record<string, string>>({});
   const groups: FilterGroup[] = [
     {

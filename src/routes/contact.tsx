@@ -6,11 +6,15 @@ import { ClayCard, Reveal } from "@/components/clay";
 import { getSiteSettings } from "@/lib/data";
 
 export const Route = createFileRoute("/contact")({
+  loader: async () => {
+    const s = await getSiteSettings();
+    return { s };
+  },
   component: Contact,
 });
 
 function Contact() {
-  const s = getSiteSettings();
+  const { s } = Route.useLoaderData();
   return (
     <PageShell>
       <PageHeader eyebrow="Contact" title="Reach the NSS Unit" description="We'd love to hear from students, alumni, and the community." />

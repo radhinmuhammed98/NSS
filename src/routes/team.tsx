@@ -3,14 +3,24 @@ import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Reveal, EmptyState } from "@/components/clay";
 
 import { getBatches, getTeam } from "@/lib/data";
+import type { Batch, TeamMember } from "@/types";
 
 export const Route = createFileRoute("/team")({
+  loader: async () => {
+    const [batches, team] = await Promise.all([
+      getBatches(),
+      getTeam(),
+    ]);
+    return { batches, team };
+  },
   component: Team,
 });
 
 function Team() {
-  const batches = getBatches();
-  const team = getTeam();
+  const { batches, team } = Route.useLoaderData() as {
+    batches: Batch[];
+    team: TeamMember[];
+  };
 
   // Pre-filter members per batch
   const groupedBatches = batches

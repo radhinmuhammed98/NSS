@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { getSiteSettings } from "@/lib/data";
+import { getSiteSettingsSync } from "@/lib/content";
 import { NSSLogo } from "@/assets/NSSLogo";
 
 const sections = [
@@ -12,7 +12,7 @@ const sections = [
 ];
 
 export function Footer() {
-  const s = getSiteSettings();
+  const s = getSiteSettingsSync();
   return (
     <footer className="mt-20 px-3 pb-6" aria-label="Site footer">
       {/* Subtle thread line accent at top */}

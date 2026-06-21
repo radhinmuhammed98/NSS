@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArrowUpDown } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
@@ -7,12 +7,22 @@ import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
 import { formatDate, getTimeline } from "@/lib/data";
 
 export const Route = createFileRoute("/journey")({
+  loader: async () => {
+    const items = await getTimeline();
+    return { items };
+  },
   component: Journey,
 });
 
 function Journey() {
+  const { items } = Route.useLoaderData();
   const [newestFirst, setNewestFirst] = useState(false);
-  const items = getTimeline(newestFirst);
+
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) =>
+      newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
+    );
+  }, [items, newestFirst]);
 
   return (
     <PageShell>
@@ -47,9 +57,9 @@ function Journey() {
           </div>
         </div>
 
-        {items.length ? (
+        {sortedItems.length ? (
           <div className="relative space-y-6 before:absolute before:left-4 before:top-2 before:h-full before:w-0.5 before:bg-border sm:before:left-1/2">
-            {items.map((t, i) => (
+            {sortedItems.map((t, i) => (
               <Reveal key={t.slug} delay={i * 0.05}>
                 <div className={`relative pl-12 sm:w-1/2 sm:pl-0 ${i % 2 ? "sm:ml-auto sm:pl-10" : "sm:pr-10 sm:text-right"}`}>
                   <span className={`clay-accent absolute left-2 top-3 flex h-5 w-5 items-center justify-center rounded-full sm:left-auto ${i % 2 ? "sm:-left-2.5" : "sm:-right-2.5"}`} />

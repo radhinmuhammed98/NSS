@@ -4,13 +4,18 @@ import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
 
 import { formatDate, getNotices } from "@/lib/data";
+import type { Notice } from "@/types";
 
 export const Route = createFileRoute("/notices")({
+  loader: async () => {
+    const list = await getNotices();
+    return { list };
+  },
   component: Notices,
 });
 
 function Notices() {
-  const notices = getNotices();
+  const { list: notices } = Route.useLoaderData() as { list: Notice[] };
   return (
     <PageShell>
       <PageHeader eyebrow="Notices" title="Notices & Updates" description="Latest announcements from the NSS unit." />

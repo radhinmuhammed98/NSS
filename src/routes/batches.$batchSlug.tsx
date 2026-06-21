@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import type { ImpactMetric } from "@/types";
+import type { ImpactMetric, Batch, Project, Camp, Highlight, GalleryAlbum, VideoClip, Report, VolunteerStory, TeamMember } from "@/types";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat, EmptyState } from "@/components/clay";
 import { MediaThumb, AlbumCard, CampCard, HighlightCard, ProjectCard, StoryCard } from "@/components/media";
@@ -19,10 +19,42 @@ import {
 } from "@/lib/data";
 
 export const Route = createFileRoute("/batches/$batchSlug")({
-  loader: ({ params }: { params: { batchSlug: string } }) => {
-    const batch = getBatchBySlug(params.batchSlug);
+  loader: async ({ params }: { params: { batchSlug: string } }) => {
+    const batch = await getBatchBySlug(params.batchSlug);
     if (!batch) throw notFound();
-    return { batch };
+    
+    // Query related collections concurrently
+    const [
+      projects,
+      camps,
+      highlights,
+      albums,
+      videos,
+      reports,
+      stories,
+      team,
+    ] = await Promise.all([
+      getProjectsByBatch(params.batchSlug),
+      getCampsByBatch(params.batchSlug),
+      getHighlightsByBatch(params.batchSlug),
+      getAlbumsByBatch(params.batchSlug),
+      getVideosByBatch(params.batchSlug),
+      getReportsByBatch(params.batchSlug),
+      getStoriesByBatch(params.batchSlug),
+      getTeamByBatch(params.batchSlug),
+    ]);
+
+    return {
+      batch,
+      projects,
+      camps,
+      highlights,
+      albums,
+      videos,
+      reports,
+      stories,
+      team,
+    };
   },
 
   notFoundComponent: () => (
@@ -50,17 +82,28 @@ const TABS = [
 ] as const;
 
 function BatchPage() {
-  const { batch } = Route.useLoaderData();
+  const {
+    batch,
+    projects,
+    camps,
+    highlights,
+    albums,
+    videos,
+    reports,
+    stories,
+    team,
+  } = Route.useLoaderData() as {
+    batch: Batch;
+    projects: Project[];
+    camps: Camp[];
+    highlights: Highlight[];
+    albums: GalleryAlbum[];
+    videos: VideoClip[];
+    reports: Report[];
+    stories: VolunteerStory[];
+    team: TeamMember[];
+  };
   const [tab, setTab] = useState<(typeof TABS)[number]>("Overview");
-
-  const projects = getProjectsByBatch(batch.slug);
-  const camps = getCampsByBatch(batch.slug);
-  const highlights = getHighlightsByBatch(batch.slug);
-  const albums = getAlbumsByBatch(batch.slug);
-  const videos = getVideosByBatch(batch.slug);
-  const reports = getReportsByBatch(batch.slug);
-  const stories = getStoriesByBatch(batch.slug);
-  const team = getTeamByBatch(batch.slug);
 
   return (
     <PageShell>

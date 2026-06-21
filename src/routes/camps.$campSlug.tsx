@@ -5,13 +5,14 @@ import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
 
 import { formatDate, getBatchTitle, getCampBySlug, getHighlightsBySlugs } from "@/lib/data";
-import type { CampDay, ImageAsset, ImpactMetric } from "@/types";
+import type { CampDay, ImageAsset, ImpactMetric, Camp, Highlight } from "@/types";
 
 export const Route = createFileRoute("/camps/$campSlug")({
-  loader: ({ params }: { params: { campSlug: string } }) => {
-    const camp = getCampBySlug(params.campSlug);
+  loader: async ({ params }: { params: { campSlug: string } }) => {
+    const camp = await getCampBySlug(params.campSlug);
     if (!camp) throw notFound();
-    return { camp };
+    const highlights = await getHighlightsBySlugs(camp.highlightSlugs);
+    return { camp, highlights };
   },
 
   notFoundComponent: () => (
@@ -26,8 +27,10 @@ export const Route = createFileRoute("/camps/$campSlug")({
 });
 
 function CampPage() {
-  const { camp } = Route.useLoaderData();
-  const highlights = getHighlightsBySlugs(camp.highlightSlugs);
+  const { camp, highlights } = Route.useLoaderData() as {
+    camp: Camp;
+    highlights: Highlight[];
+  };
   return (
     <PageShell>
       <section className="px-3 pt-4">

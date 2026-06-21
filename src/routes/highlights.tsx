@@ -11,8 +11,18 @@ import {
   getHighlightTypes,
   getYearsFromHighlights,
 } from "@/lib/data";
+import type { Highlight, Batch } from "@/types";
 
 export const Route = createFileRoute("/highlights")({
+  loader: async () => {
+    const [highlights, batches, highlightTypes, years] = await Promise.all([
+      getHighlights(),
+      getBatches(),
+      getHighlightTypes(),
+      getYearsFromHighlights(),
+    ]);
+    return { highlights, batches, highlightTypes, years };
+  },
   component: Highlights,
 });
 
@@ -25,10 +35,12 @@ const SORT_OPTIONS: { value: SortMode; label: string }[] = [
 ];
 
 function Highlights() {
-  const highlights = getHighlights();
-  const batches = getBatches();
-  const highlightTypes = getHighlightTypes();
-  const years = getYearsFromHighlights();
+  const { highlights, batches, highlightTypes, years } = Route.useLoaderData() as {
+    highlights: Highlight[];
+    batches: Batch[];
+    highlightTypes: string[];
+    years: number[];
+  };
 
   const [active, setActive] = useState<Record<string, string>>({});
   const [sort, setSort] = useState<SortMode>("featured");

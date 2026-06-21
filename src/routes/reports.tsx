@@ -11,16 +11,28 @@ import {
   getReportTypes,
   getYearsFromReports,
 } from "@/lib/data";
+import type { Report, Batch } from "@/types";
 
 export const Route = createFileRoute("/reports")({
+  loader: async () => {
+    const [reports, batches, reportTypes, years] = await Promise.all([
+      getReports(),
+      getBatches(),
+      getReportTypes(),
+      getYearsFromReports(),
+    ]);
+    return { reports, batches, reportTypes, years };
+  },
   component: Reports,
 });
 
 function Reports() {
-  const reports = getReports();
-  const batches = getBatches();
-  const reportTypes = getReportTypes();
-  const years = getYearsFromReports();
+  const { reports, batches, reportTypes, years } = Route.useLoaderData() as {
+    reports: Report[];
+    batches: Batch[];
+    reportTypes: string[];
+    years: number[];
+  };
 
   const [active, setActive] = useState<Record<string, string>>({});
 

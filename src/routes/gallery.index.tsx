@@ -10,16 +10,28 @@ import {
   getBatches,
   getYearsFromAlbums,
 } from "@/lib/data";
+import type { GalleryAlbum, Batch } from "@/types";
 
 export const Route = createFileRoute("/gallery/")({
+  loader: async () => {
+    const [albums, batches, albumTypes, years] = await Promise.all([
+      getAlbums(),
+      getBatches(),
+      getAlbumTypes(),
+      getYearsFromAlbums(),
+    ]);
+    return { albums, batches, albumTypes, years };
+  },
   component: Gallery,
 });
 
 function Gallery() {
-  const albums = getAlbums();
-  const batches = getBatches();
-  const albumTypes = getAlbumTypes();
-  const years = getYearsFromAlbums();
+  const { albums, batches, albumTypes, years } = Route.useLoaderData() as {
+    albums: GalleryAlbum[];
+    batches: Batch[];
+    albumTypes: string[];
+    years: number[];
+  };
 
   const [active, setActive] = useState<Record<string, string>>({});
 

@@ -1,107 +1,125 @@
-import {
-  batches,
-  camps,
-  galleryAlbums,
-  highlights,
-  notices,
-  projectCategories,
-  projects,
-  reports,
-  siteSettings,
-  teamMembers,
-  timelineItems,
-  videoClips,
-  volunteerStories,
-} from "@/data";
+import { contentRepository, getBatchTitleSync } from "@/lib/content";
+import { projectCategories } from "@/data";
+import type {
+  SiteSettings,
+  Batch,
+  Project,
+  Camp,
+  GalleryAlbum,
+  VideoClip,
+  Report,
+  Highlight,
+  TimelineItem,
+  TeamMember,
+  VolunteerStory,
+  Notice,
+} from "@/types";
 
 export { projectCategories };
 
-export const getSiteSettings = () => siteSettings;
+export const getSiteSettings = (): Promise<SiteSettings> =>
+  contentRepository.getSiteSettings();
 
-export const getCurrentBatch = () =>
-  batches.find((b) => b.featured) ?? batches[0];
+export const getCurrentBatch = async (): Promise<Batch> => {
+  const list = await contentRepository.getBatches();
+  return list.find((b) => b.featured) ?? list[0];
+};
 
-// Batches
-export const getBatches = () => [...batches].sort((a, b) => b.year - a.year);
-export const getBatchBySlug = (slug: string) =>
-  batches.find((b) => b.slug === slug);
-export const getBatchTitle = (slug?: string) =>
-  slug ? batches.find((b) => b.slug === slug)?.yearRange ?? slug : "";
+export const getBatches = (): Promise<Batch[]> =>
+  contentRepository.getBatches();
 
-// Projects
-export const getProjects = () =>
-  [...projects].sort((a, b) => b.date.localeCompare(a.date));
-export const getProjectBySlug = (slug: string) =>
-  projects.find((p) => p.slug === slug);
-export const getProjectsByBatch = (batchSlug: string) =>
-  getProjects().filter((p) => p.batchSlug === batchSlug);
-export const getFeaturedProjects = (limit = 6) =>
-  getProjects().filter((p) => p.featured).slice(0, limit);
+export const getBatchBySlug = (slug: string): Promise<Batch | undefined> =>
+  contentRepository.getBatchBySlug(slug);
 
-// Camps
-export const getCamps = () => [...camps].sort((a, b) => b.year - a.year);
-export const getCampBySlug = (slug: string) =>
-  camps.find((c) => c.slug === slug);
-export const getCampsByBatch = (batchSlug: string) =>
-  getCamps().filter((c) => c.batchSlug === batchSlug);
-export const getFeaturedCamp = () => camps.find((c) => c.featured) ?? camps[0];
+export const getBatchTitle = (slug?: string): string =>
+  getBatchTitleSync(slug);
 
-// Gallery
-export const getAlbums = () =>
-  [...galleryAlbums].sort((a, b) => b.date.localeCompare(a.date));
-export const getAlbumBySlug = (slug: string) =>
-  galleryAlbums.find((a) => a.slug === slug);
-export const getAlbumsByBatch = (batchSlug: string) =>
-  getAlbums().filter((a) => a.batchSlug === batchSlug);
+export const getProjects = (): Promise<Project[]> =>
+  contentRepository.getProjects();
 
-// Videos
-export const getVideos = () => [...videoClips].sort((a, b) => b.year - a.year);
-export const getVideosByBatch = (batchSlug: string) =>
-  getVideos().filter((v) => v.batchSlug === batchSlug);
-export const getFeaturedVideos = (limit = 6) =>
-  getVideos().filter((v) => v.featured).slice(0, limit);
+export const getProjectBySlug = (slug: string): Promise<Project | undefined> =>
+  contentRepository.getProjectBySlug(slug);
 
-// Reports
-export const getReports = () =>
-  [...reports].sort((a, b) => b.date.localeCompare(a.date));
-export const getReportsByBatch = (batchSlug: string) =>
-  getReports().filter((r) => r.batchSlug === batchSlug);
-export const getReportsBySlugs = (slugs: string[]) =>
-  reports.filter((r) => slugs.includes(r.slug));
+export const getProjectsByBatch = (batchSlug: string): Promise<Project[]> =>
+  contentRepository.getProjectsByBatch(batchSlug);
 
-// Highlights
-export const getHighlights = () =>
-  [...highlights].sort((a, b) => a.priority - b.priority);
-export const getHighlightBySlug = (slug: string) =>
-  highlights.find((h) => h.slug === slug);
-export const getHighlightsBySlugs = (slugs: string[]) =>
-  highlights.filter((h) => slugs.includes(h.slug));
-export const getHighlightsByBatch = (batchSlug: string) =>
-  getHighlights().filter((h) => h.batchSlug === batchSlug);
-export const getFeaturedHighlight = () =>
-  highlights.find((h) => h.featured) ?? getHighlights()[0];
+export const getFeaturedProjects = (limit?: number): Promise<Project[]> =>
+  contentRepository.getFeaturedProjects(limit);
 
-// Timeline
-export const getTimeline = (newestFirst = false) =>
-  [...timelineItems].sort((a, b) =>
-    newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
-  );
+export const getCamps = (): Promise<Camp[]> =>
+  contentRepository.getCamps();
 
-// Team
-export const getTeam = () => [...teamMembers].sort((a, b) => a.order - b.order);
-export const getTeamByBatch = (batchSlug: string) =>
-  getTeam().filter((m) => m.batchSlug === batchSlug);
+export const getCampBySlug = (slug: string): Promise<Camp | undefined> =>
+  contentRepository.getCampBySlug(slug);
 
-// Stories
-export const getStories = () => [...volunteerStories];
-export const getStoriesByBatch = (batchSlug: string) =>
-  volunteerStories.filter((s) => s.batchSlug === batchSlug);
-export const getFeaturedStories = (limit = 3) =>
-  volunteerStories.filter((s) => s.featured).slice(0, limit);
+export const getCampsByBatch = (batchSlug: string): Promise<Camp[]> =>
+  contentRepository.getCampsByBatch(batchSlug);
 
-// Notices
-export const getNotices = () =>
-  [...notices].sort((a, b) => b.date.localeCompare(a.date));
+export const getFeaturedCamp = (): Promise<Camp> =>
+  contentRepository.getFeaturedCamp();
+
+export const getAlbums = (): Promise<GalleryAlbum[]> =>
+  contentRepository.getAlbums();
+
+export const getAlbumBySlug = (slug: string): Promise<GalleryAlbum | undefined> =>
+  contentRepository.getAlbumBySlug(slug);
+
+export const getAlbumsByBatch = (batchSlug: string): Promise<GalleryAlbum[]> =>
+  contentRepository.getAlbumsByBatch(batchSlug);
+
+export const getVideos = (): Promise<VideoClip[]> =>
+  contentRepository.getVideos();
+
+export const getVideosByBatch = (batchSlug: string): Promise<VideoClip[]> =>
+  contentRepository.getVideosByBatch(batchSlug);
+
+export const getFeaturedVideos = (limit?: number): Promise<VideoClip[]> =>
+  contentRepository.getFeaturedVideos(limit);
+
+export const getReports = (): Promise<Report[]> =>
+  contentRepository.getReports();
+
+export const getReportsByBatch = (batchSlug: string): Promise<Report[]> =>
+  contentRepository.getReportsByBatch(batchSlug);
+
+export const getReportsBySlugs = (slugs: string[]): Promise<Report[]> =>
+  contentRepository.getReportsBySlugs(slugs);
+
+export const getHighlights = (): Promise<Highlight[]> =>
+  contentRepository.getHighlights();
+
+export const getHighlightBySlug = (slug: string): Promise<Highlight | undefined> =>
+  contentRepository.getHighlightBySlug(slug);
+
+export const getHighlightsBySlugs = (slugs: string[]): Promise<Highlight[]> =>
+  contentRepository.getHighlightsBySlugs(slugs);
+
+export const getHighlightsByBatch = (batchSlug: string): Promise<Highlight[]> =>
+  contentRepository.getHighlightsByBatch(batchSlug);
+
+export const getFeaturedHighlight = (): Promise<Highlight> =>
+  contentRepository.getFeaturedHighlight();
+
+export const getTimeline = (newestFirst?: boolean): Promise<TimelineItem[]> =>
+  contentRepository.getTimeline(newestFirst);
+
+export const getTeam = (): Promise<TeamMember[]> =>
+  contentRepository.getTeam();
+
+export const getTeamByBatch = (batchSlug: string): Promise<TeamMember[]> =>
+  contentRepository.getTeamByBatch(batchSlug);
+
+export const getStories = (): Promise<VolunteerStory[]> =>
+  contentRepository.getStories();
+
+export const getStoriesByBatch = (batchSlug: string): Promise<VolunteerStory[]> =>
+  contentRepository.getStoriesByBatch(batchSlug);
+
+export const getFeaturedStories = (limit?: number): Promise<VolunteerStory[]> =>
+  contentRepository.getFeaturedStories(limit);
+
+export const getNotices = (): Promise<Notice[]> =>
+  contentRepository.getNotices();
 
 export const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", {
@@ -110,28 +128,20 @@ export const formatDate = (iso: string) =>
     year: "numeric",
   });
 
-// ─── Filter-support helpers ────────────────────────────────────────────────
+export const getAlbumTypes = (): Promise<string[]> =>
+  contentRepository.getAlbumTypes();
 
-/** Unique album types present in the dataset, alphabetically sorted */
-export const getAlbumTypes = () =>
-  [...new Set(galleryAlbums.map((a) => a.type))].sort();
+export const getReportTypes = (): Promise<string[]> =>
+  contentRepository.getReportTypes();
 
-/** Unique report types present in the dataset, alphabetically sorted */
-export const getReportTypes = () =>
-  [...new Set(reports.map((r) => r.type))].sort();
+export const getHighlightTypes = (): Promise<string[]> =>
+  contentRepository.getHighlightTypes();
 
-/** Unique highlight types present in the dataset, alphabetically sorted */
-export const getHighlightTypes = () =>
-  [...new Set(highlights.map((h) => h.type))].sort();
+export const getYearsFromAlbums = (): Promise<number[]> =>
+  contentRepository.getYearsFromAlbums();
 
-/** Unique years from gallery albums, newest first */
-export const getYearsFromAlbums = () =>
-  [...new Set(galleryAlbums.map((a) => a.year))].sort((a, b) => b - a);
+export const getYearsFromReports = (): Promise<number[]> =>
+  contentRepository.getYearsFromReports();
 
-/** Unique years from reports, newest first */
-export const getYearsFromReports = () =>
-  [...new Set(reports.map((r) => r.year))].sort((a, b) => b - a);
-
-/** Unique years from highlights, newest first */
-export const getYearsFromHighlights = () =>
-  [...new Set(highlights.map((h) => h.year))].sort((a, b) => b - a);
+export const getYearsFromHighlights = (): Promise<number[]> =>
+  contentRepository.getYearsFromHighlights();

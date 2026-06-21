@@ -12,13 +12,20 @@ import {
   getProjectBySlug,
   getReportsBySlugs,
 } from "@/lib/data";
-import type { ImageAsset, ImpactMetric } from "@/types";
+import type { ImageAsset, ImpactMetric, Project, Report, Highlight, Camp } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
-  loader: ({ params }: { params: { projectSlug: string } }) => {
-    const project = getProjectBySlug(params.projectSlug);
+  loader: async ({ params }: { params: { projectSlug: string } }) => {
+    const project = await getProjectBySlug(params.projectSlug);
     if (!project) throw notFound();
-    return { project };
+
+    const [reports, highlights, relatedCamp] = await Promise.all([
+      getReportsBySlugs(project.reportSlugs),
+      getHighlightsBySlugs(project.highlightSlugs),
+      project.relatedCampSlug ? getCampBySlug(project.relatedCampSlug) : Promise.resolve(undefined),
+    ]);
+
+    return { project, reports, highlights, relatedCamp };
   },
 
   notFoundComponent: () => (
@@ -33,10 +40,12 @@ export const Route = createFileRoute("/projects/$projectSlug")({
 });
 
 function ProjectPage() {
-  const { project } = Route.useLoaderData();
-  const reports = getReportsBySlugs(project.reportSlugs);
-  const highlights = getHighlightsBySlugs(project.highlightSlugs);
-  const relatedCamp = project.relatedCampSlug ? getCampBySlug(project.relatedCampSlug) : undefined;
+  const { project, reports, highlights, relatedCamp } = Route.useLoaderData() as {
+    project: Project;
+    reports: Report[];
+    highlights: Highlight[];
+    relatedCamp?: Camp;
+  };
 
   return (
     <PageShell>

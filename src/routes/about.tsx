@@ -4,13 +4,18 @@ import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Reveal, Badge } from "@/components/clay";
 
 import { getSiteSettings } from "@/lib/data";
+import type { SiteSettings } from "@/types";
 
 export const Route = createFileRoute("/about")({
+  loader: async () => {
+    const s = await getSiteSettings();
+    return { s };
+  },
   component: About,
 });
 
 function About() {
-  const s = getSiteSettings();
+  const { s } = Route.useLoaderData() as { s: SiteSettings };
   return (
     <PageShell>
       <PageHeader
