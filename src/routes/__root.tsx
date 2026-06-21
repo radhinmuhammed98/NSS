@@ -62,12 +62,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-import { getSiteSettings } from "../lib/data";
+import { getSiteSettings, getBatches } from "../lib/data";
 
 export const Route = createRootRoute({
   loader: async () => {
-    // Pre-fetch settings to populate the synchronous cache for layout components
-    await getSiteSettings();
+    // Pre-fetch settings and batches to populate caches for layout components & helper rendering
+    await Promise.all([getSiteSettings(), getBatches()]);
     return {};
   },
   component: RootComponent,
