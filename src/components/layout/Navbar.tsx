@@ -87,12 +87,13 @@ export function Navbar() {
       <header
         ref={dropdownRef}
         className={cn(
-          "fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-10 h-16 transition-all duration-300",
+          "fixed top-0 w-full z-50 transition-all duration-300",
           scrolled
             ? "bg-[#fbf9f4]/90 backdrop-blur-md shadow-sm"
             : "bg-[#fbf9f4]/80 backdrop-blur-md"
         )}
       >
+        <div className="mx-auto max-w-7xl flex justify-between items-center px-6 md:px-10 h-16">
         {/* Brand */}
         <Link
           to="/"
@@ -224,6 +225,7 @@ export function Navbar() {
             {open ? "close" : "menu"}
           </span>
         </button>
+        </div>
       </header>
 
       {/* ─── Mobile full-screen menu ─────────────────────────────────────── */}

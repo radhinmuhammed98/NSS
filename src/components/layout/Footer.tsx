@@ -7,13 +7,13 @@ export function Footer() {
 
   return (
     <footer
-      className="mt-20 px-6 pb-24 md:pb-8"
+      className="mt-20 px-6 md:px-10 pb-24 md:pb-8"
       aria-label="Site footer"
       style={{ background: "#f5f3ee" }}
     >
       {/* Decorative top border */}
       <div
-        className="max-w-6xl mx-auto mb-0 h-px"
+        className="max-w-7xl mx-auto mb-0 h-px"
         style={{
           background:
             "linear-gradient(to right, transparent, rgba(160,64,33,0.35), transparent)",
@@ -22,7 +22,7 @@ export function Footer() {
       />
 
       <div
-        className="max-w-6xl mx-auto rounded-2xl p-8"
+        className="max-w-7xl mx-auto rounded-2xl p-8"
         style={{
           background: "#fbf9f4",
           boxShadow: "8px 8px 22px rgba(27, 58, 39, 0.10), -6px -6px 18px rgba(255,255,255,0.85)",
