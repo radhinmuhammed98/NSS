@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, User } from "lucide-react";
+import { Mail, MapPin, Phone, User } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Reveal } from "@/components/clay";
 
@@ -17,7 +17,11 @@ function Contact() {
   const { s } = Route.useLoaderData();
   return (
     <PageShell>
-      <PageHeader eyebrow="Contact" title="Reach the NSS Unit" description="We'd love to hear from students, alumni, and the community." />
+      <PageHeader
+        eyebrow="Contact · വഴികാട്ടി"
+        title="Reach the NSS Unit"
+        description={`${s.schoolName} · ${s.location}. We'd love to hear from students, alumni, and the community.`}
+      />
       <Container className="py-8">
         <div className="grid gap-6 sm:grid-cols-2">
           <Reveal>
@@ -28,6 +32,9 @@ function Contact() {
                 <li className="flex items-center gap-3"><MapPin className="h-5 w-5 text-primary" /> {s.location}</li>
                 <li className="flex items-center gap-3"><User className="h-5 w-5 text-primary" /> {s.programmeOfficer} (Programme Officer)</li>
                 <li className="flex items-center gap-3"><Mail className="h-5 w-5 text-primary" /> <a href={`mailto:${s.email}`} className="hover:text-primary">{s.email}</a></li>
+                {s.phone && (
+                  <li className="flex items-center gap-3"><Phone className="h-5 w-5 text-primary" /> <a href={`tel:${s.phone}`} className="hover:text-primary">{s.phone}</a></li>
+                )}
               </ul>
             </ClayCard>
           </Reveal>

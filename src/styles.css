@@ -4,22 +4,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Google Fonts are loaded via <link> in index.html for correct ordering and performance */
+/* ─── Stitch "The Living Story" Design System ──────────────────────────────── */
+/* Fonts loaded via <link> in index.html                                        */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
 
-  /* Typography — Playfair for editorial, Inter for UI */
-  --font-display: "Playfair Display", "Georgia", ui-serif, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Typography — Libre Caslon Text for editorial, DM Sans for UI */
+  --font-display: "Libre Caslon Text", "Georgia", ui-serif, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Semantic color tokens */
+  /* Stitch color tokens → Tailwind semantic names */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
@@ -41,7 +41,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-thread: var(--thread);
@@ -61,166 +60,196 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Stitch named color passthroughs */
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-primary: var(--on-primary);
+  --color-on-secondary: var(--on-secondary);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary-container: var(--primary-container);
+  --color-secondary-container: var(--secondary-container);
 }
 
-/* ─── Light mode — warm ivory editorial ───────────────────────────────────── */
+/* ─── Light mode — "Earthy Kerala" palette ─────────────────────────────────── */
 :root {
-  --radius: 1.25rem;
+  --radius: 0.5rem;
 
-  /* Backgrounds — warm ivory hierarchy */
-  --background: oklch(0.979 0.008 82);        /* #FDFBF7 warm ivory */
-  --surface: oklch(0.967 0.01 80);            /* #F7F4EB soft warm card */
-  --surface-elevated: oklch(0.955 0.012 78);  /* #EFECE2 slightly deeper card */
+  /* Stitch palette — Forest Green primary */
+  --background:                #fbf9f4;
+  --surface:                   #fbf9f4;
+  --surface-elevated:          #f5f3ee;
+  --foreground:                #1b1c19;
 
-  /* Foreground — charcoal / deep ink */
-  --foreground: oklch(0.19 0.015 260);        /* #1A1A1E deep charcoal */
+  --clay:                      #f5f3ee;
+  --clay-deep:                 #f0eee9;
 
-  /* Clay surfaces */
-  --clay: oklch(0.967 0.01 80);
-  --clay-deep: oklch(0.945 0.014 78);
+  --card:                      #f5f3ee;
+  --card-foreground:           #1b1c19;
+  --popover:                   #fbf9f4;
+  --popover-foreground:        #1b1c19;
 
-  /* Cards */
-  --card: oklch(0.972 0.009 80);
-  --card-foreground: oklch(0.19 0.015 260);
-  --popover: oklch(0.98 0.006 80);
-  --popover-foreground: oklch(0.19 0.015 260);
+  /* Primary — Deep Forest Green #042413 */
+  --primary:                   #042413;
+  --primary-foreground:        #ffffff;
+  --primary-container:         #1b3a27;
+  --on-primary:                #ffffff;
 
-  /* Primary — NSS Crimson (brand accent only) */
-  --primary: oklch(0.44 0.19 24);            /* #C41E3A NSS crimson */
-  --primary-foreground: oklch(1 0 0);        /* #FFFFFF */
+  /* Secondary — Terracotta #a04021 */
+  --secondary:                 #a04021;
+  --secondary-foreground:      #ffffff;
+  --secondary-container:       #ff8762;
+  --on-secondary:              #ffffff;
 
-  /* Secondary */
-  --secondary: oklch(0.87 0.02 80);
-  --secondary-foreground: oklch(0.25 0.015 260);
+  /* Accent — secondary terracotta */
+  --accent:                    #a04021;
+  --accent-foreground:         #ffffff;
 
-  /* Muted */
-  --muted: oklch(0.955 0.012 78);
-  --muted-foreground: oklch(0.52 0.018 260); /* #6E6D7A */
+  /* Muted / surfaces */
+  --muted:                     #f0eee9;
+  --muted-foreground:          #424843;
 
-  /* Accent — muted gold (awards / milestones / achievements only) */
-  --accent: oklch(0.71 0.1 78);             /* #C9A84C muted gold */
-  --accent-foreground: oklch(0.19 0.015 260);
+  /* Semantic */
+  --destructive:               #ba1a1a;
+  --destructive-foreground:    #ffffff;
+  --success:                   #1b3a27;
+  --warning:                   #472f00;
 
-  /* Semantic states */
-  --destructive: oklch(0.44 0.19 24);       /* matches primary crimson */
-  --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.44 0.14 145);          /* #2E7D32 */
-  --warning: oklch(0.62 0.16 60);           /* #ED6C02 */
+  /* Borders */
+  --border:                    #c2c8c1;
+  --input:                     #e4e2dd;
+  --ring:                      #042413;
 
-  /* Borders & inputs */
-  --border: oklch(0.9 0.012 78);            /* #EBE6DA */
-  --input: oklch(0.93 0.01 80);
-  --ring: oklch(0.44 0.19 24);             /* crimson focus ring */
+  /* Stitch named tokens */
+  --on-surface:                #1b1c19;
+  --on-surface-variant:        #424843;
+  --surface-container:         #f0eee9;
+  --surface-container-low:     #f5f3ee;
+  --surface-container-high:    #eae8e3;
+  --surface-container-highest: #e4e2dd;
+  --outline:                   #727972;
+  --outline-variant:           #c2c8c1;
 
-  /* Thread & legacy */
-  --thread: oklch(0.44 0.19 24);           /* crimson thread motif */
-  --legacy-gold: oklch(0.71 0.1 78);       /* muted gold */
+  /* Legacy / theme extras */
+  --thread:                    #a04021;
+  --legacy-gold:               #c99228;
 
-  /* Chart palette */
-  --chart-1: oklch(0.44 0.19 24);
-  --chart-2: oklch(0.71 0.1 78);
-  --chart-3: oklch(0.52 0.14 155);
-  --chart-4: oklch(0.55 0.12 220);
-  --chart-5: oklch(0.60 0.12 300);
+  /* Chart */
+  --chart-1: #042413;
+  --chart-2: #a04021;
+  --chart-3: #1b3a27;
+  --chart-4: #472f00;
+  --chart-5: #c99228;
 
   /* Sidebar */
-  --sidebar: oklch(0.96 0.01 80);
-  --sidebar-foreground: oklch(0.19 0.015 260);
-  --sidebar-primary: oklch(0.44 0.19 24);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.71 0.1 78);
-  --sidebar-accent-foreground: oklch(0.19 0.015 260);
-  --sidebar-border: oklch(0.9 0.012 78);
-  --sidebar-ring: oklch(0.44 0.19 24);
+  --sidebar:                       #f0eee9;
+  --sidebar-foreground:            #1b1c19;
+  --sidebar-primary:               #042413;
+  --sidebar-primary-foreground:    #ffffff;
+  --sidebar-accent:                #a04021;
+  --sidebar-accent-foreground:     #ffffff;
+  --sidebar-border:                #c2c8c1;
+  --sidebar-ring:                  #042413;
 
-  /* Clay shadows — neutral warm with subtle warmth; NOT strongly red */
+  /* Clay shadows — warm earthy tones */
   --clay-shadow:
-    8px 8px 22px oklch(0.7 0.02 60 / 0.13),
-    -8px -8px 20px oklch(1 0 0 / 0.85);
+    8px 8px 22px rgba(27, 58, 39, 0.10),
+    -6px -6px 18px rgba(255, 255, 255, 0.85);
   --clay-shadow-sm:
-    4px 4px 12px oklch(0.7 0.02 60 / 0.11),
-    -4px -4px 10px oklch(1 0 0 / 0.80);
+    4px 4px 12px rgba(27, 58, 39, 0.09),
+    -4px -4px 10px rgba(255, 255, 255, 0.80);
   --clay-inset:
-    inset 4px 4px 10px oklch(0.7 0.02 60 / 0.1),
-    inset -4px -4px 10px oklch(1 0 0 / 0.75);
-  /* Stronger clay for CTAs / impact metrics / highlighted cards */
+    inset 4px 4px 10px rgba(27, 58, 39, 0.09),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.75);
   --clay-shadow-accent:
-    8px 8px 22px oklch(0.44 0.19 24 / 0.12),
-    -6px -6px 16px oklch(1 0 0 / 0.7);
-  /* Tokens for utility classes */
-  --clay-shadow-light: oklch(0.7 0.02 60 / 0.11);
-  --clay-shadow-dark: oklch(0.05 0.01 20 / 0.50);
+    8px 8px 22px rgba(160, 64, 33, 0.14),
+    -6px -6px 16px rgba(255, 255, 255, 0.75);
 }
 
-/* ─── Dark mode — deep ink / charcoal with restrained crimson ─────────────── */
+/* ─── Dark mode — deep charcoal earth ──────────────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0.012 258);      /* #121214 deep charcoal/ink */
-  --surface: oklch(0.175 0.013 258);         /* #1B1B1F */
-  --surface-elevated: oklch(0.205 0.013 258);/* #24242A */
-  --foreground: oklch(0.915 0.008 255);      /* #EAEAEF off-white */
+  --background:                #141a15;
+  --surface:                   #1a221b;
+  --surface-elevated:          #202a21;
+  --foreground:                #e4e2dd;
 
-  --clay: oklch(0.175 0.013 258);
-  --clay-deep: oklch(0.145 0.012 258);
+  --clay:                      #1a221b;
+  --clay-deep:                 #141a15;
 
-  --card: oklch(0.18 0.013 258);
-  --card-foreground: oklch(0.915 0.008 255);
-  --popover: oklch(0.19 0.012 258);
-  --popover-foreground: oklch(0.915 0.008 255);
+  --card:                      #1c251d;
+  --card-foreground:           #e4e2dd;
+  --popover:                   #1a221b;
+  --popover-foreground:        #e4e2dd;
 
-  --primary: oklch(0.58 0.19 24);           /* #E63956 brighter crimson on dark */
-  --primary-foreground: oklch(1 0 0);
+  --primary:                   #accfb4;
+  --primary-foreground:        #012110;
+  --primary-container:         #2e4d39;
+  --on-primary:                #012110;
 
-  --secondary: oklch(0.27 0.012 258);
-  --secondary-foreground: oklch(0.9 0.006 255);
+  --secondary:                 #ffb59f;
+  --secondary-foreground:      #3a0a00;
+  --secondary-container:       #81290c;
+  --on-secondary:              #3a0a00;
 
-  --muted: oklch(0.22 0.012 258);           /* #212126 */
-  --muted-foreground: oklch(0.63 0.012 258); /* #9B99A8 */
+  --accent:                    #ffb59f;
+  --accent-foreground:         #3a0a00;
 
-  --accent: oklch(0.77 0.1 78);            /* #DFBA5C brighter gold on dark */
-  --accent-foreground: oklch(0.15 0.01 260);
+  --muted:                     #202a21;
+  --muted-foreground:          #8a9690;
 
-  --destructive: oklch(0.58 0.19 24);
-  --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.60 0.14 145);
-  --warning: oklch(0.72 0.15 60);
+  --destructive:               #ba1a1a;
+  --destructive-foreground:    #ffffff;
+  --success:                   #accfb4;
+  --warning:                   #f9bc50;
 
-  --border: oklch(0.25 0.012 258);          /* #2D2D35 */
-  --input: oklch(0.26 0.012 258);
-  --ring: oklch(0.58 0.19 24);             /* crimson focus */
+  --border:                    #2e4d39;
+  --input:                     #2e4d39;
+  --ring:                      #accfb4;
 
-  --thread: oklch(0.58 0.19 24);
-  --legacy-gold: oklch(0.77 0.1 78);
+  --on-surface:                #e4e2dd;
+  --on-surface-variant:        #a0a89e;
+  --surface-container:         #1c251d;
+  --surface-container-low:     #1a221b;
+  --surface-container-high:    #212d22;
+  --surface-container-highest: #273029;
+  --outline:                   #5a6b5d;
+  --outline-variant:           #2e4d39;
 
-  --chart-1: oklch(0.58 0.19 24);
-  --chart-2: oklch(0.77 0.1 78);
-  --chart-3: oklch(0.58 0.14 145);
-  --chart-4: oklch(0.60 0.12 220);
-  --chart-5: oklch(0.65 0.12 300);
+  --thread:                    #ffb59f;
+  --legacy-gold:               #f9bc50;
 
-  --sidebar: oklch(0.175 0.013 258);
-  --sidebar-foreground: oklch(0.915 0.008 255);
-  --sidebar-primary: oklch(0.58 0.19 24);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.77 0.1 78);
-  --sidebar-accent-foreground: oklch(0.15 0.01 260);
-  --sidebar-border: oklch(0.25 0.012 258);
-  --sidebar-ring: oklch(0.58 0.19 24);
+  --chart-1: #accfb4;
+  --chart-2: #ffb59f;
+  --chart-3: #c7ebd0;
+  --chart-4: #f9bc50;
+  --chart-5: #c99228;
 
-  /* Dark clay shadows — deep ink tones, no excessive red glow */
+  --sidebar:                       #1a221b;
+  --sidebar-foreground:            #e4e2dd;
+  --sidebar-primary:               #accfb4;
+  --sidebar-primary-foreground:    #012110;
+  --sidebar-accent:                #ffb59f;
+  --sidebar-accent-foreground:     #3a0a00;
+  --sidebar-border:                #2e4d39;
+  --sidebar-ring:                  #accfb4;
+
   --clay-shadow:
-    8px 8px 22px oklch(0.08 0.01 258 / 0.70),
-    -8px -8px 20px oklch(0.25 0.01 258 / 0.35);
+    8px 8px 22px rgba(0, 0, 0, 0.55),
+    -4px -4px 14px rgba(44, 80, 52, 0.20);
   --clay-shadow-sm:
-    4px 4px 12px oklch(0.08 0.01 258 / 0.65),
-    -4px -4px 10px oklch(0.25 0.01 258 / 0.30);
+    4px 4px 12px rgba(0, 0, 0, 0.50),
+    -3px -3px 10px rgba(44, 80, 52, 0.15);
   --clay-inset:
-    inset 4px 4px 10px oklch(0.08 0.01 258 / 0.65),
-    inset -4px -4px 10px oklch(0.25 0.01 258 / 0.30);
+    inset 4px 4px 10px rgba(0, 0, 0, 0.50),
+    inset -3px -3px 10px rgba(44, 80, 52, 0.15);
   --clay-shadow-accent:
-    8px 8px 22px oklch(0.2 0.09 24 / 0.40),
-    -6px -6px 16px oklch(0.25 0.01 258 / 0.30);
-  --clay-shadow-light: oklch(0.08 0.01 258 / 0.65);
-  --clay-shadow-dark: oklch(0.04 0.01 15 / 0.80);
+    8px 8px 22px rgba(160, 64, 33, 0.30),
+    -4px -4px 14px rgba(44, 80, 52, 0.15);
 }
 
 /* ─── Base layer ──────────────────────────────────────────────────────────── */
@@ -230,8 +259,8 @@
   }
 
   html {
-    /* Prevent layout shift from font swap */
     font-display: optional;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -240,12 +269,10 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
-  /*
-   * Playfair Display — only for editorial headings.
-   * Do NOT use for nav, labels, controls, or body copy.
-   */
+  /* Editorial headings — Libre Caslon Text */
   h1,
   h2,
   h3 {
@@ -254,7 +281,6 @@
     letter-spacing: -0.02em;
   }
 
-  /* h4+ stays Inter for UI readability */
   h4,
   h5,
   h6 {
@@ -262,14 +288,12 @@
     font-weight: 600;
   }
 
-  /* Accessible focus ring — crimson, not blue */
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
     border-radius: 4px;
   }
 
-  /* Respect reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -281,14 +305,38 @@
   }
 }
 
-/* ─── Clay utility classes ────────────────────────────────────────────────── */
+/* ─── Stitch utility classes ──────────────────────────────────────────────── */
 
-/*
- * Use `clay` for: important cards, highlighted content
- * Use `clay-sm` for: impact metrics, selected filter pills, secondary cards
- * Use `clay-accent` for: main CTA buttons, featured badges, key actions ONLY
- */
+/* Paper texture overlay */
+@utility paper-texture {
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
 
+/* Hand-drawn underline accent (terracotta) */
+@utility hand-drawn-underline {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='6' viewBox='0 0 100 6' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.5C25 2 75 1 99 4.5' stroke='%23a04021' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+  }
+}
+
+/* Scribble highlight */
+@utility scribble-highlight {
+  background: linear-gradient(120deg, rgba(160, 64, 33, 0.1) 0%, rgba(160, 64, 33, 0.1) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.3em;
+  background-position: 0 88%;
+}
+
+/* Clay cards — elevated warm surface */
 @utility clay {
   background-color: var(--clay);
   box-shadow: var(--clay-shadow);
@@ -307,7 +355,6 @@
   border-radius: var(--radius-xl);
 }
 
-/* Accent clay: stronger effect reserved for CTAs and featured cards */
 @utility clay-accent {
   background-color: var(--primary);
   color: var(--primary-foreground);
@@ -315,7 +362,6 @@
   border-radius: var(--radius-xl);
 }
 
-/* Legacy gold clay: for awards, milestones, achievements only */
 @utility clay-gold {
   background-color: var(--legacy-gold);
   color: var(--accent-foreground);
@@ -327,7 +373,7 @@
   text-wrap: balance;
 }
 
-/* Thread line — decorative red-thread motif */
+/* Thread decorative line */
 @utility thread-line {
   position: relative;
 
@@ -348,3 +394,8 @@
   }
 }
 
+/* Stitch section utility */
+@utility section-gap {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}

@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { SectionHeading, ClayButton, ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
+import { SectionHeading, ClayButton, ClayCard, Badge, ImpactStat } from "@/components/clay";
 import { MediaThumb, AlbumCard, CampCard, ProjectCard, StoryCard } from "@/components/media";
-import { Sparkles as SparkleField } from "@/components/Sparkles";
 
 
 import {
@@ -21,7 +20,6 @@ import {
 } from "@/lib/data";
 import type { SiteSettings, Batch, Highlight, Project, Camp, GalleryAlbum, VideoClip, Report, VolunteerStory } from "@/types";
 import { heroNss } from "@/data";
-import { useGsapIntro, useGsapParallax } from "@/hooks/use-gsap";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -53,73 +51,70 @@ function Home() {
     reports: Report[];
     stories: VolunteerStory[];
   };
-  const heroScope = useGsapIntro<HTMLDivElement>();
-  const heroImg = useGsapParallax<HTMLDivElement>(40);
-
   return (
     <PageShell>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <SparkleField count={16} />
         <Container className="relative grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-2">
-          <div ref={heroScope} className="contents">
-          <div>
+          <div className="flex flex-col">
             <div data-anim>
               <Badge variant="accent">
-                <Sparkles className="mr-1 h-3.5 w-3.5" /> {s.unitName} · {s.academicYear}
+                <Sparkles className="mr-1 h-3.5 w-3.5" /> KHMHSS Valakkulam · Unit 11223 · {s.academicYear}
               </Badge>
             </div>
             <h1
               data-anim
               className="mt-4 text-4xl font-extrabold leading-[1.05] text-balance sm:text-5xl lg:text-6xl"
             >
-              NSS <span className="text-primary">Digital</span>{" "}
-              <span className="text-accent">Legacy</span>
+              A Living{" "}
+              <span className="text-primary">Canvas</span>{" "}of{" "}
+              <span className="text-accent">Service</span>
             </h1>
-            <p data-anim className="mt-4 max-w-md text-lg text-muted-foreground">
-              A living archive of service, leadership, camps, projects, and memories.
-              Every batch serves and leaves, but their journey stays forever.
+            <p data-anim className="mt-3 max-w-md text-lg text-muted-foreground leading-relaxed">
+              Young hands. Willing hearts. The volunteers of KHMHSS Valakkulam step out
+              of their classrooms to heal, build, and serve their community — one act at a time.
             </p>
-            <p data-anim className="mt-4 font-display text-base font-semibold text-accent">
-              “{s.motto}”
-            </p>
-            <div data-anim className="mt-7 flex flex-wrap gap-3">
-              <ClayButton to="/batches" variant="primary">
-                Explore Batches <ArrowRight className="h-4 w-4" />
+            {/* Bilingual motto */}
+            <div data-anim className="mt-4 border-l-4 border-accent pl-4">
+              <p className="font-display text-base font-semibold italic text-foreground">
+                &ldquo;Not Me, But You&rdquo;
+              </p>
+              <p
+                className="mt-1 text-sm text-muted-foreground"
+                style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
+              >
+                മനസ്സ് നന്നാവട്ടെ
+              </p>
+            </div>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <ClayButton to="/camps" variant="primary">
+                Seven Days of Magic <ArrowRight className="h-4 w-4" />
               </ClayButton>
               <ClayButton to="/projects" variant="soft">
-                Browse Projects
+                Our Initiatives
               </ClayButton>
             </div>
           </div>
 
-          <div data-anim className="relative">
-            <div ref={heroImg}>
-              <motion.div
-                animate={{ y: [0, -14, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="clay overflow-hidden p-0"
-              >
-                <img
-                  src={batch.coverImage}
-                  alt={`${batch.title} batch`}
-                  width={1280}
-                  height={960}
-                  fetchPriority="high"
-                  decoding="async"
-                  className="aspect-[4/3] w-full object-cover"
-                />
-              </motion.div>
+          <div className="relative">
+            <div className="clay overflow-hidden p-0 rounded-2xl">
+              <img
+                src={batch.coverImage}
+                alt={`${batch.title} batch`}
+                width={1280}
+                height={960}
+                fetchPriority="high"
+                decoding="async"
+                className="aspect-[4/3] w-full object-cover"
+              />
             </div>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="clay-accent absolute -bottom-5 -left-3 px-5 py-3 sm:-left-6"
+            <div
+              className="absolute -bottom-5 -left-3 px-5 py-3 sm:-left-6 rounded-2xl"
+              style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
             >
               <p className="font-display text-2xl font-extrabold">{batch.volunteerCount}+</p>
               <p className="text-xs font-medium">Active volunteers</p>
-            </motion.div>
-          </div>
+            </div>
           </div>
         </Container>
 
@@ -263,22 +258,36 @@ function Home() {
         <Container>
           <SectionHeading
             eyebrow="Media"
-            title="Gallery & Clips"
-            action={
-              <ClayButton to="/gallery" variant="soft">
-                Open gallery <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            }
+            title="Gallery & Video Clips"
+            description="Explore our visual record of service."
           />
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="grid grid-cols-3 gap-3">
+          
+          {/* Albums Row */}
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display text-lg font-bold text-foreground">Recent Photo Albums</h3>
+              <ClayButton to="/gallery" variant="soft">
+                All Albums <ArrowRight className="h-4 w-4" />
+              </ClayButton>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {albums.map((a, i) => (
                 <Reveal key={a.slug} delay={i * 0.06}>
                   <AlbumCard album={a} />
                 </Reveal>
               ))}
             </div>
-            <div className="grid gap-4">
+          </div>
+
+          {/* Videos Row */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display text-lg font-bold text-foreground">Featured Clips</h3>
+              <ClayButton to="/videos" variant="soft">
+                All Videos <ArrowRight className="h-4 w-4" />
+              </ClayButton>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2">
               {videos.map((v, i) => (
                 <Reveal key={v.slug} delay={i * 0.08}>
                   <MediaThumb video={v} />
@@ -288,6 +297,7 @@ function Home() {
           </div>
         </Container>
       </section>
+
 
       {/* Reports preview */}
       <section className="py-8">
@@ -338,23 +348,73 @@ function Home() {
         </Container>
       </section>
 
+      {/* Three pillars — plan §I "What We Do" */}
+      <section className="py-8">
+        <Container>
+          <SectionHeading
+            eyebrow="What We Do"
+            title="Three Pillars of Service"
+            description="Every act of volunteering falls under one of three principles that define who we are."
+          />
+          <div className="grid gap-5 sm:grid-cols-3">
+            {[
+              {
+                ml: "സമൂഹം",
+                en: "Community",
+                desc: "Helping those around us — palliative care, blood donation, anti-drug campaigns, and reaching the unreached.",
+                color: "text-primary",
+              },
+              {
+                ml: "പ്രകൃതി",
+                en: "Environment",
+                desc: "Nurturing the earth through tree plantations, plastic-free drives, Haritha Bhavanam, and river campaigns.",
+                color: "text-accent",
+              },
+              {
+                ml: "ശാക്തീകരണം",
+                en: "Empowerment",
+                desc: "Building tomorrow's leaders through campus life, awareness drives, and 120 hours of purposeful service.",
+                color: "text-primary",
+              },
+            ].map((pillar, i) => (
+              <Reveal key={pillar.en} delay={i * 0.1}>
+                <div className="clay h-full flex flex-col gap-3 p-6">
+                  <p
+                    className={`font-display text-2xl font-bold ${pillar.color}`}
+                    style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
+                  >
+                    {pillar.ml}
+                  </p>
+                  <h3 className="font-sans text-base font-bold text-foreground">{pillar.en}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{pillar.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       {/* Reach out */}
       <section className="py-12">
         <Container>
-          <Reveal>
-            <div className="clay-accent relative overflow-hidden flex flex-col items-center gap-4 p-10 text-center">
-              <SparkleField count={12} colors={["#ffffff", "#fde68a", "var(--color-primary)"]} />
-              <h2 className="font-display text-3xl font-extrabold text-balance">
-                Be part of the legacy
-              </h2>
-              <p className="max-w-md text-sm opacity-90">
-                Want to join, collaborate, or learn more about our unit's work? We'd love to hear from you.
-              </p>
-              <ClayButton to="/contact" variant="soft">
-                Reach the NSS unit <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            </div>
-          </Reveal>
+          <div className="relative overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl" style={{ background: "#042413", color: "#ffffff" }}>
+            <p
+              className="font-display text-2xl font-bold italic"
+              style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
+            >
+              ജീവിക്കുന്ന ഒരിടം
+            </p>
+            <h2 className="font-display text-3xl font-extrabold text-balance">
+              Be Part of the Living Canvas
+            </h2>
+            <p className="max-w-md text-sm opacity-90">
+              Want to join, collaborate, or learn more about our unit's work?
+              Every student can be a thread in this tapestry.
+            </p>
+            <ClayButton to="/contact" variant="soft">
+              Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight className="h-4 w-4" />
+            </ClayButton>
+          </div>
         </Container>
       </section>
     </PageShell>

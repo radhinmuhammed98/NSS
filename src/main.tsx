@@ -8,6 +8,7 @@ import "./styles.css";
 const queryClient = new QueryClient();
 const router = getRouter();
 
+
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element not found");
 

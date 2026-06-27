@@ -13,35 +13,83 @@ import type {
   VolunteerStory,
 } from "@/types";
 
-import heroNss from "@/assets/hero-nss.jpg?w=1280&format=webp&quality=72&imagetools";
-import albumPlastic from "@/assets/album-plastic.jpg?w=800&format=webp&quality=72&imagetools";
-import albumCamp from "@/assets/album-camp.jpg?w=800&format=webp&quality=72&imagetools";
-import albumTrees from "@/assets/album-trees.jpg?w=800&format=webp&quality=72&imagetools";
-import avatar1 from "@/assets/avatar1.jpg?w=256&format=webp&quality=72&imagetools";
-import avatar2 from "@/assets/avatar2.jpg?w=256&format=webp&quality=72&imagetools";
-import avatar3 from "@/assets/avatar3.jpg?w=256&format=webp&quality=72&imagetools";
-import avatar4 from "@/assets/avatar4.jpg?w=256&format=webp&quality=72&imagetools";
-import avatar5 from "@/assets/avatar5.jpg?w=256&format=webp&quality=72&imagetools";
+import img29 from "@/assets/IMG-20260625-WA0029.jpg?w=800&format=webp&quality=72&imagetools";
+import img04 from "@/assets/IMG-20260626-WA0004.jpg?w=800&format=webp&quality=72&imagetools";
+import img05 from "@/assets/IMG-20260626-WA0005.jpg?w=800&format=webp&quality=72&imagetools";
+import img06 from "@/assets/IMG-20260626-WA0006.jpg?w=800&format=webp&quality=72&imagetools";
+import img07 from "@/assets/IMG-20260626-WA0007.jpg?w=800&format=webp&quality=72&imagetools";
+import img08 from "@/assets/IMG-20260626-WA0008.jpg?w=800&format=webp&quality=72&imagetools";
+import img09 from "@/assets/IMG-20260626-WA0009.jpg?w=800&format=webp&quality=72&imagetools";
+import img10 from "@/assets/IMG-20260626-WA0010.jpg?w=800&format=webp&quality=72&imagetools";
+import img11 from "@/assets/IMG-20260626-WA0011.jpg?w=800&format=webp&quality=72&imagetools";
+import img12 from "@/assets/IMG-20260626-WA0012.jpg?w=800&format=webp&quality=72&imagetools";
+import img13 from "@/assets/IMG-20260626-WA0013.jpg?w=800&format=webp&quality=72&imagetools";
+import img14 from "@/assets/IMG-20260626-WA0014.jpg?w=800&format=webp&quality=72&imagetools";
+import img15 from "@/assets/IMG-20260626-WA0015.jpg?w=800&format=webp&quality=72&imagetools";
+import img16 from "@/assets/IMG-20260626-WA0016.jpg?w=800&format=webp&quality=72&imagetools";
+import img17 from "@/assets/IMG-20260626-WA0017.jpg?w=800&format=webp&quality=72&imagetools";
+import img18 from "@/assets/IMG-20260626-WA0018.jpg?w=800&format=webp&quality=72&imagetools";
+import img19 from "@/assets/IMG-20260626-WA0019.jpg?w=800&format=webp&quality=72&imagetools";
+import img20 from "@/assets/IMG-20260626-WA0020.jpg?w=800&format=webp&quality=72&imagetools";
 
-export { heroNss };
+import vid31 from "@/assets/VID-20260625-WA0031.mp4";
+import vid21 from "@/assets/VID-20260626-WA0021.mp4";
+import vid22 from "@/assets/VID-20260626-WA0022.mp4";
+import vid23 from "@/assets/VID-20260626-WA0023.mp4";
+import vid24 from "@/assets/VID-20260626-WA0024.mp4";
+import vid25 from "@/assets/VID-20260626-WA0025.mp4";
+import vid26 from "@/assets/VID-20260626-WA0026.mp4";
+import vid27 from "@/assets/VID-20260626-WA0027.mp4";
+import vid28 from "@/assets/VID-20260626-WA0028.mp4";
+import vid29 from "@/assets/VID-20260626-WA0029.mp4";
 
-const img = (seed: string, w = 800, h = 600) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
+export const realImages = [
+  img29, img04, img05, img06, img07, img08, img09, img10,
+  img11, img12, img13, img14, img15, img16, img17, img18,
+  img19, img20
+];
+
+export const realVideos = [
+  vid31, vid21, vid22, vid23, vid24, vid25, vid26, vid27, vid28, vid29
+];
+
+export const heroNss = img29;
+
+export const albumPlastic = img04;
+export const albumCamp = img05;
+export const albumTrees = img06;
+
+export const avatar1 = img07;
+export const avatar2 = img08;
+export const avatar3 = img09;
+export const avatar4 = img10;
+export const avatar5 = img11;
+
+const img = (seed: string, w = 800, h = 600) => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % realImages.length;
+  return realImages[index];
+};
+
+
 
 export const siteSettings: SiteSettings = {
-  schoolName: "Govt. Higher Secondary School",
-  unitName: "NSS Unit",
+  schoolName: "KHMHSS Valakkulam",
+  unitName: "NSS Unit 11223",
   motto: "Not Me, But You",
-  location: "Kerala, India",
+  location: "Pookkiparamba, Malappuram, Kerala",
   academicYear: "2025–26",
-  programmeOfficer: "Mr. A. Kumar",
-  volunteerSecretary: "Ms. Anjana R.",
-  email: "nss.unit@example.edu",
-  phone: undefined,
+  programmeOfficer: "Programme Officer, NSS Unit 11223",
+  volunteerSecretary: "Volunteer Secretary, 2025–26",
+  email: "khmhsvalakulam@gmail.com",
+  phone: "0494 2496753",
   mission:
-    "To develop the personality of students through community service and instil a spirit of social responsibility.",
+    "To develop the personality of students through community service and instil a spirit of social responsibility — helping those around us heal, grow, and thrive.",
   vision:
-    "A generation of compassionate, responsible citizens shaped by selfless service to society.",
+    "A generation of compassionate, responsible citizens shaped by selfless service — young hands that plant trees, hold hands, and light the way for their community.",
   objectives: [
     "Understand the community in which volunteers work",
     "Identify the needs and problems of the community",
@@ -52,12 +100,14 @@ export const siteSettings: SiteSettings = {
     "Practise national integration and social harmony",
   ],
   history:
-    "Established to bring students closer to the community, our NSS unit has grown batch after batch into a living movement of service — from small awareness drives to week-long special camps that transform neighbourhoods.",
+    "Established in 1982, the NSS unit at KHMHSS Valakkulam has grown batch after batch into a living movement of service in Pookkiparamba. From small awareness drives to week-long special camps that transform adopted villages — every act breathes life into the motto 'Not Me, But You'.",
   achievements: [
+    "Est. 1982 — over four decades of unbroken service",
     "Best NSS Unit — District Recognition",
-    "1000+ trees planted across campaigns",
-    "Annual seven-day special camps since inception",
-    "Consistent blood donation and health drives",
+    "1000+ trees planted across Haritham campaigns",
+    "Annual seven-day special camps in adopted villages",
+    "Consistent blood donation and palliative care drives",
+
   ],
 };
 
@@ -345,44 +395,82 @@ export const galleryAlbums: GalleryAlbum[] = [
 
 export const videoClips: VideoClip[] = [
   {
-    slug: "plastic-free-clip-2025",
-    title: "Plastic-Free Campus Highlights",
+    slug: "nss-inauguration-2025",
+    title: "NSS Unit Inauguration & Orientation",
     type: "Project Clip",
     year: 2025,
     batchSlug: "batch-2025-26",
-    relatedProjectSlug: "plastic-free-campus-2025",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    thumbnail: img("vid1", 800, 450),
-    duration: "0:45",
-    description: "A short recap of the plastic-free campus drive.",
+    url: vid31,
+    thumbnail: img29,
+    duration: "1:42",
+    description: "Orientation program and welcoming the new batch of volunteers.",
     featured: true,
   },
   {
-    slug: "special-camp-clip-2026",
-    title: "Special Camp Day 2",
+    slug: "special-camp-recap-2026",
+    title: "Special Camp Recaps - Part 1",
     type: "Camp Clip",
     year: 2026,
     batchSlug: "batch-2025-26",
     relatedCampSlug: "special-camp-2026",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    thumbnail: img("vid2", 800, 450),
-    duration: "1:02",
-    description: "Cleaning drive moments from the special camp.",
+    url: vid21,
+    thumbnail: img04,
+    duration: "0:35",
+    description: "Recap of special camp activities and daily work sessions.",
     featured: true,
   },
   {
-    slug: "volunteer-memory-clip-2025",
-    title: "Why I Joined NSS",
-    type: "Volunteer Memory",
+    slug: "community-service-cleaning-2026",
+    title: "Cleaning and Palliative Care Drive",
+    type: "Camp Clip",
+    year: 2026,
+    batchSlug: "batch-2025-26",
+    relatedCampSlug: "special-camp-2026",
+    url: vid22,
+    thumbnail: img05,
+    duration: "0:45",
+    description: "Volunteers cleaning community areas and visiting nearby residents.",
+    featured: true,
+  },
+  {
+    slug: "cultural-night-camp-2026",
+    title: "Camp Fire & Cultural Evening",
+    type: "Camp Clip",
+    year: 2026,
+    batchSlug: "batch-2025-26",
+    relatedCampSlug: "special-camp-2026",
+    url: vid23,
+    thumbnail: img06,
+    duration: "0:52",
+    description: "Evening group singing and team building activities by the fire.",
+    featured: false,
+  },
+  {
+    slug: "organic-farming-project-2025",
+    title: "Organic Vegetable Garden Planting",
+    type: "Project Clip",
     year: 2025,
     batchSlug: "batch-2025-26",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-    thumbnail: img("vid3", 800, 450),
-    duration: "0:38",
-    description: "A volunteer shares what service means to her.",
+    url: vid24,
+    thumbnail: img07,
+    duration: "0:48",
+    description: "Preparing soil and planting seeds in the school garden.",
+    featured: false,
+  },
+  {
+    slug: "volunteers-reflections-2026",
+    title: "Volunteers Reflection Session",
+    type: "Volunteer Memory",
+    year: 2026,
+    batchSlug: "batch-2025-26",
+    url: vid25,
+    thumbnail: img08,
+    duration: "0:40",
+    description: "Sharing the lessons of team life, group living and social work.",
     featured: false,
   },
 ];
+
 
 export const reports: Report[] = [
   {

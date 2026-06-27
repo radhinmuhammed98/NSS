@@ -76,5 +76,25 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  useEffect(() => {
+    const splash = document.getElementById("nss-splash");
+    if (splash) {
+      splash.classList.add("fade-out");
+      const handleTransitionEnd = () => {
+        splash.remove();
+      };
+      splash.addEventListener("transitionend", handleTransitionEnd, { once: true });
+      // Fallback if transitionend doesn't fire
+      const timer = setTimeout(() => {
+        splash.remove();
+      }, 600);
+      return () => {
+        clearTimeout(timer);
+        splash.removeEventListener("transitionend", handleTransitionEnd);
+      };
+    }
+  }, []);
+
   return <Outlet />;
 }
+
