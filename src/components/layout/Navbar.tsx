@@ -93,7 +93,7 @@ export function Navbar() {
             : "bg-[#fbf9f4]/80 backdrop-blur-md"
         )}
       >
-        <div className="mx-auto max-w-7xl flex justify-between items-center px-6 md:px-10 h-16">
+        <div className="mx-auto max-w-7xl flex justify-between items-center px-4 sm:px-6 lg:px-8 h-16">
         {/* Brand */}
         <Link
           to="/"
@@ -101,8 +101,8 @@ export function Navbar() {
           onClick={() => { setOpen(false); setActiveDropdown(null); }}
           aria-label="NSS KHMHSS — Home"
         >
-          <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-white/90 p-0.5 shadow-sm">
-            <NSSLogo height={34} width={34} decorative />
+          <span className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center overflow-hidden rounded-lg bg-white/90 p-0.5 shadow-sm">
+            <NSSLogo height="100%" width="100%" style={{ objectFit: "contain" }} decorative />
           </span>
           <span className="flex flex-col leading-none">
             <span
@@ -323,9 +323,9 @@ export function Navbar() {
 
       {/* ─── Mobile bottom floating nav ──────────────────────────────────── */}
       <nav
-        className="xl:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-3 py-2 rounded-full"
+        className="xl:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-3 py-2 rounded-full backdrop-blur-md"
         style={{
-          background: "#042413",
+          background: "rgba(4, 36, 19, 0.9)",
           boxShadow: "0 8px 32px rgba(4, 36, 19, 0.35)",
           width: "calc(100% - 48px)",
           maxWidth: "400px",

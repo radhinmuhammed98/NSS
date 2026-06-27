@@ -65,7 +65,7 @@ function Home() {
             </div>
             <h1
               data-anim
-              className="mt-4 text-4xl font-extrabold leading-[1.05] text-balance sm:text-5xl lg:text-6xl"
+              className="mt-4 text-4xl font-extrabold leading-tight break-words text-balance sm:text-5xl lg:text-6xl"
             >
               A Living{" "}
               <span className="text-primary">Canvas</span>{" "}of{" "}
@@ -107,7 +107,7 @@ function Home() {
                 height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="aspect-[4/3] w-full object-cover"
+                className="aspect-video sm:aspect-[4/3] w-full object-cover"
               />
             </div>
             {/* Placed below the image in normal document flow instead of absolute positioning */}
@@ -116,7 +116,7 @@ function Home() {
               style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
             >
               <p className="font-display text-2xl font-extrabold">{batch.volunteerCount}+</p>
-              <p className="text-xs font-medium whitespace-nowrap">Active volunteers</p>
+              <p className="text-xs font-medium whitespace-normal sm:whitespace-nowrap">Active volunteers</p>
             </div>
           </div>
         </section>
@@ -134,9 +134,11 @@ function Home() {
                   Programme Officer: {batch.programmeOfficer} · Secretary: {batch.volunteerSecretary}
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:w-1/2">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full lg:w-auto">
                 {batch.impactMetrics.map((m) => (
-                  <ImpactStat key={m.label} label={m.label} value={m.value} />
+                  <div key={m.label} className="h-full flex items-center justify-center">
+                    <ImpactStat label={m.label} value={m.value} />
+                  </div>
                 ))}
               </div>
             </ClayCard>

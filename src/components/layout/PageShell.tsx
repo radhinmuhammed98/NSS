@@ -4,10 +4,10 @@ import { Footer } from "./Footer";
 
 export function PageShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col" style={{ background: "#fbf9f4" }}>
+    <div className="flex min-h-screen flex-col overflow-x-hidden" style={{ background: "#fbf9f4" }}>
       <Navbar />
       {/* pt-16 accounts for the fixed header height */}
-      <main className="flex-1 pt-16">{children}</main>
+      <main className="flex-1 pt-16 pb-24 xl:pb-0">{children}</main>
       <Footer />
     </div>
   );
