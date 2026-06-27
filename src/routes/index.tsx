@@ -5,7 +5,6 @@ import { PageShell, Container } from "@/components/layout";
 import { SectionHeading, ClayButton, ClayCard, Badge, ImpactStat, Reveal } from "@/components/clay";
 import { MediaThumb, AlbumCard, CampCard, ProjectCard, StoryCard } from "@/components/media";
 
-
 import {
   formatDate,
   getAlbums,
@@ -19,7 +18,6 @@ import {
   getSiteSettings,
 } from "@/lib/data";
 import type { SiteSettings, Batch, Highlight, Project, Camp, GalleryAlbum, VideoClip, Report, VolunteerStory } from "@/types";
-import { heroNss } from "@/data";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -51,11 +49,14 @@ function Home() {
     reports: Report[];
     stories: VolunteerStory[];
   };
+
   return (
     <PageShell>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <Container className="relative grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-2">
+      <Container className="flex flex-col gap-y-16 py-16">
+        
+        {/* 1. Hero Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* Text Column */}
           <div className="flex flex-col">
             <div data-anim>
               <Badge variant="accent">
@@ -96,7 +97,8 @@ function Home() {
             </div>
           </div>
 
-          <div className="relative">
+          {/* Media Column */}
+          <div className="flex flex-col gap-4">
             <div className="clay overflow-hidden p-0 rounded-2xl">
               <img
                 src={batch.coverImage}
@@ -108,24 +110,21 @@ function Home() {
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
+            {/* Placed below the image in normal document flow instead of absolute positioning */}
             <div
-              className="absolute -bottom-5 -left-3 px-5 py-3 sm:-left-6 rounded-2xl"
+              className="px-5 py-3 rounded-2xl self-start sm:self-auto inline-block"
               style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
             >
               <p className="font-display text-2xl font-extrabold">{batch.volunteerCount}+</p>
               <p className="text-xs font-medium">Active volunteers</p>
             </div>
           </div>
-        </Container>
+        </section>
 
-      </section>
-
-
-      {/* Active batch + impact */}
-      <section className="py-8">
-        <Container>
+        {/* 2. Active Batch + Impact (Statistics Cards) */}
+        <section>
           <Reveal>
-            <ClayCard tilt={false} className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <ClayCard tilt={false} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
                 <Badge>Current Batch</Badge>
                 <h2 className="mt-2 font-display text-2xl font-extrabold">
@@ -142,23 +141,21 @@ function Home() {
               </div>
             </ClayCard>
           </Reveal>
-        </Container>
-      </section>
+        </section>
 
-      {/* Featured highlight */}
-      <section className="py-8">
-        <Container>
+        {/* 3. Featured Highlight */}
+        <section>
           <Reveal>
-            <div className="clay overflow-hidden p-0 lg:grid lg:grid-cols-2">
+            <div className="clay overflow-hidden p-0 flex flex-col lg:flex-row">
               <img
                 src={highlight.image}
                 alt={highlight.title}
                 loading="lazy"
                 decoding="async"
-                className="aspect-video w-full object-cover lg:aspect-auto lg:h-full"
+                className="aspect-video w-full object-cover lg:w-1/2 lg:h-auto"
               />
-              <div className="flex flex-col justify-center p-8">
-                <Badge variant="accent">★ Featured Highlight</Badge>
+              <div className="flex flex-col justify-center p-8 lg:w-1/2">
+                <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
                 <h2 className="mt-3 font-display text-2xl font-extrabold text-balance sm:text-3xl">
                   {highlight.title}
                 </h2>
@@ -171,12 +168,10 @@ function Home() {
               </div>
             </div>
           </Reveal>
-        </Container>
-      </section>
+        </section>
 
-      {/* Latest projects */}
-      <section className="py-8">
-        <Container>
+        {/* 4. Latest Projects */}
+        <section>
           <SectionHeading
             eyebrow="Recent Work"
             title="Latest Projects"
@@ -187,29 +182,25 @@ function Home() {
               </ClayButton>
             }
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.08}>
                 <ProjectCard project={p} />
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
+        </section>
 
-      {/* Camp spotlight */}
-      <section className="py-8">
-        <Container>
+        {/* 5. Camp Spotlight */}
+        <section>
           <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
           <Reveal>
             <CampCard camp={camp} />
           </Reveal>
-        </Container>
-      </section>
+        </section>
 
-      {/* Batch legacy preview */}
-      <section className="py-8">
-        <Container>
+        {/* 6. Batch Legacy Preview */}
+        <section>
           <SectionHeading
             eyebrow="The Journey"
             title="Batch-wise Legacy"
@@ -220,7 +211,7 @@ function Home() {
               </ClayButton>
             }
           />
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <Reveal>
               <Link to="/journey">
                 <ClayCard className="h-full">
@@ -250,27 +241,23 @@ function Home() {
               </Link>
             </Reveal>
           </div>
-        </Container>
-      </section>
+        </section>
 
-      {/* Gallery + videos preview */}
-      <section className="py-8">
-        <Container>
-          <SectionHeading
-            eyebrow="Media"
-            title="Gallery & Video Clips"
-            description="Explore our visual record of service."
-          />
-          
-          {/* Albums Row */}
-          <div className="mb-10">
+        {/* 7. Gallery & Videos Preview */}
+        <section className="flex flex-col gap-10">
+          <div>
+            <SectionHeading
+              eyebrow="Media"
+              title="Gallery & Video Clips"
+              description="Explore our visual record of service."
+            />
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-bold text-foreground">Recent Photo Albums</h3>
               <ClayButton to="/gallery" variant="soft">
                 All Albums <ArrowRight className="h-4 w-4" />
               </ClayButton>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {albums.map((a, i) => (
                 <Reveal key={a.slug} delay={i * 0.06}>
                   <AlbumCard album={a} />
@@ -279,7 +266,6 @@ function Home() {
             </div>
           </div>
 
-          {/* Videos Row */}
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-bold text-foreground">Featured Clips</h3>
@@ -287,7 +273,7 @@ function Home() {
                 All Videos <ArrowRight className="h-4 w-4" />
               </ClayButton>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {videos.map((v, i) => (
                 <Reveal key={v.slug} delay={i * 0.08}>
                   <MediaThumb video={v} />
@@ -295,13 +281,10 @@ function Home() {
               ))}
             </div>
           </div>
-        </Container>
-      </section>
+        </section>
 
-
-      {/* Reports preview */}
-      <section className="py-8">
-        <Container>
+        {/* 8. Reports Preview */}
+        <section>
           <SectionHeading
             eyebrow="Documents"
             title="Reports & Records"
@@ -311,7 +294,7 @@ function Home() {
               </ClayButton>
             }
           />
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {reports.map((r, i) => (
               <Reveal key={r.slug} delay={i * 0.06}>
                 <ClayCard className="h-full">
@@ -323,12 +306,10 @@ function Home() {
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
+        </section>
 
-      {/* Stories */}
-      <section className="py-8">
-        <Container>
+        {/* 9. Volunteer Stories */}
+        <section>
           <SectionHeading
             eyebrow="In Their Words"
             title="Volunteer Stories"
@@ -338,25 +319,23 @@ function Home() {
               </ClayButton>
             }
           />
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {stories.map((st, i) => (
               <Reveal key={st.slug} delay={i * 0.08}>
                 <StoryCard story={st} />
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
+        </section>
 
-      {/* Three pillars — plan §I "What We Do" */}
-      <section className="py-8">
-        <Container>
+        {/* 10. Three Pillars */}
+        <section>
           <SectionHeading
             eyebrow="What We Do"
             title="Three Pillars of Service"
             description="Every act of volunteering falls under one of three principles that define who we are."
           />
-          <div className="grid gap-5 sm:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               {
                 ml: "സമൂഹം",
@@ -391,13 +370,11 @@ function Home() {
               </Reveal>
             ))}
           </div>
-        </Container>
-      </section>
+        </section>
 
-      {/* Reach out */}
-      <section className="py-12">
-        <Container>
-          <div className="relative overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl" style={{ background: "#042413", color: "#ffffff" }}>
+        {/* 11. Reach Out */}
+        <section>
+          <div className="overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl" style={{ background: "#042413", color: "#ffffff" }}>
             <p
               className="font-display text-2xl font-bold italic"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
@@ -415,8 +392,9 @@ function Home() {
               Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight className="h-4 w-4" />
             </ClayButton>
           </div>
-        </Container>
-      </section>
+        </section>
+        
+      </Container>
     </PageShell>
   );
 }
