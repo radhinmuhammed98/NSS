@@ -3,6 +3,19 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { NSSLogo } from "@/assets/NSSLogo";
 import { cn } from "@/lib/utils";
+import {
+  getAlbums,
+  getBatches,
+  getCamps,
+  getHighlights,
+  getNotices,
+  getProjects,
+  getReports,
+  getStories,
+  getTeam,
+  getTimeline,
+  getVideos,
+} from "@/lib/data";
 
 interface NavItem {
   to: string;
@@ -65,6 +78,62 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [activeItems, setActiveItems] = useState<Record<string, boolean>>({
+    "/reports": true,
+    "/videos": true,
+    "/stories": true,
+    "/projects": true,
+    "/camps": true,
+    "/journey": true,
+    "/notices": true,
+    "/team": true,
+    "/batches": true,
+    "/highlights": true,
+  });
+
+  useEffect(() => {
+    async function checkActive() {
+      try {
+        const [rep, vid, st, pr, ca, tl, no, tm, ba, hl] = await Promise.all([
+          getReports(),
+          getVideos(),
+          getStories(),
+          getProjects(),
+          getCamps(),
+          getTimeline(),
+          getNotices(),
+          getTeam(),
+          getBatches(),
+          getHighlights(),
+        ]);
+        setActiveItems({
+          "/reports": rep.length > 0,
+          "/videos": vid.length > 0,
+          "/stories": st.length > 0,
+          "/projects": pr.length > 0,
+          "/camps": ca.length > 0,
+          "/journey": tl.length > 0,
+          "/notices": no.length > 0,
+          "/team": tm.length > 0,
+          "/batches": ba.length > 1,
+          "/highlights": hl.length > 0,
+          "/about": true,
+        });
+      } catch (err) {
+        console.error("Error loading active nav items:", err);
+      }
+    }
+    checkActive();
+  }, []);
+
+  const filteredNavGroups = navGroups.map(group => ({
+    ...group,
+    items: group.items.filter(item => activeItems[item.to] !== false)
+  })).filter(group => group.items.length > 0);
+
+  const filteredBottomNavItems = bottomNavItems.filter(item => activeItems[item.to] !== false);
+
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -122,7 +191,7 @@ export function Navbar() {
 
         {/* Desktop nav groups */}
         <nav className="hidden xl:flex items-center gap-1" role="navigation" aria-label="Main navigation">
-          {navGroups.map((group) => (
+          {filteredNavGroups.map((group) => (
             <div
               key={group.label}
               className="relative"
@@ -247,7 +316,7 @@ export function Navbar() {
             }}
           >
             <div className="p-4 flex flex-col gap-1">
-              {navGroups.map((group) => (
+              {filteredNavGroups.map((group) => (
                 <div key={group.label} className="flex flex-col border-b last:border-0" style={{ borderColor: "#e4e2dd" }}>
                   <button
                     type="button"
@@ -333,7 +402,7 @@ export function Navbar() {
         }}
         aria-label="Bottom navigation"
       >
-        {bottomNavItems.map((item) => (
+        {filteredBottomNavItems.map((item) => (
           <Link
             key={item.to}
             to={item.to}

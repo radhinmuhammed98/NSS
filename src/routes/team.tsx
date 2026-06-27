@@ -54,13 +54,19 @@ function Team() {
                   {members.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <ClayCard className="h-full text-center">
-                        <img
-                          src={m.photo}
-                          alt={m.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="mx-auto h-24 w-24 rounded-full object-cover"
-                        />
+                        {m.photo ? (
+                          <img
+                            src={m.photo}
+                            alt={m.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="mx-auto h-24 w-24 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex items-center justify-center text-[#1b3a27] font-display text-xl font-bold uppercase shadow-sm">
+                            {m.name.charAt(0)}
+                          </div>
+                        )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>
                         <p className="text-xs font-semibold text-accent">{m.role}</p>
                         <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
@@ -80,13 +86,19 @@ function Team() {
                   {otherMembers.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <ClayCard className="h-full text-center">
-                        <img
-                          src={m.photo}
-                          alt={m.name}
-                          loading="lazy"
-                          decoding="async"
-                          className="mx-auto h-24 w-24 rounded-full object-cover"
-                        />
+                        {m.photo ? (
+                          <img
+                            src={m.photo}
+                            alt={m.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="mx-auto h-24 w-24 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex items-center justify-center text-[#1b3a27] font-display text-xl font-bold uppercase shadow-sm">
+                            {m.name.charAt(0)}
+                          </div>
+                        )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>
                         <p className="text-xs font-semibold text-accent">{m.role}</p>
                         <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
