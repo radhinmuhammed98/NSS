@@ -87,11 +87,11 @@ function Home() {
                 മനസ്സ് നന്നാവട്ടെ
               </p>
             </div>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <ClayButton to="/camps" variant="primary">
+            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+              <ClayButton to="/camps" variant="primary" className="w-full sm:w-auto justify-center">
                 Seven Days of Magic <ArrowRight className="h-4 w-4" />
               </ClayButton>
-              <ClayButton to="/projects" variant="soft">
+              <ClayButton to="/projects" variant="soft" className="w-full sm:w-auto justify-center">
                 Our Initiatives
               </ClayButton>
             </div>
@@ -112,11 +112,11 @@ function Home() {
             </div>
             {/* Placed below the image in normal document flow instead of absolute positioning */}
             <div
-              className="px-5 py-3 rounded-2xl self-start sm:self-auto inline-block"
+              className="px-5 py-3 rounded-2xl w-fit mt-2"
               style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
             >
               <p className="font-display text-2xl font-extrabold">{batch.volunteerCount}+</p>
-              <p className="text-xs font-medium">Active volunteers</p>
+              <p className="text-xs font-medium whitespace-nowrap">Active volunteers</p>
             </div>
           </div>
         </section>
