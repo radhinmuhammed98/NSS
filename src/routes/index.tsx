@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { SectionHeading, ClayButton, ClayCard, Badge, ImpactStat } from "@/components/clay";
+import { SectionHeading, ClayButton, ClayCard, Badge, ImpactStat, Reveal } from "@/components/clay";
 import { MediaThumb, AlbumCard, CampCard, ProjectCard, StoryCard } from "@/components/media";
 
 
