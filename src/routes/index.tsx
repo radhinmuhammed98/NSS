@@ -8,6 +8,7 @@ import { MediaThumb, AlbumCard, CampCard, ProjectCard, StoryCard } from "@/compo
 import {
   formatDate,
   getAlbums,
+  getBatches,
   getCurrentBatch,
   getFeaturedCamp,
   getFeaturedHighlight,
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     const s = await getSiteSettings();
     const batch = await getCurrentBatch();
+    const batches = await getBatches();
     const highlight = await getFeaturedHighlight();
     const projects = await getFeaturedProjects(3);
     const camp = await getFeaturedCamp();
@@ -32,15 +34,16 @@ export const Route = createFileRoute("/")({
     const allReports = await getReports();
     const reports = allReports.slice(0, 3);
     const stories = await getFeaturedStories(2);
-    return { s, batch, highlight, projects, camp, albums, videos, reports, stories };
+    return { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories };
   },
   component: Home,
 });
 
 function Home() {
-  const { s, batch, highlight, projects, camp, albums, videos, reports, stories } = Route.useLoaderData() as {
+  const { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories } = Route.useLoaderData() as {
     s: SiteSettings;
     batch: Batch;
+    batches: Batch[];
     highlight: Highlight;
     projects: Project[];
     camp: Camp;
@@ -122,213 +125,246 @@ function Home() {
         </section>
 
         {/* 2. Active Batch + Impact (Statistics Cards) */}
-        <section className="flex flex-col gap-4">
-          <Reveal>
-            <ClayCard tilt={false} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              <div>
-                <Badge>Current Batch</Badge>
-                <h2 className="mt-2 font-display text-2xl font-extrabold">
-                  {batch.yearRange} · {batch.title}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Programme Officer: {batch.programmeOfficer} · Secretary: {batch.volunteerSecretary}
-                </p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full lg:w-auto">
-                {batch.impactMetrics.map((m) => (
-                  <div key={m.label} className="h-full flex items-center justify-center">
-                    <ImpactStat label={m.label} value={m.value} />
-                  </div>
-                ))}
-              </div>
-            </ClayCard>
-          </Reveal>
-        </section>
+        {batch && batch.impactMetrics && batch.impactMetrics.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <Reveal>
+              <ClayCard tilt={false} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                  <Badge>Current Batch</Badge>
+                  <h2 className="mt-2 font-display text-2xl font-extrabold">
+                    {batch.yearRange} · {batch.title}
+                  </h2>
+                  {((batch.programmeOfficer && batch.programmeOfficer.trim()) || (batch.volunteerSecretary && batch.volunteerSecretary.trim())) && (
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {batch.programmeOfficer && `Programme Officer: ${batch.programmeOfficer}`}
+                      {batch.programmeOfficer && batch.volunteerSecretary && " · "}
+                      {batch.volunteerSecretary && `Secretary: ${batch.volunteerSecretary}`}
+                    </p>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full lg:w-auto">
+                  {batch.impactMetrics.map((m) => (
+                    <div key={m.label} className="h-full flex items-center justify-center">
+                      <ImpactStat label={m.label} value={m.value} />
+                    </div>
+                  ))}
+                </div>
+              </ClayCard>
+            </Reveal>
+          </section>
+        )}
 
         {/* 3. Featured Highlight */}
-        <section className="flex flex-col gap-4">
-          <Reveal>
-            <div className="clay overflow-hidden p-0 flex flex-col lg:flex-row">
-              <img
-                src={highlight.image}
-                alt={highlight.title}
-                loading="lazy"
-                decoding="async"
-                className="aspect-video w-full object-cover lg:w-1/2 lg:h-auto rounded-xl"
-              />
-              <div className="flex flex-col justify-center p-8 lg:w-1/2">
-                <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
-                <h2 className="mt-3 font-display text-2xl font-extrabold text-balance sm:text-3xl">
-                  {highlight.title}
-                </h2>
-                <p className="mt-3 text-muted-foreground">{highlight.description}</p>
-                <div className="mt-6">
-                  <ClayButton to="/highlights" variant="soft">
-                    See all highlights <ArrowRight className="h-4 w-4" />
-                  </ClayButton>
+        {highlight && (
+          <section className="flex flex-col gap-4">
+            <Reveal>
+              <div className="clay overflow-hidden p-0 flex flex-col lg:flex-row">
+                {highlight.image && (
+                  <img
+                    src={highlight.image}
+                    alt={highlight.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-video w-full object-cover lg:w-1/2 lg:h-auto rounded-xl"
+                  />
+                )}
+                <div className="flex flex-col justify-center p-8 lg:w-1/2">
+                  <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
+                  <h2 className="mt-3 font-display text-2xl font-extrabold text-balance sm:text-3xl">
+                    {highlight.title}
+                  </h2>
+                  <p className="mt-3 text-muted-foreground">{highlight.description}</p>
+                  <div className="mt-6">
+                    <ClayButton to="/highlights" variant="soft">
+                      See all highlights <ArrowRight className="h-4 w-4" />
+                    </ClayButton>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Reveal>
-        </section>
+            </Reveal>
+          </section>
+        )}
 
         {/* 4. Latest Projects */}
-        <section className="flex flex-col gap-4">
-          <SectionHeading
-            eyebrow="Recent Work"
-            title="Latest Projects"
-            description="A glimpse of the campaigns making a difference this year."
-            action={
-              <ClayButton to="/projects" variant="soft">
-                All projects <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            }
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 0.08}>
-                <ProjectCard project={p} />
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {projects && projects.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <SectionHeading
+              eyebrow="Recent Work"
+              title="Latest Projects"
+              description="A glimpse of the campaigns making a difference this year."
+              action={
+                <ClayButton to="/projects" variant="soft">
+                  All projects <ArrowRight className="h-4 w-4" />
+                </ClayButton>
+              }
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((p, i) => (
+                <Reveal key={p.slug} delay={i * 0.08}>
+                  <ProjectCard project={p} />
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* 5. Camp Spotlight */}
-        <section className="flex flex-col gap-4">
-          <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
-          <Reveal>
-            <CampCard camp={camp} />
-          </Reveal>
-        </section>
+        {camp && (
+          <section className="flex flex-col gap-4">
+            <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
+            <Reveal>
+              <CampCard camp={camp} />
+            </Reveal>
+          </section>
+        )}
 
         {/* 6. Batch Legacy Preview */}
-        <section className="flex flex-col gap-4">
-          <SectionHeading
-            eyebrow="The Journey"
-            title="Batch-wise Legacy"
-            description="Every batch leaves a chapter behind. Explore them all."
-            action={
-              <ClayButton to="/batches" variant="soft">
-                All batches <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            }
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <Reveal>
-              <Link to="/journey">
-                <ClayCard className="h-full">
-                  <Badge variant="accent">Timeline</Badge>
-                  <h3 className="mt-3 font-display text-xl font-bold">NSS Journey Timeline</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    From the unit's founding to today — every milestone preserved.
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                    Walk the journey <ArrowRight className="h-4 w-4" />
-                  </span>
-                </ClayCard>
-              </Link>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Link to="/team">
-                <ClayCard className="h-full">
-                  <Badge variant="accent">People</Badge>
-                  <h3 className="mt-3 font-display text-xl font-bold">Team & Volunteers</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Meet the officers and volunteers behind every campaign.
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                    Meet the team <ArrowRight className="h-4 w-4" />
-                  </span>
-                </ClayCard>
-              </Link>
-            </Reveal>
-          </div>
-        </section>
+        {batches && batches.length > 1 && (
+          <section className="flex flex-col gap-4">
+            <SectionHeading
+              eyebrow="The Journey"
+              title="Batch-wise Legacy"
+              description="Every batch leaves a chapter behind. Explore them all."
+              action={
+                <ClayButton to="/batches" variant="soft">
+                  All batches <ArrowRight className="h-4 w-4" />
+                </ClayButton>
+              }
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Reveal>
+                <Link to="/journey">
+                  <ClayCard className="h-full">
+                    <Badge variant="accent">Timeline</Badge>
+                    <h3 className="mt-3 font-display text-xl font-bold">NSS Journey Timeline</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      From the unit's founding to today — every milestone preserved.
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Walk the journey <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </ClayCard>
+                </Link>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <Link to="/team">
+                  <ClayCard className="h-full">
+                    <Badge variant="accent">People</Badge>
+                    <h3 className="mt-3 font-display text-xl font-bold">Team & Volunteers</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Meet the officers and volunteers behind every campaign.
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Meet the team <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </ClayCard>
+                </Link>
+              </Reveal>
+            </div>
+          </section>
+        )}
 
         {/* 7. Gallery & Videos Preview */}
-        <section className="flex flex-col gap-10">
-          <div className="flex flex-col gap-4">
-            <SectionHeading
-              eyebrow="Media"
-              title="Gallery & Video Clips"
-              description="Explore our visual record of service."
-            />
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display text-lg font-bold text-foreground">Recent Photo Albums</h3>
-              <ClayButton to="/gallery" variant="soft">
-                All Albums <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {albums.map((a, i) => (
-                <Reveal key={a.slug} delay={i * 0.06}>
-                  <AlbumCard album={a} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
+        {((albums && albums.length > 0) || (videos && videos.length > 0)) && (
+          <section className="flex flex-col gap-10">
+            {albums && albums.length > 0 && (
+              <div className="flex flex-col gap-4">
+                <SectionHeading
+                  eyebrow="Media"
+                  title="Gallery & Video Clips"
+                  description="Explore our visual record of service."
+                />
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display text-lg font-bold text-foreground">Recent Photo Albums</h3>
+                  <ClayButton to="/gallery" variant="soft">
+                    All Albums <ArrowRight className="h-4 w-4" />
+                  </ClayButton>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {albums.map((a, i) => (
+                    <Reveal key={a.slug} delay={i * 0.06}>
+                      <AlbumCard album={a} />
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            )}
 
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display text-lg font-bold text-foreground">Featured Clips</h3>
-              <ClayButton to="/videos" variant="soft">
-                All Videos <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {videos.map((v, i) => (
-                <Reveal key={v.slug} delay={i * 0.08}>
-                  <MediaThumb video={v} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+            {videos && videos.length > 0 && (
+              <div className="flex flex-col gap-4">
+                {(!albums || albums.length === 0) && (
+                  <SectionHeading
+                    eyebrow="Media"
+                    title="Featured Video Clips"
+                    description="Explore our visual record of service."
+                  />
+                )}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display text-lg font-bold text-foreground">Featured Clips</h3>
+                  <ClayButton to="/videos" variant="soft">
+                    All Videos <ArrowRight className="h-4 w-4" />
+                  </ClayButton>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {videos.map((v, i) => (
+                    <Reveal key={v.slug} delay={i * 0.08}>
+                      <MediaThumb video={v} />
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
 
         {/* 8. Reports Preview */}
-        <section className="flex flex-col gap-4">
-          <SectionHeading
-            eyebrow="Documents"
-            title="Reports & Records"
-            action={
-              <ClayButton to="/reports" variant="soft">
-                All reports <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            }
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {reports.map((r, i) => (
-              <Reveal key={r.slug} delay={i * 0.06}>
-                <ClayCard className="h-full">
-                  <Badge variant="outline">{r.type}</Badge>
-                  <h3 className="mt-3 font-display font-bold">{r.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
-                  <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
-                </ClayCard>
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {reports && reports.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <SectionHeading
+              eyebrow="Documents"
+              title="Reports & Records"
+              action={
+                <ClayButton to="/reports" variant="soft">
+                  All reports <ArrowRight className="h-4 w-4" />
+                </ClayButton>
+              }
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {reports.map((r, i) => (
+                <Reveal key={r.slug} delay={i * 0.06}>
+                  <ClayCard className="h-full">
+                    <Badge variant="outline">{r.type}</Badge>
+                    <h3 className="mt-3 font-display font-bold">{r.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
+                    <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
+                  </ClayCard>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* 9. Volunteer Stories */}
-        <section className="flex flex-col gap-4">
-          <SectionHeading
-            eyebrow="In Their Words"
-            title="Volunteer Stories"
-            action={
-              <ClayButton to="/stories" variant="soft">
-                All stories <ArrowRight className="h-4 w-4" />
-              </ClayButton>
-            }
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {stories.map((st, i) => (
-              <Reveal key={st.slug} delay={i * 0.08}>
-                <StoryCard story={st} />
-              </Reveal>
-            ))}
-          </div>
-        </section>
+        {stories && stories.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <SectionHeading
+              eyebrow="In Their Words"
+              title="Volunteer Stories"
+              action={
+                <ClayButton to="/stories" variant="soft">
+                  All stories <ArrowRight className="h-4 w-4" />
+                </ClayButton>
+              }
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {stories.map((st, i) => (
+                <Reveal key={st.slug} delay={i * 0.08}>
+                  <StoryCard story={st} />
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* 10. Three Pillars */}
         <section className="flex flex-col gap-4">

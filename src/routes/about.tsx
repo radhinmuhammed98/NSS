@@ -68,46 +68,65 @@ function About() {
           </ClayCard>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2">
-          <Reveal>
-            <ClayCard tilt={false} className="h-full">
-              <h2 className="font-display text-xl font-bold">Our Story</h2>
-              <p className="mt-3 text-sm text-muted-foreground">{s.history}</p>
-              <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <div className="clay-sm p-3">
-                  <dt className="text-xs text-muted-foreground">Programme Officer</dt>
-                  <dd className="font-semibold">{s.programmeOfficer}</dd>
-                </div>
-                <div className="clay-sm p-3">
-                  <dt className="text-xs text-muted-foreground">Volunteer Secretary</dt>
-                  <dd className="font-semibold">{s.volunteerSecretary}</dd>
-                </div>
-                <div className="clay-sm p-3">
-                  <dt className="text-xs text-muted-foreground">Academic Year</dt>
-                  <dd className="font-semibold">{s.academicYear}</dd>
-                </div>
-                <div className="clay-sm p-3">
-                  <dt className="text-xs text-muted-foreground">Location</dt>
-                  <dd className="font-semibold">{s.location}</dd>
-                </div>
-              </dl>
-            </ClayCard>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ClayCard tilt={false} className="h-full">
-              <Award className="h-8 w-8 text-accent" />
-              <h2 className="mt-3 font-display text-xl font-bold">Achievements</h2>
-              <ul className="mt-4 space-y-3">
-                {s.achievements.map((a) => (
-                  <li key={a} className="clay-sm flex items-center gap-3 p-3 text-sm">
-                    <span className="text-accent">★</span>
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </ClayCard>
-          </Reveal>
-        </div>
+        {((s.history && s.history.trim()) || 
+          (s.programmeOfficer && s.programmeOfficer.trim()) || 
+          (s.volunteerSecretary && s.volunteerSecretary.trim()) || 
+          (s.achievements && s.achievements.length > 0)) && (
+          <div className={`mt-8 grid gap-6 ${
+            ((s.history || s.programmeOfficer || s.volunteerSecretary) && (s.achievements && s.achievements.length > 0)) 
+              ? "lg:grid-cols-2" 
+              : "grid-cols-1"
+          }`}>
+            {((s.history && s.history.trim()) || 
+              (s.programmeOfficer && s.programmeOfficer.trim()) || 
+              (s.volunteerSecretary && s.volunteerSecretary.trim())) && (
+              <Reveal>
+                <ClayCard tilt={false} className="h-full">
+                  <h2 className="font-display text-xl font-bold">Our Story</h2>
+                  {s.history && <p className="mt-3 text-sm text-muted-foreground">{s.history}</p>}
+                  <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                    {s.programmeOfficer && (
+                      <div className="clay-sm p-3">
+                        <dt className="text-xs text-muted-foreground">Programme Officer</dt>
+                        <dd className="font-semibold">{s.programmeOfficer}</dd>
+                      </div>
+                    )}
+                    {s.volunteerSecretary && (
+                      <div className="clay-sm p-3">
+                        <dt className="text-xs text-muted-foreground">Volunteer Secretary</dt>
+                        <dd className="font-semibold">{s.volunteerSecretary}</dd>
+                      </div>
+                    )}
+                    <div className="clay-sm p-3">
+                      <dt className="text-xs text-muted-foreground">Academic Year</dt>
+                      <dd className="font-semibold">{s.academicYear}</dd>
+                    </div>
+                    <div className="clay-sm p-3">
+                      <dt className="text-xs text-muted-foreground">Location</dt>
+                      <dd className="font-semibold">{s.location}</dd>
+                    </div>
+                  </dl>
+                </ClayCard>
+              </Reveal>
+            )}
+            {s.achievements && s.achievements.length > 0 && (
+              <Reveal delay={0.1}>
+                <ClayCard tilt={false} className="h-full">
+                  <Award className="h-8 w-8 text-accent" />
+                  <h2 className="mt-3 font-display text-xl font-bold">Achievements</h2>
+                  <ul className="mt-4 space-y-3">
+                    {s.achievements.map((a) => (
+                      <li key={a} className="clay-sm flex items-center gap-3 p-3 text-sm">
+                        <span className="text-accent">★</span>
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+                </ClayCard>
+              </Reveal>
+            )}
+          </div>
+        )}
       </Container>
     </PageShell>
   );
