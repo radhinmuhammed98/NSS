@@ -3,6 +3,10 @@ import { useEffect } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
+  useEffect(() => {
+    document.getElementById("nss-splash")?.remove();
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -28,6 +32,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
+    document.getElementById("nss-splash")?.remove();
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
