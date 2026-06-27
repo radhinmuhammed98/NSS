@@ -7,7 +7,7 @@ export function PageShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen flex-col overflow-x-hidden" style={{ background: "#fbf9f4" }}>
       <Navbar />
       {/* pt-16 accounts for the fixed header height */}
-      <main className="flex-1 pt-16 pb-24 xl:pb-0">{children}</main>
+      <main className="flex-1 pt-16 pb-28 sm:pb-32 xl:pb-0">{children}</main>
       <Footer />
     </div>
   );
@@ -23,7 +23,7 @@ export function PageHeader({
   description?: string;
 }) {
   return (
-    <div className="mx-auto max-w-7xl px-6 md:px-10 pb-2 pt-10 sm:pt-14">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10 pb-2 pt-10 sm:pt-14">
       {eyebrow && (
         <span
           className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
@@ -58,6 +58,6 @@ export function PageHeader({
 
 export function Container({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`mx-auto max-w-7xl px-6 md:px-10 ${className ?? ""}`}>{children}</div>
+    <div className={`mx-auto max-w-7xl px-4 sm:px-6 md:px-10 ${className ?? ""}`}>{children}</div>
   );
 }

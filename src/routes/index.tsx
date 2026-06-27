@@ -65,7 +65,7 @@ function Home() {
             </div>
             <h1
               data-anim
-              className="mt-4 text-4xl font-extrabold leading-tight break-words text-balance sm:text-5xl lg:text-6xl"
+              className="mt-4 text-3xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl"
             >
               A Living{" "}
               <span className="text-primary">Canvas</span>{" "}of{" "}
@@ -107,22 +107,22 @@ function Home() {
                 height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="aspect-video sm:aspect-[4/3] w-full object-cover"
+                className="aspect-video sm:aspect-[4/3] w-full object-cover rounded-xl"
               />
             </div>
             {/* Placed below the image in normal document flow instead of absolute positioning */}
             <div
-              className="px-5 py-3 rounded-2xl w-fit mt-2"
+              className="px-4 py-2 rounded-2xl w-full sm:w-auto min-w-fit mt-2 flex flex-col items-start"
               style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
             >
-              <p className="font-display text-2xl font-extrabold">{batch.volunteerCount}+</p>
-              <p className="text-xs font-medium whitespace-normal sm:whitespace-nowrap">Active volunteers</p>
+              <p className="font-display text-xl font-bold">{batch.volunteerCount}+</p>
+              <p className="text-xs font-medium text-white/90">Active volunteers</p>
             </div>
           </div>
         </section>
 
         {/* 2. Active Batch + Impact (Statistics Cards) */}
-        <section>
+        <section className="flex flex-col gap-4">
           <Reveal>
             <ClayCard tilt={false} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
@@ -146,7 +146,7 @@ function Home() {
         </section>
 
         {/* 3. Featured Highlight */}
-        <section>
+        <section className="flex flex-col gap-4">
           <Reveal>
             <div className="clay overflow-hidden p-0 flex flex-col lg:flex-row">
               <img
@@ -154,7 +154,7 @@ function Home() {
                 alt={highlight.title}
                 loading="lazy"
                 decoding="async"
-                className="aspect-video w-full object-cover lg:w-1/2 lg:h-auto"
+                className="aspect-video w-full object-cover lg:w-1/2 lg:h-auto rounded-xl"
               />
               <div className="flex flex-col justify-center p-8 lg:w-1/2">
                 <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
@@ -173,7 +173,7 @@ function Home() {
         </section>
 
         {/* 4. Latest Projects */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="Recent Work"
             title="Latest Projects"
@@ -194,7 +194,7 @@ function Home() {
         </section>
 
         {/* 5. Camp Spotlight */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
           <Reveal>
             <CampCard camp={camp} />
@@ -202,7 +202,7 @@ function Home() {
         </section>
 
         {/* 6. Batch Legacy Preview */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="The Journey"
             title="Batch-wise Legacy"
@@ -247,7 +247,7 @@ function Home() {
 
         {/* 7. Gallery & Videos Preview */}
         <section className="flex flex-col gap-10">
-          <div>
+          <div className="flex flex-col gap-4">
             <SectionHeading
               eyebrow="Media"
               title="Gallery & Video Clips"
@@ -268,7 +268,7 @@ function Home() {
             </div>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-display text-lg font-bold text-foreground">Featured Clips</h3>
               <ClayButton to="/videos" variant="soft">
@@ -286,7 +286,7 @@ function Home() {
         </section>
 
         {/* 8. Reports Preview */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="Documents"
             title="Reports & Records"
@@ -311,7 +311,7 @@ function Home() {
         </section>
 
         {/* 9. Volunteer Stories */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="In Their Words"
             title="Volunteer Stories"
@@ -331,7 +331,7 @@ function Home() {
         </section>
 
         {/* 10. Three Pillars */}
-        <section>
+        <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="What We Do"
             title="Three Pillars of Service"
@@ -375,7 +375,7 @@ function Home() {
         </section>
 
         {/* 11. Reach Out */}
-        <section>
+        <section className="flex flex-col gap-4">
           <div className="overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl" style={{ background: "#042413", color: "#ffffff" }}>
             <p
               className="font-display text-2xl font-bold italic"

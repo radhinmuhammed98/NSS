@@ -102,7 +102,7 @@ export function Navbar() {
           aria-label="NSS KHMHSS — Home"
         >
           <span className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center overflow-hidden rounded-lg bg-white/90 p-0.5 shadow-sm">
-            <NSSLogo height="100%" width="100%" style={{ objectFit: "contain" }} decorative />
+            <NSSLogo height="100%" width="100%" decorative />
           </span>
           <span className="flex flex-col leading-none">
             <span
