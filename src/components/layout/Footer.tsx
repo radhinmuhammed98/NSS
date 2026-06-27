@@ -36,7 +36,7 @@ export function Footer() {
               className="inline-flex items-center gap-3 focus-visible:rounded-lg"
               aria-label="NSS Digital Legacy — Home"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 p-1 shadow-sm ring-1" style={{ ringColor: "#c2c8c1" }}>
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 p-1 shadow-sm ring-1" style={{ "--tw-ring-color": "#c2c8c1" } as React.CSSProperties}>
                 <NSSLogo height={40} width={40} decorative />
               </span>
               <div className="leading-tight">
