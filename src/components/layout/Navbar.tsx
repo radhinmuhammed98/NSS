@@ -232,7 +232,7 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.97 }}
                     transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute left-0 top-full mt-1 w-52 rounded-xl border shadow-lg overflow-hidden"
+                    className="absolute left-0 top-full mt-1 w-52 rounded-xl border shadow-lg overflow-hidden z-40"
                     style={{
                       background: "#fbf9f4",
                       borderColor: "#c2c8c1",
@@ -308,14 +308,14 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 top-16 z-40 mx-4 rounded-2xl overflow-hidden"
+            className="fixed inset-x-4 top-16 z-40 rounded-2xl overflow-hidden"
             style={{
               background: "#fbf9f4",
               border: "1px solid #c2c8c1",
               boxShadow: "8px 8px 32px rgba(27, 58, 39, 0.15)",
             }}
           >
-            <div className="p-4 flex flex-col gap-1">
+            <div className="p-4 flex flex-col gap-1 max-h-[calc(100vh-150px)] overflow-y-auto">
               {filteredNavGroups.map((group) => (
                 <div key={group.label} className="flex flex-col border-b last:border-0" style={{ borderColor: "#e4e2dd" }}>
                   <button
@@ -396,8 +396,7 @@ export function Navbar() {
         style={{
           background: "rgba(4, 36, 19, 0.9)",
           boxShadow: "0 8px 32px rgba(4, 36, 19, 0.35)",
-          width: "calc(100% - 48px)",
-          maxWidth: "400px",
+          width: "min(calc(100% - 48px), 400px)",
           justifyContent: "space-around",
         }}
         aria-label="Bottom navigation"
