@@ -1,7 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { NavDropdownGroup, BottomPillNav } from "./NavParts";
 import {
   getBatches,
   getCamps,
@@ -15,23 +15,9 @@ import {
   getVideos,
 } from "@/lib/data";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface NavItem {
-  to: string;
-  label: string;
-  icon: string;
-}
-
-interface NavGroup {
-  label: string;
-  icon: string;
-  items: NavItem[];
-}
-
 // ─── Nav Data ─────────────────────────────────────────────────────────────────
 
-const navGroups: NavGroup[] = [
+const navGroups = [
   {
     label: "About Us",
     icon: "group",
@@ -65,11 +51,7 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-/**
- * Bottom pill nav — sole mobile navigation.
- * 5 primary destinations that cover the top-level user journeys.
- */
-const bottomNavItems: { to: string; label: string; icon: string }[] = [
+const bottomNavItems = [
   { to: "/",        label: "Home",    icon: "home_app_logo"  },
   { to: "/gallery", label: "Gallery", icon: "photo_library"  },
   { to: "/camps",   label: "Camps",   icon: "forest"         },
@@ -77,7 +59,7 @@ const bottomNavItems: { to: string; label: string; icon: string }[] = [
   { to: "/contact", label: "Contact", icon: "mail"           },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -128,7 +110,7 @@ export function Navbar() {
           "/batches":    ba.length  > 1,
           "/highlights": hl.length  > 0,
           "/about":      true,
-          "/support":    true, // always shown — page is always available
+          "/support":    true,
         });
       } catch (err) {
         console.error("Error loading active nav items:", err);
@@ -170,11 +152,7 @@ export function Navbar() {
 
   return (
     <>
-      {/* ══════════════════════════════════════════════════════════════════════
-          TOP HEADER · z-50 · visible on ALL viewports
-          Mobile: brand logo + unit name only
-          Desktop (xl+): full nav groups + Contact button
-      ══════════════════════════════════════════════════════════════════════ */}
+      {/* ── Top Header ──────────────────────────────────────────────────────── */}
       <header
         ref={dropdownRef}
         className={cn(
@@ -186,7 +164,7 @@ export function Navbar() {
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
 
-          {/* ── Brand ──────────────────────────────────────────────────────── */}
+          {/* ── Brand ─────────────────────────────────────────────────────── */}
           <Link
             to="/"
             className="flex items-center gap-2.5 focus-visible:rounded-lg min-w-0"
@@ -203,7 +181,7 @@ export function Navbar() {
                 KHMHSS Valakkulam
               </span>
               <span
-                className="text-[10.5px] font-medium  text-[#727972]"
+                className="text-[10.5px] font-medium text-[#727972]"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 NSS Unit 466
@@ -211,87 +189,20 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* ── Desktop nav groups · xl+ only ──────────────────────────────── */}
+          {/* ── Desktop nav groups · xl+ only ───────────────────────────── */}
           <nav
             className="hidden xl:flex items-center gap-0.5"
             role="navigation"
             aria-label="Main navigation"
           >
             {filteredNavGroups.map((group) => (
-              <div
+              <NavDropdownGroup
                 key={group.label}
-                className="relative"
+                group={group}
+                isOpen={activeDropdown === group.label}
                 onMouseEnter={() => setActiveDropdown(group.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <button
-                  type="button"
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all duration-150",
-                    activeDropdown === group.label
-                      ? "bg-[#1b3a27] text-white"
-                      : "text-[#424843] hover:text-[#042413] hover:bg-[#f0eee9]"
-                  )}
-                  aria-expanded={activeDropdown === group.label}
-                  aria-haspopup="true"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: "15px" }}>
-                    {group.icon}
-                  </span>
-                  {group.label}
-                  <span
-                    className="material-symbols-outlined transition-transform duration-200"
-                    style={{
-                      fontSize: "15px",
-                      transform: activeDropdown === group.label ? "rotate(180deg)" : "rotate(0deg)",
-                    }}
-                  >
-                    expand_more
-                  </span>
-                </button>
-
-                {/* Dropdown panel · z-[60] — always above pill nav */}
-                <AnimatePresence>
-                  {activeDropdown === group.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.14, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute left-0 top-full mt-2 w-52 rounded-lg border overflow-hidden"
-                      style={{
-                        background: "#fbf9f4",
-                        borderColor: "#e4e2dd",
-                        boxShadow: "0 8px 30px rgba(4,36,19,0.12), 0 2px 8px rgba(4,36,19,0.06)",
-                        zIndex: 60,
-                      }}
-                    >
-                      <div className="p-1.5">
-                        {group.items.map((item) => (
-                          <Link
-                            key={item.to}
-                            to={item.to}
-                            className="flex items-center gap-2.5 w-full rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-[#f0eee9] hover:text-[#042413]"
-                            style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
-                            activeProps={{
-                              style: { color: "#042413", background: "#f0eee9", fontWeight: 600 },
-                            }}
-                          >
-                            <span
-                              className="material-symbols-outlined shrink-0"
-                              style={{ fontSize: "16px", color: "#727972" }}
-                            >
-                              {item.icon}
-                            </span>
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              />
             ))}
 
             {/* Support NSS prominent link */}
@@ -309,12 +220,7 @@ export function Navbar() {
             <Link
               to="/contact"
               className="ml-2 px-5 py-2 rounded-full text-sm font-bold transition-all hover:opacity-90 active:scale-95"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                background: "#042413",
-                color: "#ffffff",
-                letterSpacing: "0",
-              }}
+              style={{ fontFamily: "'DM Sans', sans-serif", background: "#042413", color: "#ffffff" }}
               activeProps={{ style: { background: "#1b3a27", color: "#ffffff" } }}
             >
               Contact
@@ -323,72 +229,8 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          MOBILE BOTTOM PILL NAV · z-50 · hidden on xl+
-
-          Redesigned for mobile-first:
-          • Taller pill (h-14) with visible icon + label on each item
-          • Smooth spring active-state background
-          • Active item gets a warm terracotta fill
-          • Labels are 9px — legible without cluttering
-          • will-change: transform → own compositor layer for 60fps
-          • padding-bottom accounts for iPhone home indicator via env()
-      ══════════════════════════════════════════════════════════════════════ */}
-      <nav
-        className="xl:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center px-2 rounded-full"
-        style={{
-          background: "rgba(4, 36, 19, 0.94)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          boxShadow:
-            "0 8px 32px rgba(4,36,19,0.4), 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)",
-          width: "min(calc(100% - 24px), 360px)",
-          height: "60px",
-          justifyContent: "space-around",
-          willChange: "transform",
-          paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        }}
-        aria-label="Bottom navigation"
-      >
-        {filteredBottomNavItems.map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="relative flex flex-col items-center justify-center gap-0.5 h-11 rounded-lg transition-all duration-200"
-            style={{
-              color: "rgba(255,255,255,0.45)",
-              minWidth: "52px",
-              flex: 1,
-            }}
-            activeProps={{
-              style: {
-                background: "rgba(160, 64, 33, 0.85)",
-                color: "#ffffff",
-                borderRadius: "8px",
-              },
-            }}
-            aria-label={item.label}
-          >
-            <span
-              className="material-symbols-outlined leading-none"
-              style={{ fontSize: "20px" }}
-            >
-              {item.icon}
-            </span>
-            <span
-              style={{
-                fontSize: "8.5px",
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 600,
-                letterSpacing: "0",
-                lineHeight: 1,
-              }}
-            >
-              {item.label}
-            </span>
-          </Link>
-        ))}
-      </nav>
+      {/* ── Mobile Bottom Pill Nav ──────────────────────────────────────────── */}
+      <BottomPillNav items={filteredBottomNavItems} />
     </>
   );
 }
