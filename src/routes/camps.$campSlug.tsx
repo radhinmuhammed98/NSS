@@ -76,7 +76,7 @@ function CampPage() {
           {camp.dayWiseActivities.map((d: CampDay, i: number) => (
             <Reveal key={d.dayNumber} delay={i * 0.05}>
               <ClayCard tilt={false} className="flex flex-col gap-4 sm:flex-row">
-                <div className="clay-accent flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl">
+                <div className="clay-accent flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg">
                   <span className="text-[10px] font-bold uppercase">Day</span>
                   <span className="font-display text-2xl font-extrabold leading-none">{d.dayNumber}</span>
                 </div>
@@ -106,7 +106,7 @@ function CampPage() {
         {highlights.length > 0 && (
           <div className="mt-10">
             <h2 className="mb-4 font-display text-xl font-bold">Camp Highlights</h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {highlights.map((h) => <HighlightCard key={h.slug} highlight={h} />)}
             </div>
           </div>

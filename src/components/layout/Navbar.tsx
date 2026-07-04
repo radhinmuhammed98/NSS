@@ -1,7 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import { NSSLogo } from "@/assets/NSSLogo";
 import { cn } from "@/lib/utils";
 import {
   getBatches,
@@ -193,18 +192,18 @@ export function Navbar() {
             className="flex items-center gap-2.5 focus-visible:rounded-lg min-w-0"
             aria-label="NSS KHMHSS — Home"
           >
-            <span className="shrink-0 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center overflow-hidden rounded-xl bg-white p-0.5 shadow-sm ring-1 ring-black/8">
+            <span className="shrink-0 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center overflow-hidden rounded-lg bg-white p-0.5 shadow-sm ring-1 ring-black/8">
               <img src="/khm logo.png" alt="KHMHSS Logo" className="h-full w-full object-contain" />
             </span>
             <span className="flex flex-col leading-tight min-w-0">
               <span
-                className="text-sm font-bold tracking-tight truncate"
+                className="truncate text-sm font-bold tracking-normal"
                 style={{ fontFamily: "'Libre Caslon Text', serif", color: "#042413" }}
               >
                 KHMHSS Valakkulam
               </span>
               <span
-                className="text-[10.5px] font-medium tracking-wide text-[#727972]"
+                className="text-[10.5px] font-medium  text-[#727972]"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
                 NSS Unit 466
@@ -260,7 +259,7 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.14, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute left-0 top-full mt-2 w-52 rounded-2xl border overflow-hidden"
+                      className="absolute left-0 top-full mt-2 w-52 rounded-lg border overflow-hidden"
                       style={{
                         background: "#fbf9f4",
                         borderColor: "#e4e2dd",
@@ -273,7 +272,7 @@ export function Navbar() {
                           <Link
                             key={item.to}
                             to={item.to}
-                            className="flex items-center gap-2.5 w-full rounded-xl px-3 py-2.5 text-sm transition-colors hover:bg-[#f0eee9] hover:text-[#042413]"
+                            className="flex items-center gap-2.5 w-full rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-[#f0eee9] hover:text-[#042413]"
                             style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
                             activeProps={{
                               style: { color: "#042413", background: "#f0eee9", fontWeight: 600 },
@@ -314,7 +313,7 @@ export function Navbar() {
                 fontFamily: "'DM Sans', sans-serif",
                 background: "#042413",
                 color: "#ffffff",
-                letterSpacing: "0.04em",
+                letterSpacing: "0",
               }}
               activeProps={{ style: { background: "#1b3a27", color: "#ffffff" } }}
             >
@@ -336,7 +335,7 @@ export function Navbar() {
           • padding-bottom accounts for iPhone home indicator via env()
       ══════════════════════════════════════════════════════════════════════ */}
       <nav
-        className="xl:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center px-2 rounded-[28px]"
+        className="xl:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center px-2 rounded-full"
         style={{
           background: "rgba(4, 36, 19, 0.94)",
           backdropFilter: "blur(20px)",
@@ -355,7 +354,7 @@ export function Navbar() {
           <Link
             key={item.to}
             to={item.to}
-            className="relative flex flex-col items-center justify-center gap-0.5 h-11 rounded-2xl transition-all duration-200"
+            className="relative flex flex-col items-center justify-center gap-0.5 h-11 rounded-lg transition-all duration-200"
             style={{
               color: "rgba(255,255,255,0.45)",
               minWidth: "52px",
@@ -365,7 +364,7 @@ export function Navbar() {
               style: {
                 background: "rgba(160, 64, 33, 0.85)",
                 color: "#ffffff",
-                borderRadius: "18px",
+                borderRadius: "8px",
               },
             }}
             aria-label={item.label}
@@ -381,7 +380,7 @@ export function Navbar() {
                 fontSize: "8.5px",
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 600,
-                letterSpacing: "0.04em",
+                letterSpacing: "0",
                 lineHeight: 1,
               }}
             >

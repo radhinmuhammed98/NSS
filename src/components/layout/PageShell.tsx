@@ -46,7 +46,7 @@ export function PageHeader({
     <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10 pb-2 pt-10 sm:pt-14">
       {eyebrow && (
         <span
-          className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
+          className="mb-3 inline-flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-bold uppercase "
           style={{
             background: "#1b3a27",
             color: "#c7ebd0",

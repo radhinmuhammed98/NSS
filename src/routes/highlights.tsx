@@ -109,20 +109,20 @@ function Highlights() {
       />
       <Container className="py-8">
         {/* Toolbar row: sort on left, clear-all on right */}
-        <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
             <ArrowUpDown className="h-4 w-4 text-muted-foreground" aria-hidden />
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-bold uppercase  text-muted-foreground">
               Sort
             </span>
-            <div className="flex gap-1" role="group" aria-label="Sort highlights">
+            <div className="flex flex-wrap gap-1" role="group" aria-label="Sort highlights">
               {SORT_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => setSort(opt.value)}
                   aria-pressed={sort === opt.value}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2 ${
+                  className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2 ${
                     sort === opt.value
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "bg-background text-muted-foreground hover:text-foreground"
@@ -149,7 +149,7 @@ function Highlights() {
         <FilterBar groups={groups} active={active} onChange={handleFilter} />
 
         {filtered.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((h, i) => (
               <Reveal key={h.slug} delay={i * 0.06}>
                 <HighlightCard highlight={h} />

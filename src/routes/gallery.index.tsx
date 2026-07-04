@@ -89,7 +89,7 @@ function Gallery() {
         description="Memories preserved album by album."
       />
       <Container className="py-8">
-        <div className="flex items-center justify-between gap-4 mb-2">
+        <div className="mb-3 flex min-h-5 items-center justify-end">
           {hasActive && (
             <button
               type="button"
@@ -104,7 +104,7 @@ function Gallery() {
         <FilterBar groups={groups} active={active} onChange={handleFilter} />
 
         {filtered.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((a, i) => (
               <Reveal key={a.slug} delay={i * 0.06}>
                 <AlbumCard album={a} />

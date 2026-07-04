@@ -41,19 +41,19 @@ function Team() {
       <PageHeader eyebrow="Team" title="Team & Volunteers" description="The people behind the service." />
       <Container className="py-8">
         {hasAnyTeam ? (
-          <div className="space-y-12">
+          <div className="space-y-10 sm:space-y-12">
             {groupedBatches.map(({ batch, members }) => (
               <div key={batch.slug}>
-                <h2 className="mb-6 font-display text-2xl font-bold tracking-tight border-b pb-2 border-border/60">
+                <h2 className="mb-5 border-b border-border/60 pb-2 font-display text-2xl font-bold leading-tight">
                   {batch.title}{" "}
                   <span className="text-muted-foreground font-sans text-sm font-normal">
                     ({batch.yearRange})
                   </span>
                 </h2>
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {members.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
-                      <ClayCard className="h-full text-center">
+                      <ClayCard className="h-full p-4 text-center sm:p-5">
                         {m.photo ? (
                           <img
                             src={m.photo}
@@ -65,7 +65,7 @@ function Team() {
                         ) : (
                           <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
                             <span className="material-symbols-outlined text-3xl">account_circle</span>
-                            <span className="text-[9px] font-bold tracking-wider uppercase opacity-80 mt-1">Photo Awaiting</span>
+                            <span className="text-[9px] font-bold  uppercase opacity-80 mt-1">Photo Awaiting</span>
                           </div>
                         )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>
@@ -77,12 +77,12 @@ function Team() {
                 </div>
                 
                 {batch.slug === "batch-2025-26" && (
-                  <div className="mt-8 p-6 rounded-2xl bg-[#1b3a27]/5 border border-[#1b3a27]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="mt-8 flex flex-col items-start gap-4 rounded-lg border border-[#1b3a27]/10 bg-[#1b3a27]/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                     <div>
                       <h3 className="font-display text-lg font-bold text-[#1b3a27]">50 NSS Volunteers</h3>
                       <p className="text-sm text-muted-foreground mt-1">The complete volunteer list will be updated soon.</p>
                     </div>
-                    <div className="px-4 py-2 rounded-full bg-[#1b3a27] text-white text-xs font-bold font-display uppercase tracking-wider">
+                    <div className="rounded-md bg-[#1b3a27] px-4 py-2 font-display text-xs font-bold uppercase text-white">
                       Active Batch
                     </div>
                   </div>
@@ -92,13 +92,13 @@ function Team() {
 
             {otherMembers.length > 0 && (
               <div>
-                <h2 className="mb-6 font-display text-2xl font-bold tracking-tight border-b pb-2 border-border/60">
+                <h2 className="mb-5 border-b border-border/60 pb-2 font-display text-2xl font-bold leading-tight">
                   Advisors & General Staff
                 </h2>
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {otherMembers.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
-                      <ClayCard className="h-full text-center">
+                      <ClayCard className="h-full p-4 text-center sm:p-5">
                         {m.photo ? (
                           <img
                             src={m.photo}
@@ -110,7 +110,7 @@ function Team() {
                         ) : (
                           <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
                             <span className="material-symbols-outlined text-3xl">account_circle</span>
-                            <span className="text-[9px] font-bold tracking-wider uppercase opacity-80 mt-1">Photo Awaiting</span>
+                            <span className="text-[9px] font-bold  uppercase opacity-80 mt-1">Photo Awaiting</span>
                           </div>
                         )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>

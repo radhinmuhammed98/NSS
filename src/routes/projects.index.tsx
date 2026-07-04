@@ -66,7 +66,7 @@ function Projects() {
       <Container className="py-8">
         <FilterBar groups={groups} active={active} onChange={(k, v) => setActive((s) => ({ ...s, [k]: v }))} />
         {filtered.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.06}>
                 <ProjectCard project={p} />

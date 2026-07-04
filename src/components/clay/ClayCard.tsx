@@ -31,7 +31,7 @@ export function ClayCard({
       whileTap={{ scale: 0.988 }}
       transition={{ type: "spring", stiffness: 280, damping: 22 }}
       className={cn(
-        "clay p-5",
+        "clay min-w-0 overflow-hidden p-5",
         highlighted && "shadow-[var(--clay-shadow-accent)]",
         className
       )}

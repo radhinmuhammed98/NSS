@@ -21,7 +21,7 @@ function Stories() {
       <PageHeader eyebrow="Stories" title="Volunteer Stories" description="Service, in their own words." />
       <Container className="py-8">
         {stories.length ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {stories.map((s, i) => (
               <Reveal key={s.slug} delay={i * 0.06}><StoryCard story={s} /></Reveal>
             ))}

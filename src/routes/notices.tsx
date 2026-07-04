@@ -25,7 +25,7 @@ function Notices() {
             {notices.map((n, i) => (
               <Reveal key={n.slug} delay={i * 0.05}>
                 <ClayCard tilt={false} className="flex items-start gap-4">
-                  <span className="clay-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-xl">
+                  <span className="clay-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-lg">
                     <Bell className="h-5 w-5" />
                   </span>
                   <div>

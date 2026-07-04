@@ -29,7 +29,7 @@ export function SectionHeading({
     >
       <div className="max-w-2xl">
         {eyebrow && (
-          <span className="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+          <span className="mb-2 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-bold uppercase  text-primary">
             {eyebrow}
           </span>
         )}
@@ -37,7 +37,7 @@ export function SectionHeading({
           {title}
         </h2>
         {description && (
-          <p className="mt-3 text-muted-foreground">{description}</p>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">{description}</p>
         )}
       </div>
       {action && <div className="flex w-full shrink-0 sm:w-auto sm:justify-end">{action}</div>}

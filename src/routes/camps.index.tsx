@@ -47,7 +47,7 @@ function Camps() {
       <Container className="py-8">
         <FilterBar groups={groups} active={active} onChange={(k, v) => setActive((s) => ({ ...s, [k]: v }))} />
         {filtered.length ? (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2">
             {filtered.map((c, i) => (
               <Reveal key={c.slug} delay={i * 0.06}><CampCard camp={c} /></Reveal>
             ))}

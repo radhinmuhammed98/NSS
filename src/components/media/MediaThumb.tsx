@@ -43,7 +43,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
   return (
     <>
       {/* Thumbnail card */}
-      <div className="clay overflow-hidden p-0">
+      <div className="clay min-w-0 overflow-hidden p-0">
         <div className="relative aspect-video w-full bg-clay-deep">
           <button
             type="button"
@@ -70,9 +70,9 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             </span>
           </button>
         </div>
-        <div className="p-4">
-          <p className="font-sans font-semibold">{video.title}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{video.description}</p>
+        <div className="p-4 sm:p-5">
+          <p className="font-sans font-semibold leading-tight break-words">{video.title}</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{video.description}</p>
         </div>
       </div>
 
@@ -117,10 +117,10 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             />
 
             {/* Caption bar */}
-            <div className="p-4">
+            <div className="p-4 sm:p-5">
               <p className="font-display font-bold">{video.title}</p>
               {video.description && (
-                <p className="mt-1 text-sm text-muted-foreground">{video.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{video.description}</p>
               )}
             </div>
           </div>

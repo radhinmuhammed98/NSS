@@ -71,7 +71,7 @@ function ProjectPage() {
           <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {project.location}</span>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
             <ClayCard tilt={false}>
               <h2 className="font-display text-xl font-bold">About this project</h2>
@@ -119,7 +119,7 @@ function ProjectPage() {
         {highlights.length > 0 && (
           <div className="mt-10">
             <h2 className="mb-4 font-display text-xl font-bold">Highlights</h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {highlights.map((h) => <HighlightCard key={h.slug} highlight={h} />)}
             </div>
           </div>

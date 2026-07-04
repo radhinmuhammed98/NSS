@@ -23,7 +23,7 @@ function Contact() {
         description={`${s.schoolName} · ${s.location}. We'd love to hear from students, alumni, and the community.`}
       />
       <Container className="py-8">
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2">
           <Reveal>
             <ClayCard tilt={false} className="h-full">
               <h2 className="font-display text-xl font-bold">{s.unitName}</h2>

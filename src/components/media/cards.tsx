@@ -17,7 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link to="/projects/$projectSlug" params={{ projectSlug: project.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
-        <div className="relative overflow-hidden rounded-t-2xl">
+        <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={project.coverImage}
             alt={project.title}
@@ -32,7 +32,7 @@ export function ProjectCard({ project }: { project: Project }) {
             </span>
           )}
         </div>
-        <div className="flex min-w-0 flex-1 flex-col p-5">
+        <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
           <div className="mb-2 flex flex-wrap gap-2">
             <Badge>{project.category}</Badge>
             <Badge variant="outline">{getBatchTitle(project.batchSlug)}</Badge>
@@ -64,16 +64,16 @@ export function BatchCard({ batch }: { batch: Batch }) {
           alt={batch.title}
           loading="lazy"
           decoding="async"
-          className="aspect-[16/9] w-full rounded-t-2xl object-cover"
+          className="aspect-[16/9] w-full rounded-t-lg object-cover"
         />
-        <div className="flex flex-1 flex-col p-5">
-          <div className="mb-2 flex items-center gap-2">
+        <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
+          <div className="mb-2 flex flex-wrap items-center gap-2">
             {/* Year range badge — gold accent because it's a legacy milestone */}
             <Badge variant="accent">{batch.yearRange}</Badge>
             {batch.featured && <Badge>Active</Badge>}
           </div>
-          <h3 className="font-display text-xl font-bold">{batch.title}</h3>
-          <p className="mt-2 flex-1 text-sm text-muted-foreground">
+          <h3 className="font-display text-xl font-bold leading-tight break-words">{batch.title}</h3>
+          <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
             {batch.description}
           </p>
           <div className="mt-4 grid grid-cols-3 gap-2 text-center">
@@ -99,7 +99,7 @@ export function CampCard({ camp }: { camp: Camp }) {
   return (
     <Link to="/camps/$campSlug" params={{ campSlug: camp.slug }}>
       <ClayCard className="flex h-full flex-col p-0">
-        <div className="relative overflow-hidden rounded-t-2xl">
+        <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={camp.coverImage}
             alt={camp.title}
@@ -113,13 +113,13 @@ export function CampCard({ camp }: { camp: Camp }) {
             </span>
           )}
         </div>
-        <div className="flex min-w-0 flex-1 flex-col p-5">
+        <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
           <Badge variant="outline">{camp.theme}</Badge>
           <h3 className="mt-2 font-display text-lg font-bold leading-tight break-words">{camp.title}</h3>
           <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
             {camp.summary}
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
             <span className="flex min-w-0 items-center gap-1">
               <MapPin className="h-3.5 w-3.5" aria-hidden /> {camp.location}
             </span>
@@ -141,12 +141,12 @@ export function HighlightCard({ highlight }: { highlight: Highlight }) {
         alt={highlight.title}
         loading="lazy"
         decoding="async"
-        className="aspect-[16/10] w-full rounded-t-2xl object-cover"
+        className="aspect-[16/10] w-full rounded-t-lg object-cover"
       />
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-5">
         <Badge variant="accent">{highlight.type}</Badge>
-        <h3 className="mt-2 font-display text-lg font-bold">{highlight.title}</h3>
-        <p className="mt-2 flex-1 text-sm text-muted-foreground">
+        <h3 className="mt-2 font-display text-lg font-bold leading-tight break-words">{highlight.title}</h3>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
           {highlight.description}
         </p>
         <p className="mt-3 text-xs text-muted-foreground">
@@ -166,12 +166,12 @@ export function AlbumCard({ album }: { album: GalleryAlbum }) {
           alt={album.title}
           loading="lazy"
           decoding="async"
-          className="aspect-square w-full rounded-t-2xl object-cover"
+          className="aspect-square w-full rounded-t-lg object-cover"
         />
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           <Badge variant="outline">{album.type}</Badge>
-          <h3 className="mt-2 font-display text-lg font-bold">{album.title}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <h3 className="mt-2 font-display text-lg font-bold leading-tight break-words">{album.title}</h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
             {album.images.length} photos · {formatDate(album.date)}
           </p>
         </div>
@@ -196,7 +196,7 @@ export function StoryCard({ story }: { story: VolunteerStory }) {
           decoding="async"
           className="h-11 w-11 rounded-full object-cover"
         />
-        <div>
+        <div className="min-w-0">
           <p className="text-sm font-semibold">{story.name}</p>
           <p className="text-xs text-muted-foreground">
             {getBatchTitle(story.batchSlug)}

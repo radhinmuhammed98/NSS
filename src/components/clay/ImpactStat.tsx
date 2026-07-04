@@ -16,7 +16,7 @@ export function ImpactStat({
       <span className="font-display text-2xl font-extrabold leading-none text-primary sm:text-3xl">
         {value}
       </span>
-      <span className="mt-2 max-w-full text-[11px] font-semibold uppercase leading-tight tracking-wide text-muted-foreground sm:text-xs">
+      <span className="mt-2 max-w-full text-[11px] font-semibold uppercase leading-tight  text-muted-foreground sm:text-xs">
         {label}
       </span>
     </div>

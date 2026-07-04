@@ -96,7 +96,7 @@ function Support() {
           <div className="max-w-2xl">
             {/* Eyebrow */}
             <span
-              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-6"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase  mb-6"
               style={{ background: "rgba(160,64,33,0.25)", color: "#ff9e7a", border: "1px solid rgba(160,64,33,0.4)" }}
             >
               <Heart className="h-3.5 w-3.5" aria-hidden />
@@ -164,7 +164,7 @@ function Support() {
         <Reveal>
           <div className="mb-10 text-center max-w-xl mx-auto">
             <span
-              className="inline-block mb-3 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
+              className="inline-block mb-3 rounded-md px-3 py-1 text-xs font-bold uppercase "
               style={{ background: "#1b3a27", color: "#c7ebd0", fontFamily: "'DM Sans', sans-serif" }}
             >
               Why Support Us
@@ -181,21 +181,21 @@ function Support() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {causes.map((cause, i) => {
             const Icon = cause.icon;
             return (
               <Reveal key={cause.title} delay={i * 0.07}>
                 <div
-                  className="flex flex-col gap-4 p-6 rounded-2xl h-full"
+                  className="flex h-full min-w-0 flex-col gap-4 rounded-lg border border-border/50 p-5 sm:p-6"
                   style={{
                     background: "#f5f3ee",
-                    boxShadow: "6px 6px 18px rgba(27,58,39,0.08), -4px -4px 14px rgba(255,255,255,0.9)",
+                    boxShadow: "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
                   }}
                 >
                   {/* Icon bubble */}
                   <span
-                    className="inline-flex items-center justify-center w-11 h-11 rounded-xl"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-lg"
                     style={{ background: cause.color + "15" }}
                   >
                     <Icon className="h-5 w-5" style={{ color: cause.color }} aria-hidden />
@@ -232,7 +232,7 @@ function Support() {
           <Reveal>
             <div className="mb-10 text-center max-w-xl mx-auto">
               <span
-                className="inline-block mb-3 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
+                className="inline-block mb-3 rounded-md px-3 py-1 text-xs font-bold uppercase "
                 style={{ background: "#a04021", color: "#ffffff", fontFamily: "'DM Sans', sans-serif" }}
               >
                 Donate · സംഭാവന
@@ -247,13 +247,13 @@ function Support() {
           </Reveal>
 
           {hasDonationDetails ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {/* UPI Card */}
               {upiId && (
                 <Reveal>
                   <ClayCard tilt={false} className="flex flex-col gap-4 h-full">
                     <span
-                      className="inline-flex items-center justify-center w-12 h-12 rounded-2xl"
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-lg"
                       style={{ background: "#042413" }}
                     >
                       <Phone className="h-5 w-5 text-white" aria-hidden />
@@ -265,7 +265,7 @@ function Support() {
                         Send directly to our registered UPI ID:
                       </p>
                       <p
-                        className="mt-3 font-mono text-base font-bold rounded-xl px-4 py-3 select-all"
+                        className="mt-3 select-all rounded-lg px-4 py-3 font-mono text-base font-bold break-all"
                         style={{ background: "#f0eee9", color: "#042413" }}
                       >
                         {upiId}
@@ -280,7 +280,7 @@ function Support() {
                 <Reveal delay={0.08}>
                   <ClayCard tilt={false} className="flex flex-col gap-4 h-full">
                     <span
-                      className="inline-flex items-center justify-center w-12 h-12 rounded-2xl"
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-lg"
                       style={{ background: "#1b3a27" }}
                     >
                       <Landmark className="h-5 w-5 text-white" aria-hidden />
@@ -312,7 +312,7 @@ function Support() {
                 <Reveal delay={0.16}>
                   <ClayCard tilt={false} className="flex flex-col gap-4 h-full items-center text-center">
                     <span
-                      className="inline-flex items-center justify-center w-12 h-12 rounded-2xl"
+                      className="inline-flex h-12 w-12 items-center justify-center rounded-lg"
                       style={{ background: "#a04021" }}
                     >
                       <QrCode className="h-5 w-5 text-white" aria-hidden />
@@ -324,7 +324,7 @@ function Support() {
                       <img
                         src={qrImageUrl}
                         alt="NSS donation QR code"
-                        className="mt-4 mx-auto w-48 h-48 rounded-xl object-contain"
+                        className="mx-auto mt-4 h-48 w-48 rounded-lg object-contain"
                         style={{ background: "#ffffff", padding: "8px" }}
                       />
                     </div>
@@ -336,14 +336,14 @@ function Support() {
             /* Graceful empty state — no dummy data ever shown */
             <Reveal>
               <div
-                className="max-w-lg mx-auto flex flex-col items-center gap-4 text-center p-10 rounded-2xl"
+                className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg border border-border/50 p-6 text-center sm:p-8 lg:p-10"
                 style={{
                   background: "#fbf9f4",
-                  boxShadow: "6px 6px 18px rgba(27,58,39,0.08), -4px -4px 14px rgba(255,255,255,0.9)",
+                  boxShadow: "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
                 }}
               >
                 <span
-                  className="flex items-center justify-center w-14 h-14 rounded-2xl"
+                  className="flex h-14 w-14 items-center justify-center rounded-lg"
                   style={{ background: "#1b3a27" }}
                 >
                   <Heart className="h-6 w-6 text-white" aria-hidden />
@@ -374,14 +374,14 @@ function Support() {
       <Container className="py-16">
         <Reveal>
           <div
-            className="flex flex-col sm:flex-row items-start gap-6 p-8 rounded-2xl"
+            className="flex flex-col items-start gap-5 rounded-lg border border-border/50 p-5 sm:flex-row sm:p-6 lg:p-8"
             style={{
               background: "#f5f3ee",
-              boxShadow: "6px 6px 18px rgba(27,58,39,0.08), -4px -4px 14px rgba(255,255,255,0.9)",
+              boxShadow: "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
             }}
           >
             <span
-              className="shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl"
+              className="shrink-0 flex h-14 w-14 items-center justify-center rounded-lg"
               style={{ background: "#042413" }}
             >
               <Shield className="h-6 w-6 text-white" aria-hidden />

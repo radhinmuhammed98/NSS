@@ -146,7 +146,7 @@ function BatchPage() {
               key={t}
               type="button"
               onClick={() => setTab(t)}
-              className={`shrink-0 rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
+              className={`shrink-0 rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
                 tab === t
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -189,7 +189,7 @@ function BatchPage() {
 
           {tab === "Projects" &&
             (projects.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((p) => (
                   <ProjectCard key={p.slug} project={p} />
                 ))}
@@ -200,7 +200,7 @@ function BatchPage() {
 
           {tab === "Camps" &&
             (camps.length ? (
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {camps.map((c) => (
                   <CampCard key={c.slug} camp={c} />
                 ))}
@@ -211,7 +211,7 @@ function BatchPage() {
 
           {tab === "Highlights" &&
             (highlights.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {highlights.map((h) => (
                   <HighlightCard key={h.slug} highlight={h} />
                 ))}
@@ -222,7 +222,7 @@ function BatchPage() {
 
           {tab === "Gallery" &&
             (albums.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {albums.map((a) => (
                   <AlbumCard key={a.slug} album={a} />
                 ))}
@@ -233,7 +233,7 @@ function BatchPage() {
 
           {tab === "Videos" &&
             (videos.length ? (
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {videos.map((v) => (
                   <MediaThumb key={v.slug} video={v} />
                 ))}
@@ -260,7 +260,7 @@ function BatchPage() {
 
           {tab === "Stories" &&
             (stories.length ? (
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {stories.map((st) => (
                   <StoryCard key={st.slug} story={st} />
                 ))}
@@ -271,7 +271,7 @@ function BatchPage() {
 
           {tab === "Team" &&
             (team.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {team.map((m) => (
                   <ClayCard key={m.slug} className="text-center">
                     <img

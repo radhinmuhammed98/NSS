@@ -21,7 +21,7 @@ const styles: Record<Variant, string> = {
 };
 
 const base =
-  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-center text-sm font-semibold leading-tight transition-shadow focus-visible:outline-offset-4";
+  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-center text-sm font-semibold leading-tight transition-shadow focus-visible:outline-offset-4";
 
 function wrapperClass(className?: string) {
   return cn(

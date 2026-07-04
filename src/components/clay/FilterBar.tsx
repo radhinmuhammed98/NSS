@@ -27,7 +27,7 @@ export function FilterBar({
         <div key={group.key} className="flex flex-wrap items-center gap-2">
           <span
             id={`filter-label-${group.key}`}
-            className="mr-1 text-xs font-bold uppercase tracking-wider text-muted-foreground"
+            className="mr-1 text-xs font-bold uppercase  text-muted-foreground"
           >
             {group.label}
           </span>
@@ -41,7 +41,7 @@ export function FilterBar({
                   onClick={() => onChange(group.key, opt.value)}
                   aria-pressed={isActive}
                   className={cn(
-                    "rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2",
+                    "rounded-md px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : "bg-background text-muted-foreground hover:text-foreground hover:bg-surface"

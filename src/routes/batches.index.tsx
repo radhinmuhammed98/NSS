@@ -27,7 +27,7 @@ function Batches() {
         {batches.length === 0 ? (
           <EmptyState message="No batches added yet." />
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {batches.map((b, i) => (
               <Reveal key={b.slug} delay={i * 0.08}>
                 <BatchCard batch={b} />

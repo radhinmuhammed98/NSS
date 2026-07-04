@@ -7,7 +7,7 @@ export function Footer() {
 
   return (
     <footer
-      className="mt-20 px-6 md:px-10 pb-24 md:pb-8"
+      className="mt-16 px-4 pb-24 sm:px-6 md:px-10 md:pb-8"
       aria-label="Site footer"
       style={{ background: "#f5f3ee" }}
     >
@@ -22,13 +22,13 @@ export function Footer() {
       />
 
       <div
-        className="max-w-7xl mx-auto rounded-2xl p-8"
+        className="mx-auto max-w-7xl rounded-lg p-5 sm:p-6 lg:p-8"
         style={{
           background: "#fbf9f4",
-          boxShadow: "8px 8px 22px rgba(27, 58, 39, 0.10), -6px -6px 18px rgba(255,255,255,0.85)",
+          boxShadow: "0 14px 34px rgba(27, 58, 39, 0.09), 0 1px 0 rgba(255,255,255,0.70)",
         }}
       >
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
           {/* Brand block */}
           <div className="lg:col-span-2">
             <Link
@@ -36,7 +36,7 @@ export function Footer() {
               className="inline-flex items-center gap-3 focus-visible:rounded-lg"
               aria-label="NSS Digital Legacy — Home"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 p-1 shadow-sm ring-1" style={{ "--tw-ring-color": "#c2c8c1" } as React.CSSProperties}>
+              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/90 p-1 shadow-sm ring-1" style={{ "--tw-ring-color": "#c2c8c1" } as React.CSSProperties}>
                 <NSSLogo height={40} width={40} decorative />
               </span>
               <div className="leading-tight">
@@ -103,7 +103,7 @@ export function Footer() {
           {/* Contact column */}
           <div>
             <p
-              className="mb-3 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5"
+              className="mb-3 text-xs font-bold uppercase  flex items-center gap-1.5"
               style={{ fontFamily: "'DM Sans', sans-serif", color: "#727972" }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>location_on</span>
@@ -143,7 +143,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="mt-8 pt-5 flex flex-col items-center gap-2 text-center text-xs sm:flex-row sm:justify-between"
+          className="mt-8 flex flex-col items-center gap-2 border-t border-border/70 pt-5 text-center text-xs sm:flex-row sm:justify-between"
           style={{
             borderTop: "1px solid #c2c8c1",
             fontFamily: "'DM Sans', sans-serif",
@@ -175,7 +175,7 @@ function FooterColumn({
   return (
     <div>
       <p
-        className="mb-3 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5"
+        className="mb-3 text-xs font-bold uppercase  flex items-center gap-1.5"
         style={{ fontFamily: "'DM Sans', sans-serif", color: "#727972" }}
       >
         <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>

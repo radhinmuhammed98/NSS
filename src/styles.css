@@ -11,8 +11,8 @@
   --radius-sm: 0.125rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.5rem;
   --radius-full: 9999px;
 
   /* Typography — Libre Caslon Text for editorial, DM Sans for UI */
@@ -158,17 +158,17 @@
 
   /* Clay shadows — warm earthy tones */
   --clay-shadow:
-    8px 8px 22px rgba(27, 58, 39, 0.10),
-    -6px -6px 18px rgba(255, 255, 255, 0.85);
+    0 14px 34px rgba(27, 58, 39, 0.09),
+    0 1px 0 rgba(255, 255, 255, 0.70);
   --clay-shadow-sm:
-    4px 4px 12px rgba(27, 58, 39, 0.09),
-    -4px -4px 10px rgba(255, 255, 255, 0.80);
+    0 8px 22px rgba(27, 58, 39, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.70);
   --clay-inset:
     inset 4px 4px 10px rgba(27, 58, 39, 0.09),
     inset -4px -4px 10px rgba(255, 255, 255, 0.75);
   --clay-shadow-accent:
-    8px 8px 22px rgba(160, 64, 33, 0.14),
-    -6px -6px 16px rgba(255, 255, 255, 0.75);
+    0 12px 28px rgba(160, 64, 33, 0.13),
+    0 1px 0 rgba(255, 255, 255, 0.66);
 }
 
 /* ─── Dark mode — deep charcoal earth ──────────────────────────────────────── */
@@ -287,7 +287,7 @@
   h3 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 
   h4,
@@ -349,12 +349,14 @@
 @utility clay {
   background-color: var(--clay);
   box-shadow: var(--clay-shadow);
+  border: 1px solid color-mix(in srgb, var(--border) 45%, transparent);
   border-radius: var(--radius-2xl);
 }
 
 @utility clay-sm {
   background-color: var(--clay);
   box-shadow: var(--clay-shadow-sm);
+  border: 1px solid color-mix(in srgb, var(--border) 42%, transparent);
   border-radius: var(--radius-xl);
 }
 

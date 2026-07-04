@@ -36,7 +36,7 @@ function About() {
           </ClayCard>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2">
           <Reveal>
             <ClayCard className="h-full">
               <Target className="h-8 w-8 text-primary" />
@@ -74,27 +74,27 @@ function About() {
             <h2 className="mt-3 font-display text-xl font-bold">Official Unit Profile</h2>
             <dl className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm">
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">School Name</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">School Name</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">{s.schoolName}</dd>
               </div>
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">NSS Unit</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">NSS Unit</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">{s.unitName}</dd>
               </div>
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Location</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">Location</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">{s.location}</dd>
               </div>
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Principal</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">Principal</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">Asif PA</dd>
               </div>
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Programme Officer</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">Programme Officer</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">Dr. Broose KV</dd>
               </div>
               <div className="clay-sm p-4">
-                <dt className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Volunteer Strength</dt>
+                <dt className="text-xs text-muted-foreground uppercase font-bold ">Volunteer Strength</dt>
                 <dd className="font-semibold text-base mt-1 text-[#1b3a27]">50 Volunteers</dd>
               </div>
             </dl>
