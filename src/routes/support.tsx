@@ -8,7 +8,7 @@ import {
   DonationMethods,
   TransparencyBlock,
   DonationEnquiryCTA,
-} from "./SupportSections";
+} from "./-SupportSections";
 
 // ─── Route ────────────────────────────────────────────────────────────────────
 
