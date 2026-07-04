@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideosRouteImport } from './routes/videos'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as NoticesRouteImport } from './routes/notices'
@@ -31,6 +32,11 @@ import { Route as BatchesBatchSlugRouteImport } from './routes/batches.$batchSlu
 const VideosRoute = VideosRouteImport.update({
   id: '/videos',
   path: '/videos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamRoute = TeamRouteImport.update({
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/notices': typeof NoticesRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
   '/batches/$batchSlug': typeof BatchesBatchSlugRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/notices': typeof NoticesRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
   '/batches/$batchSlug': typeof BatchesBatchSlugRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/notices': typeof NoticesRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
+  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
   '/batches/$batchSlug': typeof BatchesBatchSlugRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/notices'
     | '/reports'
     | '/stories'
+    | '/support'
     | '/team'
     | '/videos'
     | '/batches/$batchSlug'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/notices'
     | '/reports'
     | '/stories'
+    | '/support'
     | '/team'
     | '/videos'
     | '/batches/$batchSlug'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/notices'
     | '/reports'
     | '/stories'
+    | '/support'
     | '/team'
     | '/videos'
     | '/batches/$batchSlug'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   NoticesRoute: typeof NoticesRoute
   ReportsRoute: typeof ReportsRoute
   StoriesRoute: typeof StoriesRoute
+  SupportRoute: typeof SupportRoute
   TeamRoute: typeof TeamRoute
   VideosRoute: typeof VideosRoute
   BatchesBatchSlugRoute: typeof BatchesBatchSlugRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/stories'
       fullPath: '/stories'
       preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -404,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   NoticesRoute: NoticesRoute,
   ReportsRoute: ReportsRoute,
   StoriesRoute: StoriesRoute,
+  SupportRoute: SupportRoute,
   TeamRoute: TeamRoute,
   VideosRoute: VideosRoute,
   BatchesBatchSlugRoute: BatchesBatchSlugRoute,

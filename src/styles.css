@@ -277,6 +277,8 @@
     -moz-osx-font-smoothing: grayscale;
     /* Mirror the html overflow rule — ensures absolutely no horizontal scroll */
     overflow-x: hidden;
+    /* Safe area for devices with notches/home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   /* Editorial headings — Libre Caslon Text */

@@ -79,11 +79,12 @@ export function Footer() {
             title="About Us"
             icon="group"
             links={[
-              { to: "/about", label: "About Page" },
-              { to: "/journey", label: "Our Journey" },
-              { to: "/team", label: "Our Team" },
+              { to: "/about",   label: "About Page"       },
+              { to: "/journey", label: "Our Journey"       },
+              { to: "/team",    label: "Our Team"          },
               { to: "/stories", label: "Volunteer Stories" },
-              { to: "/notices", label: "Notices" },
+              { to: "/notices", label: "Notices"           },
+              { to: "/support", label: "Support NSS"       },
             ]}
           />
 
