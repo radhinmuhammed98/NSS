@@ -3,7 +3,6 @@ import { useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { CampCard } from "@/components/media";
-
 import { getBatches, getCamps } from "@/lib/data";
 import type { Camp, Batch } from "@/types";
 
@@ -44,10 +43,10 @@ function Camps() {
   return (
     <PageShell>
       <PageHeader eyebrow="Camps" title="NSS Camps" description="Each camp is a complete documentary-style archive of a week of service." />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         <FilterBar groups={groups} active={active} onChange={(k, v) => setActive((s) => ({ ...s, [k]: v }))} />
         {filtered.length ? (
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2">
             {filtered.map((c, i) => (
               <Reveal key={c.slug} delay={i * 0.06}><CampCard camp={c} /></Reveal>
             ))}

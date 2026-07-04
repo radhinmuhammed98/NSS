@@ -19,9 +19,9 @@ function Videos() {
   return (
     <PageShell>
       <PageHeader eyebrow="Videos" title="Video Clips Archive" description="Short clips — click to play. Organized by project, camp, and batch." />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {videos.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
             {videos.map((v, i) => (
               <Reveal key={v.slug} delay={i * 0.06}><MediaThumb video={v} /></Reveal>
             ))}

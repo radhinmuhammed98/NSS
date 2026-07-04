@@ -17,9 +17,9 @@ export const Route = createFileRoute("/camps/$campSlug")({
 
   notFoundComponent: () => (
     <PageShell>
-      <Container className="py-20 text-center">
-        <h1 className="font-display text-3xl font-extrabold">Camp not found</h1>
-        <Link to="/camps" className="mt-4 inline-block text-primary">← Back to camps</Link>
+      <Container className="nss-py-20 nss-text-center">
+        <h1 className="nss-font-display nss-text-3xl nss-font-extrabold">Camp not found</h1>
+        <Link to="/camps" style={{ display: "inline-block", marginTop: "1rem", color: "var(--primary)" }}>← Back to camps</Link>
       </Container>
     </PageShell>
   ),
@@ -33,16 +33,16 @@ function CampPage() {
   };
   return (
     <PageShell>
-      <section className="px-3 pt-4">
-        <Container className="px-0">
+      <section className="nss-px-3 nss-pt-4">
+        <Container className="nss-px-0">
           <Reveal>
-            <div className="clay overflow-hidden p-0">
-              <div className="relative">
-                <img src={camp.coverImage} alt={camp.title} width={1280} height={549} fetchPriority="high" decoding="async" className="aspect-[21/9] w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
-                <div className="absolute bottom-0 p-6 text-background sm:p-8">
+            <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
+              <div style={{ position: "relative" }}>
+                <img src={camp.coverImage} alt={camp.title} width={1280} height={549} fetchPriority="high" decoding="async" style={{ aspectRatio: "21/9", width: "100%", objectFit: "cover" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(27, 28, 25, 0.7) 0%, transparent 100%)" }} />
+                <div style={{ position: "absolute", bottom: 0, padding: "1.5rem", color: "#ffffff" }}>
                   <Badge variant="accent">{camp.theme}</Badge>
-                  <h1 className="mt-2 font-display text-3xl font-extrabold text-balance sm:text-4xl">{camp.title}</h1>
+                  <h1 className="nss-mt-2 nss-font-display nss-text-3xl nss-font-extrabold nss-text-balance nss-sm-text-4xl" style={{ color: "#ffffff" }}>{camp.title}</h1>
                 </div>
               </div>
             </div>
@@ -50,50 +50,50 @@ function CampPage() {
         </Container>
       </section>
 
-      <Container className="py-8">
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {camp.location}</span>
-          <span className="flex items-center gap-1"><Calendar className="h-4 w-4" /> {formatDate(camp.startDate)} – {formatDate(camp.endDate)}</span>
-          <span className="flex items-center gap-1"><Users className="h-4 w-4" /> {camp.volunteerCount} volunteers</span>
+      <Container className="nss-py-8">
+        <div className="nss-flex nss-flex-wrap nss-gap-4 nss-text-sm nss-text-muted">
+          <span className="nss-flex nss-items-center nss-gap-1"><MapPin style={{ height: "1rem", width: "1rem" }} /> {camp.location}</span>
+          <span className="nss-flex nss-items-center nss-gap-1"><Calendar style={{ height: "1rem", width: "1rem" }} /> {formatDate(camp.startDate)} – {formatDate(camp.endDate)}</span>
+          <span className="nss-flex nss-items-center nss-gap-1"><Users style={{ height: "1rem", width: "1rem" }} /> {camp.volunteerCount} volunteers</span>
           <span>· {getBatchTitle(camp.batchSlug)}</span>
         </div>
 
-        <ClayCard tilt={false} className="mt-6">
-          <h2 className="font-display text-xl font-bold">Overview</h2>
-          <p className="mt-3 text-muted-foreground">{camp.description}</p>
-          <p className="mt-3 text-sm"><span className="font-semibold">Programme Officer:</span> {camp.programmeOfficer}</p>
-          <div className="mt-2 flex flex-wrap gap-2">
+        <ClayCard tilt={false} className="nss-mt-6 nss-p-4 nss-sm-p-6">
+          <h2 className="nss-font-display nss-text-xl nss-font-bold">Overview</h2>
+          <p className="nss-mt-3 nss-text-muted">{camp.description}</p>
+          <p className="nss-mt-3 nss-text-sm"><span className="nss-font-semibold">Programme Officer:</span> {camp.programmeOfficer}</p>
+          <div className="nss-mt-2 nss-flex nss-flex-wrap nss-gap-2">
             {camp.campLeaders.map((l: string) => <Badge key={l}>{l}</Badge>)}
           </div>
         </ClayCard>
 
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="nss-mt-6 nss-grid nss-grid-cols-2 nss-gap-4 nss-sm-grid-cols-3">
           {camp.impactMetrics.map((m: ImpactMetric) => <ImpactStat key={m.label} label={m.label} value={m.value} />)}
         </div>
 
-        <h2 className="mb-4 mt-10 font-display text-2xl font-extrabold">Day-wise Timeline</h2>
-        <div className="space-y-5">
+        <h2 className="nss-mb-4 nss-mt-10 nss-font-display nss-text-2xl nss-font-extrabold">Day-wise Timeline</h2>
+        <div className="nss-flex nss-flex-col nss-gap-5">
           {camp.dayWiseActivities.map((d: CampDay, i: number) => (
             <Reveal key={d.dayNumber} delay={i * 0.05}>
-              <ClayCard tilt={false} className="flex flex-col gap-4 sm:flex-row">
-                <div className="clay-accent flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg">
-                  <span className="text-[10px] font-bold uppercase">Day</span>
-                  <span className="font-display text-2xl font-extrabold leading-none">{d.dayNumber}</span>
+              <ClayCard tilt={false} className="nss-flex nss-flex-col nss-gap-4 nss-sm-flex-row">
+                <div className="nss-badge-accent nss-flex nss-shrink-0 nss-flex-col nss-items-center nss-justify-center" style={{ height: "4rem", width: "4rem", borderRadius: "var(--radius-lg)" }}>
+                  <span className="nss-text-xs nss-font-bold nss-uppercase" style={{ fontSize: "10px" }}>Day</span>
+                  <span className="nss-font-display nss-text-2xl nss-font-extrabold nss-leading-none">{d.dayNumber}</span>
                 </div>
-                <div className="flex-1">
-                  <p className="text-xs text-muted-foreground">{formatDate(d.date)}</p>
-                  <h3 className="font-display text-lg font-bold">{d.title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{d.description}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <div className="nss-flex-1">
+                  <p className="nss-text-xs nss-text-muted">{formatDate(d.date)}</p>
+                  <h3 className="nss-font-display nss-text-lg nss-font-bold">{d.title}</h3>
+                  <p className="nss-mt-1 nss-text-sm nss-text-muted">{d.description}</p>
+                  <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
                     {d.activities.map((a) => <Badge key={a} variant="outline">{a}</Badge>)}
                   </div>
                   {d.guests && d.guests.length > 0 && (
-                    <p className="mt-2 text-xs text-muted-foreground">Guests: {d.guests.join(", ")}</p>
+                    <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.join(", ")}</p>
                   )}
                   {d.images && d.images.length > 0 && (
-                    <div className="mt-3 flex gap-3">
+                    <div className="nss-mt-3 nss-flex nss-gap-3" style={{ flexWrap: "wrap" }}>
                       {d.images.map((im: ImageAsset) => (
-                        <img key={im.id} src={im.src} alt={im.alt} loading="lazy" decoding="async" className="clay-sm h-20 w-28 object-cover p-0" />
+                        <img key={im.id} src={im.src} alt={im.alt} loading="lazy" decoding="async" className="nss-card nss-p-0" style={{ height: "5rem", width: "7rem", objectFit: "cover" }} />
                       ))}
                     </div>
                   )}
@@ -104,9 +104,9 @@ function CampPage() {
         </div>
 
         {highlights.length > 0 && (
-          <div className="mt-10">
-            <h2 className="mb-4 font-display text-xl font-bold">Camp Highlights</h2>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-mt-10">
+            <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Camp Highlights</h2>
+            <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
               {highlights.map((h) => <HighlightCard key={h.slug} highlight={h} />)}
             </div>
           </div>

@@ -161,28 +161,41 @@ export function Navbar() {
             ? "bg-[#fbf9f4]/97 backdrop-blur-lg shadow-[0_1px_0_0_rgba(194,200,193,0.6)]"
             : "bg-[#fbf9f4]/90 backdrop-blur-md"
         )}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "4rem",
+          display: "flex",
+          alignItems: "center",
+          borderBottom: scrolled ? "1px solid var(--border)" : "none",
+          backgroundColor: scrolled ? "var(--background)" : "rgba(251, 249, 244, 0.90)",
+          zIndex: 50
+        }}
       >
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <div className="nss-container nss-flex nss-items-center nss-justify-between" style={{ height: "100%" }}>
 
           {/* ── Brand ─────────────────────────────────────────────────────── */}
           <Link
             to="/"
-            className="flex items-center gap-2.5 focus-visible:rounded-lg min-w-0"
+            className="nss-flex nss-items-center"
+            style={{ gap: "0.625rem", minWidth: 0 }}
             aria-label="NSS KHMHSS — Home"
           >
-            <span className="shrink-0 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center overflow-hidden rounded-lg bg-white p-0.5 shadow-sm ring-1 ring-black/8">
-              <img src="/khm logo.png" alt="KHMHSS Logo" className="h-full w-full object-contain" />
+            <span className="nss-shrink-0 nss-flex nss-items-center nss-justify-center" style={{ height: "2.75rem", width: "2.75rem", overflow: "hidden", borderRadius: "var(--radius-lg)", backgroundColor: "#ffffff", padding: "2px", border: "1px solid rgba(27, 28, 25, 0.08)" }}>
+              <img src="/khm logo.png" alt="KHMHSS Logo" style={{ height: "100%", width: "100%", objectFit: "contain" }} />
             </span>
-            <span className="flex flex-col leading-tight min-w-0">
+            <span className="nss-flex nss-flex-col nss-leading-none" style={{ minWidth: 0 }}>
               <span
-                className="truncate text-sm font-bold tracking-normal"
-                style={{ fontFamily: "'Libre Caslon Text', serif", color: "#042413" }}
+                className="nss-truncate nss-text-sm nss-font-bold"
+                style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
               >
                 KHMHSS Valakkulam
               </span>
               <span
-                className="text-[10.5px] font-medium text-[#727972]"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}
+                className="nss-text-xs nss-font-semibold nss-mt-1"
+                style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", fontSize: "10px" }}
               >
                 NSS Unit 466
               </span>
@@ -191,7 +204,7 @@ export function Navbar() {
 
           {/* ── Desktop nav groups · xl+ only ───────────────────────────── */}
           <nav
-            className="hidden xl:flex items-center gap-0.5"
+            className="nss-xl-flex nss-items-center nss-gap-1 nss-xl-only"
             role="navigation"
             aria-label="Main navigation"
           >
@@ -208,9 +221,8 @@ export function Navbar() {
             {/* Support NSS prominent link */}
             <Link
               to="/support"
-              className="ml-1 flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all duration-150 text-[#a04021] hover:bg-[#a04021]/8"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
-              activeProps={{ style: { background: "#a04021", color: "#ffffff" } }}
+              style={{ fontFamily: "var(--font-sans)", color: "var(--secondary)", display: "inline-flex", alignItems: "center", gap: "6px", padding: "0.5rem 0.75rem", borderRadius: "9999px" }}
+              activeProps={{ style: { background: "var(--secondary)", color: "#ffffff" } }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: "15px" }}>favorite</span>
               Support
@@ -219,9 +231,8 @@ export function Navbar() {
             {/* Contact CTA */}
             <Link
               to="/contact"
-              className="ml-2 px-5 py-2 rounded-full text-sm font-bold transition-all hover:opacity-90 active:scale-95"
-              style={{ fontFamily: "'DM Sans', sans-serif", background: "#042413", color: "#ffffff" }}
-              activeProps={{ style: { background: "#1b3a27", color: "#ffffff" } }}
+              style={{ fontFamily: "var(--font-sans)", background: "var(--primary)", color: "#ffffff", padding: "0.5rem 1.25rem", borderRadius: "9999px", fontWeight: "bold" }}
+              activeProps={{ style: { background: "var(--primary-container)", color: "#ffffff" } }}
             >
               Contact
             </Link>

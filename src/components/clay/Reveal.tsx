@@ -1,18 +1,20 @@
-import type { ReactNode } from "react";
+import type { ReactNode, CSSProperties } from "react";
 
 /**
- * Reveal — animations disabled as per user request to avoid UI bugs and hidden content.
+ * Reveal — wrapper that supports className and style forwarding (Vanilla CSS implementation)
  */
 export function Reveal({
   children,
   className,
+  style,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       {children}
     </div>
   );

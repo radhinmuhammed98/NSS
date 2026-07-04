@@ -2,10 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * SectionHeading — editorial section title with optional eyebrow and action
- *
- * Eyebrow pill uses NSS crimson (brand identity category label).
- * Title uses Playfair Display (font-display) for editorial headings.
+ * SectionHeading — editorial section title with optional eyebrow and action (Vanilla CSS implementation)
  */
 export function SectionHeading({
   eyebrow,
@@ -23,24 +20,24 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between",
+        "nss-mb-6 nss-flex nss-flex-col nss-gap-4 nss-sm-py-2 nss-sm-flex-row nss-sm-items-center nss-sm-justify-between",
         className
       )}
     >
-      <div className="max-w-2xl">
+      <div style={{ maxWidth: "42rem" }}>
         {eyebrow && (
-          <span className="mb-2 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-bold uppercase  text-primary">
+          <span className="nss-badge nss-badge-default nss-mb-2">
             {eyebrow}
           </span>
         )}
-        <h2 className="text-3xl font-extrabold text-balance sm:text-4xl">
+        <h2 className="nss-text-3xl nss-font-extrabold nss-text-balance nss-sm-text-4xl">
           {title}
         </h2>
         {description && (
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">{description}</p>
+          <p className="nss-mt-3 nss-text-sm nss-leading-relaxed nss-text-muted">{description}</p>
         )}
       </div>
-      {action && <div className="flex w-full shrink-0 sm:w-auto sm:justify-end">{action}</div>}
+      {action && <div className="nss-flex nss-shrink-0 nss-sm-w-auto">{action}</div>}
     </div>
   );
 }

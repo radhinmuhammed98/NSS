@@ -19,23 +19,23 @@ function Notices() {
   return (
     <PageShell>
       <PageHeader eyebrow="Notices" title="Notices & Updates" description="Latest announcements from the NSS unit." />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {notices.length ? (
-          <div className="space-y-4">
+          <div className="nss-flex nss-flex-col nss-gap-4">
             {notices.map((n, i) => (
               <Reveal key={n.slug} delay={i * 0.05}>
-                <ClayCard tilt={false} className="flex items-start gap-4">
-                  <span className="clay-accent flex h-11 w-11 shrink-0 items-center justify-center rounded-lg">
-                    <Bell className="h-5 w-5" />
+                <ClayCard tilt={false} className="nss-flex nss-items-start nss-gap-4 nss-p-4 nss-sm-p-6">
+                  <span className="nss-badge-accent nss-flex nss-shrink-0 nss-items-center nss-justify-center" style={{ height: "2.75rem", width: "2.75rem", borderRadius: "var(--radius-lg)" }}>
+                    <Bell style={{ height: "1.25rem", width: "1.25rem" }} />
                   </span>
                   <div>
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="nss-flex nss-flex-wrap nss-items-center nss-gap-2">
                       <Badge variant="outline">{n.type}</Badge>
                       {n.important && <Badge variant="accent">Important</Badge>}
-                      <span className="text-xs text-muted-foreground">{formatDate(n.date)}</span>
+                      <span className="nss-text-xs nss-text-muted">{formatDate(n.date)}</span>
                     </div>
-                    <h3 className="mt-2 font-display font-bold">{n.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{n.description}</p>
+                    <h3 className="nss-mt-2 nss-font-display nss-font-bold">{n.title}</h3>
+                    <p className="nss-mt-1 nss-text-sm nss-text-muted">{n.description}</p>
                   </div>
                 </ClayCard>
               </Reveal>

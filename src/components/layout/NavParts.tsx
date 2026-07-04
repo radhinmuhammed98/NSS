@@ -16,8 +16,7 @@ interface NavGroup {
 // ─── NavDropdownGroup ─────────────────────────────────────────────────────────
 
 /**
- * A single desktop dropdown group (label + animated panel with links).
- * Replaced framer-motion with clean CSS visibility and opacity transitions.
+ * A single desktop dropdown group (label + animated panel with links) (Vanilla CSS implementation)
  */
 export function NavDropdownGroup({
   group,
@@ -32,31 +31,39 @@ export function NavDropdownGroup({
 }) {
   return (
     <div
-      className="relative"
+      style={{ position: "relative" }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <button
         type="button"
         className={cn(
-          "flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all duration-150 cursor-pointer select-none",
-          isOpen
-            ? "bg-[#1b3a27] text-white"
-            : "text-[#424843] hover:text-[#042413] hover:bg-[#f0eee9]"
+          "nss-flex nss-items-center nss-gap-1 cursor-pointer select-none"
         )}
+        style={{
+          minHeight: "2.25rem",
+          borderRadius: "9999px",
+          padding: "0.5rem 0.875rem",
+          fontSize: "14px",
+          fontWeight: 500,
+          fontFamily: "var(--font-sans)",
+          backgroundColor: isOpen ? "var(--primary)" : "transparent",
+          color: isOpen ? "#ffffff" : "var(--muted-foreground)",
+          transition: "all 0.15s ease"
+        }}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         <span className="material-symbols-outlined" style={{ fontSize: "15px" }}>
           {group.icon}
         </span>
         {group.label}
         <span
-          className="material-symbols-outlined transition-transform duration-200"
+          className="material-symbols-outlined"
           style={{
             fontSize: "15px",
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s ease"
           }}
         >
           expand_more
@@ -66,37 +73,53 @@ export function NavDropdownGroup({
       {/* Dropdown panel */}
       <div
         className={cn(
-          "absolute left-0 top-full mt-2 w-52 rounded-lg border overflow-hidden transition-all duration-150 origin-top-left",
-          isOpen
-            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+          "transition-all duration-150"
         )}
         style={{
-          background: "#fbf9f4",
-          borderColor: "#e4e2dd",
-          boxShadow:
-            "0 8px 30px rgba(4,36,19,0.12), 0 2px 8px rgba(4,36,19,0.06)",
+          position: "absolute",
+          left: 0,
+          top: "100%",
+          marginTop: "0.5rem",
+          width: "13rem",
+          borderRadius: "var(--radius-lg)",
+          border: "1px solid var(--border)",
+          overflow: "hidden",
+          background: "var(--background)",
+          boxShadow: "0 8px 30px rgba(4,36,19,0.12), 0 2px 8px rgba(4,36,19,0.06)",
           zIndex: 60,
+          transformOrigin: "top left",
+          opacity: isOpen ? 1 : 0,
+          transform: isOpen ? "scale(1) translateY(0)" : "scale(0.95) translateY(-8px)",
+          pointerEvents: isOpen ? "auto" : "none"
         }}
       >
-        <div className="p-1.5">
+        <div style={{ padding: "0.375rem" }}>
           {group.items.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="flex items-center gap-2.5 w-full rounded-md px-3 py-2.5 text-sm transition-colors hover:bg-[#f0eee9] hover:text-[#042413]"
-              style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
+              className="nss-flex nss-items-center"
+              style={{
+                width: "100%",
+                borderRadius: "var(--radius-md)",
+                padding: "0.625rem 0.75rem",
+                fontSize: "14px",
+                fontFamily: "var(--font-sans)",
+                color: "var(--muted-foreground)",
+                gap: "10px",
+                transition: "background-color 0.15s ease, color 0.15s ease"
+              }}
               activeProps={{
                 style: {
-                  color: "#042413",
-                  background: "#f0eee9",
+                  color: "var(--primary)",
+                  background: "var(--muted)",
                   fontWeight: 600,
                 },
               }}
             >
               <span
-                className="material-symbols-outlined shrink-0"
-                style={{ fontSize: "16px", color: "#727972" }}
+                className="material-symbols-outlined nss-shrink-0"
+                style={{ fontSize: "16px", color: "var(--muted-foreground)", opacity: 0.8 }}
               >
                 {item.icon}
               </span>
@@ -112,8 +135,7 @@ export function NavDropdownGroup({
 // ─── BottomPillNav ────────────────────────────────────────────────────────────
 
 /**
- * Mobile fixed bottom pill navigation bar.
- * Hidden on xl+ breakpoint.
+ * Mobile fixed bottom pill navigation bar. (Vanilla CSS implementation)
  */
 export function BottomPillNav({
   items,
@@ -122,13 +144,21 @@ export function BottomPillNav({
 }) {
   return (
     <nav
-      className="xl:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center px-2 rounded-full"
+      className="nss-xl-hidden"
       style={{
+        position: "fixed",
+        bottom: "1rem",
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 50,
+        display: "flex",
+        alignItems: "center",
+        padding: "0 0.5rem",
+        borderRadius: "9999px",
         background: "rgba(4, 36, 19, 0.94)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        boxShadow:
-          "0 8px 32px rgba(4,36,19,0.4), 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)",
+        boxShadow: "0 8px 32px rgba(4,36,19,0.4), 0 2px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)",
         width: "min(calc(100% - 24px), 360px)",
         height: "60px",
         justifyContent: "space-around",
@@ -141,8 +171,15 @@ export function BottomPillNav({
         <Link
           key={item.to}
           to={item.to}
-          className="relative flex flex-col items-center justify-center gap-0.5 h-11 rounded-lg transition-all duration-200"
-          style={{ color: "rgba(255,255,255,0.45)", minWidth: "52px", flex: 1 }}
+          className="nss-flex nss-flex-col nss-items-center nss-justify-center nss-gap-1"
+          style={{
+            color: "rgba(255,255,255,0.45)",
+            minWidth: "52px",
+            height: "2.75rem",
+            flex: 1,
+            textDecoration: "none",
+            transition: "all 0.2s ease"
+          }}
           activeProps={{
             style: {
               background: "rgba(160, 64, 33, 0.85)",
@@ -153,7 +190,7 @@ export function BottomPillNav({
           aria-label={item.label}
         >
           <span
-            className="material-symbols-outlined leading-none"
+            className="material-symbols-outlined nss-leading-none"
             style={{ fontSize: "20px" }}
           >
             {item.icon}
@@ -161,7 +198,7 @@ export function BottomPillNav({
           <span
             style={{
               fontSize: "8.5px",
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontWeight: 600,
               letterSpacing: "0",
               lineHeight: 1,

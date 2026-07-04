@@ -7,48 +7,49 @@ export function Footer() {
 
   return (
     <footer
-      className="mt-16 px-4 pb-24 sm:px-6 md:px-10 md:pb-8"
+      className="nss-mt-16 nss-px-3 nss-pb-28 nss-sm-py-8"
       aria-label="Site footer"
-      style={{ background: "#f5f3ee" }}
+      style={{ background: "#f5f3ee", paddingLeft: "1rem", paddingRight: "1rem", paddingBottom: "7rem" }}
     >
       {/* Decorative top border */}
       <div
-        className="max-w-7xl mx-auto mb-0 h-px"
         style={{
-          background:
-            "linear-gradient(to right, transparent, rgba(160,64,33,0.35), transparent)",
+          maxWidth: "77rem",
+          margin: "0 auto 1.5rem auto",
+          height: "1px",
+          background: "linear-gradient(to right, transparent, rgba(160,64,33,0.35), transparent)",
         }}
         aria-hidden="true"
       />
 
       <div
-        className="mx-auto max-w-7xl rounded-lg p-5 sm:p-6 lg:p-8"
+        className="nss-mx-auto nss-container nss-card nss-p-6 nss-sm-p-8"
         style={{
           background: "#fbf9f4",
           boxShadow: "0 14px 34px rgba(27, 58, 39, 0.09), 0 1px 0 rgba(255,255,255,0.70)",
         }}
       >
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+        <div className="nss-grid nss-gap-6 nss-sm-grid-cols-2 nss-lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
           {/* Brand block */}
-          <div className="lg:col-span-2">
+          <div style={{ gridColumn: "span 1", minWidth: "260px" }}>
             <Link
               to="/"
-              className="inline-flex items-center gap-3 focus-visible:rounded-lg"
+              className="nss-flex nss-items-center nss-gap-3"
               aria-label="NSS Digital Legacy — Home"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/90 p-1 shadow-sm ring-1" style={{ "--tw-ring-color": "#c2c8c1" } as React.CSSProperties}>
+              <span className="nss-flex nss-items-center nss-justify-center" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "#ffffff", padding: "4px", border: "1px solid var(--border)", boxShadow: "var(--card-shadow-sm)" }}>
                 <NSSLogo height={40} width={40} decorative />
               </span>
-              <div className="leading-tight">
+              <div className="nss-leading-tight">
                 <p
-                  className="text-base font-bold"
-                  style={{ fontFamily: "'Libre Caslon Text', serif", color: "#042413" }}
+                  className="nss-text-base nss-font-bold"
+                  style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
                 >
                   NSS Digital Legacy
                 </p>
                 <p
-                  className="text-xs"
-                  style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
+                  className="nss-text-xs"
+                  style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)" }}
                 >
                   {s.unitName}
                 </p>
@@ -56,22 +57,22 @@ export function Footer() {
             </Link>
 
             <p
-              className="mt-4 max-w-xs text-sm leading-relaxed"
-              style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
+              className="nss-mt-4 nss-text-sm nss-leading-relaxed"
+              style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", maxWidth: "20rem" }}
             >
               A living archive of service, leadership, camps, projects, and memories.
               Every batch serves and leaves, but their journey stays forever.
             </p>
 
             <p
-              className="mt-4 text-sm italic font-semibold"
-              style={{ fontFamily: "'Libre Caslon Text', serif", color: "#1b3a27" }}
+              className="nss-mt-4 nss-text-sm nss-italic nss-font-semibold"
+              style={{ fontFamily: "var(--font-display)", color: "var(--primary-container)" }}
             >
               &ldquo;{s.motto}&rdquo;
             </p>
 
             {/* Decorative underline */}
-            <div className="mt-4 w-16 h-1 rounded-full" style={{ background: "#a04021" }} />
+            <div className="nss-mt-4" style={{ width: "4rem", height: "4px", borderRadius: "9999px", background: "var(--secondary)" }} />
           </div>
 
           {/* About Us column */}
@@ -103,35 +104,33 @@ export function Footer() {
           {/* Contact column */}
           <div>
             <p
-              className="mb-3 text-xs font-bold uppercase  flex items-center gap-1.5"
-              style={{ fontFamily: "'DM Sans', sans-serif", color: "#727972" }}
+              className="nss-mb-3 nss-text-xs nss-font-bold nss-uppercase nss-flex nss-items-center"
+              style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", gap: "6px" }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>location_on</span>
               Reach Us
             </p>
             <ul
-              className="space-y-2 text-sm"
-              style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843" }}
+              style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}
               role="list"
             >
-              <li className="leading-tight font-medium" style={{ color: "#042413" }}>
+              <li className="nss-leading-tight nss-font-medium" style={{ color: "var(--primary)" }}>
                 {s.schoolName}
               </li>
-              <li className="leading-tight text-xs opacity-80">{s.location}</li>
-              <li className="pt-1">
+              <li className="nss-leading-tight nss-text-xs" style={{ opacity: 0.8 }}>{s.location}</li>
+              <li style={{ paddingTop: "0.25rem" }}>
                 <a
                   href={`mailto:${s.email}`}
-                  className="break-all hover:underline transition-all"
-                  style={{ color: "#a04021", textDecorationColor: "#a04021" }}
+                  style={{ color: "var(--secondary)", textDecoration: "underline" }}
                 >
                   {s.email}
                 </a>
               </li>
-              <li className="pt-2">
+              <li style={{ paddingTop: "0.5rem" }}>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-1 font-semibold hover:underline"
-                  style={{ color: "#042413" }}
+                  className="nss-flex nss-items-center nss-font-semibold"
+                  style={{ color: "var(--primary)", gap: "4px" }}
                 >
                   Contact Page
                   <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>arrow_forward</span>
@@ -143,17 +142,20 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div
-          className="mt-8 flex flex-col items-center gap-2 border-t border-border/70 pt-5 text-center text-xs sm:flex-row sm:justify-between"
+          className="nss-mt-8 nss-flex nss-flex-col nss-items-center nss-sm-flex-row nss-justify-between"
           style={{
-            borderTop: "1px solid #c2c8c1",
-            fontFamily: "'DM Sans', sans-serif",
-            color: "#727972",
+            borderTop: "1px solid var(--border)",
+            paddingTop: "1.25rem",
+            fontFamily: "var(--font-sans)",
+            color: "var(--muted-foreground)",
+            fontSize: "12px",
+            gap: "0.5rem"
           }}
         >
           <span>
             © {new Date().getFullYear()} Not Me, But You — {s.unitName}, {s.schoolName}.
           </span>
-          <span className="flex items-center gap-1 opacity-60">
+          <span className="nss-flex nss-items-center nss-gap-1" style={{ opacity: 0.6 }}>
             <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>favorite</span>
             Built as a permanent digital legacy.
           </span>
@@ -175,22 +177,21 @@ function FooterColumn({
   return (
     <div>
       <p
-        className="mb-3 text-xs font-bold uppercase  flex items-center gap-1.5"
-        style={{ fontFamily: "'DM Sans', sans-serif", color: "#727972" }}
+        className="nss-mb-3 nss-text-xs nss-font-bold nss-uppercase nss-flex nss-items-center"
+        style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", gap: "6px" }}
       >
         <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>
           {icon}
         </span>
         {title}
       </p>
-      <ul className="space-y-2 text-sm" role="list">
+      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }} role="list">
         {links.map((link) => (
           <li key={link.to}>
             <Link
               to={link.to}
-              className="transition-colors hover:underline"
-              style={{ fontFamily: "'DM Sans', sans-serif", color: "#424843", textDecorationColor: "#a04021" }}
-              activeProps={{ style: { color: "#042413", fontWeight: 600 } }}
+              style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)" }}
+              activeProps={{ style: { color: "var(--primary)", fontWeight: 600 } }}
             >
               {link.label}
             </Link>

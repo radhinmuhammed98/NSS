@@ -1,34 +1,34 @@
 import { cn } from "@/lib/utils";
+import type { CSSProperties } from "react";
 
 /**
- * Badge — semantic label pill
- *
- * Variants:
- *   soft    — primary/10 background, crimson text (categories, tags)
- *   accent  — gold/15 background, gold text (awards, featured, milestones)
- *   outline — neutral border (metadata, secondary labels)
+ * Badge — semantic label pill (Vanilla CSS implementation)
  */
 export function Badge({
   children,
   variant = "soft",
   className,
+  style,
 }: {
   children: React.ReactNode;
   variant?: "soft" | "accent" | "outline";
   className?: string;
+  style?: CSSProperties;
 }) {
   const styles = {
-    soft: "bg-primary/10 text-primary",
-    accent: "bg-legacy-gold/15 text-legacy-gold",
-    outline: "border border-border text-muted-foreground",
+    soft: "nss-badge-default",
+    accent: "nss-badge-accent",
+    outline: "nss-badge-outline",
   };
+  
   return (
     <span
       className={cn(
-        "inline-flex max-w-full items-center rounded-full px-3 py-1 text-xs font-semibold leading-tight whitespace-normal break-words",
+        "nss-badge",
         styles[variant],
         className
       )}
+      style={style}
     >
       {children}
     </span>

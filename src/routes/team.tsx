@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader, Container } from "@/components/layout";
-import { ClayCard, Reveal, EmptyState, LeaderCard } from "@/components/clay";
-
+import { Reveal, EmptyState, LeaderCard } from "@/components/clay";
 import { getBatches, getTeam } from "@/lib/data";
 import type { Batch, TeamMember } from "@/types";
 
@@ -39,18 +38,18 @@ function Team() {
   return (
     <PageShell>
       <PageHeader eyebrow="Team" title="Team & Volunteers" description="The people behind the service." />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {hasAnyTeam ? (
-          <div className="space-y-10 sm:space-y-12">
+          <div className="nss-flex nss-flex-col nss-gap-8">
             {groupedBatches.map(({ batch, members }) => (
               <div key={batch.slug}>
-                <h2 className="mb-5 border-b border-border/60 pb-2 font-display text-2xl font-bold leading-tight">
+                <h2 className="nss-mb-5 nss-font-display nss-text-2xl nss-font-bold nss-leading-tight" style={{ borderBottom: "1px solid var(--border)", paddingBottom: "0.5rem" }}>
                   {batch.title}{" "}
-                  <span className="text-muted-foreground font-sans text-sm font-normal">
+                  <span className="nss-text-sm nss-font-semibold nss-text-muted" style={{ fontWeight: "normal", fontFamily: "var(--font-sans)" }}>
                     ({batch.yearRange})
                   </span>
                 </h2>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-4">
                   {members.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <LeaderCard
@@ -64,12 +63,12 @@ function Team() {
                 </div>
                 
                 {batch.slug === "batch-2025-26" && (
-                  <div className="mt-8 flex flex-col items-start gap-4 rounded-lg border border-[#1b3a27]/10 bg-[#1b3a27]/5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                  <div className="nss-mt-8 nss-flex nss-flex-col nss-items-start nss-gap-4 nss-sm-flex-row nss-sm-items-center nss-justify-between" style={{ padding: "1.25rem", borderRadius: "var(--radius-lg)", border: "1px solid rgba(27, 58, 39, 0.1)", backgroundColor: "rgba(27, 58, 39, 0.05)" }}>
                     <div>
-                      <h3 className="font-display text-lg font-bold text-[#1b3a27]">50 NSS Volunteers</h3>
-                      <p className="text-sm text-muted-foreground mt-1">The complete volunteer list will be updated soon.</p>
+                      <h3 className="nss-font-display nss-text-lg nss-font-bold nss-text-primary">50 NSS Volunteers</h3>
+                      <p className="nss-text-sm nss-text-muted nss-mt-1">The complete volunteer list will be updated soon.</p>
                     </div>
-                    <div className="rounded-md bg-[#1b3a27] px-4 py-2 font-display text-xs font-bold uppercase text-white">
+                    <div className="nss-badge nss-badge-default" style={{ padding: "0.5rem 1rem" }}>
                       Active Batch
                     </div>
                   </div>
@@ -79,10 +78,10 @@ function Team() {
 
             {otherMembers.length > 0 && (
               <div>
-                <h2 className="mb-5 border-b border-border/60 pb-2 font-display text-2xl font-bold leading-tight">
+                <h2 className="nss-mb-5 nss-font-display nss-text-2xl nss-font-bold nss-leading-tight" style={{ borderBottom: "1px solid var(--border)", paddingBottom: "0.5rem" }}>
                   Advisors & General Staff
                 </h2>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-4">
                   {otherMembers.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
                       <LeaderCard

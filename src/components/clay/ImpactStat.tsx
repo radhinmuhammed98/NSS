@@ -1,8 +1,5 @@
 /**
- * ImpactStat — key metric tile
- *
- * One of the core use-cases for stronger clay (clay-sm with restrained shadow).
- * The value uses crimson (primary) to highlight the brand number.
+ * ImpactStat — key metric tile (Vanilla CSS implementation)
  */
 export function ImpactStat({
   label,
@@ -12,11 +9,11 @@ export function ImpactStat({
   value: string;
 }) {
   return (
-    <div className="clay-sm flex h-full min-h-24 w-full min-w-0 flex-col items-center justify-center px-3 py-4 text-center">
-      <span className="font-display text-2xl font-extrabold leading-none text-primary sm:text-3xl">
+    <div className="nss-impact-stat" style={{ minHeight: "6rem" }}>
+      <span className="nss-font-display nss-text-2xl nss-font-extrabold nss-leading-none nss-text-primary nss-sm-text-3xl">
         {value}
       </span>
-      <span className="mt-2 max-w-full text-[11px] font-semibold uppercase leading-tight  text-muted-foreground sm:text-xs">
+      <span className="nss-mt-2 nss-text-xs nss-font-semibold nss-uppercase nss-leading-tight nss-text-muted">
         {label}
       </span>
     </div>

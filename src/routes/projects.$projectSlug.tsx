@@ -1,38 +1,31 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, MapPin, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { ClayCard, Badge, Reveal, ImpactStat, EmptyState } from "@/components/clay";
-import { CampCard, HighlightCard } from "@/components/media";
+import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
+import { HighlightCard } from "@/components/media";
 
-import {
-  formatDate,
-  getBatchTitle,
-  getCampBySlug,
-  getHighlightsBySlugs,
-  getProjectBySlug,
-  getReportsBySlugs,
-} from "@/lib/data";
-import type { ImageAsset, ImpactMetric, Project, Report, Highlight, Camp } from "@/types";
+import { formatDate, getBatchTitle, getCampBySlug, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
+import type { ImpactMetric, Camp, Project, Report } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
   loader: async ({ params }: { params: { projectSlug: string } }) => {
     const project = await getProjectBySlug(params.projectSlug);
     if (!project) throw notFound();
 
-    const [reports, highlights, relatedCamp] = await Promise.all([
+    // Query related camp & reports concurrently
+    const [relatedCamp, reports] = await Promise.all([
+      project.relatedCampSlug ? getCampBySlug(project.relatedCampSlug) : Promise.resolve(null),
       getReportsBySlugs(project.reportSlugs),
-      getHighlightsBySlugs(project.highlightSlugs),
-      project.relatedCampSlug ? getCampBySlug(project.relatedCampSlug) : Promise.resolve(undefined),
     ]);
 
-    return { project, reports, highlights, relatedCamp };
+    return { project, relatedCamp, reports };
   },
 
   notFoundComponent: () => (
     <PageShell>
-      <Container className="py-20 text-center">
-        <h1 className="font-display text-3xl font-extrabold">Project not found</h1>
-        <Link to="/projects" className="mt-4 inline-block text-primary">← Back to projects</Link>
+      <Container className="nss-py-20 nss-text-center">
+        <h1 className="nss-font-display nss-text-3xl nss-font-extrabold">Project not found</h1>
+        <Link to="/projects" style={{ display: "inline-block", marginTop: "1rem", color: "var(--primary)" }}>← Back to projects</Link>
       </Container>
     </PageShell>
   ),
@@ -40,100 +33,99 @@ export const Route = createFileRoute("/projects/$projectSlug")({
 });
 
 function ProjectPage() {
-  const { project, reports, highlights, relatedCamp } = Route.useLoaderData() as {
+  const { project, relatedCamp, reports } = Route.useLoaderData() as {
     project: Project;
+    relatedCamp: Camp | null;
     reports: Report[];
-    highlights: Highlight[];
-    relatedCamp?: Camp;
   };
 
   return (
     <PageShell>
-      <section className="px-3 pt-4">
-        <Container className="px-0">
+      <section className="nss-px-3 nss-pt-4">
+        <Container className="nss-px-0">
           <Reveal>
-            <div className="clay overflow-hidden p-0">
-              <img src={project.coverImage} alt={project.title} width={1280} height={549} fetchPriority="high" decoding="async" className="aspect-[21/9] w-full object-cover" />
+            <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
+              <div style={{ position: "relative" }}>
+                <img
+                  src={project.coverImage}
+                  alt={project.title}
+                  width={1280}
+                  height={549}
+                  fetchPriority="high"
+                  decoding="async"
+                  style={{ aspectRatio: "21/9", width: "100%", objectFit: "cover" }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(27, 28, 25, 0.7) 0%, transparent 100%)" }} />
+                <div style={{ position: "absolute", bottom: 0, padding: "1.5rem", color: "#ffffff" }}>
+                  <Badge variant="accent">{project.category}</Badge>
+                  <h1 className="nss-mt-2 nss-font-display nss-text-3xl nss-font-extrabold nss-text-balance nss-sm-text-4xl" style={{ color: "#ffffff" }}>
+                    {project.title}
+                  </h1>
+                </div>
+              </div>
             </div>
           </Reveal>
         </Container>
       </section>
 
-      <Container className="py-8">
-        <div className="mb-3 flex flex-wrap gap-2">
-          <Badge variant="accent">{project.category}</Badge>
-          <Badge>{getBatchTitle(project.batchSlug)}</Badge>
-          <Badge variant="outline">{project.status}</Badge>
-        </div>
-        <h1 className="text-3xl font-extrabold text-balance sm:text-4xl">{project.title}</h1>
-        <div className="mt-3 flex flex-wrap gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1"><Calendar className="h-4 w-4" /> {formatDate(project.date)}</span>
-          <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {project.location}</span>
-        </div>
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-2">
-            <ClayCard tilt={false}>
-              <h2 className="font-display text-xl font-bold">About this project</h2>
-              <p className="mt-3 text-muted-foreground">{project.description}</p>
-              <h3 className="mt-5 font-display font-bold">Problem addressed</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{project.problemAddressed}</p>
-              <h3 className="mt-5 font-display font-bold">What NSS did</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{project.whatNssDid}</p>
-            </ClayCard>
-
-            {project.images.length > 0 && (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                {project.images.map((im: ImageAsset) => (
-                  <img key={im.id} src={im.src} alt={im.alt} loading="lazy" decoding="async" className="clay aspect-square w-full object-cover p-0" />
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-6">
-            <ClayCard tilt={false}>
-              <h2 className="font-display text-lg font-bold">Impact</h2>
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                {project.impactMetrics.map((m: ImpactMetric) => (
-                  <ImpactStat key={m.label} label={m.label} value={m.value} />
-                ))}
-              </div>
-            </ClayCard>
-            <ClayCard tilt={false}>
-              <h2 className="font-display text-lg font-bold">Organizers</h2>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {project.organizers.map((o: string) => <Badge key={o}>{o}</Badge>)}
-              </div>
-            </ClayCard>
-          </div>
+      <Container className="nss-py-8">
+        <div className="nss-flex nss-flex-wrap nss-gap-4 nss-text-sm nss-text-muted">
+          <span className="nss-flex nss-items-center nss-gap-1">
+            <MapPin style={{ height: "1rem", width: "1rem" }} /> {project.location}
+          </span>
+          <span className="nss-flex nss-items-center nss-gap-1">
+            <Calendar style={{ height: "1rem", width: "1rem" }} /> {formatDate(project.date)}
+          </span>
+          <span>· {getBatchTitle(project.batchSlug)}</span>
         </div>
 
-        {relatedCamp && (
-          <div className="mt-10">
-            <h2 className="mb-4 font-display text-xl font-bold">Related Camp</h2>
-            <CampCard camp={relatedCamp} />
+        <ClayCard tilt={false} className="nss-mt-6 nss-p-4 nss-sm-p-6">
+          <h2 className="nss-font-display nss-text-xl nss-font-bold">Overview</h2>
+          <p className="nss-mt-3 nss-text-muted">{project.description}</p>
+        </ClayCard>
+
+        {project.impactMetrics && project.impactMetrics.length > 0 && (
+          <div className="nss-mt-6 nss-grid nss-grid-cols-2 nss-gap-4 nss-sm-grid-cols-4">
+            {project.impactMetrics.map((m: ImpactMetric) => (
+              <ImpactStat key={m.label} label={m.label} value={m.value} />
+            ))}
           </div>
         )}
 
-        {highlights.length > 0 && (
-          <div className="mt-10">
-            <h2 className="mb-4 font-display text-xl font-bold">Highlights</h2>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {highlights.map((h) => <HighlightCard key={h.slug} highlight={h} />)}
-            </div>
+        {relatedCamp && (
+          <div className="nss-mt-10">
+            <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Linked Camp</h2>
+            <Reveal>
+              <ClayCard tilt={false} className="nss-flex nss-flex-col nss-gap-4 nss-sm-flex-row nss-p-4 nss-sm-p-6">
+                <div className="nss-badge-accent nss-flex nss-shrink-0 nss-flex-col nss-items-center nss-justify-center" style={{ height: "4rem", width: "4rem", borderRadius: "var(--radius-lg)" }}>
+                  <Calendar style={{ height: "1.5rem", width: "1.5rem" }} />
+                </div>
+                <div>
+                  <h3 className="nss-font-display nss-text-lg nss-font-bold">{relatedCamp.title}</h3>
+                  <p className="nss-text-xs nss-text-muted">{formatDate(relatedCamp.startDate)}</p>
+                  <p className="nss-mt-2 nss-text-sm nss-text-muted">{relatedCamp.summary}</p>
+                  <Link
+                    to="/camps/$campSlug"
+                    params={{ campSlug: relatedCamp.slug }}
+                    className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary hover:underline"
+                  >
+                    View camp details →
+                  </Link>
+                </div>
+              </ClayCard>
+            </Reveal>
           </div>
         )}
 
         {reports.length > 0 && (
-          <div className="mt-10">
-            <h2 className="mb-4 font-display text-xl font-bold">Reports</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-mt-10">
+            <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Reports</h2>
+            <div className="nss-grid nss-gap-4 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
               {reports.map((r) => (
-                <ClayCard key={r.slug}>
+                <ClayCard key={r.slug} className="nss-p-4 nss-sm-p-6">
                   <Badge variant="outline">{r.type}</Badge>
-                  <h3 className="mt-3 font-display font-bold">{r.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
+                  <h3 className="nss-mt-3 nss-font-display nss-font-bold">{r.title}</h3>
+                  <p className="nss-mt-2 nss-text-sm nss-text-muted">{r.description}</p>
                 </ClayCard>
               ))}
             </div>

@@ -14,9 +14,9 @@ export const Route = createFileRoute("/gallery/$albumSlug")({
 
   notFoundComponent: () => (
     <PageShell>
-      <Container className="py-20 text-center">
-        <h1 className="font-display text-3xl font-extrabold">Album not found</h1>
-        <Link to="/gallery" className="mt-4 inline-block text-primary">← Back to gallery</Link>
+      <Container className="nss-py-20 nss-text-center">
+        <h1 className="nss-font-display nss-text-3xl nss-font-extrabold">Album not found</h1>
+        <Link to="/gallery" style={{ display: "inline-block", marginTop: "1rem", color: "var(--primary)" }}>← Back to gallery</Link>
       </Container>
     </PageShell>
   ),
@@ -27,16 +27,16 @@ function AlbumPage() {
   const { album } = Route.useLoaderData() as { album: GalleryAlbum };
   return (
     <PageShell>
-      <Container className="py-10">
-        <Badge variant="accent">{album.type}</Badge>
-        <h1 className="mt-2 text-3xl font-extrabold sm:text-4xl">{album.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{album.description} · {formatDate(album.date)}</p>
-        <div className="mt-8 columns-2 gap-4 sm:columns-3">
+      <Container className="nss-py-10">
+        <Badge variant="accent" className="w-fit">{album.type}</Badge>
+        <h1 className="nss-mt-2 nss-text-3xl nss-font-extrabold nss-sm-text-4xl" style={{ fontFamily: "var(--font-display)" }}>{album.title}</h1>
+        <p className="nss-mt-2 nss-text-sm nss-text-muted">{album.description} · {formatDate(album.date)}</p>
+        <div className="nss-mt-8 nss-columns-2 nss-sm-columns-3">
           {album.images.map((im: ImageAsset, i: number) => (
-            <Reveal key={im.id} delay={i * 0.04} className="mb-4 break-inside-avoid">
-              <figure className="clay overflow-hidden p-0">
-                <img src={im.src} alt={im.alt} loading="lazy" decoding="async" className="w-full object-cover" />
-                {im.caption && <figcaption className="px-3 py-2 text-xs text-muted-foreground">{im.caption}</figcaption>}
+            <Reveal key={im.id} delay={i * 0.04} className="nss-mb-4" style={{ breakInside: "avoid" }}>
+              <figure className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
+                <img src={im.src} alt={im.alt} loading="lazy" decoding="async" style={{ width: "100%", objectFit: "cover" }} />
+                {im.caption && <figcaption className="nss-px-3 nss-py-2 nss-text-xs nss-text-muted">{im.caption}</figcaption>}
               </figure>
             </Reveal>
           ))}

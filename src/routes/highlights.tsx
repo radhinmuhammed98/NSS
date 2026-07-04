@@ -107,30 +107,38 @@ function Highlights() {
         title="Moments Worth Remembering"
         description="The proudest achievements and most impactful moments of the unit."
       />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {/* Toolbar row: sort on left, clear-all on right */}
-        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            <ArrowUpDown className="h-4 w-4 text-muted-foreground" aria-hidden />
-            <span className="text-xs font-bold uppercase  text-muted-foreground">
+        <div className="nss-mb-3 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-justify-between">
+          <div className="nss-flex nss-flex-wrap nss-items-center nss-gap-2" style={{ minWidth: 0 }}>
+            <ArrowUpDown style={{ height: "1rem", width: "1rem", color: "var(--muted-foreground)" }} aria-hidden />
+            <span className="nss-text-xs nss-font-bold nss-uppercase nss-text-muted">
               Sort
             </span>
-            <div className="flex flex-wrap gap-1" role="group" aria-label="Sort highlights">
-              {SORT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => setSort(opt.value)}
-                  aria-pressed={sort === opt.value}
-                  className={`rounded-md px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2 ${
-                    sort === opt.value
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "bg-background text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
+            <div className="nss-flex nss-flex-wrap nss-gap-1" role="group" aria-label="Sort highlights">
+              {SORT_OPTIONS.map((opt) => {
+                const isSelected = sort === opt.value;
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setSort(opt.value)}
+                    aria-pressed={isSelected}
+                    className="nss-badge cursor-pointer"
+                    style={{
+                      borderRadius: "var(--radius-md)",
+                      padding: "0.375rem 0.75rem",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      backgroundColor: isSelected ? "var(--primary)" : "var(--background)",
+                      color: isSelected ? "var(--primary-foreground)" : "var(--muted-foreground)",
+                      border: isSelected ? "none" : "1px solid var(--border)"
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -138,7 +146,7 @@ function Highlights() {
             <button
               type="button"
               onClick={clearAll}
-              className="text-xs font-semibold text-primary underline underline-offset-2 hover:no-underline"
+              className="text-xs font-semibold text-primary underline hover:no-underline cursor-pointer"
               aria-label="Clear all highlight filters"
             >
               Clear all
@@ -149,7 +157,7 @@ function Highlights() {
         <FilterBar groups={groups} active={active} onChange={handleFilter} />
 
         {filtered.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3">
             {filtered.map((h, i) => (
               <Reveal key={h.slug} delay={i * 0.06}>
                 <HighlightCard highlight={h} />

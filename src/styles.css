@@ -1,13 +1,8 @@
-@import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
+/* ─── Stitch "The Living Story" Design System ─── */
+/* Fonts loaded via <link> in index.html */
 
-@custom-variant dark (&:is(.dark *));
-
-/* ─── Stitch "The Living Story" Design System ──────────────────────────────── */
-/* Fonts loaded via <link> in index.html                                        */
-
-@theme inline {
+/* ─── CSS Variables ─── */
+:root {
   --radius-sm: 0.125rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
@@ -15,410 +10,544 @@
   --radius-2xl: 0.5rem;
   --radius-full: 9999px;
 
-  /* Typography — Libre Caslon Text for editorial, DM Sans for UI */
+  /* Typography */
   --font-display: "Libre Caslon Text", "Georgia", ui-serif, serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Stitch color tokens → Tailwind semantic names */
-  --color-background:               var(--background);
-  --color-foreground:               var(--foreground);
-  --color-surface:                  var(--surface);
-  --color-surface-elevated:         var(--surface-elevated);
-  --color-card:                     var(--card);
-  --color-card-foreground:          var(--card-foreground);
-  --color-popover:                  var(--popover);
-  --color-popover-foreground:       var(--popover-foreground);
-  --color-primary:                  var(--primary);
-  --color-primary-foreground:       var(--primary-foreground);
-  --color-secondary:                var(--secondary);
-  --color-secondary-foreground:     var(--secondary-foreground);
-  --color-muted:                    var(--muted);
-  --color-muted-foreground:         var(--muted-foreground);
-  --color-accent:                   var(--accent);
-  --color-accent-foreground:        var(--accent-foreground);
-  --color-destructive:              var(--destructive);
-  --color-destructive-foreground:   var(--destructive-foreground);
-  --color-border:                   var(--border);
-  --color-input:                    var(--input);
-  --color-ring:                     var(--ring);
-  --color-success:                  var(--success);
-  --color-warning:                  var(--warning);
-  --color-thread:                   var(--thread);
-  --color-legacy-gold:              var(--legacy-gold);
-  --color-clay:                     var(--clay);
-  --color-clay-deep:                var(--clay-deep);
-  --color-chart-1:                  var(--chart-1);
-  --color-chart-2:                  var(--chart-2);
-  --color-chart-3:                  var(--chart-3);
-  --color-chart-4:                  var(--chart-4);
-  --color-chart-5:                  var(--chart-5);
-  --color-sidebar:                  var(--sidebar);
-  --color-sidebar-foreground:       var(--sidebar-foreground);
-  --color-sidebar-primary:          var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent:           var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border:           var(--sidebar-border);
-  --color-sidebar-ring:             var(--sidebar-ring);
+  /* Colors - Earthy Kerala Palette */
+  --background: #fbf9f4;
+  --surface: #fbf9f4;
+  --surface-elevated: #f5f3ee;
+  --foreground: #1b1c19;
 
-  /* Stitch named color passthroughs */
-  --color-on-surface:                   var(--on-surface);
-  --color-on-surface-variant:           var(--on-surface-variant);
-  --color-on-primary:                   var(--on-primary);
-  --color-on-secondary:                 var(--on-secondary);
-  --color-surface-container:            var(--surface-container);
-  --color-surface-container-low:        var(--surface-container-low);
-  --color-surface-container-high:       var(--surface-container-high);
-  --color-surface-container-highest:    var(--surface-container-highest);
-  --color-outline:                      var(--outline);
-  --color-outline-variant:              var(--outline-variant);
-  --color-primary-container:            var(--primary-container);
-  --color-secondary-container:          var(--secondary-container);
-}
+  --clay: #f5f3ee;
+  --clay-deep: #f0eee9;
 
-/* ─── Light mode — "Earthy Kerala" palette ─────────────────────────────────── */
-:root {
-  --radius: 0.5rem;
+  --card: #f5f3ee;
+  --card-foreground: #1b1c19;
+  --popover: #fbf9f4;
+  --popover-foreground: #1b1c19;
 
-  /* Stitch palette — Forest Green primary */
-  --background:                #fbf9f4;
-  --surface:                   #fbf9f4;
-  --surface-elevated:          #f5f3ee;
-  --foreground:                #1b1c19;
+  /* Primary - Deep Forest Green */
+  --primary: #042413;
+  --primary-foreground: #ffffff;
+  --primary-container: #1b3a27;
+  --on-primary: #ffffff;
 
-  --clay:                      #f5f3ee;
-  --clay-deep:                 #f0eee9;
+  /* Secondary - Terracotta */
+  --secondary: #a04021;
+  --secondary-foreground: #ffffff;
+  --secondary-container: #ff8762;
+  --on-secondary: #ffffff;
 
-  --card:                      #f5f3ee;
-  --card-foreground:           #1b1c19;
-  --popover:                   #fbf9f4;
-  --popover-foreground:        #1b1c19;
+  /* Accent */
+  --accent: #a04021;
+  --accent-foreground: #ffffff;
 
-  /* Primary — Deep Forest Green #042413 */
-  --primary:                   #042413;
-  --primary-foreground:        #ffffff;
-  --primary-container:         #1b3a27;
-  --on-primary:                #ffffff;
-
-  /* Secondary — Terracotta #a04021 */
-  --secondary:                 #a04021;
-  --secondary-foreground:      #ffffff;
-  --secondary-container:       #ff8762;
-  --on-secondary:              #ffffff;
-
-  /* Accent — secondary terracotta */
-  --accent:                    #a04021;
-  --accent-foreground:         #ffffff;
-
-  /* Muted / surfaces */
-  --muted:                     #f0eee9;
-  --muted-foreground:          #424843;
+  /* Muted */
+  --muted: #f0eee9;
+  --muted-foreground: #424843;
 
   /* Semantic */
-  --destructive:               #ba1a1a;
-  --destructive-foreground:    #ffffff;
-  --success:                   #1b3a27;
-  --warning:                   #472f00;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --success: #1b3a27;
+  --warning: #472f00;
 
   /* Borders */
-  --border:                    #c2c8c1;
-  --input:                     #e4e2dd;
-  --ring:                      #042413;
+  --border: #c2c8c1;
+  --input: #e4e2dd;
+  --ring: #042413;
 
-  /* Stitch named tokens */
-  --on-surface:                #1b1c19;
-  --on-surface-variant:        #424843;
-  --surface-container:         #f0eee9;
-  --surface-container-low:     #f5f3ee;
-  --surface-container-high:    #eae8e3;
-  --surface-container-highest: #e4e2dd;
-  --outline:                   #727972;
-  --outline-variant:           #c2c8c1;
+  /* Extra tokens */
+  --thread: #a04021;
+  --legacy-gold: #c99228;
 
-  /* Legacy / theme extras */
-  --thread:                    #a04021;
-  --legacy-gold:               #c99228;
-
-  /* Chart */
-  --chart-1: #042413;
-  --chart-2: #a04021;
-  --chart-3: #1b3a27;
-  --chart-4: #472f00;
-  --chart-5: #c99228;
-
-  /* Sidebar */
-  --sidebar:                       #f0eee9;
-  --sidebar-foreground:            #1b1c19;
-  --sidebar-primary:               #042413;
-  --sidebar-primary-foreground:    #ffffff;
-  --sidebar-accent:                #a04021;
-  --sidebar-accent-foreground:     #ffffff;
-  --sidebar-border:                #c2c8c1;
-  --sidebar-ring:                  #042413;
-
-  /* Flat aesthetic shadows — clean neutral tones */
-  --card-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.05),
-    0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  --card-shadow-sm:
-    0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --card-shadow-accent:
-    0 4px 12px rgba(160, 64, 33, 0.08);
+  /* Card Shadows */
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --card-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --card-shadow-accent: 0 4px 12px rgba(160, 64, 33, 0.08);
 }
 
-/* ─── Dark mode — deep charcoal earth ──────────────────────────────────────── */
+/* Dark mode */
 .dark {
-  --background:                #141a15;
-  --surface:                   #1a221b;
-  --surface-elevated:          #202a21;
-  --foreground:                #e4e2dd;
+  --background: #141a15;
+  --surface: #1a221b;
+  --surface-elevated: #202a21;
+  --foreground: #e4e2dd;
 
-  --clay:                      #1a221b;
-  --clay-deep:                 #141a15;
+  --clay: #1a221b;
+  --clay-deep: #141a15;
 
-  --card:                      #1c251d;
-  --card-foreground:           #e4e2dd;
-  --popover:                   #1a221b;
-  --popover-foreground:        #e4e2dd;
+  --card: #1c251d;
+  --card-foreground: #e4e2dd;
+  --popover: #1a221b;
+  --popover-foreground: #e4e2dd;
 
-  --primary:                   #accfb4;
-  --primary-foreground:        #012110;
-  --primary-container:         #2e4d39;
-  --on-primary:                #012110;
+  --primary: #accfb4;
+  --primary-foreground: #012110;
+  --primary-container: #2e4d39;
+  --on-primary: #012110;
 
-  --secondary:                 #ffb59f;
-  --secondary-foreground:      #3a0a00;
-  --secondary-container:       #81290c;
-  --on-secondary:              #3a0a00;
+  --secondary: #ffb59f;
+  --secondary-foreground: #3a0a00;
+  --secondary-container: #81290c;
+  --on-secondary: #3a0a00;
 
-  --accent:                    #ffb59f;
-  --accent-foreground:         #3a0a00;
+  --accent: #ffb59f;
+  --accent-foreground: #3a0a00;
 
-  --muted:                     #202a21;
-  --muted-foreground:          #8a9690;
+  --muted: #202a21;
+  --muted-foreground: #8a9690;
 
-  --destructive:               #ba1a1a;
-  --destructive-foreground:    #ffffff;
-  --success:                   #accfb4;
-  --warning:                   #f9bc50;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --success: #accfb4;
+  --warning: #f9bc50;
 
-  --border:                    #2e4d39;
-  --input:                     #2e4d39;
-  --ring:                      #accfb4;
+  --border: #2e4d39;
+  --input: #2e4d39;
+  --ring: #accfb4;
 
-  --on-surface:                #e4e2dd;
-  --on-surface-variant:        #a0a89e;
-  --surface-container:         #1c251d;
-  --surface-container-low:     #1a221b;
-  --surface-container-high:    #212d22;
-  --surface-container-highest: #273029;
-  --outline:                   #5a6b5d;
-  --outline-variant:           #2e4d39;
+  --thread: #ffb59f;
+  --legacy-gold: #f9bc50;
 
-  --thread:                    #ffb59f;
-  --legacy-gold:               #f9bc50;
-
-  --chart-1: #accfb4;
-  --chart-2: #ffb59f;
-  --chart-3: #c7ebd0;
-  --chart-4: #f9bc50;
-  --chart-5: #c99228;
-
-  --sidebar:                       #1a221b;
-  --sidebar-foreground:            #e4e2dd;
-  --sidebar-primary:               #accfb4;
-  --sidebar-primary-foreground:    #012110;
-  --sidebar-accent:                #ffb59f;
-  --sidebar-accent-foreground:     #3a0a00;
-  --sidebar-border:                #2e4d39;
-  --sidebar-ring:                  #accfb4;
-
-  --card-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25);
-  --card-shadow-sm:
-    0 2px 6px rgba(0, 0, 0, 0.20);
-  --card-shadow-accent:
-    0 4px 12px rgba(160, 64, 33, 0.20);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --card-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.20);
+  --card-shadow-accent: 0 4px 12px rgba(160, 64, 33, 0.20);
 }
 
-/* ─── Base layer ─────────────────────────────────────────────────────────── */
-@layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  html {
-    /*
-      scroll-behavior: smooth  → elegant anchor scrolling.
-      overflow-x: hidden       → kills horizontal scroll caused by fixed/translated
-                                  elements that briefly exceed viewport width.
-    */
-    font-display: optional;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Mirror the html overflow rule — ensures absolutely no horizontal scroll */
-    overflow-x: hidden;
-    /* Safe area for devices with notches/home indicator */
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-
-  /* Editorial headings — Libre Caslon Text */
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: 0;
-  }
-
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-sans);
-    font-weight: 600;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    ::before,
-    ::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
+/* ─── Global Resets & Defaults ─── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-color: var(--border);
 }
 
-/* ─── Stitch utility classes ──────────────────────────────────────────────── */
+html {
+  font-display: optional;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
-/* Paper texture overlay */
-@utility paper-texture {
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Layout Primitives ─── */
+.nss-flex { display: flex; }
+.nss-flex-col { display: flex; flex-direction: column; }
+.nss-items-center { align-items: center; }
+.nss-items-start { align-items: flex-start; }
+.nss-justify-between { justify-content: space-between; }
+.nss-justify-center { justify-content: center; }
+.nss-flex-wrap { flex-wrap: wrap; }
+.nss-flex-1 { flex: 1; }
+.nss-shrink-0 { flex-shrink: 0; }
+
+.nss-grid { display: grid; }
+.nss-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.nss-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nss-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nss-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.nss-gap-1 { gap: 0.25rem; }
+.nss-gap-2 { gap: 0.5rem; }
+.nss-gap-3 { gap: 0.75rem; }
+.nss-gap-4 { gap: 1rem; }
+.nss-gap-5 { gap: 1.25rem; }
+.nss-gap-6 { gap: 1.5rem; }
+.nss-gap-8 { gap: 2rem; }
+
+/* ─── Spacing Helpers ─── */
+.nss-p-0 { padding: 0; }
+.nss-p-4 { padding: 1rem; }
+.nss-p-5 { padding: 1.25rem; }
+.nss-p-6 { padding: 1.5rem; }
+.nss-p-8 { padding: 2rem; }
+.nss-px-0 { padding-left: 0; padding-right: 0; }
+.nss-px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+.nss-px-4 { padding-left: 1rem; padding-right: 1rem; }
+.nss-px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+.nss-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.nss-py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.nss-py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.nss-py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.nss-py-14 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+.nss-py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+.nss-py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.nss-pt-4 { padding-top: 1rem; }
+.nss-pt-10 { padding-top: 2.5rem; }
+.nss-pt-16 { padding-top: 4rem; }
+.nss-pb-2 { padding-bottom: 0.5rem; }
+.nss-pb-28 { padding-bottom: 7rem; }
+
+.nss-m-0 { margin: 0; }
+.nss-mt-0\.5 { margin-top: 0.125rem; }
+.nss-mt-1 { margin-top: 0.25rem; }
+.nss-mt-2 { margin-top: 0.5rem; }
+.nss-mt-3 { margin-top: 0.75rem; }
+.nss-mt-4 { margin-top: 1rem; }
+.nss-mt-5 { margin-top: 1.25rem; }
+.nss-mt-6 { margin-top: 1.5rem; }
+.nss-mt-7 { margin-top: 1.75rem; }
+.nss-mt-8 { margin-top: 2rem; }
+.nss-mt-10 { margin-top: 2.5rem; }
+.nss-mb-2 { margin-bottom: 0.5rem; }
+.nss-mb-3 { margin-bottom: 0.75rem; }
+.nss-mb-4 { margin-bottom: 1rem; }
+.nss-mb-6 { margin-bottom: 1.5rem; }
+.nss-mb-10 { margin-bottom: 2.5rem; }
+.nss-ml-1 { margin-left: 0.25rem; }
+.nss-ml-2 { margin-left: 0.5rem; }
+.nss-mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ─── Typography & Colors ─── */
+.nss-text-xs { font-size: 0.75rem; }
+.nss-text-sm { font-size: 0.875rem; }
+.nss-text-base { font-size: 1rem; }
+.nss-text-lg { font-size: 1.125rem; }
+.nss-text-xl { font-size: 1.25rem; }
+.nss-text-2xl { font-size: 1.5rem; }
+.nss-text-3xl { font-size: 1.875rem; }
+.nss-text-4xl { font-size: 2.25rem; }
+.nss-text-5xl { font-size: 3rem; }
+
+.nss-font-medium { font-weight: 500; }
+.nss-font-semibold { font-weight: 600; }
+.nss-font-bold { font-weight: 700; }
+.nss-font-extrabold { font-weight: 800; }
+.nss-italic { font-style: italic; }
+.nss-uppercase { text-transform: uppercase; }
+
+.nss-text-center { text-align: center; }
+.nss-text-balance { text-wrap: balance; }
+.nss-break-words { overflow-wrap: break-word; }
+.nss-break-all { word-break: break-all; }
+.nss-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nss-leading-none { line-height: 1; }
+.nss-leading-tight { line-height: 1.25; }
+.nss-leading-snug { line-height: 1.375; }
+.nss-leading-relaxed { line-height: 1.625; }
+
+.nss-text-primary { color: var(--primary); }
+.nss-text-secondary { color: var(--secondary); }
+.nss-text-accent { color: var(--accent); }
+.nss-text-muted { color: var(--muted-foreground); }
+.nss-text-white { color: #ffffff; }
+.nss-bg-primary { background-color: var(--primary); }
+.nss-bg-primary-container { background-color: var(--primary-container); }
+.nss-bg-muted { background-color: var(--muted); }
+.nss-bg-card { background-color: var(--card); }
+.nss-bg-surface-elevated { background-color: var(--surface-elevated); }
+.nss-bg-background { background-color: var(--background); }
+
+/* ─── Media Query Responsiveness ─── */
+@media (min-width: 640px) {
+  .nss-sm-py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .nss-sm-py-14 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  .nss-sm-py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+  .nss-sm-py-28 { padding-top: 7rem; padding-bottom: 7rem; }
+  .nss-sm-pt-14 { padding-top: 3.5rem; }
+  .nss-sm-p-6 { padding: 1.5rem; }
+  .nss-sm-p-8 { padding: 2rem; }
+  .nss-sm-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nss-sm-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nss-sm-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .nss-sm-flex-row { flex-direction: row; }
+  .nss-sm-w-auto { width: auto; }
+  .nss-sm-text-2xl { font-size: 1.5rem; }
+  .nss-sm-text-3xl { font-size: 1.875rem; }
+  .nss-sm-text-4xl { font-size: 2.25rem; }
+  .nss-sm-text-5xl { font-size: 3rem; }
+}
+
+@media (min-width: 768px) {
+  .nss-md-py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+  .nss-md-p-8 { padding: 2rem; }
+}
+
+@media (min-width: 1024px) {
+  .nss-lg-py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+  .nss-lg-p-8 { padding: 2rem; }
+  .nss-lg-p-10 { padding: 2.5rem; }
+  .nss-lg-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nss-lg-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .nss-lg-text-6xl { font-size: 3.75rem; }
+}
+
+@media (min-width: 1280px) {
+  .nss-xl-pb-0 { padding-bottom: 0; }
+}
+
+/* ─── Reusable Custom UI Components ─── */
+
+/* Container */
+.nss-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 77rem; /* 1232px */
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .nss-container { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media (min-width: 768px) {
+  .nss-container { padding-left: 2.5rem; padding-right: 2.5rem; }
+}
+
+/* Sections */
+.nss-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.nss-section-large-gap {
+  gap: 2rem;
+}
+
+/* Card - Flat, Elegant Aesthetic */
+.nss-card {
+  background-color: var(--surface-elevated);
+  border: 1px solid rgba(194, 200, 193, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.nss-card-tilt:hover {
+  transform: translateY(-2px);
+}
+.nss-card-highlighted {
+  border-color: rgba(160, 64, 33, 0.4);
+  box-shadow: var(--card-shadow-accent);
+}
+
+/* Button - Elegant Flat Styles */
+.nss-button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.nss-button:hover {
+  transform: translateY(-1px);
+}
+.nss-button:active {
+  transform: scale(0.98);
+}
+.nss-button-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+.nss-button-primary:hover {
+  background-color: #02140a;
+}
+.nss-button-accent {
+  background-color: var(--legacy-gold);
+  color: #ffffff;
+}
+.nss-button-accent:hover {
+  background-color: #b07f20;
+}
+.nss-button-soft {
+  background-color: var(--muted);
+  border: 1px solid rgba(194, 200, 193, 0.4);
+  color: var(--foreground);
+}
+.nss-button-soft:hover {
+  background-color: var(--surface-elevated);
+}
+
+/* Badge */
+.nss-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+.nss-badge-default {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+.nss-badge-accent {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+.nss-badge-outline {
+  border-color: var(--border);
+  color: var(--muted-foreground);
+}
+
+/* Impact Stat */
+.nss-impact-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid rgba(194, 200, 193, 0.3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+}
+
+/* ─── Editorial Specialties ─── */
+.nss-paper-texture {
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
 }
 
-/* Hand-drawn underline accent (terracotta) */
-@utility hand-drawn-underline {
+.nss-hand-drawn-underline {
   position: relative;
+}
+.nss-hand-drawn-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='6' viewBox='0 0 100 6' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.5C25 2 75 1 99 4.5' stroke='%23a04021' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='6' viewBox='0 0 100 6' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.5C25 2 75 1 99 4.5' stroke='%23a04021' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-size: 100% 100%;
+.nss-thread-line {
+  position: relative;
+}
+.nss-thread-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--thread), transparent);
+  border-radius: 1px;
+}
+
+@media (min-width: 1280px) {
+  .nss-xl-flex { display: flex !important; }
+  .nss-xl-hidden { display: none !important; }
+}
+@media (max-width: 1279px) {
+  .nss-xl-only { display: none !important; }
+}
+
+.nss-columns-2 {
+  column-count: 2;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .nss-sm-columns-3 {
+    column-count: 3;
+    column-gap: 1rem;
   }
 }
 
-/* Scribble highlight */
-@utility scribble-highlight {
-  background: linear-gradient(120deg, rgba(160, 64, 33, 0.1) 0%, rgba(160, 64, 33, 0.1) 100%);
-  background-repeat: no-repeat;
-  background-size: 100% 0.3em;
-  background-position: 0 88%;
-}
-
-/* Flat cards — elevated warm surface with thin borders */
-@utility clay {
-  background-color: var(--surface-elevated);
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(194, 200, 193, 0.4);
-  border-radius: var(--radius-lg);
-}
-
-@utility clay-sm {
-  background-color: var(--surface-elevated);
-  box-shadow: var(--card-shadow-sm);
-  border: 1px solid rgba(194, 200, 193, 0.35);
-  border-radius: var(--radius-md);
-}
-
-@utility clay-inset {
-  background-color: var(--muted);
-  border: 1px solid rgba(194, 200, 193, 0.3);
-  border-radius: var(--radius-md);
-}
-
-@utility clay-accent {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  box-shadow: var(--card-shadow-accent);
-  border-radius: var(--radius-md);
-}
-
-@utility clay-gold {
-  background-color: var(--legacy-gold);
-  color: var(--accent-foreground);
-  box-shadow: var(--card-shadow-sm);
-  border-radius: var(--radius-md);
-}
-
-@utility text-balance {
-  text-wrap: balance;
-}
-
-/* Thread decorative line */
-@utility thread-line {
+.nss-timeline {
   position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      var(--color-thread),
-      transparent
-    );
-    border-radius: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.nss-timeline::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 0.5rem;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--border);
+}
+@media (min-width: 640px) {
+  .nss-timeline::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nss-timeline-even {
+    width: 50% !important;
+    padding-left: 0 !important;
+    padding-right: 2.5rem !important;
+    text-align: right !important;
+    margin-left: 0 !important;
+  }
+  .nss-timeline-odd {
+    width: 50% !important;
+    padding-left: 2.5rem !important;
+    padding-right: 0 !important;
+    text-align: left !important;
+    margin-left: auto !important;
+  }
+  .nss-timeline-dot-even {
+    left: auto !important;
+    right: -6px !important;
+  }
+  .nss-timeline-dot-odd {
+    left: -6px !important;
+    right: auto !important;
   }
 }
 
-/* Stitch section spacing */
-@utility section-gap {
-  padding-top: 64px;
-  padding-bottom: 64px;
-}
 
-/*
-  GPU acceleration — promotes element to its own compositor layer.
-  Use on: hero images, animated cards, the pill nav.
-  will-change: transform tells the browser to prepare a GPU layer
-  before the animation starts, preventing paint jank on first frame.
-*/
-@utility gpu-accelerate {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  will-change: transform;
-}
 
-/*
-  Pill nav compositing — dedicated layer for the floating bottom nav.
-  Keeps it butter-smooth on low-end Android devices.
-*/
-@utility pill-nav {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+

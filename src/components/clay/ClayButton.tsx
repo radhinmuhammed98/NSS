@@ -4,28 +4,20 @@ import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "accent" | "soft";
 
-/**
- * Button — NSS brand action button (previously ClayButton, now flat and clean)
- *
- * Variants:
- *  primary — NSS crimson (main CTAs and important actions only)
- *  accent  — muted gold (awards, milestones, legacy — use sparingly)
- *  soft    — neutral background (secondary actions)
- */
 const styles: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary/95",
-  accent: "bg-legacy-gold text-white hover:bg-legacy-gold/95 shadow-sm",
-  soft: "bg-muted border border-border/40 text-foreground hover:bg-muted/80",
+  primary: "nss-button-primary",
+  accent: "nss-button-accent",
+  soft: "nss-button-soft",
 };
 
-const base =
-  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-center text-sm font-semibold leading-tight transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-offset-4 cursor-pointer select-none";
+const base = "nss-button";
 
 function wrapperClass(className?: string) {
+  // Translate width utilities to nss classes if necessary, or pass through
   return cn(
-    "inline-flex max-w-full",
+    "nss-flex",
     className?.includes("w-full") && "w-full",
-    className?.includes("sm:w-auto") && "sm:w-auto"
+    className?.includes("sm:w-auto") && "nss-sm-w-auto"
   );
 }
 
@@ -46,7 +38,7 @@ export function ClayButton({
   onClick?: () => void;
   type?: "button" | "submit";
 }) {
-  const cls = cn(base, "relative overflow-hidden", styles[variant], className);
+  const cls = cn(base, styles[variant], className);
 
   const makeRipple = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.currentTarget;

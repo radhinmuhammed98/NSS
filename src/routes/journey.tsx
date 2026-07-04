@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { ArrowUpDown } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
+import { cn } from "@/lib/utils";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
 
 import { formatDate, getTimeline } from "@/lib/data";
@@ -27,30 +28,38 @@ function Journey() {
   return (
     <PageShell>
       <PageHeader eyebrow="Journey" title="The NSS Journey" description="From the very beginning to the future — every milestone preserved." />
-      <Container className="py-8">
-        <div className="mb-6 flex items-center gap-2">
-          <ArrowUpDown className="h-4 w-4 text-muted-foreground" aria-hidden />
-          <span className="text-xs font-semibold text-muted-foreground">Order:</span>
-          <div className="flex gap-1">
+      <Container className="nss-py-8">
+        <div className="nss-mb-6 nss-flex nss-items-center nss-gap-2">
+          <ArrowUpDown style={{ height: "1rem", width: "1rem", color: "var(--muted-foreground)" }} aria-hidden />
+          <span className="nss-text-xs nss-font-semibold nss-text-muted">Order:</span>
+          <div className="nss-flex nss-gap-1">
             <button
               type="button"
               onClick={() => setNewestFirst(false)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
-                !newestFirst
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
-              }`}
+              className="cursor-pointer transition-all"
+              style={{
+                borderRadius: "var(--radius-md)",
+                padding: "0.25rem 0.625rem",
+                fontSize: "12px",
+                fontWeight: 600,
+                backgroundColor: !newestFirst ? "var(--primary)" : "var(--muted)",
+                color: !newestFirst ? "var(--primary-foreground)" : "var(--muted-foreground)"
+              }}
             >
               Oldest first
             </button>
             <button
               type="button"
               onClick={() => setNewestFirst(true)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
-                newestFirst
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
-              }`}
+              className="cursor-pointer transition-all"
+              style={{
+                borderRadius: "var(--radius-md)",
+                padding: "0.25rem 0.625rem",
+                fontSize: "12px",
+                fontWeight: 600,
+                backgroundColor: newestFirst ? "var(--primary)" : "var(--muted)",
+                color: newestFirst ? "var(--primary-foreground)" : "var(--muted-foreground)"
+              }}
             >
               Newest first
             </button>
@@ -58,20 +67,42 @@ function Journey() {
         </div>
 
         {sortedItems.length ? (
-          <div className="relative space-y-6 before:absolute before:left-4 before:top-2 before:h-full before:w-0.5 before:bg-border sm:before:left-1/2">
-            {sortedItems.map((t, i) => (
-              <Reveal key={t.slug} delay={i * 0.05}>
-                <div className={`relative pl-12 sm:w-1/2 sm:pl-0 ${i % 2 ? "sm:ml-auto sm:pl-10" : "sm:pr-10 sm:text-right"}`}>
-                  <span className={`clay-accent absolute left-2 top-3 flex h-5 w-5 items-center justify-center rounded-full sm:left-auto ${i % 2 ? "sm:-left-2.5" : "sm:-right-2.5"}`} />
-                  <ClayCard tilt={false}>
-                    <Badge variant="accent">{t.type}</Badge>
-                    <h3 className="mt-2 font-display text-lg font-bold">{t.title}</h3>
-                    <p className="mt-1 text-xs text-muted-foreground">{formatDate(t.date)}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{t.description}</p>
-                  </ClayCard>
-                </div>
-              </Reveal>
-            ))}
+          <div className="nss-timeline">
+            {sortedItems.map((t, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <Reveal key={t.slug} delay={i * 0.05}>
+                  <div
+                    style={{
+                      position: "relative",
+                      paddingLeft: "3rem",
+                      width: "100%"
+                    }}
+                    className={cnHelper(isEven)}
+                  >
+                    {/* Circle Node */}
+                    <span
+                      className={cn("nss-badge-accent", cnDotHelper(isEven))}
+                      style={{
+                        position: "absolute",
+                        left: "0.75rem",
+                        top: "0.75rem",
+                        display: "flex",
+                        height: "0.75rem",
+                        width: "0.75rem",
+                        borderRadius: "50%"
+                      }}
+                    />
+                    <ClayCard tilt={false} className="nss-p-4 nss-sm-p-5">
+                      <Badge variant="accent" className="w-fit">{t.type}</Badge>
+                      <h3 className="nss-mt-2 nss-font-display nss-text-lg nss-font-bold">{t.title}</h3>
+                      <p className="nss-mt-1 nss-text-xs nss-text-muted">{formatDate(t.date)}</p>
+                      <p className="nss-mt-2 nss-text-sm nss-text-muted">{t.description}</p>
+                    </ClayCard>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         ) : (
           <EmptyState message="The journey is being documented." />
@@ -79,4 +110,15 @@ function Journey() {
       </Container>
     </PageShell>
   );
+}
+
+// Simple layout class helper for timeline nodes
+function cnHelper(isEven: boolean) {
+  // We can write simple logic that gets applied via JS/CSS.
+  // Standard CSS class selectors handle this nicely.
+  return isEven ? "nss-timeline-even" : "nss-timeline-odd";
+}
+
+function cnDotHelper(isEven: boolean) {
+  return isEven ? "nss-timeline-dot-even" : "nss-timeline-dot-odd";
 }

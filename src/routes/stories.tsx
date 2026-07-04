@@ -19,9 +19,9 @@ function Stories() {
   return (
     <PageShell>
       <PageHeader eyebrow="Stories" title="Volunteer Stories" description="Service, in their own words." />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {stories.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
             {stories.map((s, i) => (
               <Reveal key={s.slug} delay={i * 0.06}><StoryCard story={s} /></Reveal>
             ))}

@@ -2,10 +2,7 @@ import { ClayCard } from "./ClayCard";
 import { cn } from "@/lib/utils";
 
 /**
- * LeaderCard — profile card for a team member or officer.
- *
- * Used in: Team page (leadership & volunteer grids).
- * Replaces duplicated photo + name + role + bio patterns in team.tsx.
+ * LeaderCard — profile card for a team member or officer (Vanilla CSS implementation)
  */
 export function LeaderCard({
   name,
@@ -21,7 +18,7 @@ export function LeaderCard({
   className?: string;
 }) {
   return (
-    <ClayCard className={cn("h-full p-4 text-center sm:p-5", className)}>
+    <ClayCard className={cn("nss-text-center", className)} style={{ height: "100%", padding: "1rem" }}>
       {/* Avatar */}
       {photo ? (
         <img
@@ -29,28 +26,48 @@ export function LeaderCard({
           alt={name}
           loading="lazy"
           decoding="async"
-          className="mx-auto h-24 w-24 rounded-full object-cover"
+          style={{
+            margin: "0 auto",
+            height: "6rem",
+            width: "6rem",
+            borderRadius: "50%",
+            objectFit: "cover"
+          }}
         />
       ) : (
-        <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/5 flex flex-col items-center justify-center text-[#1b3a27] border border-[#1b3a27]/10">
-          <span className="material-symbols-outlined text-3xl" aria-hidden>
+        <div
+          style={{
+            margin: "0 auto",
+            height: "6rem",
+            width: "6rem",
+            borderRadius: "50%",
+            backgroundColor: "rgba(27, 58, 63, 0.05)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--primary)",
+            border: "1px solid rgba(27, 58, 63, 0.1)"
+          }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "2rem" }} aria-hidden>
             account_circle
           </span>
-          <span className="text-[9px] font-bold uppercase opacity-80 mt-1">
+          <span className="nss-text-xs nss-font-bold nss-uppercase" style={{ fontSize: "9px", opacity: 0.8, marginTop: "4px" }}>
             Photo Awaiting
           </span>
         </div>
       )}
 
       {/* Info */}
-      <h3 className="mt-3 font-display font-bold leading-tight break-words">
+      <h3 className="nss-mt-3 nss-font-bold nss-leading-tight nss-break-words">
         {name}
       </h3>
       {role && (
-        <p className="text-xs font-semibold text-accent mt-0.5">{role}</p>
+        <p className="nss-text-xs nss-font-semibold nss-text-accent nss-mt-1">{role}</p>
       )}
       {bio && (
-        <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+        <p className="nss-mt-2 nss-text-xs nss-text-muted nss-leading-relaxed">
           {bio}
         </p>
       )}

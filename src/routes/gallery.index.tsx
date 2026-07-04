@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { AlbumCard } from "@/components/media";
-
 import {
   getAlbums,
   getAlbumTypes,
@@ -42,7 +41,6 @@ function Gallery() {
   };
 
   const clearAll = () => setActive({});
-
   const hasActive = Object.values(active).some((v) => v && v !== "all");
 
   const filtered = useMemo(() => {
@@ -88,14 +86,15 @@ function Gallery() {
         title="Photo Albums"
         description="Memories preserved album by album."
       />
-      <Container className="py-8">
-        <div className="mb-3 flex min-h-5 items-center justify-end">
+      <Container className="nss-py-8">
+        <div className="nss-mb-2 nss-flex nss-items-center nss-justify-between" style={{ minHeight: "1.25rem" }}>
           {hasActive && (
             <button
               type="button"
               onClick={clearAll}
-              className="ml-auto text-xs font-semibold text-primary underline underline-offset-2 hover:no-underline"
+              className="nss-ml-2 text-xs font-semibold text-primary underline hover:no-underline cursor-pointer"
               aria-label="Clear all gallery filters"
+              style={{ marginLeft: "auto" }}
             >
               Clear all
             </button>
@@ -104,7 +103,7 @@ function Gallery() {
         <FilterBar groups={groups} active={active} onChange={handleFilter} />
 
         {filtered.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3">
             {filtered.map((a, i) => (
               <Reveal key={a.slug} delay={i * 0.06}>
                 <AlbumCard album={a} />

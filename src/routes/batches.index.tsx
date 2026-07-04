@@ -23,11 +23,11 @@ function Batches() {
         title="Every Batch, Every Chapter"
         description="Each batch serves and leaves, but their journey stays forever. Explore them newest first."
       />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {batches.length === 0 ? (
           <EmptyState message="No batches added yet." />
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
             {batches.map((b, i) => (
               <Reveal key={b.slug} delay={i * 0.08}>
                 <BatchCard batch={b} />

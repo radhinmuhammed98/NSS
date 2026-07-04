@@ -2,10 +2,7 @@ import { cn } from "@/lib/utils";
 import type { ElementType } from "react";
 
 /**
- * ActivityCard — icon-driven card for causes, pillars, and activity summaries.
- *
- * Used in: Support page (cause cards), Home page (Three Pillars).
- * Replaces duplicated inline div structures with icon + title + subtitle + desc pattern.
+ * ActivityCard — icon-driven card for causes, pillars, and activity summaries (Vanilla CSS implementation)
  */
 export function ActivityCard({
   icon: Icon,
@@ -28,31 +25,36 @@ export function ActivityCard({
   return (
     <div
       className={cn(
-        "flex h-full min-w-0 flex-col gap-4 rounded-lg border border-border/40 bg-card p-5 sm:p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5",
+        "nss-card nss-card-tilt nss-flex nss-flex-col nss-gap-4",
         className
       )}
     >
       {/* Icon bubble — only shown when an icon is provided */}
       {Icon && (
         <span
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg shrink-0"
-          style={{ background: bubbleBg }}
+          className="nss-flex nss-items-center nss-justify-center nss-shrink-0"
+          style={{
+            background: bubbleBg,
+            width: "2.75rem",
+            height: "2.75rem",
+            borderRadius: "var(--radius-lg)"
+          }}
         >
-          <Icon className="h-5 w-5" style={{ color: accentColor }} aria-hidden />
+          <Icon style={{ color: accentColor, width: "1.25rem", height: "1.25rem" }} aria-hidden />
         </span>
       )}
 
       {/* Text block */}
-      <div className="flex flex-col gap-1">
+      <div className="nss-flex nss-flex-col nss-gap-1">
         <h3
-          className="font-bold text-base leading-snug"
-          style={{ color: "var(--color-primary)" }}
+          className="nss-font-bold nss-text-base nss-leading-snug"
+          style={{ color: "var(--primary)" }}
         >
           {title}
         </h3>
         {subtitle && (
           <p
-            className="text-xs text-muted-foreground"
+            className="nss-text-xs nss-text-muted"
             style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
           >
             {subtitle}
@@ -60,7 +62,7 @@ export function ActivityCard({
         )}
       </div>
 
-      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+      <p className="nss-text-sm nss-text-muted nss-leading-relaxed nss-flex-1">
         {description}
       </p>
     </div>

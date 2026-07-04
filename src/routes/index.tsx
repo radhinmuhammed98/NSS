@@ -8,7 +8,6 @@ import {
   Badge,
   ImpactStat,
   Reveal,
-  EmptyState,
   Section,
   ActivityCard,
 } from "@/components/clay";
@@ -96,41 +95,41 @@ function Home() {
 
   return (
     <PageShell>
-      <Container className="flex flex-col gap-y-10 py-6 sm:gap-y-12 sm:py-10 lg:gap-y-14 lg:py-12">
+      <Container className="nss-flex nss-flex-col nss-gap-8 nss-py-8">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <Section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/40 bg-surface-elevated p-4 shadow-sm sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
+        <Section className="nss-grid nss-grid-cols-1 nss-items-center nss-gap-6 nss-card nss-p-4 nss-sm-p-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
 
           {/* Text column */}
-          <div className="flex min-w-0 flex-col lg:pr-2">
+          <div className="nss-flex nss-flex-col" style={{ minWidth: 0 }}>
             <div>
               <Badge variant="accent">
-                <Sparkles className="mr-1 h-3.5 w-3.5" />
+                <Sparkles style={{ marginRight: "4px", height: "0.875rem", width: "0.875rem" }} />
                 KHMHSS Valakkulam · Unit 466 · {s.academicYear}
               </Badge>
             </div>
 
-            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-[0.95] tracking-normal break-words text-balance sm:text-5xl lg:text-[3.55rem]" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
+            <h1 className="nss-mt-4 nss-text-4xl nss-font-extrabold nss-leading-tight nss-break-words nss-text-balance nss-sm-text-5xl" style={{ fontFamily: "var(--font-display)" }}>
               KHMHSS Valakkulam
             </h1>
-            <p className="mt-3 text-xl font-bold leading-tight text-primary sm:text-2xl">
+            <p className="nss-mt-2 nss-text-lg nss-font-bold nss-leading-tight nss-text-primary nss-sm-text-xl">
               National Service Scheme · Unit 466
             </p>
 
             <p 
-              className="mt-5 max-w-xl text-2xl font-bold leading-snug text-accent sm:text-[1.7rem]"
+              className="nss-mt-4 nss-text-xl nss-font-bold nss-leading-snug nss-text-accent"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
               "നമുക്കല്ല, സമൂഹത്തിനായി."
             </p>
 
             {/* Bilingual motto */}
-            <div className="mt-5 border-l-4 border-accent pl-4">
-              <p className="font-display text-base font-semibold italic text-foreground">
+            <div className="nss-mt-4" style={{ borderLeft: "4px solid var(--accent)", paddingLeft: "1rem" }}>
+              <p className="nss-font-display nss-text-base nss-font-semibold nss-italic">
                 &ldquo;Not Me, But You&rdquo;
               </p>
               <p
-                className="mt-1 text-sm text-muted-foreground"
+                className="nss-mt-1 nss-text-sm nss-text-muted"
                 style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
               >
                 മനസ്സ് നന്നാവട്ടെ
@@ -138,19 +137,19 @@ function Home() {
             </div>
 
             {/* CTA buttons */}
-            <div className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <ClayButton to="/camps" variant="primary" className="w-full sm:w-auto justify-center">
-                Special Camp <ArrowRight className="h-4 w-4" />
+            <div className="nss-mt-6 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row">
+              <ClayButton to="/camps" variant="primary" className="nss-justify-center">
+                Special Camp <ArrowRight style={{ height: "1rem", width: "1rem" }} />
               </ClayButton>
-              <ClayButton to="/projects" variant="soft" className="w-full sm:w-auto justify-center">
+              <ClayButton to="/projects" variant="soft" className="nss-justify-center">
                 Our Initiatives
               </ClayButton>
             </div>
           </div>
 
           {/* Media column */}
-          <div className="grid min-w-0 gap-3">
-            <div className="overflow-hidden rounded-lg border border-border/60 bg-background p-0 shadow-sm">
+          <div className="nss-grid nss-gap-3" style={{ minWidth: 0 }}>
+            <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
               <img
                 src="/gate.png"
                 alt="KHMHSS Valakkulam School Gate"
@@ -158,13 +157,13 @@ function Home() {
                 height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="aspect-[4/3] w-full object-cover sm:aspect-[16/10] lg:aspect-[4/3]"
+                style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }}
               />
             </div>
             {/* Volunteer count badge */}
-            <div className="grid min-h-20 w-full min-w-0 grid-cols-[auto_1fr] items-center gap-4 rounded-lg px-5 py-4 bg-primary text-primary-foreground border border-primary-container shadow-sm">
-              <p className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 font-display text-2xl font-bold leading-none">50</p>
-              <p className="text-sm font-semibold uppercase leading-tight text-white/85">NSS Volunteers</p>
+            <div className="nss-flex nss-items-center nss-gap-4 nss-card nss-p-4 nss-bg-primary nss-text-white" style={{ border: "1px solid var(--primary-container)" }}>
+              <p className="nss-flex nss-items-center nss-justify-center nss-font-display nss-text-2xl nss-font-bold nss-leading-none" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "rgba(255,255,255,0.1)" }}>50</p>
+              <p className="nss-text-sm nss-font-semibold nss-uppercase nss-leading-tight" style={{ color: "rgba(255, 255, 255, 0.85)" }}>NSS Volunteers</p>
             </div>
           </div>
         </Section>
@@ -173,23 +172,23 @@ function Home() {
         {batch?.impactMetrics?.length > 0 && (
           <Section>
             <Reveal>
-              <ClayCard tilt={false} className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)] lg:items-center">
+              <ClayCard tilt={false} className="nss-grid nss-gap-5 nss-p-4 nss-sm-p-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 <div>
                   <Badge>Current Batch</Badge>
-                  <h2 className="mt-2 font-display text-2xl font-extrabold leading-tight break-words">
+                  <h2 className="nss-mt-2 nss-font-display nss-text-2xl nss-font-extrabold nss-leading-tight nss-break-words">
                     {batch.yearRange} · {batch.title}
                   </h2>
                   {(batch.programmeOfficer?.trim() || batch.volunteerSecretary?.trim()) && (
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="nss-mt-1 nss-text-sm nss-text-muted">
                       {batch.programmeOfficer && `Programme Officer: ${batch.programmeOfficer}`}
                       {batch.programmeOfficer && batch.volunteerSecretary && " · "}
                       {batch.volunteerSecretary && `Secretary: ${batch.volunteerSecretary}`}
                     </p>
                   )}
                 </div>
-                <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="nss-grid nss-grid-cols-2 nss-gap-3 nss-sm-grid-cols-4">
                   {batch.impactMetrics.map((m) => (
-                    <div key={m.label} className="min-w-0">
+                    <div key={m.label} style={{ minWidth: 0 }}>
                       <ImpactStat label={m.label} value={m.value} />
                     </div>
                   ))}
@@ -203,25 +202,25 @@ function Home() {
         {highlight && (
           <Section>
             <Reveal>
-              <div className="clay grid min-w-0 overflow-hidden p-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+              <div className="nss-card nss-p-0 nss-grid nss-gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
                 {highlight.image && (
                   <img
                     src={highlight.image}
                     alt={highlight.title}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[16/9] h-full w-full object-cover"
+                    style={{ aspectRatio: "16/9", width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 )}
-                <div className="flex min-w-0 flex-col justify-center p-5 sm:p-6 lg:p-8">
-                  <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
-                  <h2 className="mt-3 font-display text-2xl font-extrabold text-balance sm:text-3xl">
+                <div className="nss-flex nss-flex-col nss-justify-center nss-p-5 nss-sm-p-6">
+                  <Badge variant="accent" style={{ alignSelf: "flex-start" }}>★ Featured Highlight</Badge>
+                  <h2 className="nss-mt-3 nss-font-display nss-text-2xl nss-font-extrabold nss-text-balance nss-sm-text-3xl">
                     {highlight.title}
                   </h2>
-                  <p className="mt-3 text-muted-foreground">{highlight.description}</p>
-                  <div className="mt-6">
+                  <p className="nss-mt-3 nss-text-muted">{highlight.description}</p>
+                  <div className="nss-mt-6">
                     <ClayButton to="/highlights" variant="soft">
-                      See all highlights <ArrowRight className="h-4 w-4" />
+                      See all highlights <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                     </ClayButton>
                   </div>
                 </div>
@@ -239,11 +238,11 @@ function Home() {
               description="A glimpse of the campaigns making a difference this year."
               action={
                 <ClayButton to="/projects" variant="soft">
-                  All projects <ArrowRight className="h-4 w-4" />
+                  All projects <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                 </ClayButton>
               }
             />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3">
               {projects.map((p, i) => (
                 <Reveal key={p.slug} delay={i * 0.08}>
                   <ProjectCard project={p} />
@@ -272,35 +271,35 @@ function Home() {
               description="Every batch leaves a chapter behind. Explore them all."
               action={
                 <ClayButton to="/batches" variant="soft">
-                  All batches <ArrowRight className="h-4 w-4" />
+                  All batches <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                 </ClayButton>
               }
             />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2">
               <Reveal>
-                <Link to="/journey">
-                  <ClayCard className="h-full p-4 sm:p-5">
-                    <Badge variant="accent">Timeline</Badge>
-                    <h3 className="mt-3 font-display text-xl font-bold">NSS Journey Timeline</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                <Link to="/journey" style={{ display: "block", height: "100%" }}>
+                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
+                    <Badge variant="accent" className="w-fit">Timeline</Badge>
+                    <h3 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">NSS Journey Timeline</h3>
+                    <p className="nss-mt-2 nss-text-sm nss-text-muted">
                       From the unit's founding to today — every milestone preserved.
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                      Walk the journey <ArrowRight className="h-4 w-4" />
+                    <span className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
+                      Walk the journey <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                     </span>
                   </ClayCard>
                 </Link>
               </Reveal>
               <Reveal delay={0.1}>
-                <Link to="/team">
-                  <ClayCard className="h-full p-4 sm:p-5">
-                    <Badge variant="accent">People</Badge>
-                    <h3 className="mt-3 font-display text-xl font-bold">Team &amp; Volunteers</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                <Link to="/team" style={{ display: "block", height: "100%" }}>
+                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
+                    <Badge variant="accent" className="w-fit">People</Badge>
+                    <h3 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">Team &amp; Volunteers</h3>
+                    <p className="nss-mt-2 nss-text-sm nss-text-muted">
                       Meet the officers and volunteers behind every campaign.
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                      Meet the team <ArrowRight className="h-4 w-4" />
+                    <span className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
+                      Meet the team <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                     </span>
                   </ClayCard>
                 </Link>
@@ -313,19 +312,19 @@ function Home() {
         {(albums?.length > 0 || videos?.length > 0) && (
           <Section gap="large">
             {albums?.length > 0 && (
-              <div className="flex min-w-0 flex-col gap-4">
+              <div className="nss-flex nss-flex-col nss-gap-4" style={{ minWidth: 0 }}>
                 <SectionHeading
                   eyebrow="Media"
                   title="Gallery & Video Clips"
                   description="Explore our visual record of service."
                 />
-                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h3 className="font-display text-lg font-bold leading-tight text-foreground">Recent Photo Albums</h3>
+                <div className="nss-mb-4 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-sm-justify-between">
+                  <h3 className="nss-font-display nss-text-lg nss-font-bold nss-leading-tight">Recent Photo Albums</h3>
                   <ClayButton to="/gallery" variant="soft">
-                    All Albums <ArrowRight className="h-4 w-4" />
+                    All Albums <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                   </ClayButton>
                 </div>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3">
                   {albums.map((a, i) => (
                     <Reveal key={a.slug} delay={i * 0.06}>
                       <AlbumCard album={a} />
@@ -336,7 +335,7 @@ function Home() {
             )}
 
             {videos?.length > 0 && (
-              <div className="flex min-w-0 flex-col gap-4">
+              <div className="nss-flex nss-flex-col nss-gap-4" style={{ minWidth: 0 }}>
                 {!albums?.length && (
                   <SectionHeading
                     eyebrow="Media"
@@ -344,13 +343,13 @@ function Home() {
                     description="Explore our visual record of service."
                   />
                 )}
-                <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <h3 className="font-display text-lg font-bold leading-tight text-foreground">Featured Clips</h3>
+                <div className="nss-mb-4 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-sm-justify-between">
+                  <h3 className="nss-font-display nss-text-lg nss-font-bold nss-leading-tight">Featured Clips</h3>
                   <ClayButton to="/videos" variant="soft">
-                    All Videos <ArrowRight className="h-4 w-4" />
+                    All Videos <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                   </ClayButton>
                 </div>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2">
                   {videos.map((v, i) => (
                     <Reveal key={v.slug} delay={i * 0.08}>
                       <MediaThumb video={v} />
@@ -370,18 +369,18 @@ function Home() {
               title="Reports & Records"
               action={
                 <ClayButton to="/reports" variant="soft">
-                  All reports <ArrowRight className="h-4 w-4" />
+                  All reports <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                 </ClayButton>
               }
             />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-3">
               {reports.map((r, i) => (
                 <Reveal key={r.slug} delay={i * 0.06}>
-                  <ClayCard className="h-full p-4 sm:p-5">
-                    <Badge variant="outline">{r.type}</Badge>
-                    <h3 className="mt-3 font-display font-bold">{r.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
-                    <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
+                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
+                    <Badge variant="outline" className="w-fit">{r.type}</Badge>
+                    <h3 className="nss-mt-3 nss-font-display nss-font-bold">{r.title}</h3>
+                    <p className="nss-mt-2 nss-text-sm nss-text-muted">{r.description}</p>
+                    <p className="nss-mt-3 nss-text-xs nss-text-muted">{formatDate(r.date)}</p>
                   </ClayCard>
                 </Reveal>
               ))}
@@ -397,11 +396,11 @@ function Home() {
               title="Volunteer Stories"
               action={
                 <ClayButton to="/stories" variant="soft">
-                  All stories <ArrowRight className="h-4 w-4" />
+                  All stories <ArrowRight style={{ height: "1rem", width: "1rem" }} />
                 </ClayButton>
               }
             />
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2">
               {stories.map((st, i) => (
                 <Reveal key={st.slug} delay={i * 0.08}>
                   <StoryCard story={st} />
@@ -418,7 +417,7 @@ function Home() {
             title="Three Pillars of Service"
             description="Every act of volunteering falls under one of three principles that define who we are."
           />
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-3">
             {([
               {
                 subtitle: "സമൂഹം",
@@ -454,24 +453,24 @@ function Home() {
         {/* ── 11. Reach Out CTA ────────────────────────────────────────────── */}
         <Section>
           <div
-            className="flex min-w-0 flex-col items-center gap-4 overflow-hidden rounded-lg p-6 text-center sm:p-8 lg:p-10"
-            style={{ background: "#042413", color: "#ffffff" }}
+            className="nss-flex nss-flex-col nss-items-center nss-gap-4 nss-p-6 nss-text-center nss-sm-p-8"
+            style={{ borderRadius: "var(--radius-lg)", background: "#042413", color: "#ffffff" }}
           >
             <p
-              className="font-display text-2xl font-bold italic"
+              className="nss-font-display nss-text-2xl nss-font-bold nss-italic"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
               ജീവിക്കുന്ന ഒരിടം
             </p>
-            <h2 className="font-display text-2xl font-extrabold leading-tight text-balance sm:text-3xl">
+            <h2 className="nss-font-display nss-text-2xl nss-font-extrabold nss-leading-tight nss-text-balance nss-sm-text-3xl">
               Be Part of the Living Canvas
             </h2>
-            <p className="max-w-md text-sm leading-relaxed opacity-90">
+            <p className="nss-text-sm nss-leading-relaxed" style={{ maxWidth: "28rem", opacity: 0.9 }}>
               Want to join, collaborate, or learn more about our unit's work?
               Every student can be a thread in this tapestry.
             </p>
             <ClayButton to="/contact" variant="soft">
-              Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight className="h-4 w-4" />
+              Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight style={{ height: "1rem", width: "1rem" }} />
             </ClayButton>
           </div>
         </Section>

@@ -79,6 +79,20 @@ function Reports() {
     },
   ];
 
+  const buttonStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    borderRadius: "var(--radius-md)",
+    backgroundColor: "rgba(4, 36, 19, 0.1)",
+    padding: "0.375rem 0.75rem",
+    fontSize: "12px",
+    fontWeight: 600,
+    color: "var(--primary)",
+    transition: "background-color 0.15s ease",
+    cursor: "pointer"
+  };
+
   return (
     <PageShell>
       <PageHeader
@@ -86,13 +100,13 @@ function Reports() {
         title="Reports & Documents"
         description="Official records preserved for reference."
       />
-      <Container className="py-8">
+      <Container className="nss-py-8">
         {hasActive && (
-          <div className="flex justify-end mb-2">
+          <div className="nss-flex nss-justify-end nss-mb-2">
             <button
               type="button"
               onClick={clearAll}
-              className="text-xs font-semibold text-primary underline underline-offset-2 hover:no-underline"
+              className="text-xs font-semibold text-primary underline hover:no-underline cursor-pointer"
               aria-label="Clear all report filters"
             >
               Clear all
@@ -102,12 +116,12 @@ function Reports() {
         <FilterBar groups={groups} active={active} onChange={handleFilter} />
 
         {filtered.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="nss-grid nss-gap-4 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
             {filtered.map((r, i) => (
               <Reveal key={r.slug} delay={i * 0.05}>
-                <ClayCard className="flex h-full flex-col">
-                  <FileText className="h-8 w-8 text-primary" aria-hidden />
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <ClayCard className="nss-flex nss-flex-col" style={{ height: "100%" }}>
+                  <FileText style={{ height: "2rem", width: "2rem", color: "var(--primary)" }} aria-hidden />
+                  <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
                     <Badge variant="outline">{r.type}</Badge>
                     {r.batchSlug && (
                       <Badge variant="outline">
@@ -115,34 +129,34 @@ function Reports() {
                       </Badge>
                     )}
                   </div>
-                  <h3 className="mt-2 font-display font-bold">{r.title}</h3>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">{r.description}</p>
-                  <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
+                  <h3 className="nss-mt-2 nss-font-display nss-font-bold">{r.title}</h3>
+                  <p className="nss-mt-2 nss-flex-1 nss-text-sm nss-text-muted">{r.description}</p>
+                  <p className="nss-mt-3 nss-text-xs nss-text-muted">{formatDate(r.date)}</p>
 
                   {r.isPublic && r.file && r.file !== "#" ? (
-                    <div className="mt-4 flex gap-3">
+                    <div className="nss-mt-4 nss-flex nss-gap-3">
                       <a
                         href={r.file}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`View ${r.title}`}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+                        style={buttonStyle}
                       >
-                        <Eye className="h-3.5 w-3.5" aria-hidden />
+                        <Eye style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden />
                         View
                       </a>
                       <a
                         href={r.file}
                         download
                         aria-label={`Download ${r.title}`}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+                        style={buttonStyle}
                       >
-                        <Download className="h-3.5 w-3.5" aria-hidden />
+                        <Download style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden />
                         Download
                       </a>
                     </div>
                   ) : (
-                    <p className="mt-4 text-xs text-muted-foreground italic">
+                    <p className="nss-mt-4 nss-text-xs nss-text-muted nss-italic">
                       {r.isPublic ? "File link coming soon" : "Not publicly available"}
                     </p>
                   )}

@@ -7,10 +7,7 @@ export interface FilterGroup {
 }
 
 /**
- * FilterBar — horizontal filter pill groups
- *
- * Active filter pill: NSS crimson background (selected state = brand intent).
- * Inactive pill: clean neutral, no clay shadow.
+ * FilterBar — horizontal filter pill groups (Vanilla CSS implementation)
  */
 export function FilterBar({
   groups,
@@ -22,16 +19,17 @@ export function FilterBar({
   onChange: (key: string, value: string) => void;
 }) {
   return (
-    <div className="clay-sm mb-8 flex flex-col gap-4 p-4" role="group" aria-label="Filters">
+    <div className="clay-sm nss-mb-8 nss-flex nss-flex-col nss-gap-4 nss-p-4" role="group" aria-label="Filters">
       {groups.map((group) => (
-        <div key={group.key} className="flex flex-wrap items-center gap-2">
+        <div key={group.key} className="nss-flex nss-flex-wrap nss-items-center nss-gap-2">
           <span
             id={`filter-label-${group.key}`}
-            className="mr-1 text-xs font-bold uppercase  text-muted-foreground"
+            className="nss-text-xs nss-font-bold nss-uppercase nss-text-muted"
+            style={{ marginRight: "0.25rem" }}
           >
             {group.label}
           </span>
-          <div role="group" aria-labelledby={`filter-label-${group.key}`} className="flex flex-wrap gap-2">
+          <div role="group" aria-labelledby={`filter-label-${group.key}`} className="nss-flex nss-flex-wrap nss-gap-2">
             {group.options.map((opt) => {
               const isActive = (active[group.key] ?? "all") === opt.value;
               return (
@@ -41,11 +39,12 @@ export function FilterBar({
                   onClick={() => onChange(group.key, opt.value)}
                   aria-pressed={isActive}
                   className={cn(
-                    "rounded-md px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-offset-2",
+                    "nss-badge cursor-pointer",
                     isActive
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "bg-background text-muted-foreground hover:text-foreground hover:bg-surface"
+                      ? "nss-badge-default"
+                      : "nss-badge-outline hover:nss-bg-muted"
                   )}
+                  style={{ padding: "0.375rem 0.75rem", borderRadius: "var(--radius-md)" }}
                 >
                   {opt.label}
                 </button>

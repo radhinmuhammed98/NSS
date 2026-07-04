@@ -1,7 +1,5 @@
 /**
- * EmptyState — shown when a list has no results.
- *
- * Uses clay-inset (neutral warm well) — restrained, not a red block.
+ * EmptyState — shown when a list has no results (Vanilla CSS implementation)
  */
 export function EmptyState({
   title,
@@ -11,14 +9,14 @@ export function EmptyState({
   message: string;
 }) {
   return (
-    <div className="clay-inset flex flex-col items-center justify-center gap-2 px-6 py-14 text-center">
-      <span className="text-3xl" aria-hidden>
+    <div className="clay-inset nss-flex nss-flex-col nss-items-center nss-justify-center nss-gap-2 nss-px-5 nss-py-14 nss-text-center">
+      <span style={{ fontSize: "1.875rem" }} aria-hidden>
         🌱
       </span>
       {title && (
-        <p className="font-display text-lg font-semibold">{title}</p>
+        <p className="nss-font-display nss-text-lg nss-font-semibold">{title}</p>
       )}
-      <p className="max-w-sm text-sm text-muted-foreground">{message}</p>
+      <p className="nss-text-sm nss-text-muted" style={{ maxWidth: "24rem" }}>{message}</p>
     </div>
   );
 }

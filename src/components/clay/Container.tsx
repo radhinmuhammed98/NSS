@@ -1,20 +1,20 @@
-import type { ReactNode } from "react";
+import type { ReactNode, CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Container — responsive content alignment wrapper
- *
- * Provides a standardized max-width constraint and horizontal breathing gutters.
+ * Container — responsive content alignment wrapper using pure CSS
  */
 export function Container({
   children,
   className,
+  style,
 }: {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
 }) {
   return (
-    <div className={cn("mx-auto max-w-7xl px-4 sm:px-6 md:px-10", className)}>
+    <div className={cn("nss-container", className)} style={style}>
       {children}
     </div>
   );
