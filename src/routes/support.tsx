@@ -21,35 +21,35 @@ const causes = [
   {
     icon: Droplets,
     title: "Blood Donation Awareness",
-    ml: "രക്തദാന ബോധവൽക്കരണം",
+    ml: "ജീവനായ് രക്തദാനം",
     desc: "Organising blood donation camps and awareness drives that have saved countless lives across the community.",
     color: "#a04021",
   },
   {
     icon: Tent,
     title: "Special Camps",
-    ml: "പ്രത്യേക ക്യാമ്പുകൾ",
+    ml: "സഹവാസ ക്യാമ്പുകൾ",
     desc: "Seven-day residential NSS special camps that build leadership, discipline, and community bonds.",
     color: "#1b3a27",
   },
   {
     icon: Users,
     title: "Community Service",
-    ml: "സാമൂഹ്യ പ്രവർത്തനം",
+    ml: "കൈത്താങ്ങും കാരുണ്യവും",
     desc: "Palliative care visits, housing drives, and reaching the unreached in our local community.",
     color: "#042413",
   },
   {
     icon: Leaf,
     title: "Environmental Activities",
-    ml: "പരിസ്ഥിതി പ്രവർത്തനങ്ങൾ",
+    ml: "ഹരിത സംരക്ഷണം",
     desc: "Tree plantations, Haritha Bhavanam, plastic-free campaigns, and river clean-up drives.",
     color: "#1b3a27",
   },
   {
     icon: Baby,
     title: "Children's Welfare",
-    ml: "ശിശുക്ഷേമം",
+    ml: "കുരുന്നുകൾക്ക് സ്നേഹസ്പർശം",
     desc: "Educational support, awareness sessions, and welfare activities for underprivileged children.",
     color: "#a04021",
   },
@@ -116,7 +116,7 @@ function Support() {
               className="mt-3 text-2xl font-bold text-white/70 sm:text-3xl"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
-              നന്മയ്ക്കായി കൈത്താങ്ങാകൂ
+              നന്മയ്ക്കായി കൈകോർക്കാം
             </p>
 
             {/* Description */}
@@ -362,7 +362,7 @@ function Support() {
                   className="text-sm font-semibold italic"
                   style={{ fontFamily: "'Noto Sans Malayalam', sans-serif", color: "#727972" }}
                 >
-                  ഉടൻ ഡൊണേഷൻ വിവരങ്ങൾ ലഭ്യമാകും
+                  സഹായ വിവരങ്ങൾ ഉടൻ ലഭ്യമാകും
                 </p>
               </div>
             </Reveal>
