@@ -21,7 +21,15 @@ const styles: Record<Variant, string> = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-shadow focus-visible:outline-offset-4";
+  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-center text-sm font-semibold leading-tight transition-shadow focus-visible:outline-offset-4";
+
+function wrapperClass(className?: string) {
+  return cn(
+    "inline-flex max-w-full",
+    className?.includes("w-full") && "w-full",
+    className?.includes("sm:w-auto") && "sm:w-auto"
+  );
+}
 
 export function ClayButton({
   children,
@@ -70,7 +78,7 @@ export function ClayButton({
 
   if (to) {
     return (
-      <motion.div {...motionProps} className="inline-block">
+      <motion.div {...motionProps} className={wrapperClass(className)}>
         <Link to={to} className={cls} onClick={makeRipple}>
           {children}
         </Link>
@@ -79,7 +87,7 @@ export function ClayButton({
   }
   if (href) {
     return (
-      <motion.a {...motionProps} href={href} className={cls} onClick={makeRipple}>
+      <motion.a {...motionProps} href={href} className={cn(cls, wrapperClass(className))} onClick={makeRipple}>
         {children}
       </motion.a>
     );

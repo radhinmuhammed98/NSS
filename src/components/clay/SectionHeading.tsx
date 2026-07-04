@@ -23,7 +23,7 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between",
+        "mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between",
         className
       )}
     >
@@ -40,7 +40,7 @@ export function SectionHeading({
           <p className="mt-3 text-muted-foreground">{description}</p>
         )}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="flex w-full shrink-0 sm:w-auto sm:justify-end">{action}</div>}
     </div>
   );
 }

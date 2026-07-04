@@ -93,13 +93,13 @@ function Home() {
 
   return (
     <PageShell>
-      <Container className="flex flex-col gap-y-16 py-16">
+      <Container className="flex flex-col gap-y-12 py-8 sm:gap-y-14 sm:py-12 lg:gap-y-16 lg:py-16">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <section className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12 lg:items-center">
 
           {/* Text column */}
-          <div className="flex flex-col">
+          <div className="flex min-w-0 flex-col">
             <div>
               <Badge variant="accent">
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
@@ -107,15 +107,15 @@ function Home() {
               </Badge>
             </div>
 
-            <h1 className="mt-4 text-4xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
+            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-[0.95] tracking-normal break-words text-balance sm:text-5xl lg:text-6xl" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
               KHMHSS Valakkulam
             </h1>
-            <p className="mt-2 text-xl sm:text-2xl font-bold text-primary font-display">
+            <p className="mt-3 text-xl font-bold leading-tight text-primary sm:text-2xl">
               National Service Scheme · Unit 466
             </p>
 
             <p 
-              className="mt-5 max-w-md text-2xl sm:text-3xl font-bold text-accent leading-snug"
+              className="mt-5 max-w-xl text-2xl font-bold leading-snug text-accent sm:text-3xl"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
               "നമുക്കല്ല, സമൂഹത്തിനായി."
@@ -135,7 +135,7 @@ function Home() {
             </div>
 
             {/* CTA buttons */}
-            <div className="mt-7 flex flex-col sm:flex-row gap-3">
+            <div className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
               <ClayButton to="/camps" variant="primary" className="w-full sm:w-auto justify-center">
                 Special Camp <ArrowRight className="h-4 w-4" />
               </ClayButton>
@@ -146,8 +146,8 @@ function Home() {
           </div>
 
           {/* Media column */}
-          <div className="flex flex-col gap-4">
-            <div className="clay overflow-hidden p-0 rounded-2xl shadow-md border border-border/40">
+          <div className="flex min-w-0 flex-col gap-4">
+            <div className="clay overflow-hidden rounded-2xl border border-border/40 p-0 shadow-md">
               <img
                 src="/gate.png"
                 alt="KHMHSS Valakkulam School Gate"
@@ -155,12 +155,12 @@ function Home() {
                 height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="aspect-video sm:aspect-[4/3] w-full object-cover rounded-xl"
+                className="aspect-[16/9] w-full object-cover"
               />
             </div>
             {/* Volunteer count badge */}
             <div
-              className="px-5 py-3 rounded-2xl w-full sm:w-auto min-w-fit mt-2 flex flex-col items-start"
+              className="mt-1 flex min-h-20 w-full min-w-0 flex-col items-start justify-center rounded-2xl px-5 py-4 sm:w-auto sm:max-w-xs"
               style={{
                 background: "#042413",
                 color: "#ffffff",
@@ -168,8 +168,8 @@ function Home() {
                   "8px 8px 22px rgba(27,58,39,0.15), -6px -6px 16px rgba(255,255,255,0.8)",
               }}
             >
-              <p className="font-display text-2xl font-bold">50</p>
-              <p className="text-xs font-semibold text-white/80 uppercase tracking-wider">NSS Volunteers</p>
+              <p className="font-display text-3xl font-bold leading-none">50</p>
+              <p className="mt-2 text-xs font-semibold uppercase leading-tight tracking-wider text-white/80">NSS Volunteers</p>
             </div>
           </div>
         </section>
@@ -192,7 +192,7 @@ function Home() {
                     </p>
                   )}
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full lg:w-auto">
+                <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:w-auto">
                   {batch.impactMetrics.map((m) => (
                     <div key={m.label} className="h-full flex items-center justify-center">
                       <ImpactStat label={m.label} value={m.value} />
@@ -318,7 +318,7 @@ function Home() {
         {(albums?.length > 0 || videos?.length > 0) && (
           <section className="flex flex-col gap-10">
             {albums?.length > 0 && (
-              <div className="flex flex-col gap-4">
+              <div className="flex min-w-0 flex-col gap-4">
                 <SectionHeading
                   eyebrow="Media"
                   title="Gallery & Video Clips"
@@ -341,7 +341,7 @@ function Home() {
             )}
 
             {videos?.length > 0 && (
-              <div className="flex flex-col gap-4">
+              <div className="flex min-w-0 flex-col gap-4">
                 {!albums?.length && (
                   <SectionHeading
                     eyebrow="Media"
