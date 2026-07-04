@@ -1,10 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { SectionHeading, ClayButton, ClayCard, Badge, ImpactStat, Reveal } from "@/components/clay";
-import { MediaThumb, AlbumCard, CampCard, ProjectCard, StoryCard } from "@/components/media";
-
+import {
+  SectionHeading,
+  ClayButton,
+  ClayCard,
+  Badge,
+  ImpactStat,
+  Reveal,
+} from "@/components/clay";
+import {
+  MediaThumb,
+  AlbumCard,
+  CampCard,
+  ProjectCard,
+  StoryCard,
+} from "@/components/media";
 import {
   formatDate,
   getAlbums,
@@ -18,68 +29,97 @@ import {
   getReports,
   getSiteSettings,
 } from "@/lib/data";
-import type { SiteSettings, Batch, Highlight, Project, Camp, GalleryAlbum, VideoClip, Report, VolunteerStory } from "@/types";
+import type {
+  SiteSettings,
+  Batch,
+  Highlight,
+  Project,
+  Camp,
+  GalleryAlbum,
+  VideoClip,
+  Report,
+  VolunteerStory,
+} from "@/types";
 
-export const Route = createFileRoute("/")({
-  loader: async () => {
-    const s = await getSiteSettings();
-    const batch = await getCurrentBatch();
-    const batches = await getBatches();
-    const highlight = await getFeaturedHighlight();
-    const projects = await getFeaturedProjects(3);
-    const camp = await getFeaturedCamp();
-    const allAlbums = await getAlbums();
-    const albums = allAlbums.slice(0, 3);
-    const videos = await getFeaturedVideos(2);
-    const allReports = await getReports();
-    const reports = allReports.slice(0, 3);
-    const stories = await getFeaturedStories(2);
-    return { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories };
-  },
-  component: Home,
-});
+// ─── Route ────────────────────────────────────────────────────────────────────
+
+export const Route = createFileRoute("/")(
+  {
+    loader: async () => {
+      const s         = await getSiteSettings();
+      const batch     = await getCurrentBatch();
+      const batches   = await getBatches();
+      const highlight = await getFeaturedHighlight();
+      const projects  = await getFeaturedProjects(3);
+      const camp      = await getFeaturedCamp();
+      const allAlbums = await getAlbums();
+      const albums    = allAlbums.slice(0, 3);
+      const videos    = await getFeaturedVideos(2);
+      const allReports = await getReports();
+      const reports   = allReports.slice(0, 3);
+      const stories   = await getFeaturedStories(2);
+      return { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories };
+    },
+    component: Home,
+  }
+);
+
+// ─── Page Component ───────────────────────────────────────────────────────────
 
 function Home() {
-  const { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories } = Route.useLoaderData() as {
-    s: SiteSettings;
-    batch: Batch;
-    batches: Batch[];
+  const {
+    s,
+    batch,
+    batches,
+    highlight,
+    projects,
+    camp,
+    albums,
+    videos,
+    reports,
+    stories,
+  } = Route.useLoaderData() as {
+    s:         SiteSettings;
+    batch:     Batch;
+    batches:   Batch[];
     highlight: Highlight;
-    projects: Project[];
-    camp: Camp;
-    albums: GalleryAlbum[];
-    videos: VideoClip[];
-    reports: Report[];
-    stories: VolunteerStory[];
+    projects:  Project[];
+    camp:      Camp;
+    albums:    GalleryAlbum[];
+    videos:    VideoClip[];
+    reports:   Report[];
+    stories:   VolunteerStory[];
   };
 
   return (
     <PageShell>
       <Container className="flex flex-col gap-y-16 py-16">
-        
-        {/* 1. Hero Section */}
+
+        {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* Text Column */}
+
+          {/* Text column */}
           <div className="flex flex-col">
-            <div data-anim>
+            <div>
               <Badge variant="accent">
-                <Sparkles className="mr-1 h-3.5 w-3.5" /> KHMHSS Valakkulam · Unit 11223 · {s.academicYear}
+                <Sparkles className="mr-1 h-3.5 w-3.5" />
+                KHMHSS Valakkulam · Unit 11223 · {s.academicYear}
               </Badge>
             </div>
-            <h1
-              data-anim
-              className="mt-4 text-3xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl"
-            >
+
+            <h1 className="mt-4 text-3xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl">
               A Living{" "}
               <span className="text-primary">Canvas</span>{" "}of{" "}
               <span className="text-accent">Service</span>
             </h1>
-            <p data-anim className="mt-3 max-w-md text-lg text-muted-foreground leading-relaxed">
+
+            <p className="mt-3 max-w-md text-lg text-muted-foreground leading-relaxed">
               Young hands. Willing hearts. The volunteers of KHMHSS Valakkulam step out
               of their classrooms to heal, build, and serve their community — one act at a time.
             </p>
+
             {/* Bilingual motto */}
-            <div data-anim className="mt-4 border-l-4 border-accent pl-4">
+            <div className="mt-4 border-l-4 border-accent pl-4">
               <p className="font-display text-base font-semibold italic text-foreground">
                 &ldquo;Not Me, But You&rdquo;
               </p>
@@ -90,6 +130,8 @@ function Home() {
                 മനസ്സ് നന്നാവട്ടെ
               </p>
             </div>
+
+            {/* CTA buttons — ClayButton uses its own motion spring internally */}
             <div className="mt-7 flex flex-col sm:flex-row gap-3">
               <ClayButton to="/camps" variant="primary" className="w-full sm:w-auto justify-center">
                 Seven Days of Magic <ArrowRight className="h-4 w-4" />
@@ -100,7 +142,7 @@ function Home() {
             </div>
           </div>
 
-          {/* Media Column */}
+          {/* Media column */}
           <div className="flex flex-col gap-4">
             <div className="clay overflow-hidden p-0 rounded-2xl">
               <img
@@ -113,10 +155,15 @@ function Home() {
                 className="aspect-video sm:aspect-[4/3] w-full object-cover rounded-xl"
               />
             </div>
-            {/* Placed below the image in normal document flow instead of absolute positioning */}
+            {/* Volunteer count badge — placed in document flow, no absolute overlap */}
             <div
               className="px-4 py-2 rounded-2xl w-full sm:w-auto min-w-fit mt-2 flex flex-col items-start"
-              style={{ background: "#042413", color: "#ffffff", boxShadow: "8px 8px 22px rgba(160, 64, 33, 0.14), -6px -6px 16px rgba(255, 255, 255, 0.75)" }}
+              style={{
+                background: "#042413",
+                color: "#ffffff",
+                boxShadow:
+                  "8px 8px 22px rgba(160,64,33,0.14), -6px -6px 16px rgba(255,255,255,0.75)",
+              }}
             >
               <p className="font-display text-xl font-bold">{batch.volunteerCount}+</p>
               <p className="text-xs font-medium text-white/90">Active volunteers</p>
@@ -124,8 +171,8 @@ function Home() {
           </div>
         </section>
 
-        {/* 2. Active Batch + Impact (Statistics Cards) */}
-        {batch && batch.impactMetrics && batch.impactMetrics.length > 0 && (
+        {/* ── 2. Active Batch + Impact Metrics ────────────────────────────── */}
+        {batch?.impactMetrics?.length > 0 && (
           <section className="flex flex-col gap-4">
             <Reveal>
               <ClayCard tilt={false} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -134,7 +181,7 @@ function Home() {
                   <h2 className="mt-2 font-display text-2xl font-extrabold">
                     {batch.yearRange} · {batch.title}
                   </h2>
-                  {((batch.programmeOfficer && batch.programmeOfficer.trim()) || (batch.volunteerSecretary && batch.volunteerSecretary.trim())) && (
+                  {(batch.programmeOfficer?.trim() || batch.volunteerSecretary?.trim()) && (
                     <p className="mt-1 text-sm text-muted-foreground">
                       {batch.programmeOfficer && `Programme Officer: ${batch.programmeOfficer}`}
                       {batch.programmeOfficer && batch.volunteerSecretary && " · "}
@@ -154,7 +201,7 @@ function Home() {
           </section>
         )}
 
-        {/* 3. Featured Highlight */}
+        {/* ── 3. Featured Highlight ────────────────────────────────────────── */}
         {highlight && (
           <section className="flex flex-col gap-4">
             <Reveal>
@@ -185,8 +232,8 @@ function Home() {
           </section>
         )}
 
-        {/* 4. Latest Projects */}
-        {projects && projects.length > 0 && (
+        {/* ── 4. Latest Projects ──────────────────────────────────────────── */}
+        {projects?.length > 0 && (
           <section className="flex flex-col gap-4">
             <SectionHeading
               eyebrow="Recent Work"
@@ -208,7 +255,7 @@ function Home() {
           </section>
         )}
 
-        {/* 5. Camp Spotlight */}
+        {/* ── 5. Camp Spotlight ────────────────────────────────────────────── */}
         {camp && (
           <section className="flex flex-col gap-4">
             <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
@@ -218,8 +265,8 @@ function Home() {
           </section>
         )}
 
-        {/* 6. Batch Legacy Preview */}
-        {batches && batches.length > 1 && (
+        {/* ── 6. Batch Legacy Preview ──────────────────────────────────────── */}
+        {batches?.length > 1 && (
           <section className="flex flex-col gap-4">
             <SectionHeading
               eyebrow="The Journey"
@@ -250,7 +297,7 @@ function Home() {
                 <Link to="/team">
                   <ClayCard className="h-full">
                     <Badge variant="accent">People</Badge>
-                    <h3 className="mt-3 font-display text-xl font-bold">Team & Volunteers</h3>
+                    <h3 className="mt-3 font-display text-xl font-bold">Team &amp; Volunteers</h3>
                     <p className="mt-2 text-sm text-muted-foreground">
                       Meet the officers and volunteers behind every campaign.
                     </p>
@@ -264,10 +311,10 @@ function Home() {
           </section>
         )}
 
-        {/* 7. Gallery & Videos Preview */}
-        {((albums && albums.length > 0) || (videos && videos.length > 0)) && (
+        {/* ── 7. Gallery & Videos Preview ─────────────────────────────────── */}
+        {(albums?.length > 0 || videos?.length > 0) && (
           <section className="flex flex-col gap-10">
-            {albums && albums.length > 0 && (
+            {albums?.length > 0 && (
               <div className="flex flex-col gap-4">
                 <SectionHeading
                   eyebrow="Media"
@@ -290,9 +337,9 @@ function Home() {
               </div>
             )}
 
-            {videos && videos.length > 0 && (
+            {videos?.length > 0 && (
               <div className="flex flex-col gap-4">
-                {(!albums || albums.length === 0) && (
+                {!albums?.length && (
                   <SectionHeading
                     eyebrow="Media"
                     title="Featured Video Clips"
@@ -317,8 +364,8 @@ function Home() {
           </section>
         )}
 
-        {/* 8. Reports Preview */}
-        {reports && reports.length > 0 && (
+        {/* ── 8. Reports Preview ──────────────────────────────────────────── */}
+        {reports?.length > 0 && (
           <section className="flex flex-col gap-4">
             <SectionHeading
               eyebrow="Documents"
@@ -344,8 +391,8 @@ function Home() {
           </section>
         )}
 
-        {/* 9. Volunteer Stories */}
-        {stories && stories.length > 0 && (
+        {/* ── 9. Volunteer Stories ─────────────────────────────────────────── */}
+        {stories?.length > 0 && (
           <section className="flex flex-col gap-4">
             <SectionHeading
               eyebrow="In Their Words"
@@ -366,7 +413,7 @@ function Home() {
           </section>
         )}
 
-        {/* 10. Three Pillars */}
+        {/* ── 10. Three Pillars ────────────────────────────────────────────── */}
         <section className="flex flex-col gap-4">
           <SectionHeading
             eyebrow="What We Do"
@@ -376,21 +423,21 @@ function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               {
-                ml: "സമൂഹം",
-                en: "Community",
-                desc: "Helping those around us — palliative care, blood donation, anti-drug campaigns, and reaching the unreached.",
+                ml:    "സമൂഹം",
+                en:    "Community",
+                desc:  "Helping those around us — palliative care, blood donation, anti-drug campaigns, and reaching the unreached.",
                 color: "text-primary",
               },
               {
-                ml: "പ്രകൃതി",
-                en: "Environment",
-                desc: "Nurturing the earth through tree plantations, plastic-free drives, Haritha Bhavanam, and river campaigns.",
+                ml:    "പ്രകൃതി",
+                en:    "Environment",
+                desc:  "Nurturing the earth through tree plantations, plastic-free drives, Haritha Bhavanam, and river campaigns.",
                 color: "text-accent",
               },
               {
-                ml: "ശാക്തീകരണം",
-                en: "Empowerment",
-                desc: "Building tomorrow's leaders through campus life, awareness drives, and 120 hours of purposeful service.",
+                ml:    "ശാക്തീകരണം",
+                en:    "Empowerment",
+                desc:  "Building tomorrow's leaders through campus life, awareness drives, and 120 hours of purposeful service.",
                 color: "text-primary",
               },
             ].map((pillar, i) => (
@@ -410,9 +457,12 @@ function Home() {
           </div>
         </section>
 
-        {/* 11. Reach Out */}
+        {/* ── 11. Reach Out CTA ────────────────────────────────────────────── */}
         <section className="flex flex-col gap-4">
-          <div className="overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl" style={{ background: "#042413", color: "#ffffff" }}>
+          <div
+            className="overflow-hidden flex flex-col items-center gap-4 p-10 text-center rounded-2xl"
+            style={{ background: "#042413", color: "#ffffff" }}
+          >
             <p
               className="font-display text-2xl font-bold italic"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
@@ -431,7 +481,7 @@ function Home() {
             </ClayButton>
           </div>
         </section>
-        
+
       </Container>
     </PageShell>
   );

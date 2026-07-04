@@ -20,60 +20,60 @@
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Stitch color tokens → Tailwind semantic names */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-surface: var(--surface);
-  --color-surface-elevated: var(--surface-elevated);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-thread: var(--thread);
-  --color-legacy-gold: var(--legacy-gold);
-  --color-clay: var(--clay);
-  --color-clay-deep: var(--clay-deep);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
+  --color-background:               var(--background);
+  --color-foreground:               var(--foreground);
+  --color-surface:                  var(--surface);
+  --color-surface-elevated:         var(--surface-elevated);
+  --color-card:                     var(--card);
+  --color-card-foreground:          var(--card-foreground);
+  --color-popover:                  var(--popover);
+  --color-popover-foreground:       var(--popover-foreground);
+  --color-primary:                  var(--primary);
+  --color-primary-foreground:       var(--primary-foreground);
+  --color-secondary:                var(--secondary);
+  --color-secondary-foreground:     var(--secondary-foreground);
+  --color-muted:                    var(--muted);
+  --color-muted-foreground:         var(--muted-foreground);
+  --color-accent:                   var(--accent);
+  --color-accent-foreground:        var(--accent-foreground);
+  --color-destructive:              var(--destructive);
+  --color-destructive-foreground:   var(--destructive-foreground);
+  --color-border:                   var(--border);
+  --color-input:                    var(--input);
+  --color-ring:                     var(--ring);
+  --color-success:                  var(--success);
+  --color-warning:                  var(--warning);
+  --color-thread:                   var(--thread);
+  --color-legacy-gold:              var(--legacy-gold);
+  --color-clay:                     var(--clay);
+  --color-clay-deep:                var(--clay-deep);
+  --color-chart-1:                  var(--chart-1);
+  --color-chart-2:                  var(--chart-2);
+  --color-chart-3:                  var(--chart-3);
+  --color-chart-4:                  var(--chart-4);
+  --color-chart-5:                  var(--chart-5);
+  --color-sidebar:                  var(--sidebar);
+  --color-sidebar-foreground:       var(--sidebar-foreground);
+  --color-sidebar-primary:          var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent:           var(--sidebar-accent);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border:           var(--sidebar-border);
+  --color-sidebar-ring:             var(--sidebar-ring);
 
   /* Stitch named color passthroughs */
-  --color-on-surface: var(--on-surface);
-  --color-on-surface-variant: var(--on-surface-variant);
-  --color-on-primary: var(--on-primary);
-  --color-on-secondary: var(--on-secondary);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-surface-container-highest: var(--surface-container-highest);
-  --color-outline: var(--outline);
-  --color-outline-variant: var(--outline-variant);
-  --color-primary-container: var(--primary-container);
-  --color-secondary-container: var(--secondary-container);
+  --color-on-surface:                   var(--on-surface);
+  --color-on-surface-variant:           var(--on-surface-variant);
+  --color-on-primary:                   var(--on-primary);
+  --color-on-secondary:                 var(--on-secondary);
+  --color-surface-container:            var(--surface-container);
+  --color-surface-container-low:        var(--surface-container-low);
+  --color-surface-container-high:       var(--surface-container-high);
+  --color-surface-container-highest:    var(--surface-container-highest);
+  --color-outline:                      var(--outline);
+  --color-outline-variant:              var(--outline-variant);
+  --color-primary-container:            var(--primary-container);
+  --color-secondary-container:          var(--secondary-container);
 }
 
 /* ─── Light mode — "Earthy Kerala" palette ─────────────────────────────────── */
@@ -252,15 +252,21 @@
     -4px -4px 14px rgba(44, 80, 52, 0.15);
 }
 
-/* ─── Base layer ─────────────────────────────────────────────────────────[...] */
+/* ─── Base layer ─────────────────────────────────────────────────────────── */
 @layer base {
   * {
     border-color: var(--color-border);
   }
 
   html {
+    /*
+      scroll-behavior: smooth  → elegant anchor scrolling.
+      overflow-x: hidden       → kills horizontal scroll caused by fixed/translated
+                                  elements that briefly exceed viewport width.
+    */
     font-display: optional;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -269,6 +275,8 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Mirror the html overflow rule — ensures absolutely no horizontal scroll */
+    overflow-x: hidden;
   }
 
   /* Editorial headings — Libre Caslon Text */
@@ -393,15 +401,31 @@
   }
 }
 
-/* Stitch section utility */
+/* Stitch section spacing */
 @utility section-gap {
   padding-top: 64px;
   padding-bottom: 64px;
 }
 
-/* GPU acceleration for smooth animations */
+/*
+  GPU acceleration — promotes element to its own compositor layer.
+  Use on: hero images, animated cards, the pill nav.
+  will-change: transform tells the browser to prepare a GPU layer
+  before the animation starts, preventing paint jank on first frame.
+*/
 @utility gpu-accelerate {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+  will-change: transform;
+}
+
+/*
+  Pill nav compositing — dedicated layer for the floating bottom nav.
+  Keeps it butter-smooth on low-end Android devices.
+*/
+@utility pill-nav {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
