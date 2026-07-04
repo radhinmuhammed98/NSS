@@ -99,7 +99,7 @@ function Home() {
       <Container className="flex flex-col gap-y-10 py-6 sm:gap-y-12 sm:py-10 lg:gap-y-14 lg:py-12">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <Section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/60 bg-surface-elevated p-4 shadow-[0_18px_44px_rgba(27,58,39,0.08)] sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
+        <Section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/40 bg-surface-elevated p-4 shadow-sm sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
 
           {/* Text column */}
           <div className="flex min-w-0 flex-col lg:pr-2">
@@ -162,15 +162,7 @@ function Home() {
               />
             </div>
             {/* Volunteer count badge */}
-            <div
-              className="grid min-h-20 w-full min-w-0 grid-cols-[auto_1fr] items-center gap-4 rounded-lg px-5 py-4"
-              style={{
-                background: "#042413",
-                color: "#ffffff",
-                boxShadow:
-                  "0 12px 28px rgba(27,58,39,0.14), 0 1px 0 rgba(255,255,255,0.55)",
-              }}
-            >
+            <div className="grid min-h-20 w-full min-w-0 grid-cols-[auto_1fr] items-center gap-4 rounded-lg px-5 py-4 bg-primary text-primary-foreground border border-primary-container shadow-sm">
               <p className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 font-display text-2xl font-bold leading-none">50</p>
               <p className="text-sm font-semibold uppercase leading-tight text-white/85">NSS Volunteers</p>
             </div>

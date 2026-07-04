@@ -315,14 +315,7 @@ export function DonationMethods({
         ) : (
           /* Graceful empty state — no dummy data ever shown */
           <Reveal>
-            <div
-              className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg border border-border/50 p-6 text-center sm:p-8 lg:p-10"
-              style={{
-                background: "#fbf9f4",
-                boxShadow:
-                  "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
-              }}
-            >
+            <div className="mx-auto flex max-w-lg flex-col items-center gap-4 rounded-lg border border-border/40 p-6 text-center sm:p-8 lg:p-10 bg-surface shadow-sm">
               <span
                 className="flex h-14 w-14 items-center justify-center rounded-lg"
                 style={{ background: "#1b3a27" }}
@@ -362,14 +355,7 @@ export function TransparencyBlock({ s }: { s: SiteSettings }) {
   return (
     <Container className="py-16">
       <Reveal>
-        <div
-          className="flex flex-col items-start gap-5 rounded-lg border border-border/50 p-5 sm:flex-row sm:p-6 lg:p-8"
-          style={{
-            background: "#f5f3ee",
-            boxShadow:
-              "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
-          }}
-        >
+        <div className="flex flex-col items-start gap-5 rounded-lg border border-border/40 p-5 sm:flex-row sm:p-6 lg:p-8 bg-surface-elevated shadow-sm">
           <span
             className="shrink-0 flex h-14 w-14 items-center justify-center rounded-lg"
             style={{ background: "#042413" }}

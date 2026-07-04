@@ -1,13 +1,12 @@
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * ClayCard — clay morphism card
+ * Card — clean minimal editorial card (previously ClayCard, now flat)
  *
- * Standard card uses restrained neutral clay shadow (--clay-shadow).
- * Use `highlighted` prop for important cards that warrant stronger emphasis.
- * Tilt is subtle and only on hover; disabled for flat layout sections.
+ * Standard card uses flat border border-border/40 and background.
+ * Use `highlighted` prop for featured/important cards.
+ * Hover translates slightly upward if tilt is enabled.
  */
 export function ClayCard({
   children,
@@ -22,16 +21,15 @@ export function ClayCard({
   highlighted?: boolean;
 }) {
   return (
-    <motion.div
-      whileHover={tilt ? { y: -2 } : undefined}
-      transition={{ type: "spring", stiffness: 280, damping: 24 }}
+    <div
       className={cn(
-        "clay min-w-0 overflow-hidden p-5",
-        highlighted && "shadow-[var(--clay-shadow-accent)]",
+        "min-w-0 overflow-hidden rounded-lg p-5 border border-border/40 bg-card text-card-foreground shadow-sm",
+        tilt && "transition-all duration-200 hover:-translate-y-0.5",
+        highlighted && "border-accent/40 shadow-md",
         className
       )}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

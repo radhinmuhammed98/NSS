@@ -32,7 +32,7 @@ export function LeaderCard({
           className="mx-auto h-24 w-24 rounded-full object-cover"
         />
       ) : (
-        <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
+        <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/5 flex flex-col items-center justify-center text-[#1b3a27] border border-[#1b3a27]/10">
           <span className="material-symbols-outlined text-3xl" aria-hidden>
             account_circle
           </span>

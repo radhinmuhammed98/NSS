@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -6,21 +5,21 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "accent" | "soft";
 
 /**
- * ClayButton — NSS brand action button
+ * Button — NSS brand action button (previously ClayButton, now flat and clean)
  *
  * Variants:
  *  primary — NSS crimson (main CTAs and important actions only)
- *  accent  — muted gold clay (awards, milestones, legacy — use sparingly)
- *  soft    — neutral clay (secondary actions)
+ *  accent  — muted gold (awards, milestones, legacy — use sparingly)
+ *  soft    — neutral background (secondary actions)
  */
 const styles: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground shadow-[var(--clay-shadow-accent)]",
-  accent: "clay-gold",
-  soft: "clay-sm text-foreground",
+  primary: "bg-primary text-primary-foreground hover:bg-primary/95",
+  accent: "bg-legacy-gold text-white hover:bg-legacy-gold/95 shadow-sm",
+  soft: "bg-muted border border-border/40 text-foreground hover:bg-muted/80",
 };
 
 const base =
-  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-center text-sm font-semibold leading-tight transition-shadow focus-visible:outline-offset-4";
+  "inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-lg px-5 py-3 text-center text-sm font-semibold leading-tight transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-offset-4 cursor-pointer select-none";
 
 function wrapperClass(className?: string) {
   return cn(
@@ -58,16 +57,16 @@ export function ClayButton({
       e.clientX - rect.left - size / 2
     }px;top:${
       e.clientY - rect.top - size / 2
-    }px;background:currentColor;opacity:0.2;transform:scale(0);`;
+    }px;background:currentColor;opacity:0.15;transform:scale(0);`;
     target.appendChild(circle);
     
     const animation = circle.animate(
       [
-        { transform: "scale(0)", opacity: 0.2 },
+        { transform: "scale(0)", opacity: 0.15 },
         { transform: "scale(1.6)", opacity: 0 }
       ],
       {
-        duration: 550,
+        duration: 400,
         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
         fill: "forwards"
       }
@@ -75,31 +74,24 @@ export function ClayButton({
     animation.onfinish = () => circle.remove();
   };
 
-  const motionProps = {
-    whileHover: { y: -2, scale: 1.025 },
-    whileTap: { scale: 0.94 },
-    transition: { type: "spring" as const, stiffness: 400, damping: 20 },
-  };
-
   if (to) {
     return (
-      <motion.div {...motionProps} className={wrapperClass(className)}>
+      <div className={wrapperClass(className)}>
         <Link to={to} className={cls} onClick={makeRipple}>
           {children}
         </Link>
-      </motion.div>
+      </div>
     );
   }
   if (href) {
     return (
-      <motion.a {...motionProps} href={href} className={cn(cls, wrapperClass(className))} onClick={makeRipple}>
+      <a href={href} className={cn(cls, wrapperClass(className))} onClick={makeRipple}>
         {children}
-      </motion.a>
+      </a>
     );
   }
   return (
-    <motion.button
-      {...motionProps}
+    <button
       type={type ?? "button"}
       onClick={(e) => {
         makeRipple(e);
@@ -108,6 +100,6 @@ export function ClayButton({
       className={cls}
     >
       {children}
-    </motion.button>
+    </button>
   );
 }

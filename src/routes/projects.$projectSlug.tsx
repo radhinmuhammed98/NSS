@@ -125,9 +125,9 @@ function ProjectPage() {
           </div>
         )}
 
-        <div className="mt-10">
-          <h2 className="mb-4 font-display text-xl font-bold">Reports</h2>
-          {reports.length ? (
+        {reports.length > 0 && (
+          <div className="mt-10">
+            <h2 className="mb-4 font-display text-xl font-bold">Reports</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {reports.map((r) => (
                 <ClayCard key={r.slug}>
@@ -137,10 +137,8 @@ function ProjectPage() {
                 </ClayCard>
               ))}
             </div>
-          ) : (
-            <EmptyState message="No reports linked to this project yet." />
-          )}
-        </div>
+          </div>
+        )}
       </Container>
     </PageShell>
   );

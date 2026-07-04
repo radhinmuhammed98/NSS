@@ -28,14 +28,9 @@ export function ActivityCard({
   return (
     <div
       className={cn(
-        "flex h-full min-w-0 flex-col gap-4 rounded-lg border border-border/50 p-5 sm:p-6",
+        "flex h-full min-w-0 flex-col gap-4 rounded-lg border border-border/40 bg-card p-5 sm:p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5",
         className
       )}
-      style={{
-        background: "#f5f3ee",
-        boxShadow:
-          "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
-      }}
     >
       {/* Icon bubble — only shown when an icon is provided */}
       {Icon && (
@@ -51,7 +46,7 @@ export function ActivityCard({
       <div className="flex flex-col gap-1">
         <h3
           className="font-bold text-base leading-snug"
-          style={{ color: "#042413" }}
+          style={{ color: "var(--color-primary)" }}
         >
           {title}
         </h3>

@@ -9,4 +9,5 @@ export { FilterBar } from "./FilterBar";
 export { ImpactStat } from "./ImpactStat";
 export { ActivityCard } from "./ActivityCard";
 export { LeaderCard } from "./LeaderCard";
+export { Container } from "./Container";
 export type { FilterGroup } from "./FilterBar";

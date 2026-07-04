@@ -103,7 +103,21 @@ function BatchPage() {
     stories: VolunteerStory[];
     team: TeamMember[];
   };
-  const [tab, setTab] = useState<(typeof TABS)[number]>("Overview");
+  const activeTabs = [
+    "Overview",
+    ...(batch.impactMetrics?.length > 0 ? ["Impact"] : []),
+    ...(projects.length > 0 ? ["Projects"] : []),
+    ...(camps.length > 0 ? ["Camps"] : []),
+    ...(highlights.length > 0 ? ["Highlights"] : []),
+    ...(albums.length > 0 ? ["Gallery"] : []),
+    ...(videos.length > 0 ? ["Videos"] : []),
+    ...(reports.length > 0 ? ["Reports"] : []),
+    ...(stories.length > 0 ? ["Stories"] : []),
+    ...(team.length > 0 ? ["Team"] : []),
+  ];
+
+  const [tab, setTab] = useState("Overview");
+  const currentTab = activeTabs.includes(tab) ? tab : activeTabs[0];
 
   return (
     <PageShell>
@@ -140,25 +154,27 @@ function BatchPage() {
 
       {/* Tabs */}
       <Container className="py-6">
-        <div className="clay-sm flex gap-1 overflow-x-auto p-2">
-          {TABS.map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={`shrink-0 rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
-                tab === t
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
+        {activeTabs.length > 1 && (
+          <div className="clay-sm flex gap-1 overflow-x-auto p-2">
+            {activeTabs.map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
+                className={`shrink-0 rounded-lg px-4 py-2 text-sm font-semibold transition-all cursor-pointer ${
+                  currentTab === t
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="mt-8">
-          {tab === "Overview" && (
+          {currentTab === "Overview" && (
             <ClayCard tilt={false}>
               <h2 className="font-display text-xl font-bold">Batch Overview</h2>
               <p className="mt-3 text-muted-foreground">{batch.description}</p>
@@ -179,7 +195,7 @@ function BatchPage() {
             </ClayCard>
           )}
 
-          {tab === "Impact" && (
+          {currentTab === "Impact" && (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {batch.impactMetrics.map((m: ImpactMetric) => (
                 <ImpactStat key={m.label} label={m.label} value={m.value} />
@@ -187,108 +203,90 @@ function BatchPage() {
             </div>
           )}
 
-          {tab === "Projects" &&
-            (projects.length ? (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((p) => (
-                  <ProjectCard key={p.slug} project={p} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No projects found for this batch." />
-            ))}
+          {currentTab === "Projects" && (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p) => (
+                <ProjectCard key={p.slug} project={p} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Camps" &&
-            (camps.length ? (
-              <div className="grid gap-5 sm:grid-cols-2">
-                {camps.map((c) => (
-                  <CampCard key={c.slug} camp={c} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No camps recorded for this batch yet." />
-            ))}
+          {currentTab === "Camps" && (
+            <div className="grid gap-5 sm:grid-cols-2">
+              {camps.map((c) => (
+                <CampCard key={c.slug} camp={c} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Highlights" &&
-            (highlights.length ? (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {highlights.map((h) => (
-                  <HighlightCard key={h.slug} highlight={h} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No highlights added yet." />
-            ))}
+          {currentTab === "Highlights" && (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {highlights.map((h) => (
+                <HighlightCard key={h.slug} highlight={h} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Gallery" &&
-            (albums.length ? (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {albums.map((a) => (
-                  <AlbumCard key={a.slug} album={a} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="Gallery albums are being prepared." />
-            ))}
+          {currentTab === "Gallery" && (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {albums.map((a) => (
+                <AlbumCard key={a.slug} album={a} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Videos" &&
-            (videos.length ? (
-              <div className="grid gap-5 sm:grid-cols-2">
-                {videos.map((v) => (
-                  <MediaThumb key={v.slug} video={v} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No videos added yet." />
-            ))}
+          {currentTab === "Videos" && (
+            <div className="grid gap-5 sm:grid-cols-2">
+              {videos.map((v) => (
+                <MediaThumb key={v.slug} video={v} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Reports" &&
-            (reports.length ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {reports.map((r) => (
-                  <ClayCard key={r.slug}>
-                    <Badge variant="outline">{r.type}</Badge>
-                    <h3 className="mt-3 font-display font-bold">{r.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
-                    <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
-                  </ClayCard>
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="Reports will be published soon." />
-            ))}
+          {currentTab === "Reports" && (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {reports.map((r) => (
+                <ClayCard key={r.slug}>
+                  <Badge variant="outline">{r.type}</Badge>
+                  <h3 className="mt-3 font-display font-bold">{r.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{r.description}</p>
+                  <p className="mt-3 text-xs text-muted-foreground">{formatDate(r.date)}</p>
+                </ClayCard>
+              ))}
+            </div>
+          )}
 
-          {tab === "Stories" &&
-            (stories.length ? (
-              <div className="grid gap-5 sm:grid-cols-2">
-                {stories.map((st) => (
-                  <StoryCard key={st.slug} story={st} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No volunteer stories yet." />
-            ))}
+          {currentTab === "Stories" && (
+            <div className="grid gap-5 sm:grid-cols-2">
+              {stories.map((st) => (
+                <StoryCard key={st.slug} story={st} />
+              ))}
+            </div>
+          )}
 
-          {tab === "Team" &&
-            (team.length ? (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {team.map((m) => (
-                  <ClayCard key={m.slug} className="text-center">
+          {currentTab === "Team" && (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {team.map((m) => (
+                <ClayCard key={m.slug} className="text-center">
+                  {m.photo ? (
                     <img
                       src={m.photo}
                       alt={m.name}
                       loading="lazy" decoding="async"
                       className="mx-auto h-20 w-20 rounded-full object-cover"
                     />
-                    <h3 className="mt-3 font-display font-bold">{m.name}</h3>
-                    <p className="text-xs text-accent">{m.role}</p>
-                    <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
-                  </ClayCard>
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="Team details coming soon." />
-            ))}
+                  ) : (
+                    <div className="mx-auto h-20 w-20 rounded-full bg-[#1b3a27]/5 flex flex-col items-center justify-center text-[#1b3a27] border border-[#1b3a27]/10">
+                      <span className="material-symbols-outlined text-2xl" aria-hidden>account_circle</span>
+                    </div>
+                  )}
+                  <h3 className="mt-3 font-display font-bold">{m.name}</h3>
+                  <p className="text-xs text-accent">{m.role}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
+                </ClayCard>
+              ))}
+            </div>
+          )}
         </div>
       </Container>
     </PageShell>
