@@ -109,7 +109,7 @@ function Home() {
               </Badge>
             </div>
 
-            <h1 className="nss-mt-4 nss-text-4xl nss-font-extrabold nss-leading-tight nss-break-words nss-text-balance nss-sm-text-5xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h1 className="nss-mt-4 nss-text-4xl nss-font-extrabold nss-leading-tight nss-break-words nss-text-balance nss-sm-text-5xl nss-text-gradient" style={{ fontFamily: "var(--font-display)" }}>
               KHMHSS Valakkulam
             </h1>
             <p className="nss-mt-2 nss-text-lg nss-font-bold nss-leading-tight nss-text-primary nss-sm-text-xl">

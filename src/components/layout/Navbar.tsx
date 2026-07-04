@@ -156,10 +156,8 @@ export function Navbar() {
       <header
         ref={dropdownRef}
         className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-300",
-          scrolled
-            ? "bg-[#fbf9f4]/97 backdrop-blur-lg shadow-[0_1px_0_0_rgba(194,200,193,0.6)]"
-            : "bg-[#fbf9f4]/90 backdrop-blur-md"
+          "nss-navbar",
+          scrolled && "nss-navbar-scrolled"
         )}
         style={{
           position: "fixed",
@@ -169,8 +167,6 @@ export function Navbar() {
           height: "4rem",
           display: "flex",
           alignItems: "center",
-          borderBottom: scrolled ? "1px solid var(--border)" : "none",
-          backgroundColor: scrolled ? "var(--background)" : "rgba(251, 249, 244, 0.90)",
           zIndex: 50
         }}
       >

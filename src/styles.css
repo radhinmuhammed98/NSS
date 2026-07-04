@@ -12,7 +12,7 @@
 
   /* Typography */
   --font-display: "Libre Caslon Text", "Georgia", ui-serif, serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Outfit", "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Colors - Earthy Kerala Palette */
   --background: #fbf9f4;
@@ -347,25 +347,38 @@ img {
   gap: 2rem;
 }
 
-/* Card - Flat, Elegant Aesthetic */
+/* Card - Premium Glassmorphic Aesthetic */
 .nss-card {
-  background-color: var(--surface-elevated);
-  border: 1px solid rgba(194, 200, 193, 0.4);
+  background-color: rgba(251, 249, 244, 0.65);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(4, 36, 19, 0.08);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+.dark .nss-card {
+  background-color: rgba(26, 34, 27, 0.45);
+  border: 1px solid rgba(172, 207, 180, 0.12);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 .nss-card-tilt:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(4, 36, 19, 0.08);
+  border-color: rgba(160, 64, 33, 0.3);
+}
+.dark .nss-card-tilt:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(172, 207, 180, 0.1);
+  border-color: rgba(172, 207, 180, 0.25);
 }
 .nss-card-highlighted {
-  border-color: rgba(160, 64, 33, 0.4);
-  box-shadow: var(--card-shadow-accent);
+  border-color: rgba(160, 64, 33, 0.5);
+  box-shadow: 0 8px 32px rgba(160, 64, 33, 0.08);
 }
 
-/* Button - Elegant Flat Styles */
+/* Button - Elegant Pill-shaped Glass Styles */
 .nss-button {
   display: inline-flex;
   min-height: 2.75rem;
@@ -373,70 +386,93 @@ img {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: var(--radius-lg);
-  padding: 0.75rem 1.25rem;
+  border-radius: 9999px; /* Pill buttons look much more premium */
+  padding: 0.75rem 1.5rem;
   text-align: center;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   user-select: none;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(4, 36, 19, 0.05);
 }
 .nss-button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(4, 36, 19, 0.12);
 }
 .nss-button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 .nss-button-primary {
   background-color: var(--primary);
   color: var(--primary-foreground);
+  border: 1px solid var(--primary);
 }
 .nss-button-primary:hover {
   background-color: #02140a;
+  border-color: #02140a;
 }
 .nss-button-accent {
   background-color: var(--legacy-gold);
   color: #ffffff;
+  border: 1px solid var(--legacy-gold);
 }
 .nss-button-accent:hover {
   background-color: #b07f20;
+  border-color: #b07f20;
 }
 .nss-button-soft {
-  background-color: var(--muted);
-  border: 1px solid rgba(194, 200, 193, 0.4);
+  background-color: rgba(240, 238, 233, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(194, 200, 193, 0.5);
   color: var(--foreground);
 }
 .nss-button-soft:hover {
   background-color: var(--surface-elevated);
 }
 
-/* Badge */
+/* Badge - Modern Glass Pills */
 .nss-badge {
   display: inline-flex;
   align-items: center;
   border-radius: 9999px;
   border: 1px solid transparent;
-  padding: 0.125rem 0.625rem;
+  padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
-  transition: all 0.15s ease;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
 }
 .nss-badge-default {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  background-color: rgba(4, 36, 19, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(4, 36, 19, 0.15);
+}
+.dark .nss-badge-default {
+  background-color: rgba(172, 207, 180, 0.15);
+  color: var(--primary);
+  border: 1px solid rgba(172, 207, 180, 0.25);
 }
 .nss-badge-accent {
-  background-color: var(--secondary);
-  color: var(--secondary-foreground);
+  background-color: rgba(160, 64, 33, 0.08);
+  color: var(--secondary);
+  border: 1px solid rgba(160, 64, 33, 0.15);
+}
+.dark .nss-badge-accent {
+  background-color: rgba(255, 181, 159, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(255, 181, 159, 0.25);
 }
 .nss-badge-outline {
+  background-color: transparent;
   border-color: var(--border);
   color: var(--muted-foreground);
 }
+
 
 /* Impact Stat */
 .nss-impact-stat {
@@ -547,6 +583,41 @@ img {
     right: auto !important;
   }
 }
+
+/* Redesign Gradients & Nav overlays */
+.nss-text-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .nss-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nss-navbar {
+  background-color: rgba(251, 249, 244, 0.7);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border-bottom: 1px solid rgba(4, 36, 19, 0.05);
+  transition: all 0.3s ease;
+}
+.nss-navbar-scrolled {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  border-bottom-color: rgba(4, 36, 19, 0.1);
+}
+.dark .nss-navbar {
+  background-color: rgba(20, 26, 21, 0.7);
+  border-bottom: 1px solid rgba(172, 207, 180, 0.1);
+}
+.dark .nss-navbar-scrolled {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  border-bottom-color: rgba(172, 207, 180, 0.15);
+}
+
 
 
 

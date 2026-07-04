@@ -48,8 +48,8 @@ export function PageHeader({
         </span>
       )}
       <h1
-        className="nss-text-4xl nss-font-extrabold nss-text-balance nss-sm-text-5xl"
-        style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
+        className="nss-text-4xl nss-font-extrabold nss-text-balance nss-sm-text-5xl nss-text-gradient"
+        style={{ fontFamily: "var(--font-display)" }}
       >
         {title}
       </h1>
