@@ -7,4 +7,7 @@ export { Reveal } from "./Reveal";
 export { EmptyState } from "./EmptyState";
 export { FilterBar } from "./FilterBar";
 export { ImpactStat } from "./ImpactStat";
+export { ActivityCard } from "./ActivityCard";
+export { LeaderCard } from "./LeaderCard";
+export { DonateCard } from "./DonateCard";
 export type { FilterGroup } from "./FilterBar";
