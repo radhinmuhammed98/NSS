@@ -103,23 +103,26 @@ function Home() {
             <div>
               <Badge variant="accent">
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
-                KHMHSS Valakkulam · Unit 11223 · {s.academicYear}
+                KHMHSS Valakkulam · Unit 466 · {s.academicYear}
               </Badge>
             </div>
 
-            <h1 className="mt-4 text-3xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl">
-              A Living{" "}
-              <span className="text-primary">Canvas</span>{" "}of{" "}
-              <span className="text-accent">Service</span>
+            <h1 className="mt-4 text-4xl font-extrabold leading-none tracking-tight break-words text-balance sm:text-5xl lg:text-6xl" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
+              KHMHSS Valakkulam
             </h1>
+            <p className="mt-2 text-xl sm:text-2xl font-bold text-primary font-display">
+              National Service Scheme · Unit 466
+            </p>
 
-            <p className="mt-3 max-w-md text-lg text-muted-foreground leading-relaxed">
-              Young hands. Willing hearts. The volunteers of KHMHSS Valakkulam step out
-              of their classrooms to heal, build, and serve their community — one act at a time.
+            <p 
+              className="mt-5 max-w-md text-2xl sm:text-3xl font-bold text-accent leading-snug"
+              style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
+            >
+              "നമുക്കല്ല, സമൂഹത്തിനായി."
             </p>
 
             {/* Bilingual motto */}
-            <div className="mt-4 border-l-4 border-accent pl-4">
+            <div className="mt-5 border-l-4 border-accent pl-4">
               <p className="font-display text-base font-semibold italic text-foreground">
                 &ldquo;Not Me, But You&rdquo;
               </p>
@@ -131,10 +134,10 @@ function Home() {
               </p>
             </div>
 
-            {/* CTA buttons — ClayButton uses its own motion spring internally */}
+            {/* CTA buttons */}
             <div className="mt-7 flex flex-col sm:flex-row gap-3">
               <ClayButton to="/camps" variant="primary" className="w-full sm:w-auto justify-center">
-                Seven Days of Magic <ArrowRight className="h-4 w-4" />
+                Special Camp <ArrowRight className="h-4 w-4" />
               </ClayButton>
               <ClayButton to="/projects" variant="soft" className="w-full sm:w-auto justify-center">
                 Our Initiatives
@@ -144,10 +147,10 @@ function Home() {
 
           {/* Media column */}
           <div className="flex flex-col gap-4">
-            <div className="clay overflow-hidden p-0 rounded-2xl">
+            <div className="clay overflow-hidden p-0 rounded-2xl shadow-md border border-border/40">
               <img
-                src={batch.coverImage}
-                alt={`${batch.title} batch`}
+                src="/gate.png"
+                alt="KHMHSS Valakkulam School Gate"
                 width={1280}
                 height={960}
                 fetchPriority="high"
@@ -155,18 +158,18 @@ function Home() {
                 className="aspect-video sm:aspect-[4/3] w-full object-cover rounded-xl"
               />
             </div>
-            {/* Volunteer count badge — placed in document flow, no absolute overlap */}
+            {/* Volunteer count badge */}
             <div
-              className="px-4 py-2 rounded-2xl w-full sm:w-auto min-w-fit mt-2 flex flex-col items-start"
+              className="px-5 py-3 rounded-2xl w-full sm:w-auto min-w-fit mt-2 flex flex-col items-start"
               style={{
                 background: "#042413",
                 color: "#ffffff",
                 boxShadow:
-                  "8px 8px 22px rgba(160,64,33,0.14), -6px -6px 16px rgba(255,255,255,0.75)",
+                  "8px 8px 22px rgba(27,58,39,0.15), -6px -6px 16px rgba(255,255,255,0.8)",
               }}
             >
-              <p className="font-display text-xl font-bold">{batch.volunteerCount}+</p>
-              <p className="text-xs font-medium text-white/90">Active volunteers</p>
+              <p className="font-display text-2xl font-bold">50</p>
+              <p className="text-xs font-semibold text-white/80 uppercase tracking-wider">NSS Volunteers</p>
             </div>
           </div>
         </section>

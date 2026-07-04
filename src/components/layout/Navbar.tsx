@@ -194,20 +194,20 @@ export function Navbar() {
             aria-label="NSS KHMHSS — Home"
           >
             <span className="shrink-0 flex h-10 w-10 md:h-11 md:w-11 items-center justify-center overflow-hidden rounded-xl bg-white p-0.5 shadow-sm ring-1 ring-black/8">
-              <NSSLogo height="100%" width="100%" decorative />
+              <img src="/khm logo.png" alt="KHMHSS Logo" className="h-full w-full object-contain" />
             </span>
             <span className="flex flex-col leading-tight min-w-0">
               <span
                 className="text-sm font-bold tracking-tight truncate"
                 style={{ fontFamily: "'Libre Caslon Text', serif", color: "#042413" }}
               >
-                NSS KHMHSS
+                KHMHSS Valakkulam
               </span>
               <span
                 className="text-[10.5px] font-medium tracking-wide text-[#727972]"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}
               >
-                Valakkulam
+                NSS Unit 466
               </span>
             </span>
           </Link>

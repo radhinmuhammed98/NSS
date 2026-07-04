@@ -63,8 +63,9 @@ function Team() {
                             className="mx-auto h-24 w-24 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex items-center justify-center text-[#1b3a27] font-display text-xl font-bold uppercase shadow-sm">
-                            {m.name.charAt(0)}
+                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
+                            <span className="material-symbols-outlined text-3xl">account_circle</span>
+                            <span className="text-[9px] font-bold tracking-wider uppercase opacity-80 mt-1">Photo Awaiting</span>
                           </div>
                         )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>
@@ -74,6 +75,18 @@ function Team() {
                     </Reveal>
                   ))}
                 </div>
+                
+                {batch.slug === "batch-2025-26" && (
+                  <div className="mt-8 p-6 rounded-2xl bg-[#1b3a27]/5 border border-[#1b3a27]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                      <h3 className="font-display text-lg font-bold text-[#1b3a27]">50 NSS Volunteers</h3>
+                      <p className="text-sm text-muted-foreground mt-1">The complete volunteer list will be updated soon.</p>
+                    </div>
+                    <div className="px-4 py-2 rounded-full bg-[#1b3a27] text-white text-xs font-bold font-display uppercase tracking-wider">
+                      Active Batch
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
 
@@ -95,8 +108,9 @@ function Team() {
                             className="mx-auto h-24 w-24 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex items-center justify-center text-[#1b3a27] font-display text-xl font-bold uppercase shadow-sm">
-                            {m.name.charAt(0)}
+                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
+                            <span className="material-symbols-outlined text-3xl">account_circle</span>
+                            <span className="text-[9px] font-bold tracking-wider uppercase opacity-80 mt-1">Photo Awaiting</span>
                           </div>
                         )}
                         <h3 className="mt-3 font-display font-bold">{m.name}</h3>

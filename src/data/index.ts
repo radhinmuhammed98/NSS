@@ -55,11 +55,11 @@ export const heroNss = img29;
 
 export const siteSettings: SiteSettings = {
   schoolName: "KHMHSS Valakkulam",
-  unitName: "NSS Unit 11223",
+  unitName: "National Service Scheme (NSS) Unit 466",
   motto: "Not Me, But You",
-  location: "Pookkiparamba, Malappuram, Kerala",
+  location: "Thennala, Malappuram, Kerala – 676508",
   academicYear: "2025–26",
-  programmeOfficer: "",
+  programmeOfficer: "Dr. Broose KV",
   volunteerSecretary: "",
   email: "khmhsvalakulam@gmail.com",
   phone: "0494 2496753",
@@ -89,10 +89,10 @@ export const batches: Batch[] = [
     description: "The active batch carrying forward regular activities and social outreach initiatives.",
     theme: "Service and Growth",
     coverImage: heroNss,
-    programmeOfficer: "",
+    programmeOfficer: "Dr. Broose KV",
     volunteerSecretary: "",
     leaders: [],
-    volunteerCount: 0,
+    volunteerCount: 50,
     impactMetrics: [],
     featured: true,
   },
@@ -429,7 +429,44 @@ export const videoClips: VideoClip[] = [
 export const reports: Report[] = [];
 export const highlights: Highlight[] = [];
 export const timelineItems: TimelineItem[] = [];
-export const teamMembers: TeamMember[] = [];
+export const teamMembers: TeamMember[] = [
+  {
+    slug: "principal-asif-pa",
+    name: "Asif PA",
+    role: "Principal",
+    batchSlug: "batch-2025-26",
+    photo: "",
+    bio: "School Administrator guiding the NSS unit's school-level initiatives.",
+    order: 1,
+  },
+  {
+    slug: "po-broose-kv",
+    name: "Dr. Broose KV",
+    role: "Programme Officer",
+    batchSlug: "batch-2025-26",
+    photo: "",
+    bio: "NSS Programme Officer directing the unit's community and social activities.",
+    order: 2,
+  },
+  {
+    slug: "vl-ismail-ansari",
+    name: "Ismail Ansari KF",
+    role: "Volunteer Leader",
+    batchSlug: "batch-2025-26",
+    photo: "",
+    bio: "Student lead coordinating peer volunteers for regular and special camp sessions.",
+    order: 3,
+  },
+  {
+    slug: "vl-coming-soon",
+    name: "(Name Coming Soon)",
+    role: "Volunteer Leader",
+    batchSlug: "batch-2025-26",
+    photo: "",
+    bio: "Volunteer secretary position to be announced.",
+    order: 4,
+  },
+];
 export const volunteerStories: VolunteerStory[] = [];
 export const notices: Notice[] = [];
 
