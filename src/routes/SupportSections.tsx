@@ -24,7 +24,8 @@ import {
   Baby,
 } from "lucide-react";
 import { Container } from "@/components/layout";
-import { ClayCard, Badge, Reveal, ActivityCard, DonateCard } from "@/components/clay";
+import { ClayCard, Badge, Reveal, ActivityCard } from "@/components/clay";
+import { DonateCard } from "@/components/clay/DonateCard";
 import type { SiteSettings } from "@/types";
 
 // ─── Static Data ──────────────────────────────────────────────────────────────

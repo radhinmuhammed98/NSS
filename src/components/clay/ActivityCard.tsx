@@ -15,7 +15,7 @@ export function ActivityCard({
   accentColor = "#1b3a27",
   className,
 }: {
-  icon: ElementType;
+  icon?: ElementType;
   title: string;
   /** Optional Malayalam or secondary line below the title */
   subtitle?: string;
@@ -37,13 +37,15 @@ export function ActivityCard({
           "0 12px 28px rgba(27,58,39,0.08), 0 1px 0 rgba(255,255,255,0.70)",
       }}
     >
-      {/* Icon bubble */}
-      <span
-        className="inline-flex h-11 w-11 items-center justify-center rounded-lg shrink-0"
-        style={{ background: bubbleBg }}
-      >
-        <Icon className="h-5 w-5" style={{ color: accentColor }} aria-hidden />
-      </span>
+      {/* Icon bubble — only shown when an icon is provided */}
+      {Icon && (
+        <span
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg shrink-0"
+          style={{ background: bubbleBg }}
+        >
+          <Icon className="h-5 w-5" style={{ color: accentColor }} aria-hidden />
+        </span>
+      )}
 
       {/* Text block */}
       <div className="flex flex-col gap-1">

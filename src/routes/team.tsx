@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader, Container } from "@/components/layout";
-import { ClayCard, Reveal, EmptyState } from "@/components/clay";
+import { ClayCard, Reveal, EmptyState, LeaderCard } from "@/components/clay";
 
 import { getBatches, getTeam } from "@/lib/data";
 import type { Batch, TeamMember } from "@/types";
@@ -53,25 +53,12 @@ function Team() {
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {members.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
-                      <ClayCard className="h-full p-4 text-center sm:p-5">
-                        {m.photo ? (
-                          <img
-                            src={m.photo}
-                            alt={m.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="mx-auto h-24 w-24 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
-                            <span className="material-symbols-outlined text-3xl">account_circle</span>
-                            <span className="text-[9px] font-bold  uppercase opacity-80 mt-1">Photo Awaiting</span>
-                          </div>
-                        )}
-                        <h3 className="mt-3 font-display font-bold">{m.name}</h3>
-                        <p className="text-xs font-semibold text-accent">{m.role}</p>
-                        <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
-                      </ClayCard>
+                      <LeaderCard
+                        name={m.name}
+                        role={m.role}
+                        bio={m.bio}
+                        photo={m.photo}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -98,25 +85,12 @@ function Team() {
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {otherMembers.map((m, i) => (
                     <Reveal key={m.slug} delay={i * 0.06}>
-                      <ClayCard className="h-full p-4 text-center sm:p-5">
-                        {m.photo ? (
-                          <img
-                            src={m.photo}
-                            alt={m.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="mx-auto h-24 w-24 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="mx-auto h-24 w-24 rounded-full bg-[#1b3a27]/10 flex flex-col items-center justify-center text-[#1b3a27] shadow-inner border border-[#1b3a27]/10">
-                            <span className="material-symbols-outlined text-3xl">account_circle</span>
-                            <span className="text-[9px] font-bold  uppercase opacity-80 mt-1">Photo Awaiting</span>
-                          </div>
-                        )}
-                        <h3 className="mt-3 font-display font-bold">{m.name}</h3>
-                        <p className="text-xs font-semibold text-accent">{m.role}</p>
-                        <p className="mt-2 text-xs text-muted-foreground">{m.bio}</p>
-                      </ClayCard>
+                      <LeaderCard
+                        name={m.name}
+                        role={m.role}
+                        bio={m.bio}
+                        photo={m.photo}
+                      />
                     </Reveal>
                   ))}
                 </div>

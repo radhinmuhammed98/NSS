@@ -10,6 +10,7 @@ import {
   Reveal,
   EmptyState,
   Section,
+  ActivityCard,
 } from "@/components/clay";
 import {
   MediaThumb,
@@ -426,37 +427,33 @@ function Home() {
             description="Every act of volunteering falls under one of three principles that define who we are."
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            {[
+            {([
               {
-                ml:    "സമൂഹം",
-                en:    "Community",
-                desc:  "Helping those around us — palliative care, blood donation, anti-drug campaigns, and reaching the unreached.",
-                color: "text-primary",
+                subtitle: "സമൂഹം",
+                title:    "Community",
+                description: "Helping those around us — palliative care, blood donation, anti-drug campaigns, and reaching the unreached.",
+                accentColor: "#1b3a27",
               },
               {
-                ml:    "പ്രകൃതി",
-                en:    "Environment",
-                desc:  "Nurturing the earth through tree plantations, plastic-free drives, Haritha Bhavanam, and river campaigns.",
-                color: "text-accent",
+                subtitle: "പ്രകൃതി",
+                title:    "Environment",
+                description: "Nurturing the earth through tree plantations, plastic-free drives, Haritha Bhavanam, and river campaigns.",
+                accentColor: "#a04021",
               },
               {
-                ml:    "ശാക്തീകരണം",
-                en:    "Empowerment",
-                desc:  "Building tomorrow's leaders through campus life, awareness drives, and 120 hours of purposeful service.",
-                color: "text-primary",
+                subtitle: "ശാക്തീകരണം",
+                title:    "Empowerment",
+                description: "Building tomorrow's leaders through campus life, awareness drives, and 120 hours of purposeful service.",
+                accentColor: "#1b3a27",
               },
-            ].map((pillar, i) => (
-              <Reveal key={pillar.en} delay={i * 0.1}>
-                <div className="clay flex h-full min-w-0 flex-col gap-3 p-5 sm:p-6">
-                  <p
-                    className={`font-display text-2xl font-bold ${pillar.color}`}
-                    style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
-                  >
-                    {pillar.ml}
-                  </p>
-                  <h3 className="font-sans text-base font-bold text-foreground">{pillar.en}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{pillar.desc}</p>
-                </div>
+            ] as const).map((pillar, i) => (
+              <Reveal key={pillar.title} delay={i * 0.1}>
+                <ActivityCard
+                  title={pillar.title}
+                  subtitle={pillar.subtitle}
+                  description={pillar.description}
+                  accentColor={pillar.accentColor}
+                />
               </Reveal>
             ))}
           </div>
