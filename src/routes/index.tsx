@@ -8,6 +8,8 @@ import {
   Badge,
   ImpactStat,
   Reveal,
+  EmptyState,
+  Section,
 } from "@/components/clay";
 import {
   MediaThumb,
@@ -96,7 +98,7 @@ function Home() {
       <Container className="flex flex-col gap-y-10 py-6 sm:gap-y-12 sm:py-10 lg:gap-y-14 lg:py-12">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/60 bg-surface-elevated p-4 shadow-[0_18px_44px_rgba(27,58,39,0.08)] sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
+        <Section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/60 bg-surface-elevated p-4 shadow-[0_18px_44px_rgba(27,58,39,0.08)] sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
 
           {/* Text column */}
           <div className="flex min-w-0 flex-col lg:pr-2">
@@ -172,11 +174,11 @@ function Home() {
               <p className="text-sm font-semibold uppercase leading-tight text-white/85">NSS Volunteers</p>
             </div>
           </div>
-        </section>
+        </Section>
 
         {/* ── 2. Active Batch + Impact Metrics ────────────────────────────── */}
         {batch?.impactMetrics?.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <Reveal>
               <ClayCard tilt={false} className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)] lg:items-center">
                 <div>
@@ -201,12 +203,12 @@ function Home() {
                 </div>
               </ClayCard>
             </Reveal>
-          </section>
+          </Section>
         )}
 
         {/* ── 3. Featured Highlight ────────────────────────────────────────── */}
         {highlight && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <Reveal>
               <div className="clay grid min-w-0 overflow-hidden p-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                 {highlight.image && (
@@ -232,12 +234,12 @@ function Home() {
                 </div>
               </div>
             </Reveal>
-          </section>
+          </Section>
         )}
 
         {/* ── 4. Latest Projects ──────────────────────────────────────────── */}
         {projects?.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <SectionHeading
               eyebrow="Recent Work"
               title="Latest Projects"
@@ -255,22 +257,22 @@ function Home() {
                 </Reveal>
               ))}
             </div>
-          </section>
+          </Section>
         )}
 
         {/* ── 5. Camp Spotlight ────────────────────────────────────────────── */}
         {camp && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <SectionHeading eyebrow="Camp Spotlight" title="Special Camp" />
             <Reveal>
               <CampCard camp={camp} />
             </Reveal>
-          </section>
+          </Section>
         )}
 
         {/* ── 6. Batch Legacy Preview ──────────────────────────────────────── */}
         {batches?.length > 1 && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <SectionHeading
               eyebrow="The Journey"
               title="Batch-wise Legacy"
@@ -311,12 +313,12 @@ function Home() {
                 </Link>
               </Reveal>
             </div>
-          </section>
+          </Section>
         )}
 
         {/* ── 7. Gallery & Videos Preview ─────────────────────────────────── */}
         {(albums?.length > 0 || videos?.length > 0) && (
-          <section className="flex flex-col gap-8">
+          <Section gap="large">
             {albums?.length > 0 && (
               <div className="flex min-w-0 flex-col gap-4">
                 <SectionHeading
@@ -364,12 +366,12 @@ function Home() {
                 </div>
               </div>
             )}
-          </section>
+          </Section>
         )}
 
         {/* ── 8. Reports Preview ──────────────────────────────────────────── */}
         {reports?.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <SectionHeading
               eyebrow="Documents"
               title="Reports & Records"
@@ -391,12 +393,12 @@ function Home() {
                 </Reveal>
               ))}
             </div>
-          </section>
+          </Section>
         )}
 
         {/* ── 9. Volunteer Stories ─────────────────────────────────────────── */}
         {stories?.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <Section>
             <SectionHeading
               eyebrow="In Their Words"
               title="Volunteer Stories"
@@ -413,11 +415,11 @@ function Home() {
                 </Reveal>
               ))}
             </div>
-          </section>
+          </Section>
         )}
 
         {/* ── 10. Three Pillars ────────────────────────────────────────────── */}
-        <section className="flex flex-col gap-4">
+        <Section>
           <SectionHeading
             eyebrow="What We Do"
             title="Three Pillars of Service"
@@ -458,10 +460,10 @@ function Home() {
               </Reveal>
             ))}
           </div>
-        </section>
+        </Section>
 
         {/* ── 11. Reach Out CTA ────────────────────────────────────────────── */}
-        <section className="flex flex-col gap-4">
+        <Section>
           <div
             className="flex min-w-0 flex-col items-center gap-4 overflow-hidden rounded-lg p-6 text-center sm:p-8 lg:p-10"
             style={{ background: "#042413", color: "#ffffff" }}
@@ -483,7 +485,7 @@ function Home() {
               Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight className="h-4 w-4" />
             </ClayButton>
           </div>
-        </section>
+        </Section>
 
       </Container>
     </PageShell>

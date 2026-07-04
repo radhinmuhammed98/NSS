@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import gsap from "gsap";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
@@ -61,13 +60,19 @@ export function ClayButton({
       e.clientY - rect.top - size / 2
     }px;background:currentColor;opacity:0.2;transform:scale(0);`;
     target.appendChild(circle);
-    gsap.to(circle, {
-      scale: 1.6,
-      opacity: 0,
-      duration: 0.55,
-      ease: "power2.out",
-      onComplete: () => circle.remove(),
-    });
+    
+    const animation = circle.animate(
+      [
+        { transform: "scale(0)", opacity: 0.2 },
+        { transform: "scale(1.6)", opacity: 0 }
+      ],
+      {
+        duration: 550,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        fill: "forwards"
+      }
+    );
+    animation.onfinish = () => circle.remove();
   };
 
   const motionProps = {

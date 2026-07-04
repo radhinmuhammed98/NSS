@@ -2,6 +2,7 @@ export { ClayButton } from "./ClayButton";
 export { ClayCard } from "./ClayCard";
 export { Badge } from "./Badge";
 export { SectionHeading } from "./SectionHeading";
+export { Section } from "./Section";
 export { Reveal } from "./Reveal";
 export { EmptyState } from "./EmptyState";
 export { FilterBar } from "./FilterBar";
