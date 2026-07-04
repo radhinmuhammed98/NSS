@@ -93,13 +93,13 @@ function Home() {
 
   return (
     <PageShell>
-      <Container className="flex flex-col gap-y-12 py-8 sm:gap-y-14 sm:py-12 lg:gap-y-16 lg:py-14">
+      <Container className="flex flex-col gap-y-10 py-6 sm:gap-y-12 sm:py-10 lg:gap-y-14 lg:py-12">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <section className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
+        <section className="grid grid-cols-1 items-center gap-6 rounded-lg border border-border/60 bg-surface-elevated p-4 shadow-[0_18px_44px_rgba(27,58,39,0.08)] sm:p-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-8 lg:p-8">
 
           {/* Text column */}
-          <div className="flex min-w-0 flex-col">
+          <div className="flex min-w-0 flex-col lg:pr-2">
             <div>
               <Badge variant="accent">
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
@@ -107,7 +107,7 @@ function Home() {
               </Badge>
             </div>
 
-            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-none tracking-normal break-words text-balance sm:text-5xl lg:text-[3.8rem]" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
+            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold leading-[0.95] tracking-normal break-words text-balance sm:text-5xl lg:text-[3.55rem]" style={{ fontFamily: "'Libre Caslon Text', serif" }}>
               KHMHSS Valakkulam
             </h1>
             <p className="mt-3 text-xl font-bold leading-tight text-primary sm:text-2xl">
@@ -146,8 +146,8 @@ function Home() {
           </div>
 
           {/* Media column */}
-          <div className="flex min-w-0 flex-col gap-4">
-            <div className="clay overflow-hidden rounded-lg border border-border/50 p-0 shadow-md">
+          <div className="grid min-w-0 gap-3">
+            <div className="overflow-hidden rounded-lg border border-border/60 bg-background p-0 shadow-sm">
               <img
                 src="/gate.png"
                 alt="KHMHSS Valakkulam School Gate"
@@ -155,12 +155,12 @@ function Home() {
                 height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="aspect-[16/9] w-full object-cover"
+                className="aspect-[4/3] w-full object-cover sm:aspect-[16/10] lg:aspect-[4/3]"
               />
             </div>
             {/* Volunteer count badge */}
             <div
-              className="mt-1 flex min-h-20 w-full min-w-0 flex-col items-start justify-center rounded-lg px-5 py-4 sm:w-auto sm:max-w-xs"
+              className="grid min-h-20 w-full min-w-0 grid-cols-[auto_1fr] items-center gap-4 rounded-lg px-5 py-4"
               style={{
                 background: "#042413",
                 color: "#ffffff",
@@ -168,8 +168,8 @@ function Home() {
                   "0 12px 28px rgba(27,58,39,0.14), 0 1px 0 rgba(255,255,255,0.55)",
               }}
             >
-              <p className="font-display text-3xl font-bold leading-none">50</p>
-              <p className="mt-2 text-xs font-semibold uppercase leading-tight  text-white/80">NSS Volunteers</p>
+              <p className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 font-display text-2xl font-bold leading-none">50</p>
+              <p className="text-sm font-semibold uppercase leading-tight text-white/85">NSS Volunteers</p>
             </div>
           </div>
         </section>
@@ -178,7 +178,7 @@ function Home() {
         {batch?.impactMetrics?.length > 0 && (
           <section className="flex flex-col gap-4">
             <Reveal>
-              <ClayCard tilt={false} className="flex flex-col gap-6 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+              <ClayCard tilt={false} className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)] lg:items-center">
                 <div>
                   <Badge>Current Batch</Badge>
                   <h2 className="mt-2 font-display text-2xl font-extrabold leading-tight break-words">
@@ -192,9 +192,9 @@ function Home() {
                     </p>
                   )}
                 </div>
-                <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 lg:w-auto">
+                <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4">
                   {batch.impactMetrics.map((m) => (
-                    <div key={m.label} className="h-full flex items-center justify-center">
+                    <div key={m.label} className="min-w-0">
                       <ImpactStat label={m.label} value={m.value} />
                     </div>
                   ))}
@@ -208,17 +208,17 @@ function Home() {
         {highlight && (
           <section className="flex flex-col gap-4">
             <Reveal>
-              <div className="clay flex min-w-0 flex-col overflow-hidden p-0 lg:flex-row">
+              <div className="clay grid min-w-0 overflow-hidden p-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                 {highlight.image && (
                   <img
                     src={highlight.image}
                     alt={highlight.title}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[16/10] w-full object-cover lg:w-1/2 lg:h-auto"
+                    className="aspect-[16/9] h-full w-full object-cover"
                   />
                 )}
-                <div className="flex min-w-0 flex-col justify-center p-5 sm:p-6 lg:w-1/2 lg:p-8">
+                <div className="flex min-w-0 flex-col justify-center p-5 sm:p-6 lg:p-8">
                   <Badge variant="accent" className="self-start">★ Featured Highlight</Badge>
                   <h2 className="mt-3 font-display text-2xl font-extrabold text-balance sm:text-3xl">
                     {highlight.title}
@@ -316,7 +316,7 @@ function Home() {
 
         {/* ── 7. Gallery & Videos Preview ─────────────────────────────────── */}
         {(albums?.length > 0 || videos?.length > 0) && (
-          <section className="flex flex-col gap-10">
+          <section className="flex flex-col gap-8">
             {albums?.length > 0 && (
               <div className="flex min-w-0 flex-col gap-4">
                 <SectionHeading

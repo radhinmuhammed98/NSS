@@ -23,13 +23,8 @@ export function ClayCard({
 }) {
   return (
     <motion.div
-      whileHover={
-        tilt
-          ? { y: -5, rotate: -0.3, scale: 1.01 }
-          : { y: -3 }
-      }
-      whileTap={{ scale: 0.988 }}
-      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+      whileHover={tilt ? { y: -2 } : undefined}
+      transition={{ type: "spring", stiffness: 280, damping: 24 }}
       className={cn(
         "clay min-w-0 overflow-hidden p-5",
         highlighted && "shadow-[var(--clay-shadow-accent)]",

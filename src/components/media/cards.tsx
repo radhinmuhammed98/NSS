@@ -15,15 +15,15 @@ import type {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <Link to="/projects/$projectSlug" params={{ projectSlug: project.slug }}>
-      <ClayCard className="flex h-full flex-col p-0">
+    <Link to="/projects/$projectSlug" params={{ projectSlug: project.slug }} className="block h-full">
+      <ClayCard className="flex h-full min-h-[340px] flex-col p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={project.coverImage}
             alt={project.title}
             loading="lazy"
             decoding="async"
-            className="aspect-[16/10] w-full object-cover"
+            className="aspect-[16/9] w-full object-cover"
           />
           {project.featured && (
             <span className="absolute left-3 top-3">
@@ -57,8 +57,8 @@ export function ProjectCard({ project }: { project: Project }) {
 
 export function BatchCard({ batch }: { batch: Batch }) {
   return (
-    <Link to="/batches/$batchSlug" params={{ batchSlug: batch.slug }}>
-      <ClayCard className="flex h-full flex-col p-0">
+    <Link to="/batches/$batchSlug" params={{ batchSlug: batch.slug }} className="block h-full">
+      <ClayCard className="flex h-full min-h-[340px] flex-col p-0">
         <img
           src={batch.coverImage}
           alt={batch.title}
@@ -97,8 +97,8 @@ export function BatchCard({ batch }: { batch: Batch }) {
 
 export function CampCard({ camp }: { camp: Camp }) {
   return (
-    <Link to="/camps/$campSlug" params={{ campSlug: camp.slug }}>
-      <ClayCard className="flex h-full flex-col p-0">
+    <Link to="/camps/$campSlug" params={{ campSlug: camp.slug }} className="block h-full">
+      <ClayCard className="flex h-full min-h-[340px] flex-col p-0">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
             src={camp.coverImage}
@@ -135,7 +135,7 @@ export function CampCard({ camp }: { camp: Camp }) {
 
 export function HighlightCard({ highlight }: { highlight: Highlight }) {
   return (
-    <ClayCard className="flex h-full flex-col p-0">
+    <ClayCard className="flex h-full min-h-[340px] flex-col p-0">
       <img
         src={highlight.image}
         alt={highlight.title}
@@ -159,14 +159,14 @@ export function HighlightCard({ highlight }: { highlight: Highlight }) {
 
 export function AlbumCard({ album }: { album: GalleryAlbum }) {
   return (
-    <Link to="/gallery/$albumSlug" params={{ albumSlug: album.slug }}>
-      <ClayCard className="flex h-full flex-col p-0">
+    <Link to="/gallery/$albumSlug" params={{ albumSlug: album.slug }} className="block h-full">
+      <ClayCard className="flex h-full min-h-[340px] flex-col p-0">
         <img
           src={album.coverImage}
           alt={album.title}
           loading="lazy"
           decoding="async"
-          className="aspect-square w-full rounded-t-lg object-cover"
+          className="aspect-[4/3] w-full rounded-t-lg object-cover"
         />
         <div className="p-4 sm:p-5">
           <Badge variant="outline">{album.type}</Badge>
@@ -182,7 +182,7 @@ export function AlbumCard({ album }: { album: GalleryAlbum }) {
 
 export function StoryCard({ story }: { story: VolunteerStory }) {
   return (
-    <ClayCard className="flex h-full flex-col">
+    <ClayCard className="flex h-full min-h-[240px] flex-col">
       {/* Quote in Playfair — editorial legacy statement */}
       <p className="font-display text-lg font-semibold leading-snug text-balance">
         &ldquo;{story.quote}&rdquo;
