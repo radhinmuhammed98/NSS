@@ -35,7 +35,7 @@ const causes = [
   {
     icon: Users,
     title: "Community Service",
-    ml: "സമൂഹ സേവനം",
+    ml: "സാമൂഹ്യ പ്രവർത്തനം",
     desc: "Palliative care visits, housing drives, and reaching the unreached in our local community.",
     color: "#042413",
   },
@@ -116,7 +116,7 @@ function Support() {
               className="mt-3 text-2xl font-bold text-white/70 sm:text-3xl"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
-              സേവനത്തിന് കൈത്താങ്ങാകൂ
+              നന്മയ്ക്കായി കൈത്താങ്ങാകൂ
             </p>
 
             {/* Description */}
