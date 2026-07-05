@@ -1,5 +1,5 @@
 export const CONTENT_SOURCE = import.meta.env.VITE_CONTENT_SOURCE || "sanity";
-export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID;
+export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID || "2atqkk07";
 export const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET || "production";
 export const SANITY_API_VERSION = import.meta.env.VITE_SANITY_API_VERSION || "2026-01-01";
 
