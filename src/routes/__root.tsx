@@ -67,12 +67,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-import { getSiteSettings, getBatches } from "../lib/data";
+import { getSiteSettings, getSocialLinks } from "../lib/data";
 
 export const Route = createRootRoute({
   loader: async () => {
-    // Pre-fetch settings and batches to populate caches for layout components & helper rendering
-    await Promise.all([getSiteSettings(), getBatches()]);
+    // Pre-fetch settings, batches, and social links to populate caches for layout components & helper rendering
+    await Promise.all([getSiteSettings(), getSocialLinks()]);
     return {};
   },
   component: RootComponent,

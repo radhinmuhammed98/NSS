@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState } from "@/components/clay";
 import { StoryCard } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { getStories } from "@/lib/data";
 import type { VolunteerStory } from "@/types";
@@ -16,6 +17,10 @@ export const Route = createFileRoute("/stories")({
 
 function Stories() {
   const { list: stories } = Route.useLoaderData() as { list: VolunteerStory[] };
+  usePageMeta({
+    title: "Volunteer Stories",
+    description: "Personal stories from NSS volunteers at KHMHSS Valakkulam — experiences, growth, and service.",
+  });
   return (
     <PageShell>
       <PageHeader eyebrow="Stories" title="Volunteer Stories" description="Service, in their own words." />

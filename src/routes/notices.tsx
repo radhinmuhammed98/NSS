@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getNotices } from "@/lib/data";
 import type { Notice } from "@/types";
@@ -16,6 +17,10 @@ export const Route = createFileRoute("/notices")({
 
 function Notices() {
   const { list: notices } = Route.useLoaderData() as { list: Notice[] };
+  usePageMeta({
+    title: "Notices",
+    description: "Official notices and announcements from NSS Unit 466 at KHMHSS Valakkulam.",
+  });
   return (
     <PageShell>
       <PageHeader eyebrow="Notices" title="Notices & Updates" description="Latest announcements from the NSS unit." />

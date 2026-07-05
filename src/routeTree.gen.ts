@@ -23,11 +23,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
 import { Route as CampsIndexRouteImport } from './routes/camps.index'
-import { Route as BatchesIndexRouteImport } from './routes/batches.index'
 import { Route as ProjectsProjectSlugRouteImport } from './routes/projects.$projectSlug'
 import { Route as GalleryAlbumSlugRouteImport } from './routes/gallery.$albumSlug'
 import { Route as CampsCampSlugRouteImport } from './routes/camps.$campSlug'
-import { Route as BatchesBatchSlugRouteImport } from './routes/batches.$batchSlug'
 
 const VideosRoute = VideosRouteImport.update({
   id: '/videos',
@@ -99,11 +97,6 @@ const CampsIndexRoute = CampsIndexRouteImport.update({
   path: '/camps/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BatchesIndexRoute = BatchesIndexRouteImport.update({
-  id: '/batches/',
-  path: '/batches/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjectsProjectSlugRoute = ProjectsProjectSlugRouteImport.update({
   id: '/projects/$projectSlug',
   path: '/projects/$projectSlug',
@@ -119,11 +112,6 @@ const CampsCampSlugRoute = CampsCampSlugRouteImport.update({
   path: '/camps/$campSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BatchesBatchSlugRoute = BatchesBatchSlugRouteImport.update({
-  id: '/batches/$batchSlug',
-  path: '/batches/$batchSlug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -137,11 +125,9 @@ export interface FileRoutesByFullPath {
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
-  '/batches/$batchSlug': typeof BatchesBatchSlugRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/batches/': typeof BatchesIndexRoute
   '/camps/': typeof CampsIndexRoute
   '/gallery/': typeof GalleryIndexRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -158,11 +144,9 @@ export interface FileRoutesByTo {
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
-  '/batches/$batchSlug': typeof BatchesBatchSlugRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/batches': typeof BatchesIndexRoute
   '/camps': typeof CampsIndexRoute
   '/gallery': typeof GalleryIndexRoute
   '/projects': typeof ProjectsIndexRoute
@@ -180,11 +164,9 @@ export interface FileRoutesById {
   '/support': typeof SupportRoute
   '/team': typeof TeamRoute
   '/videos': typeof VideosRoute
-  '/batches/$batchSlug': typeof BatchesBatchSlugRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/batches/': typeof BatchesIndexRoute
   '/camps/': typeof CampsIndexRoute
   '/gallery/': typeof GalleryIndexRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -203,11 +185,9 @@ export interface FileRouteTypes {
     | '/support'
     | '/team'
     | '/videos'
-    | '/batches/$batchSlug'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/batches/'
     | '/camps/'
     | '/gallery/'
     | '/projects/'
@@ -224,11 +204,9 @@ export interface FileRouteTypes {
     | '/support'
     | '/team'
     | '/videos'
-    | '/batches/$batchSlug'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/batches'
     | '/camps'
     | '/gallery'
     | '/projects'
@@ -245,11 +223,9 @@ export interface FileRouteTypes {
     | '/support'
     | '/team'
     | '/videos'
-    | '/batches/$batchSlug'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/batches/'
     | '/camps/'
     | '/gallery/'
     | '/projects/'
@@ -267,11 +243,9 @@ export interface RootRouteChildren {
   SupportRoute: typeof SupportRoute
   TeamRoute: typeof TeamRoute
   VideosRoute: typeof VideosRoute
-  BatchesBatchSlugRoute: typeof BatchesBatchSlugRoute
   CampsCampSlugRoute: typeof CampsCampSlugRoute
   GalleryAlbumSlugRoute: typeof GalleryAlbumSlugRoute
   ProjectsProjectSlugRoute: typeof ProjectsProjectSlugRoute
-  BatchesIndexRoute: typeof BatchesIndexRoute
   CampsIndexRoute: typeof CampsIndexRoute
   GalleryIndexRoute: typeof GalleryIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
@@ -377,13 +351,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/batches/': {
-      id: '/batches/'
-      path: '/batches'
-      fullPath: '/batches/'
-      preLoaderRoute: typeof BatchesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/projects/$projectSlug': {
       id: '/projects/$projectSlug'
       path: '/projects/$projectSlug'
@@ -405,13 +372,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampsCampSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/batches/$batchSlug': {
-      id: '/batches/$batchSlug'
-      path: '/batches/$batchSlug'
-      fullPath: '/batches/$batchSlug'
-      preLoaderRoute: typeof BatchesBatchSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -427,11 +387,9 @@ const rootRouteChildren: RootRouteChildren = {
   SupportRoute: SupportRoute,
   TeamRoute: TeamRoute,
   VideosRoute: VideosRoute,
-  BatchesBatchSlugRoute: BatchesBatchSlugRoute,
   CampsCampSlugRoute: CampsCampSlugRoute,
   GalleryAlbumSlugRoute: GalleryAlbumSlugRoute,
   ProjectsProjectSlugRoute: ProjectsProjectSlugRoute,
-  BatchesIndexRoute: BatchesIndexRoute,
   CampsIndexRoute: CampsIndexRoute,
   GalleryIndexRoute: GalleryIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,

@@ -1,76 +1,58 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'notice',
-  title: 'Notice & Announcement',
+  title: 'Notice',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
       title: 'Notice Title',
       type: 'string',
-      description: 'അറിയിപ്പിന്റെ വിഷയം (e.g. Special Meeting for Volunteers)',
-      validation: (Rule) => Rule.required().error('തലക്കെട്ട് ആവശ്യമാണ് (Notice title is required)'),
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      description: 'വെബ്‌സൈറ്റ് യുആർഎൽ ലിങ്ക് രൂപീകരിക്കാൻ ഉപയോഗിക്കുന്നു (Auto-generate from title.)',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      validation: (Rule) => Rule.required().error('Slug ആവശ്യമാണ് (Slug is required)'),
+      description: 'The main heading of the notice.',
+      placeholder: 'e.g., Blood Donation Camp Announcement',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'date',
-      title: 'Date of Issue',
+      title: 'Date (Optional)',
       type: 'date',
-      description: 'അറിയിപ്പ് നൽകിയ തീയതി',
-      validation: (Rule) => Rule.required().error('തീയതി ആവശ്യമാണ് (Date is required)'),
-    }),
-    defineField({
-      name: 'type',
-      title: 'Notice Type',
-      type: 'string',
-      description: 'അറിയിപ്പ് വിഭാഗം (e.g. Announcement, Circular, Meeting, General)',
-      validation: (Rule) => Rule.required().error('അറിയിപ്പ് വിഭാഗം ആവശ്യമാണ് (Notice type is required)'),
+      description: 'When is this notice published or effective?',
+      initialValue: () => new Date().toISOString().split('T')[0],
     }),
     defineField({
       name: 'description',
-      title: 'Description / Content',
-      type: 'text',
-      rows: 5,
-      description: 'അറിയിപ്പിന്റെ പൂർണ്ണ വിവരങ്ങൾ (Detailed notice content)',
-      validation: (Rule) => Rule.required().error('വിവരണം നൽകുക (Description content is required)'),
+      title: 'Details (Optional)',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'The full text of the announcement.',
     }),
     defineField({
       name: 'attachment',
-      title: 'Attachment File (PDF/Image)',
+      title: 'File Attachment (Optional)',
       type: 'file',
-      description: 'ബന്ധപ്പെട്ട പിഡിഎഫ് ഫയൽ അല്ലെങ്കിൽ സർക്കുലർ ഉണ്ടെങ്കിൽ അപ്ലോഡ് ചെയ്യാം (Optional circular document/file to download)',
-    }),
-    defineField({
-      name: 'important',
-      title: 'Mark as Important / Urgent',
-      type: 'boolean',
-      description: 'ഇത് വളരെ പ്രധാനപ്പെട്ട അറിയിപ്പാണെങ്കിൽ ടിക്ക് ചെയ്യുക. (Highlights the notice with an urgent tag on the site)',
-      initialValue: false,
+      description: 'Upload a PDF or document if there is one.',
+      options: { accept: '.pdf,.doc,.docx' },
     }),
   ],
   preview: {
     select: {
       title: 'title',
       date: 'date',
-      important: 'important',
     },
-    prepare({ title, date, important }) {
-      const formattedDate = date ? new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
+    prepare(selection) {
+      const { title, date } = selection;
       return {
-        title: title || 'Untitled Notice',
-        subtitle: `${formattedDate}${important ? ' ⚠️ URGENT' : ''}`,
-      }
+        title,
+        subtitle: date,
+      };
     },
   },
-})
+  orderings: [
+    {
+      title: 'Newest First',
+      name: 'dateDesc',
+      by: [{ field: 'date', direction: 'desc' }],
+    },
+  ],
+});

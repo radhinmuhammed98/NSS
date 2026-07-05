@@ -6,6 +6,11 @@ export const SANITY_API_VERSION = import.meta.env.VITE_SANITY_API_VERSION || "20
 const isDev = import.meta.env.DEV;
 
 export function getContentSource(): "mock" | "sanity" {
+  // Fallback to mock data on localhost to avoid CORS request blocking in local preview / Lighthouse
+  if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+    return "mock";
+  }
+
   if (CONTENT_SOURCE === "sanity") {
     if (!SANITY_PROJECT_ID || SANITY_PROJECT_ID === "your_project_id_here" || SANITY_PROJECT_ID === "your_project_id") {
       if (isDev) {

@@ -1,8 +1,9 @@
-import impactMetric from './impactMetric'
 import imageAsset from './imageAsset'
 import campDay from './campDay'
-import siteSettings from './siteSettings'
 import batch from './batch'
+import siteSettings from './siteSettings'
+import homePage from './homePage'
+import about from './about'
 import project from './project'
 import camp from './camp'
 import galleryAlbum from './galleryAlbum'
@@ -13,19 +14,21 @@ import timelineItem from './timelineItem'
 import teamMember from './teamMember'
 import volunteerStory from './volunteerStory'
 import notice from './notice'
-import category from './category'
 import donation from './donation'
 import socialLinks from './socialLinks'
 
 export const schemaTypes = [
   // Helpers/Objects
-  impactMetric,
   imageAsset,
   campDay,
+
+  // People grouping
+  batch,
   
   // Documents
   siteSettings,
-  batch,
+  homePage,
+  about,
   project,
   camp,
   galleryAlbum,
@@ -36,7 +39,6 @@ export const schemaTypes = [
   teamMember,
   volunteerStory,
   notice,
-  category,
   donation,
   socialLinks,
 ]

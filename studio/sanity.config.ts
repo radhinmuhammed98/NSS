@@ -2,9 +2,10 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { codeInput } from '@sanity/code-input'
 import { schemaTypes } from './schemaTypes'
+import { media } from 'sanity-plugin-media'
 
 // Define singleton types
-const singletonTypes = new Set(['siteSettings', 'socialLinks', 'donation'])
+const singletonTypes = new Set(['siteSettings', 'homePage', 'socialLinks', 'donation', 'about'])
 
 // Define singleton actions (prevent delete, duplicate, etc.)
 const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
@@ -18,6 +19,7 @@ export default defineConfig({
 
   plugins: [
     codeInput(),
+    media(),
     structureTool({
       structure: (S) =>
         S.list()
@@ -28,7 +30,7 @@ export default defineConfig({
               .title('Website')
               .child(
                 S.list()
-                  .title('Website Configuration')
+                  .title('Website')
                   .items([
                     S.listItem()
                       .title('Site Settings')
@@ -37,7 +39,34 @@ export default defineConfig({
                         S.document()
                           .schemaType('siteSettings')
                           .documentId('siteSettings')
-                          .title('Website Configuration')
+                          .title('Site Settings')
+                      ),
+                    S.listItem()
+                      .title('Home Page')
+                      .id('homePage')
+                      .child(
+                        S.document()
+                          .schemaType('homePage')
+                          .documentId('homePage')
+                          .title('Home Page')
+                      ),
+                    S.listItem()
+                      .title('About')
+                      .id('about')
+                      .child(
+                        S.document()
+                          .schemaType('about')
+                          .documentId('about')
+                          .title('About')
+                      ),
+                    S.listItem()
+                      .title('Donation')
+                      .id('donation')
+                      .child(
+                        S.document()
+                          .schemaType('donation')
+                          .documentId('donation')
+                          .title('Donation')
                       ),
                     S.listItem()
                       .title('Social Links')
@@ -46,16 +75,7 @@ export default defineConfig({
                         S.document()
                           .schemaType('socialLinks')
                           .documentId('socialLinks')
-                          .title('Social Links Configuration')
-                      ),
-                    S.listItem()
-                      .title('Donation Settings')
-                      .id('donation')
-                      .child(
-                        S.document()
-                          .schemaType('donation')
-                          .documentId('donation')
-                          .title('Donation Settings Configuration')
+                          .title('Social Links')
                       ),
                   ])
               ),
@@ -66,62 +86,13 @@ export default defineConfig({
               .title('Activities')
               .child(
                 S.list()
-                  .title('Activities Documents')
+                  .title('Activities')
                   .items([
-                    S.listItem()
-                      .title('Projects')
-                      .child(
-                        S.documentTypeList('project')
-                          .title('Projects')
-                          .defaultOrdering([{ field: 'date', direction: 'desc' }])
-                      ),
-                    S.listItem()
-                      .title('Camps')
-                      .child(
-                        S.documentTypeList('camp')
-                          .title('Camps')
-                          .defaultOrdering([{ field: 'year', direction: 'desc' }])
-                      ),
-                    S.listItem()
-                      .title('Highlights')
-                      .child(
-                        S.documentTypeList('highlight')
-                          .title('Highlights')
-                          .defaultOrdering([{ field: 'date', direction: 'desc' }])
-                      ),
-                    S.listItem()
-                      .title('Notices')
-                      .child(
-                        S.documentTypeList('notice')
-                          .title('Notices')
-                          .defaultOrdering([{ field: 'date', direction: 'desc' }])
-                      ),
-                    S.documentTypeListItem('category').title('Project Categories'),
-                  ])
-              ),
-              
-            // Media Group
-            S.listItem()
-              .title('Media')
-              .child(
-                S.list()
-                  .title('Media Documents')
-                  .items([
-                    S.listItem()
-                      .title('Gallery (Albums)')
-                      .child(
-                        S.documentTypeList('galleryAlbum')
-                          .title('Gallery (Albums)')
-                          .defaultOrdering([{ field: 'date', direction: 'desc' }])
-                      ),
-                    S.listItem()
-                      .title('Videos')
-                      .child(
-                        S.documentTypeList('videoClip')
-                          .title('Videos')
-                          .defaultOrdering([{ field: 'year', direction: 'desc' }])
-                      ),
-                    S.documentTypeListItem('report').title('Reports'),
+                    S.documentTypeListItem('project').title('Projects'),
+                    S.documentTypeListItem('camp').title('Camps'),
+                    S.documentTypeListItem('highlight').title('Highlights'),
+                    S.documentTypeListItem('galleryAlbum').title('Gallery'),
+                    S.documentTypeListItem('videoClip').title('Videos'),
                   ])
               ),
               
@@ -130,22 +101,23 @@ export default defineConfig({
               .title('People')
               .child(
                 S.list()
-                  .title('People Documents')
+                  .title('People')
                   .items([
-                    S.listItem()
-                      .title('Team')
-                      .child(
-                        S.documentTypeList('teamMember')
-                          .title('Team')
-                          .defaultOrdering([{ field: 'order', direction: 'asc' }])
-                      ),
-                    S.listItem()
-                      .title('Volunteers')
-                      .child(
-                        S.documentTypeList('volunteerStory')
-                          .title('Volunteers')
-                          .defaultOrdering([{ field: 'name', direction: 'asc' }])
-                      ),
+                    S.documentTypeListItem('batch').title('Batches'),
+                    S.documentTypeListItem('teamMember').title('Team'),
+                    S.documentTypeListItem('volunteerStory').title('Volunteers'),
+                  ])
+              ),
+
+            // Updates Group
+            S.listItem()
+              .title('Updates')
+              .child(
+                S.list()
+                  .title('Updates')
+                  .items([
+                    S.documentTypeListItem('notice').title('Notices'),
+                    S.documentTypeListItem('report').title('Reports'),
                   ])
               ),
               
@@ -154,15 +126,8 @@ export default defineConfig({
               .title('History')
               .child(
                 S.list()
-                  .title('History Documents')
+                  .title('History')
                   .items([
-                    S.listItem()
-                      .title('Batches')
-                      .child(
-                        S.documentTypeList('batch')
-                          .title('Batches')
-                          .defaultOrdering([{ field: 'year', direction: 'desc' }])
-                      ),
                     S.documentTypeListItem('timelineItem').title('Timeline'),
                   ])
               ),

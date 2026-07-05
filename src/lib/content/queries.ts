@@ -4,10 +4,28 @@ export const SETTINGS_QUERY = `*[_type == "siteSettings"][0] {
   motto,
   location,
   academicYear,
+  "schoolLogo": schoolLogo.asset->url,
+  "nssLogo": nssLogo.asset->url,
+  principal,
   programmeOfficer,
   volunteerSecretary,
+  volunteerStrength,
   email,
   phone,
+  footerDescription
+}`;
+
+export const HOME_QUERY = `*[_type == "homePage"][0] {
+  heroTitle,
+  heroSubtitle,
+  "heroImage": heroImage.asset->url,
+  homeFeatures,
+  reachOutCtaTitle,
+  reachOutCtaSubtitle,
+  reachOutCtaDescription
+}`;
+
+export const ABOUT_QUERY = `*[_type == "about"][0] {
   mission,
   vision,
   objectives,
@@ -15,37 +33,6 @@ export const SETTINGS_QUERY = `*[_type == "siteSettings"][0] {
   achievements
 }`;
 
-export const BATCHES_QUERY = `*[_type == "batch"] | order(year desc) {
-  "slug": slug.current,
-  title,
-  yearRange,
-  year,
-  description,
-  theme,
-  "coverImage": coverImage.asset->url,
-  programmeOfficer,
-  volunteerSecretary,
-  leaders,
-  volunteerCount,
-  impactMetrics,
-  featured
-}`;
-
-export const BATCH_BY_SLUG_QUERY = `*[_type == "batch" && slug.current == $slug][0] {
-  "slug": slug.current,
-  title,
-  yearRange,
-  year,
-  description,
-  theme,
-  "coverImage": coverImage.asset->url,
-  programmeOfficer,
-  volunteerSecretary,
-  leaders,
-  volunteerCount,
-  impactMetrics,
-  featured
-}`;
 
 export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc) {
   "slug": slug.current,
@@ -341,3 +328,34 @@ export const SOCIAL_LINKS_QUERY = `*[_type == "socialLinks"][0] {
   youtube,
   twitter
 }`;
+
+// ─── Batch Queries ────────────────────────────────────────────────────────────
+
+export const BATCHES_QUERY = `*[_type == "batch"] | order(academicYear desc) {
+  "slug": slug.current,
+  title,
+  academicYear,
+  status,
+  description
+}`;
+
+export const CURRENT_BATCH_QUERY = `*[_type == "batch" && status == "current"] | order(academicYear desc)[0] {
+  "slug": slug.current,
+  title,
+  academicYear,
+  status,
+  description
+}`;
+
+// Team members belonging to the current batch
+export const CURRENT_BATCH_TEAM_QUERY = `*[_type == "teamMember" && batch->status == "current"] | order(order asc) {
+  "slug": slug.current,
+  name,
+  role,
+  "batchSlug": batch->slug.current,
+  "batchTitle": batch->title,
+  "photo": photo.asset->url,
+  bio,
+  order
+}`;
+

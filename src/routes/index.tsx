@@ -6,7 +6,6 @@ import {
   ClayButton,
   ClayCard,
   Badge,
-  ImpactStat,
   Reveal,
   Section,
   ActivityCard,
@@ -19,10 +18,7 @@ import {
   StoryCard,
 } from "@/components/media";
 import {
-  formatDate,
   getAlbums,
-  getBatches,
-  getCurrentBatch,
   getFeaturedCamp,
   getFeaturedHighlight,
   getFeaturedProjects,
@@ -33,7 +29,6 @@ import {
 } from "@/lib/data";
 import type {
   SiteSettings,
-  Batch,
   Highlight,
   Project,
   Camp,
@@ -49,8 +44,6 @@ export const Route = createFileRoute("/")(
   {
     loader: async () => {
       const s         = await getSiteSettings();
-      const batch     = await getCurrentBatch();
-      const batches   = await getBatches();
       const highlight = await getFeaturedHighlight();
       const projects  = await getFeaturedProjects(3);
       const camp      = await getFeaturedCamp();
@@ -60,7 +53,7 @@ export const Route = createFileRoute("/")(
       const allReports = await getReports();
       const reports   = allReports.slice(0, 3);
       const stories   = await getFeaturedStories(2);
-      return { s, batch, batches, highlight, projects, camp, albums, videos, reports, stories };
+      return { s, highlight, projects, camp, albums, videos, reports, stories };
     },
     component: Home,
   }
@@ -71,8 +64,6 @@ export const Route = createFileRoute("/")(
 function Home() {
   const {
     s,
-    batch,
-    batches,
     highlight,
     projects,
     camp,
@@ -82,8 +73,6 @@ function Home() {
     stories,
   } = Route.useLoaderData() as {
     s:         SiteSettings;
-    batch:     Batch;
-    batches:   Batch[];
     highlight: Highlight;
     projects:  Project[];
     camp:      Camp;
@@ -151,12 +140,11 @@ function Home() {
           <div className="nss-grid nss-gap-3" style={{ minWidth: 0 }}>
             <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
               <img
-                src="/gate.png"
+                src="/gate.webp"
                 alt="KHMHSS Valakkulam School Gate"
                 width={1280}
                 height={960}
                 fetchPriority="high"
-                decoding="async"
                 style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }}
               />
             </div>
@@ -167,36 +155,6 @@ function Home() {
             </div>
           </div>
         </Section>
-
-        {/* ── 2. Active Batch + Impact Metrics ────────────────────────────── */}
-        {batch?.impactMetrics?.length > 0 && (
-          <Section>
-            <Reveal>
-              <ClayCard tilt={false} className="nss-grid nss-gap-5 nss-p-4 nss-sm-p-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-                <div>
-                  <Badge>Current Batch</Badge>
-                  <h2 className="nss-mt-2 nss-font-display nss-text-2xl nss-font-extrabold nss-leading-tight nss-break-words">
-                    {batch.yearRange} · {batch.title}
-                  </h2>
-                  {(batch.programmeOfficer?.trim() || batch.volunteerSecretary?.trim()) && (
-                    <p className="nss-mt-1 nss-text-sm nss-text-muted">
-                      {batch.programmeOfficer && `Programme Officer: ${batch.programmeOfficer}`}
-                      {batch.programmeOfficer && batch.volunteerSecretary && " · "}
-                      {batch.volunteerSecretary && `Secretary: ${batch.volunteerSecretary}`}
-                    </p>
-                  )}
-                </div>
-                <div className="nss-grid nss-grid-cols-2 nss-gap-3 nss-sm-grid-cols-4">
-                  {batch.impactMetrics.map((m) => (
-                    <div key={m.label} style={{ minWidth: 0 }}>
-                      <ImpactStat label={m.label} value={m.value} />
-                    </div>
-                  ))}
-                </div>
-              </ClayCard>
-            </Reveal>
-          </Section>
-        )}
 
         {/* ── 3. Featured Highlight ────────────────────────────────────────── */}
         {highlight && (
@@ -262,52 +220,6 @@ function Home() {
           </Section>
         )}
 
-        {/* ── 6. Batch Legacy Preview ──────────────────────────────────────── */}
-        {batches?.length > 1 && (
-          <Section>
-            <SectionHeading
-              eyebrow="The Journey"
-              title="Batch-wise Legacy"
-              description="Every batch leaves a chapter behind. Explore them all."
-              action={
-                <ClayButton to="/batches" variant="soft">
-                  All batches <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-                </ClayButton>
-              }
-            />
-            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2">
-              <Reveal>
-                <Link to="/journey" style={{ display: "block", height: "100%" }}>
-                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
-                    <Badge variant="accent" className="w-fit">Timeline</Badge>
-                    <h3 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">NSS Journey Timeline</h3>
-                    <p className="nss-mt-2 nss-text-sm nss-text-muted">
-                      From the unit's founding to today — every milestone preserved.
-                    </p>
-                    <span className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
-                      Walk the journey <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-                    </span>
-                  </ClayCard>
-                </Link>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <Link to="/team" style={{ display: "block", height: "100%" }}>
-                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
-                    <Badge variant="accent" className="w-fit">People</Badge>
-                    <h3 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">Team &amp; Volunteers</h3>
-                    <p className="nss-mt-2 nss-text-sm nss-text-muted">
-                      Meet the officers and volunteers behind every campaign.
-                    </p>
-                    <span className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
-                      Meet the team <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-                    </span>
-                  </ClayCard>
-                </Link>
-              </Reveal>
-            </div>
-          </Section>
-        )}
-
         {/* ── 7. Gallery & Videos Preview ─────────────────────────────────── */}
         {(albums?.length > 0 || videos?.length > 0) && (
           <Section gap="large">
@@ -358,33 +270,6 @@ function Home() {
                 </div>
               </div>
             )}
-          </Section>
-        )}
-
-        {/* ── 8. Reports Preview ──────────────────────────────────────────── */}
-        {reports?.length > 0 && (
-          <Section>
-            <SectionHeading
-              eyebrow="Documents"
-              title="Reports & Records"
-              action={
-                <ClayButton to="/reports" variant="soft">
-                  All reports <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-                </ClayButton>
-              }
-            />
-            <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-3">
-              {reports.map((r, i) => (
-                <Reveal key={r.slug} delay={i * 0.06}>
-                  <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-5" style={{ height: "100%" }}>
-                    <Badge variant="outline" className="w-fit">{r.type}</Badge>
-                    <h3 className="nss-mt-3 nss-font-display nss-font-bold">{r.title}</h3>
-                    <p className="nss-mt-2 nss-text-sm nss-text-muted">{r.description}</p>
-                    <p className="nss-mt-3 nss-text-xs nss-text-muted">{formatDate(r.date)}</p>
-                  </ClayCard>
-                </Reveal>
-              ))}
-            </div>
           </Section>
         )}
 
@@ -447,31 +332,6 @@ function Home() {
                 />
               </Reveal>
             ))}
-          </div>
-        </Section>
-
-        {/* ── 11. Reach Out CTA ────────────────────────────────────────────── */}
-        <Section>
-          <div
-            className="nss-flex nss-flex-col nss-items-center nss-gap-4 nss-p-6 nss-text-center nss-sm-p-8"
-            style={{ borderRadius: "var(--radius-lg)", background: "#042413", color: "#ffffff" }}
-          >
-            <p
-              className="nss-font-display nss-text-2xl nss-font-bold nss-italic"
-              style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
-            >
-              ജീവിക്കുന്ന ഒരിടം
-            </p>
-            <h2 className="nss-font-display nss-text-2xl nss-font-extrabold nss-leading-tight nss-text-balance nss-sm-text-3xl">
-              Be Part of the Living Canvas
-            </h2>
-            <p className="nss-text-sm nss-leading-relaxed" style={{ maxWidth: "28rem", opacity: 0.9 }}>
-              Want to join, collaborate, or learn more about our unit's work?
-              Every student can be a thread in this tapestry.
-            </p>
-            <ClayButton to="/contact" variant="soft">
-              Reach the NSS Unit · khmhsvalakulam@gmail.com <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-            </ClayButton>
           </div>
         </Section>
 

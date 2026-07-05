@@ -4,24 +4,23 @@ import { ArrowUpDown } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import {
-  getBatches,
   getHighlights,
   getHighlightTypes,
   getYearsFromHighlights,
 } from "@/lib/data";
-import type { Highlight, Batch } from "@/types";
+import type { Highlight } from "@/types";
 
 export const Route = createFileRoute("/highlights")({
   loader: async () => {
-    const [highlights, batches, highlightTypes, years] = await Promise.all([
+    const [highlights, highlightTypes, years] = await Promise.all([
       getHighlights(),
-      getBatches(),
       getHighlightTypes(),
       getYearsFromHighlights(),
     ]);
-    return { highlights, batches, highlightTypes, years };
+    return { highlights, highlightTypes, years };
   },
   component: Highlights,
 });
@@ -35,15 +34,19 @@ const SORT_OPTIONS: { value: SortMode; label: string }[] = [
 ];
 
 function Highlights() {
-  const { highlights, batches, highlightTypes, years } = Route.useLoaderData() as {
+  const { highlights, highlightTypes, years } = Route.useLoaderData() as {
     highlights: Highlight[];
-    batches: Batch[];
     highlightTypes: string[];
     years: number[];
   };
 
   const [active, setActive] = useState<Record<string, string>>({});
   const [sort, setSort] = useState<SortMode>("featured");
+
+  usePageMeta({
+    title: "Highlights",
+    description: "Key achievements, milestones, and proud moments from NSS Unit 466 at KHMHSS Valakkulam.",
+  });
 
   const handleFilter = (key: string, value: string) => {
     setActive((prev) => ({ ...prev, [key]: value }));
@@ -53,14 +56,6 @@ function Highlights() {
   const hasActive = Object.values(active).some((v) => v && v !== "all");
 
   const groups: FilterGroup[] = [
-    {
-      key: "batch",
-      label: "Batch",
-      options: [
-        { value: "all", label: "All" },
-        ...batches.map((b) => ({ value: b.slug, label: b.yearRange })),
-      ],
-    },
     {
       key: "year",
       label: "Year",
@@ -81,23 +76,22 @@ function Highlights() {
 
   const filtered = useMemo(() => {
     const base = highlights.filter((h) => {
-      const batchOk = !active.batch || active.batch === "all" || h.batchSlug === active.batch;
       const yearOk = !active.year || active.year === "all" || String(h.year) === active.year;
       const typeOk = !active.type || active.type === "all" || h.type === active.type;
-      return batchOk && yearOk && typeOk;
+      return yearOk && typeOk;
     });
 
     if (sort === "featured") {
       return [...base].sort((a, b) => {
         if (a.featured !== b.featured) return a.featured ? -1 : 1;
-        return a.priority - b.priority;
+        return (a.priority || 10) - (b.priority || 10);
       });
     }
     if (sort === "newest") {
-      return [...base].sort((a, b) => b.date.localeCompare(a.date));
+      return [...base].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     }
     // oldest
-    return [...base].sort((a, b) => a.date.localeCompare(b.date));
+    return [...base].sort((a, b) => (a.date || "").localeCompare(b.date || ""));
   }, [highlights, active, sort]);
 
   return (
@@ -108,7 +102,6 @@ function Highlights() {
         description="The proudest achievements and most impactful moments of the unit."
       />
       <Container className="nss-py-8">
-        {/* Toolbar row: sort on left, clear-all on right */}
         <div className="nss-mb-3 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-justify-between">
           <div className="nss-flex nss-flex-wrap nss-items-center nss-gap-2" style={{ minWidth: 0 }}>
             <ArrowUpDown style={{ height: "1rem", width: "1rem", color: "var(--muted-foreground)" }} aria-hidden />

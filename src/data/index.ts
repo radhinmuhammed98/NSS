@@ -1,5 +1,4 @@
 import type {
-  Batch,
   Camp,
   GalleryAlbum,
   Highlight,
@@ -63,40 +62,10 @@ export const siteSettings: SiteSettings = {
   volunteerSecretary: "",
   email: "khmhsvalakulam@gmail.com",
   phone: "0494 2496753",
-  mission:
-    "To develop the personality of students through community service and instil a spirit of social responsibility — helping those around us heal, grow, and thrive.",
-  vision:
-    "A generation of compassionate, responsible citizens shaped by selfless service — young hands that plant trees, hold hands, and light the way for their community.",
-  objectives: [
-    "Understand the community in which volunteers work",
-    "Identify the needs and problems of the community",
-    "Develop a sense of social and civic responsibility",
-    "Apply knowledge to find practical solutions to problems",
-    "Develop competence required for group living and shared responsibility",
-    "Gain skills in mobilising community participation",
-    "Practise national integration and social harmony",
-  ],
-  history: "",
-  achievements: [],
 };
 
-export const batches: Batch[] = [
-  {
-    slug: "batch-2025-26",
-    title: "Batch 2025–26",
-    yearRange: "2025–26",
-    year: 2025,
-    description: "The active batch carrying forward regular activities and social outreach initiatives.",
-    theme: "Service and Growth",
-    coverImage: heroNss,
-    programmeOfficer: "Dr. Broose KV",
-    volunteerSecretary: "",
-    leaders: [],
-    volunteerCount: 50,
-    impactMetrics: [],
-    featured: true,
-  },
-];
+
+
 
 export const projects: Project[] = [
   {

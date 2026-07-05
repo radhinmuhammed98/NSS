@@ -1,133 +1,57 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'videoClip',
-  title: 'Video Clip',
+  title: 'Video',
   type: 'document',
-  groups: [
-    { name: 'basic', title: 'Basic Details (അടിസ്ഥാന വിവരങ്ങൾ)' },
-    { name: 'media', title: 'Video Files (വീഡിയോ വിവരങ്ങൾ)' },
-    { name: 'links', title: 'Relationships (ബന്ധപ്പെട്ട ലിങ്കുകൾ)' },
-  ],
   fields: [
     defineField({
       name: 'title',
       title: 'Video Title',
       type: 'string',
-      description: 'വീഡിയോയുടെ പേര് (e.g. Seven-Day Special Camp Documentary)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('തലക്കെട്ട് നൽകുക (Title is required)'),
+      description: 'The title of the video.',
+      placeholder: 'e.g., Annual Camp Highlights',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      description: 'യുആർഎൽ ലിങ്ക് രൂപീകരിക്കാൻ ഉപയോഗിക്കുന്നു (Auto-generate from title.)',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('Slug ആവശ്യമാണ് (Slug is required)'),
-    }),
-    defineField({
-      name: 'type',
-      title: 'Video Type / Category',
-      type: 'string',
-      description: 'വീഡിയോ വിഭാഗം (e.g., Documentary, Awareness, Camp, Project)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('വീഡിയോ വിഭാഗം നൽകുക (Video type is required)'),
-    }),
-    defineField({
-      name: 'year',
-      title: 'Year',
-      type: 'number',
-      description: 'വീഡിയോ ചെയ്ത വർഷം (e.g., 2025)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().integer().min(1982).max(2100).error('സാധുവായ വർഷം നൽകുക (Valid year is required)'),
-    }),
-    defineField({
-      name: 'batch',
-      title: 'Batch',
-      type: 'reference',
-      to: [{ type: 'batch' }],
-      description: 'ബന്ധപ്പെട്ട ബാച്ച് (Optional batch association)',
-      group: 'basic',
-    }),
-    defineField({
-      name: 'relatedProject',
-      title: 'Related Project',
-      type: 'reference',
-      to: [{ type: 'project' }],
-      description: 'ബന്ധപ്പെട്ട പ്രോജക്റ്റ്',
-      group: 'links',
-    }),
-    defineField({
-      name: 'relatedCamp',
-      title: 'Related Camp',
-      type: 'reference',
-      to: [{ type: 'camp' }],
-      description: 'ബന്ധപ്പെട്ട ക്യാമ്പ്',
-      group: 'links',
-    }),
-    defineField({
-      name: 'url',
-      title: 'Video URL (Direct MP4 / Youtube Link)',
+      name: 'videoUrl',
+      title: 'Video URL',
       type: 'url',
-      description: 'വീഡിയോ ലിങ്ക് (e.g., Direct link to MP4 file or Google Drive/Youtube sharing link)',
-      group: 'media',
-      validation: (Rule) => Rule.required().uri({ scheme: ['http', 'https'] }).error('സാധുവായ ഒരു വീഡിയോ ലിങ്ക് നൽകുക (Valid URL is required)'),
+      description: 'Link to the YouTube or Google Drive video.',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'thumbnail',
-      title: 'Thumbnail Image',
-      type: 'image',
-      description: 'വീഡിയോ കവർ ഫോട്ടോ (വീഡിയോ പ്ലേ ചെയ്യുന്നതിന് മുൻപ് കാണിക്കുന്ന ചിത്രം)',
-      options: {
-        hotspot: true,
-      },
-      group: 'media',
-      validation: (Rule) => Rule.required().error('തംബ്നയിൽ ഫോട്ടോ നിർബന്ധമാണ് (Thumbnail image is required)'),
-    }),
-    defineField({
-      name: 'duration',
-      title: 'Duration',
-      type: 'string',
-      description: 'വീഡിയോ ദൈർഘ്യം (e.g. 1:45, 12:30)',
-      placeholder: 'e.g. 1:45',
-      group: 'media',
-      validation: (Rule) => Rule.required().error('ദൈർഘ്യം നൽകുക (Duration is required)'),
+      name: 'date',
+      title: 'Date (Optional)',
+      type: 'date',
+      description: 'When was this video recorded?',
+      initialValue: () => new Date().toISOString().split('T')[0],
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Description (Optional)',
       type: 'text',
-      rows: 2,
-      description: 'വീഡിയോയെക്കുറിച്ചുള്ള ലളിതമായ വിവരണം',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('വിവരണം നൽകുക (Description is required)'),
-    }),
-    defineField({
-      name: 'featured',
-      title: 'Featured Video',
-      type: 'boolean',
-      description: 'പ്രധാന പേജിൽ ഫീച്ചർ ചെയ്യണോ?',
-      initialValue: false,
-      group: 'basic',
+      description: 'A brief description of what happens in the video.',
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      duration: 'duration',
-      media: 'thumbnail',
+      date: 'date',
     },
-    prepare({ title, duration, media }) {
+    prepare(selection) {
+      const { title, date } = selection;
       return {
-        title: title || 'Untitled Video',
-        subtitle: duration ? `Duration: ${duration}` : '',
-        media,
-      }
+        title,
+        subtitle: date,
+      };
     },
   },
-})
+  orderings: [
+    {
+      title: 'Newest First',
+      name: 'dateDesc',
+      by: [{ field: 'date', direction: 'desc' }],
+    },
+  ],
+});

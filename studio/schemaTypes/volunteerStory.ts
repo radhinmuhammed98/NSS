@@ -24,14 +24,6 @@ export default defineType({
       validation: (Rule) => Rule.required().error('Slug ആവശ്യമാണ് (Slug is required)'),
     }),
     defineField({
-      name: 'batch',
-      title: 'Batch',
-      type: 'reference',
-      to: [{ type: 'batch' }],
-      description: 'അംഗം ഉൾപ്പെട്ടിരുന്ന ബാച്ച്',
-      validation: (Rule) => Rule.required().error('ബാച്ച് തിരഞ്ഞെടുക്കുക (Batch is required)'),
-    }),
-    defineField({
       name: 'photo',
       title: 'Volunteer Photo',
       type: 'image',

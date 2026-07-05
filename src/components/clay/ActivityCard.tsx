@@ -1,9 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { ElementType } from "react";
 
-/**
- * ActivityCard — icon-driven card for causes, pillars, and activity summaries (Vanilla CSS implementation)
- */
 export function ActivityCard({
   icon: Icon,
   title,
@@ -14,38 +11,48 @@ export function ActivityCard({
 }: {
   icon?: ElementType;
   title: string;
-  /** Optional Malayalam or secondary line below the title */
   subtitle?: string;
   description: string;
-  /** Hex color used for the icon and icon bubble background */
   accentColor?: string;
   className?: string;
 }) {
-  const bubbleBg = accentColor + "18"; // ~10% opacity background
+  const bubbleBg = accentColor + "1a";
   return (
     <div
-      className={cn(
-        "nss-card nss-card-tilt nss-flex nss-flex-col nss-gap-4",
-        className
-      )}
+      className={cn("nss-card nss-card-tilt nss-flex nss-flex-col nss-gap-4", className)}
+      style={{ position: "relative", overflow: "hidden" }}
     >
-      {/* Icon bubble — only shown when an icon is provided */}
+      {/* Top accent bar */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: 0, left: 0, right: 0,
+          height: "3px",
+          background: `linear-gradient(90deg, ${accentColor}, ${accentColor}88)`,
+          borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+        }}
+      />
+
       {Icon && (
         <span
-          className="nss-flex nss-items-center nss-justify-center nss-shrink-0"
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
             background: bubbleBg,
             width: "2.75rem",
             height: "2.75rem",
-            borderRadius: "var(--radius-lg)"
+            borderRadius: "var(--radius-lg)",
+            marginTop: "0.25rem",
           }}
         >
           <Icon style={{ color: accentColor, width: "1.25rem", height: "1.25rem" }} aria-hidden />
         </span>
       )}
 
-      {/* Text block */}
-      <div className="nss-flex nss-flex-col nss-gap-1">
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
         <h3
           className="nss-font-bold nss-text-base nss-leading-snug"
           style={{ color: "var(--primary)" }}
@@ -62,9 +69,7 @@ export function ActivityCard({
         )}
       </div>
 
-      <p className="nss-text-sm nss-text-muted nss-leading-relaxed nss-flex-1">
-        {description}
-      </p>
+      <p className="nss-text-sm nss-text-muted nss-leading-relaxed nss-flex-1">{description}</p>
     </div>
   );
 }

@@ -1,137 +1,84 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'batch',
   title: 'Batch',
   type: 'document',
-  groups: [
-    { name: 'basic', title: 'Basic Details (അടിസ്ഥാന വിവരങ്ങൾ)' },
-    { name: 'team', title: 'Leadership & Volunteers (ഭാരവാഹികളും വളന്റിയർമാരും)' },
-    { name: 'media', title: 'Media & Impact (ചിത്രങ്ങളും വിജയങ്ങളും)' },
-  ],
   fields: [
     defineField({
       name: 'title',
       title: 'Batch Title',
       type: 'string',
-      description: 'ബാച്ചിന്റെ പേര് (e.g. Batch 2025–26)',
-      placeholder: 'e.g. Batch 2025–26',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('ബാച്ച് പേര് നൽകേണ്ടതുണ്ട് (Batch title is required)'),
+      description: 'e.g., Batch 2024-25',
+      placeholder: 'e.g., Batch 2024-25',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'വെബ്‌സൈറ്റ് ലിങ്ക് രൂപീകരിക്കാൻ ഉപയോഗിക്കുന്നു (Used for URL mapping. Auto-generate from title.)',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('Slug നിർബന്ധമാണ് (Slug is required)'),
+      description: 'Auto-generate from title.',
+      options: { source: 'title', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'yearRange',
-      title: 'Year Range',
+      name: 'academicYear',
+      title: 'Academic Year',
       type: 'string',
-      description: 'അധ്യയന വർഷ കാലയളവ് (e.g. 2025–2026)',
-      placeholder: 'e.g. 2025–26',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('വർഷ പരിധി നൽകുക (Year range is required)'),
+      description: 'e.g., 2024-25',
+      placeholder: 'e.g., 2024-25',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'year',
-      title: 'Start Year',
-      type: 'number',
-      description: 'ബാച്ച് ആരംഭിക്കുന്ന വർഷം (ലിസ്റ്റുകൾ ക്രമീകരിക്കാൻ ഉപയോഗിക്കുന്നു, e.g., 2025)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().integer().min(1982).max(2100).error('സാധുവായ ഒരു വർഷം നൽകുക (Valid start year is required)'),
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      description: `
+        Current = shown on homepage and Team page.
+        Previous = shown in the Batch Archive (latest 2).
+        Archive = older batches, still stored for history.
+        
+        ⚠️ Only ONE batch should be set to "Current" at a time.
+        When a new academic year starts: set the old batch to "Previous", and create a new batch with "Current".
+      `,
+      options: {
+        list: [
+          { title: '✅ Current  (Active this year)', value: 'current' },
+          { title: '📁 Previous (Recent past batch)', value: 'previous' },
+          { title: '🗄️ Archive  (Older batch)', value: 'archive' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'current',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Description (Optional)',
       type: 'text',
-      rows: 4,
-      description: 'ബാച്ചിനെക്കുറിച്ചുള്ള ഒരു ചെറു വിവരണം (A brief summary of this batch\'s achievements)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('വിവരണം നൽകുക (Description is required)'),
-    }),
-    defineField({
-      name: 'theme',
-      title: 'Batch Theme/Motto',
-      type: 'string',
-      description: 'ഈ വർഷത്തെ പ്രധാന ലക്ഷ്യം അല്ലെങ്കിൽ ആപ്തവാക്യം (Theme for this academic year)',
-      group: 'basic',
-      validation: (Rule) => Rule.required().error('തീം നിർബന്ധമാണ് (Theme is required)'),
-    }),
-    defineField({
-      name: 'programmeOfficer',
-      title: 'Programme Officer',
-      type: 'string',
-      description: 'ചുമതലയുള്ള അധ്യാപകൻ (Programme Officer name for this batch)',
-      group: 'team',
-      validation: (Rule) => Rule.required().error('പ്രോഗ്രാം ഓഫീസറുടെ പേര് നൽകുക (Programme Officer is required)'),
-    }),
-    defineField({
-      name: 'volunteerSecretary',
-      title: 'Volunteer Secretary',
-      type: 'string',
-      description: 'വളന്റിയർ സെക്രട്ടറി പേര് (Volunteer Secretary name)',
-      group: 'team',
-      validation: (Rule) => Rule.required().error('വളന്റിയർ സെക്രട്ടറിയുടെ പേര് നൽകുക (Volunteer Secretary is required)'),
-    }),
-    defineField({
-      name: 'leaders',
-      title: 'Volunteer Leaders',
-      type: 'array',
-      description: 'മറ്റ് വളന്റിയർ നേതാക്കൾ (Add key volunteer leaders/group leaders)',
-      of: [{ type: 'string' }],
-      group: 'team',
-      validation: (Rule) => Rule.required().min(1).error('കുറഞ്ഞത് ഒരു ലീഡറുടെയെങ്കിലും പേര് ചേർക്കുക (At least one leader is required)'),
-    }),
-    defineField({
-      name: 'volunteerCount',
-      title: 'Volunteer Count',
-      type: 'number',
-      description: 'ആകെ വളന്റിയർമാരുടെ എണ്ണം (Total number of volunteers)',
-      group: 'team',
-      validation: (Rule) => Rule.required().min(1).integer().error('വളന്റിയർമാരുടെ എണ്ണം നൽകുക (Volunteer count must be at least 1)'),
-    }),
-    defineField({
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      description: 'ഗ്രൂപ്പ് ഫോട്ടോ അല്ലെങ്കിൽ പ്രധാന ഫോട്ടോ. ലാൻഡ്‌സ്‌കേപ്പ് (landscape 16:9) അനുപാതം ശുപാർശ ചെയ്യുന്നു.',
-      options: {
-        hotspot: true,
-      },
-      group: 'media',
-      validation: (Rule) => Rule.required().error('കവർ ചിത്രം നിർബന്ധമാണ് (Cover image is required)'),
-    }),
-    defineField({
-      name: 'impactMetrics',
-      title: 'Batch Impact Metrics',
-      type: 'array',
-      description: 'നേട്ടങ്ങളുടെ കണക്കുകൾ (e.g. Blood Units, Trees Planted, Hours Worked)',
-      of: [{ type: 'impactMetric' }],
-      group: 'media',
-      validation: (Rule) => Rule.required().error('ഇംപാക്ട് വിവരങ്ങൾ നൽകുക (Impact metrics are required)'),
-    }),
-    defineField({
-      name: 'featured',
-      title: 'Featured / Current Batch',
-      type: 'boolean',
-      description: 'ഇത് നിലവിലെ സജീവ ബാച്ചാണെങ്കിൽ ടിക്ക് ചെയ്യുക. (Mark this true if this is the active/current batch of the unit.)',
-      initialValue: false,
-      group: 'basic',
+      rows: 3,
+      description: 'A short note about this batch. Shown on the archive page.',
     }),
   ],
   preview: {
     select: {
       title: 'title',
-      subtitle: 'yearRange',
-      media: 'coverImage',
+      status: 'status',
+      year: 'academicYear',
+    },
+    prepare({ title, status, year }) {
+      const icon = status === 'current' ? '✅' : status === 'previous' ? '📁' : '🗄️';
+      return {
+        title: `${icon} ${title || 'Untitled Batch'}`,
+        subtitle: year || '',
+      };
     },
   },
-})
+  orderings: [
+    {
+      title: 'Newest First',
+      name: 'yearDesc',
+      by: [{ field: 'academicYear', direction: 'desc' }],
+    },
+  ],
+});

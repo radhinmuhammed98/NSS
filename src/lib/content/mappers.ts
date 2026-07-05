@@ -1,6 +1,6 @@
 import type {
-  SiteSettings,
   Batch,
+  SiteSettings,
   Project,
   Camp,
   GalleryAlbum,
@@ -13,44 +13,55 @@ import type {
   Notice,
   Donation,
   SocialLinks,
+  HomePage,
+  AboutPage,
 } from "@/types";
-
-export function mapSettings(s: any): SiteSettings {
-  return {
-    schoolName: s.schoolName || "",
-    unitName: s.unitName || "",
-    motto: s.motto || "Not Me, But You",
-    location: s.location || "",
-    academicYear: s.academicYear || "",
-    programmeOfficer: s.programmeOfficer || "",
-    volunteerSecretary: s.volunteerSecretary || "",
-    email: s.email || "",
-    phone: s.phone || "",
-    mission: s.mission || "",
-    vision: s.vision || "",
-    objectives: s.objectives || [],
-    history: s.history || "",
-    achievements: s.achievements || [],
-  };
-}
 
 export function mapBatch(b: any): Batch {
   return {
     slug: b.slug,
     title: b.title || "",
-    yearRange: b.yearRange || "",
-    year: Number(b.year || 0),
-    description: b.description || "",
-    theme: b.theme || "",
-    coverImage: b.coverImage || "",
-    programmeOfficer: b.programmeOfficer || "",
-    volunteerSecretary: b.volunteerSecretary || "",
-    leaders: b.leaders || [],
-    volunteerCount: Number(b.volunteerCount || 0),
-    impactMetrics: b.impactMetrics || [],
-    featured: Boolean(b.featured),
+    academicYear: b.academicYear || "",
+    status: b.status || "archive",
+    description: b.description,
   };
 }
+
+
+export const mapSiteSettings = (doc: any): SiteSettings => ({
+  schoolName: doc.schoolName || "",
+  unitName: doc.unitName || "",
+  motto: doc.motto || "",
+  location: doc.location || "",
+  academicYear: doc.academicYear || "",
+  schoolLogo: doc.schoolLogo,
+  nssLogo: doc.nssLogo,
+  principal: doc.principal,
+  programmeOfficer: doc.programmeOfficer || "",
+  volunteerSecretary: doc.volunteerSecretary || "",
+  volunteerStrength: doc.volunteerStrength,
+  email: doc.email || "",
+  phone: doc.phone,
+  footerDescription: doc.footerDescription,
+});
+
+export const mapHomePage = (doc: any): HomePage => ({
+  heroTitle: doc.heroTitle,
+  heroSubtitle: doc.heroSubtitle,
+  heroImage: doc.heroImage,
+  homeFeatures: doc.homeFeatures,
+  reachOutCtaTitle: doc.reachOutCtaTitle,
+  reachOutCtaSubtitle: doc.reachOutCtaSubtitle,
+  reachOutCtaDescription: doc.reachOutCtaDescription,
+});
+
+export const mapAboutPage = (doc: any): AboutPage => ({
+  mission: doc.mission || "",
+  vision: doc.vision || "",
+  objectives: doc.objectives || [],
+  history: doc.history || "",
+  achievements: doc.achievements || [],
+});
 
 export function mapProject(p: any): Project {
   return {

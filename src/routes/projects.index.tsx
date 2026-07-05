@@ -3,26 +3,28 @@ import { useMemo, useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { ProjectCard } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
-import { getBatches, getProjects, projectCategories } from "@/lib/data";
-import type { Project, Batch } from "@/types";
+import { getProjects, projectCategories } from "@/lib/data";
+import type { Project } from "@/types";
 
 export const Route = createFileRoute("/projects/")({
   loader: async () => {
-    const [allProjects, batchesList] = await Promise.all([
-      getProjects(),
-      getBatches(),
-    ]);
-    return { allProjects, batchesList };
+    const allProjects = await getProjects();
+    return { allProjects };
   },
   component: Projects,
 });
 
 function Projects() {
-  const { allProjects: all, batchesList: batches } = Route.useLoaderData() as {
+  const { allProjects: all } = Route.useLoaderData() as {
     allProjects: Project[];
-    batchesList: Batch[];
   };
+
+  usePageMeta({
+    title: "Projects",
+    description: "Discover community service projects by NSS Unit 466 at KHMHSS Valakkulam.",
+  });
   const [active, setActive] = useState<Record<string, string>>({});
 
   const usedCategories = useMemo(
@@ -31,11 +33,6 @@ function Projects() {
   );
 
   const groups: FilterGroup[] = [
-    {
-      key: "batch",
-      label: "Batch",
-      options: [{ value: "all", label: "All" }, ...batches.map((b) => ({ value: b.slug, label: b.yearRange }))],
-    },
     {
       key: "category",
       label: "Category",
@@ -53,7 +50,6 @@ function Projects() {
   ];
 
   const filtered = all.filter((p) => {
-    if (active.batch && active.batch !== "all" && p.batchSlug !== active.batch) return false;
     if (active.category && active.category !== "all" && p.category !== active.category) return false;
     if (active.featured === "featured" && !p.featured) return false;
     if (active.featured === "camp" && !p.campRelated) return false;

@@ -1,6 +1,5 @@
 import type { ContentRepository } from "./repository";
 import {
-  batches,
   camps,
   galleryAlbums,
   highlights,
@@ -14,8 +13,10 @@ import {
   volunteerStories,
 } from "@/data";
 import type {
-  SiteSettings,
   Batch,
+  SiteSettings,
+  HomePage,
+  AboutPage,
   Project,
   Camp,
   GalleryAlbum,
@@ -35,12 +36,12 @@ export class MockRepository implements ContentRepository {
     return { ...siteSettings };
   }
 
-  async getBatches(): Promise<Batch[]> {
-    return [...batches].sort((a, b) => b.year - a.year);
+  async getHomePage(): Promise<HomePage> {
+    return {} as HomePage;
   }
 
-  async getBatchBySlug(slug: string): Promise<Batch | undefined> {
-    return batches.find((b) => b.slug === slug);
+  async getAboutPage(): Promise<AboutPage> {
+    return {} as AboutPage;
   }
 
   async getProjects(): Promise<Project[]> {
@@ -49,11 +50,6 @@ export class MockRepository implements ContentRepository {
 
   async getProjectBySlug(slug: string): Promise<Project | undefined> {
     return projects.find((p) => p.slug === slug);
-  }
-
-  async getProjectsByBatch(batchSlug: string): Promise<Project[]> {
-    const list = await this.getProjects();
-    return list.filter((p) => p.batchSlug === batchSlug);
   }
 
   async getFeaturedProjects(limit = 6): Promise<Project[]> {
@@ -69,11 +65,6 @@ export class MockRepository implements ContentRepository {
     return camps.find((c) => c.slug === slug);
   }
 
-  async getCampsByBatch(batchSlug: string): Promise<Camp[]> {
-    const list = await this.getCamps();
-    return list.filter((c) => c.batchSlug === batchSlug);
-  }
-
   async getFeaturedCamp(): Promise<Camp> {
     return camps.find((c) => c.featured) ?? camps[0];
   }
@@ -86,18 +77,8 @@ export class MockRepository implements ContentRepository {
     return galleryAlbums.find((a) => a.slug === slug);
   }
 
-  async getAlbumsByBatch(batchSlug: string): Promise<GalleryAlbum[]> {
-    const list = await this.getAlbums();
-    return list.filter((a) => a.batchSlug === batchSlug);
-  }
-
   async getVideos(): Promise<VideoClip[]> {
     return [...videoClips].sort((a, b) => b.year - a.year);
-  }
-
-  async getVideosByBatch(batchSlug: string): Promise<VideoClip[]> {
-    const list = await this.getVideos();
-    return list.filter((v) => v.batchSlug === batchSlug);
   }
 
   async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
@@ -107,11 +88,6 @@ export class MockRepository implements ContentRepository {
 
   async getReports(): Promise<Report[]> {
     return [...reports].sort((a, b) => b.date.localeCompare(a.date));
-  }
-
-  async getReportsByBatch(batchSlug: string): Promise<Report[]> {
-    const list = await this.getReports();
-    return list.filter((r) => r.batchSlug === batchSlug);
   }
 
   async getReportsBySlugs(slugs: string[]): Promise<Report[]> {
@@ -130,11 +106,6 @@ export class MockRepository implements ContentRepository {
     return highlights.filter((h) => slugs.includes(h.slug));
   }
 
-  async getHighlightsByBatch(batchSlug: string): Promise<Highlight[]> {
-    const list = await this.getHighlights();
-    return list.filter((h) => h.batchSlug === batchSlug);
-  }
-
   async getFeaturedHighlight(): Promise<Highlight> {
     return highlights.find((h) => h.featured) ?? (await this.getHighlights())[0];
   }
@@ -149,17 +120,12 @@ export class MockRepository implements ContentRepository {
     return [...teamMembers].sort((a, b) => a.order - b.order);
   }
 
-  async getTeamByBatch(batchSlug: string): Promise<TeamMember[]> {
-    const list = await this.getTeam();
-    return list.filter((m) => m.batchSlug === batchSlug);
+  async getCurrentBatchTeam(): Promise<TeamMember[]> {
+    return this.getTeam();
   }
 
   async getStories(): Promise<VolunteerStory[]> {
     return [...volunteerStories];
-  }
-
-  async getStoriesByBatch(batchSlug: string): Promise<VolunteerStory[]> {
-    return volunteerStories.filter((s) => s.batchSlug === batchSlug);
   }
 
   async getFeaturedStories(limit = 3): Promise<VolunteerStory[]> {
@@ -192,6 +158,15 @@ export class MockRepository implements ContentRepository {
       youtube: "https://youtube.com/@nssvalakkulam",
       twitter: "https://twitter.com/nssvalakkulam",
     };
+  }
+
+  // Batch methods
+  async getBatches(): Promise<Batch[]> {
+    return [];
+  }
+
+  async getCurrentBatch(): Promise<Batch | undefined> {
+    return undefined;
   }
 
   // Helper filters

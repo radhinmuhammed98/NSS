@@ -3,36 +3,39 @@ import { useMemo, useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { AlbumCard } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import {
   getAlbums,
   getAlbumTypes,
-  getBatches,
   getYearsFromAlbums,
 } from "@/lib/data";
-import type { GalleryAlbum, Batch } from "@/types";
+import type { GalleryAlbum } from "@/types";
 
 export const Route = createFileRoute("/gallery/")({
   loader: async () => {
-    const [albums, batches, albumTypes, years] = await Promise.all([
+    const [albums, albumTypes, years] = await Promise.all([
       getAlbums(),
-      getBatches(),
       getAlbumTypes(),
       getYearsFromAlbums(),
     ]);
-    return { albums, batches, albumTypes, years };
+    return { albums, albumTypes, years };
   },
   component: Gallery,
 });
 
 function Gallery() {
-  const { albums, batches, albumTypes, years } = Route.useLoaderData() as {
+  const { albums, albumTypes, years } = Route.useLoaderData() as {
     albums: GalleryAlbum[];
-    batches: Batch[];
     albumTypes: string[];
     years: number[];
   };
 
   const [active, setActive] = useState<Record<string, string>>({});
+
+  usePageMeta({
+    title: "Gallery",
+    description: "Browse photo albums from NSS Unit 466 activities, camps, and community events.",
+  });
 
   const handleFilter = (key: string, value: string) => {
     setActive((prev) =>
@@ -45,22 +48,13 @@ function Gallery() {
 
   const filtered = useMemo(() => {
     return albums.filter((a) => {
-      const batchOk = !active.batch || active.batch === "all" || a.batchSlug === active.batch;
       const yearOk = !active.year || active.year === "all" || String(a.year) === active.year;
       const typeOk = !active.type || active.type === "all" || a.type === active.type;
-      return batchOk && yearOk && typeOk;
+      return yearOk && typeOk;
     });
   }, [albums, active]);
 
   const groups: FilterGroup[] = [
-    {
-      key: "batch",
-      label: "Batch",
-      options: [
-        { value: "all", label: "All" },
-        ...batches.map((b) => ({ value: b.slug, label: b.yearRange })),
-      ],
-    },
     {
       key: "year",
       label: "Year",

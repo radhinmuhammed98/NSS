@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell, Container } from "@/components/layout";
 import { Badge, Reveal } from "@/components/clay";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getAlbumBySlug } from "@/lib/data";
 import type { ImageAsset, GalleryAlbum } from "@/types";
@@ -25,6 +26,12 @@ export const Route = createFileRoute("/gallery/$albumSlug")({
 
 function AlbumPage() {
   const { album } = Route.useLoaderData() as { album: GalleryAlbum };
+
+  usePageMeta({
+    title: album.title,
+    description: album.description || `Browse photos from ${album.title} — NSS Unit 466 at KHMHSS Valakkulam.`,
+  });
+
   return (
     <PageShell>
       <Container className="nss-py-10">
@@ -35,7 +42,7 @@ function AlbumPage() {
           {album.images.map((im: ImageAsset, i: number) => (
             <Reveal key={im.id} delay={i * 0.04} className="nss-mb-4" style={{ breakInside: "avoid" }}>
               <figure className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
-                <img src={im.src} alt={im.alt} loading="lazy" decoding="async" style={{ width: "100%", objectFit: "cover" }} />
+                <img src={im.src} alt={im.alt} loading="lazy" decoding="async" width={640} height={480} style={{ width: "100%", height: "auto", objectFit: "cover" }} />
                 {im.caption && <figcaption className="nss-px-3 nss-py-2 nss-text-xs nss-text-muted">{im.caption}</figcaption>}
               </figure>
             </Reveal>

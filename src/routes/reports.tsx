@@ -3,38 +3,41 @@ import { useMemo, useState } from "react";
 import { FileText, Download, Eye } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import {
   formatDate,
-  getBatches,
   getReports,
   getReportTypes,
   getYearsFromReports,
 } from "@/lib/data";
-import type { Report, Batch } from "@/types";
+import type { Report } from "@/types";
 
 export const Route = createFileRoute("/reports")({
   loader: async () => {
-    const [reports, batches, reportTypes, years] = await Promise.all([
+    const [reports, reportTypes, years] = await Promise.all([
       getReports(),
-      getBatches(),
       getReportTypes(),
       getYearsFromReports(),
     ]);
-    return { reports, batches, reportTypes, years };
+    return { reports, reportTypes, years };
   },
   component: Reports,
 });
 
 function Reports() {
-  const { reports, batches, reportTypes, years } = Route.useLoaderData() as {
+  const { reports, reportTypes, years } = Route.useLoaderData() as {
     reports: Report[];
-    batches: Batch[];
     reportTypes: string[];
     years: number[];
   };
 
   const [active, setActive] = useState<Record<string, string>>({});
+
+  usePageMeta({
+    title: "Reports",
+    description: "Download official activity reports and documentation from NSS Unit 466 at KHMHSS Valakkulam.",
+  });
 
   const handleFilter = (key: string, value: string) => {
     setActive((prev) => ({ ...prev, [key]: value }));
@@ -45,22 +48,13 @@ function Reports() {
 
   const filtered = useMemo(() => {
     return reports.filter((r) => {
-      const batchOk = !active.batch || active.batch === "all" || r.batchSlug === active.batch;
       const yearOk = !active.year || active.year === "all" || String(r.year) === active.year;
       const typeOk = !active.type || active.type === "all" || r.type === active.type;
-      return batchOk && yearOk && typeOk;
+      return yearOk && typeOk;
     });
   }, [reports, active]);
 
   const groups: FilterGroup[] = [
-    {
-      key: "batch",
-      label: "Batch",
-      options: [
-        { value: "all", label: "All" },
-        ...batches.map((b) => ({ value: b.slug, label: b.yearRange })),
-      ],
-    },
     {
       key: "year",
       label: "Year",
@@ -123,11 +117,6 @@ function Reports() {
                   <FileText style={{ height: "2rem", width: "2rem", color: "var(--primary)" }} aria-hidden />
                   <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
                     <Badge variant="outline">{r.type}</Badge>
-                    {r.batchSlug && (
-                      <Badge variant="outline">
-                        {batches.find((b) => b.slug === r.batchSlug)?.yearRange ?? r.batchSlug}
-                      </Badge>
-                    )}
                   </div>
                   <h3 className="nss-mt-2 nss-font-display nss-font-bold">{r.title}</h3>
                   <p className="nss-mt-2 nss-flex-1 nss-text-sm nss-text-muted">{r.description}</p>

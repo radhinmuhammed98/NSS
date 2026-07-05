@@ -1,9 +1,7 @@
 import { ClayCard } from "./ClayCard";
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
 
-/**
- * LeaderCard — profile card for a team member or officer (Vanilla CSS implementation)
- */
 export function LeaderCard({
   name,
   role,
@@ -18,58 +16,70 @@ export function LeaderCard({
   className?: string;
 }) {
   return (
-    <ClayCard className={cn("nss-text-center", className)} style={{ height: "100%", padding: "1rem" }}>
-      {/* Avatar */}
-      {photo ? (
-        <img
-          src={photo}
-          alt={name}
-          loading="lazy"
-          decoding="async"
-          style={{
-            margin: "0 auto",
-            height: "6rem",
-            width: "6rem",
-            borderRadius: "50%",
-            objectFit: "cover"
-          }}
-        />
-      ) : (
-        <div
-          style={{
-            margin: "0 auto",
-            height: "6rem",
-            width: "6rem",
-            borderRadius: "50%",
-            backgroundColor: "rgba(27, 58, 63, 0.05)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "var(--primary)",
-            border: "1px solid rgba(27, 58, 63, 0.1)"
-          }}
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: "2rem" }} aria-hidden>
-            account_circle
-          </span>
-          <span className="nss-text-xs nss-font-bold nss-uppercase" style={{ fontSize: "9px", opacity: 0.8, marginTop: "4px" }}>
-            Photo Awaiting
-          </span>
-        </div>
-      )}
+    <ClayCard
+      className={cn("nss-text-center", className)}
+      style={{ padding: "1.25rem", height: "100%" }}
+    >
+      {/* Avatar — square crop, smooth circle */}
+      <div
+        style={{
+          margin: "0 auto",
+          width: "5.5rem",
+          height: "5.5rem",
+          borderRadius: "50%",
+          overflow: "hidden",
+          flexShrink: 0,
+          border: "2.5px solid var(--border)",
+          boxShadow: "0 4px 16px hsl(150 30% 10% / 0.10)",
+          transition: "box-shadow 0.25s ease",
+        }}
+      >
+        {photo ? (
+          <img
+            src={photo}
+            alt={name}
+            loading="lazy"
+            decoding="async"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+              display: "block",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "var(--muted)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "var(--muted-foreground)",
+            }}
+          >
+            <User style={{ height: "1.75rem", width: "1.75rem" }} aria-hidden />
+            <span style={{ fontSize: "8px", fontWeight: 700, marginTop: "4px", opacity: 0.7 }}>No Photo</span>
+          </div>
+        )}
+      </div>
 
-      {/* Info */}
-      <h3 className="nss-mt-3 nss-font-bold nss-leading-tight nss-break-words">
+      <h3 className="nss-mt-3 nss-font-bold nss-leading-tight nss-break-words" style={{ fontSize: "0.9375rem" }}>
         {name}
       </h3>
       {role && (
-        <p className="nss-text-xs nss-font-semibold nss-text-accent nss-mt-1">{role}</p>
+        <p
+          className="nss-text-xs nss-font-semibold nss-mt-1"
+          style={{ color: "var(--accent)", letterSpacing: "0.03em", textTransform: "uppercase" }}
+        >
+          {role}
+        </p>
       )}
       {bio && (
-        <p className="nss-mt-2 nss-text-xs nss-text-muted nss-leading-relaxed">
-          {bio}
-        </p>
+        <p className="nss-mt-2 nss-text-xs nss-text-muted nss-leading-relaxed">{bio}</p>
       )}
     </ClayCard>
   );

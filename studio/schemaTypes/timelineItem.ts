@@ -62,13 +62,6 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'batch',
-      title: 'Associated Batch',
-      type: 'reference',
-      to: [{ type: 'batch' }],
-      description: 'ബന്ധപ്പെട്ട ബാച്ച് ഉണ്ടെങ്കിൽ തിരഞ്ഞെടുക്കാം (Optional batch association)',
-    }),
-    defineField({
       name: 'importance',
       title: 'Importance / Significance Level',
       type: 'string',

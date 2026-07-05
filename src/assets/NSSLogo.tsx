@@ -1,9 +1,9 @@
 /**
  * NSSLogo — official National Service Scheme logo wrapper.
  *
- * The SVG artwork is loaded as an <img> via Vite's static asset URL.
- * This preserves the original file as the single source of truth and
- * requires no SVG-to-React transformation plugin.
+ * In production the image URL is served from Sanity (siteSettings.nssLogo).
+ * If the CMS has no image yet (e.g. local dev), it falls back to the
+ * static public asset at /nss-logo.svg.
  *
  * Props
  * -----
@@ -15,7 +15,7 @@
  * loading     — native img loading attribute ("lazy" | "eager")
  */
 
-import nssLogoUrl from "./National_Service_Scheme_logo.svg";
+import { getSiteSettingsSync } from "@/lib/content";
 
 interface NSSLogoProps {
   width?: string | number;
@@ -36,9 +36,13 @@ export function NSSLogo({
   title = "National Service Scheme",
   loading = "eager",
 }: NSSLogoProps) {
+  const s = getSiteSettingsSync();
+  // Use Sanity-hosted URL when available, else fall back to static public asset
+  const src = s.nssLogo || "/nss-logo.svg";
+
   return (
     <img
-      src={nssLogoUrl}
+      src={src}
       alt={decorative ? "" : title}
       aria-hidden={decorative ? "true" : undefined}
       width={typeof width === "number" ? width : undefined}

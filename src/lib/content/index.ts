@@ -4,8 +4,9 @@ import { SanityRepository } from "./sanityRepository";
 import type { ContentRepository } from "./repository";
 import { siteSettings as mockSettings } from "@/data";
 import type {
-  SiteSettings,
   Batch,
+  SiteSettings,
+  SocialLinks,
   Project,
   Camp,
   GalleryAlbum,
@@ -17,9 +18,6 @@ import type {
   VolunteerStory,
   Notice,
 } from "@/types";
-
-// Synchronous batch title lookup cache
-const batchTitleCache: Record<string, string> = {};
 
 // Synchronous site settings cache
 let siteSettingsCache: SiteSettings = { ...mockSettings };
@@ -51,30 +49,15 @@ class CachingRepositoryWrapper implements ContentRepository {
     return res;
   }
 
-  async getBatches() {
-    const res = await this.safeCall<Batch[]>("getBatches", []);
-    for (const b of res) {
-      batchTitleCache[b.slug] = b.yearRange;
-    }
-    return res;
-  }
-
-  async getBatchBySlug(slug: string) {
-    const res = await this.safeCall<Batch | undefined>("getBatchBySlug", undefined, slug);
-    if (res) {
-      batchTitleCache[res.slug] = res.yearRange;
-    }
-    return res;
-  }
+  async getHomePage() { return this.safeCall("getHomePage", {} as any); }
+  async getAboutPage() { return this.safeCall("getAboutPage", {} as any); }
 
   async getProjects() { return this.safeCall<Project[]>("getProjects", []); }
   async getProjectBySlug(slug: string) { return this.safeCall<Project | undefined>("getProjectBySlug", undefined, slug); }
-  async getProjectsByBatch(batchSlug: string) { return this.safeCall<Project[]>("getProjectsByBatch", [], batchSlug); }
   async getFeaturedProjects(limit?: number) { return this.safeCall<Project[]>("getFeaturedProjects", [], limit); }
   async getCamps() { return this.safeCall<Camp[]>("getCamps", []); }
   async getCampBySlug(slug: string) { return this.safeCall<Camp | undefined>("getCampBySlug", undefined, slug); }
-  async getCampsByBatch(batchSlug: string) { return this.safeCall<Camp[]>("getCampsByBatch", [], batchSlug); }
-  async getFeaturedCamp() { 
+  async getFeaturedCamp() {
     try {
       return await this.delegate.getFeaturedCamp();
     } catch (e) {
@@ -84,17 +67,13 @@ class CachingRepositoryWrapper implements ContentRepository {
   }
   async getAlbums() { return this.safeCall<GalleryAlbum[]>("getAlbums", []); }
   async getAlbumBySlug(slug: string) { return this.safeCall<GalleryAlbum | undefined>("getAlbumBySlug", undefined, slug); }
-  async getAlbumsByBatch(batchSlug: string) { return this.safeCall<GalleryAlbum[]>("getAlbumsByBatch", [], batchSlug); }
   async getVideos() { return this.safeCall<VideoClip[]>("getVideos", []); }
-  async getVideosByBatch(batchSlug: string) { return this.safeCall<VideoClip[]>("getVideosByBatch", [], batchSlug); }
   async getFeaturedVideos(limit?: number) { return this.safeCall<VideoClip[]>("getFeaturedVideos", [], limit); }
   async getReports() { return this.safeCall<Report[]>("getReports", []); }
-  async getReportsByBatch(batchSlug: string) { return this.safeCall<Report[]>("getReportsByBatch", [], batchSlug); }
   async getReportsBySlugs(slugs: string[]) { return this.safeCall<Report[]>("getReportsBySlugs", [], slugs); }
   async getHighlights() { return this.safeCall<Highlight[]>("getHighlights", []); }
   async getHighlightBySlug(slug: string) { return this.safeCall<Highlight | undefined>("getHighlightBySlug", undefined, slug); }
   async getHighlightsBySlugs(slugs: string[]) { return this.safeCall<Highlight[]>("getHighlightsBySlugs", [], slugs); }
-  async getHighlightsByBatch(batchSlug: string) { return this.safeCall<Highlight[]>("getHighlightsByBatch", [], batchSlug); }
   async getFeaturedHighlight() {
     try {
       return await this.delegate.getFeaturedHighlight();
@@ -105,11 +84,12 @@ class CachingRepositoryWrapper implements ContentRepository {
   }
   async getTimeline(newestFirst?: boolean) { return this.safeCall<TimelineItem[]>("getTimeline", [], newestFirst); }
   async getTeam() { return this.safeCall<TeamMember[]>("getTeam", []); }
-  async getTeamByBatch(batchSlug: string) { return this.safeCall<TeamMember[]>("getTeamByBatch", [], batchSlug); }
+  async getCurrentBatchTeam() { return this.safeCall<TeamMember[]>("getCurrentBatchTeam", []); }
   async getStories() { return this.safeCall<VolunteerStory[]>("getStories", []); }
-  async getStoriesByBatch(batchSlug: string) { return this.safeCall<VolunteerStory[]>("getStoriesByBatch", [], batchSlug); }
   async getFeaturedStories(limit?: number) { return this.safeCall<VolunteerStory[]>("getFeaturedStories", [], limit); }
   async getNotices() { return this.safeCall<Notice[]>("getNotices", []); }
+  async getDonation() { return this.safeCall("getDonation", { enabled: false } as any); }
+  async getSocialLinks() { return this.safeCall<SocialLinks>("getSocialLinks", {} as SocialLinks); }
 
   async getAlbumTypes() { return this.safeCall<string[]>("getAlbumTypes", []); }
   async getReportTypes() { return this.safeCall<string[]>("getReportTypes", []); }
@@ -117,21 +97,21 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getYearsFromAlbums() { return this.safeCall<number[]>("getYearsFromAlbums", []); }
   async getYearsFromReports() { return this.safeCall<number[]>("getYearsFromReports", []); }
   async getYearsFromHighlights() { return this.safeCall<number[]>("getYearsFromHighlights", []); }
+
+  // Batch methods
+  async getBatches() { return this.safeCall<Batch[]>("getBatches", []); }
+  async getCurrentBatch() { return this.safeCall<Batch | undefined>("getCurrentBatch", undefined); }
 }
 
 const source = getContentSource();
 const delegateRepo = source === "sanity" ? new SanityRepository() : new MockRepository();
 
-export const contentRepository = new CachingRepositoryWrapper(delegateRepo);
-
-export function getBatchTitleSync(slug?: string): string {
-  if (!slug) return "";
-  return batchTitleCache[slug] || slug;
-}
-export function getBatchTitle(slug?: string): string {
-  return getBatchTitleSync(slug);
-}
+export const contentRepository: ContentRepository = new CachingRepositoryWrapper(delegateRepo);
 
 export function getSiteSettingsSync(): SiteSettings {
   return siteSettingsCache;
+}
+
+export function getSocialLinksSync(): SocialLinks {
+  return {};
 }

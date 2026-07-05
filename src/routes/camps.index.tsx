@@ -3,32 +3,29 @@ import { useState } from "react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, FilterBar, type FilterGroup } from "@/components/clay";
 import { CampCard } from "@/components/media";
-import { getBatches, getCamps } from "@/lib/data";
-import type { Camp, Batch } from "@/types";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import { getCamps } from "@/lib/data";
+import type { Camp } from "@/types";
 
 export const Route = createFileRoute("/camps/")({
   loader: async () => {
-    const [allCamps, batchesList] = await Promise.all([
-      getCamps(),
-      getBatches(),
-    ]);
-    return { allCamps, batchesList };
+    const allCamps = await getCamps();
+    return { allCamps };
   },
   component: Camps,
 });
 
 function Camps() {
-  const { allCamps: all, batchesList: batches } = Route.useLoaderData() as {
+  const { allCamps: all } = Route.useLoaderData() as {
     allCamps: Camp[];
-    batchesList: Batch[];
   };
   const [active, setActive] = useState<Record<string, string>>({});
+
+  usePageMeta({
+    title: "Camps",
+    description: "Explore all NSS camps organised by Unit 466 at KHMHSS Valakkulam — special and regular camps.",
+  });
   const groups: FilterGroup[] = [
-    {
-      key: "batch",
-      label: "Batch",
-      options: [{ value: "all", label: "All" }, ...batches.map((b) => ({ value: b.slug, label: b.yearRange }))],
-    },
     {
       key: "featured",
       label: "Show",
@@ -36,7 +33,6 @@ function Camps() {
     },
   ];
   const filtered = all.filter((c) => {
-    if (active.batch && active.batch !== "all" && c.batchSlug !== active.batch) return false;
     if (active.featured === "featured" && !c.featured) return false;
     return true;
   });

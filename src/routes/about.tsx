@@ -2,19 +2,25 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Target, Eye, CheckCircle2 } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { ClayCard, Reveal, Badge } from "@/components/clay";
-import { getSiteSettings } from "@/lib/data";
-import type { SiteSettings } from "@/types";
+import { getSiteSettings, getAboutPage } from "@/lib/data";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import type { SiteSettings, AboutPage } from "@/types";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
     const s = await getSiteSettings();
-    return { s };
+    const about = await getAboutPage();
+    return { s, about };
   },
   component: About,
 });
 
 function About() {
-  const { s } = Route.useLoaderData() as { s: SiteSettings };
+  const { s, about } = Route.useLoaderData() as { s: SiteSettings; about: AboutPage };
+  usePageMeta({
+    title: "About",
+    description: `Learn about NSS Unit 466 at ${s.schoolName || "KHMHSS Valakkulam"} — our mission, vision, history, and the spirit of service.`,
+  });
   return (
     <PageShell>
       <PageHeader
@@ -40,14 +46,14 @@ function About() {
             <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-6" style={{ height: "100%" }}>
               <Target style={{ height: "2rem", width: "2rem", color: "var(--primary)" }} />
               <h2 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">Mission</h2>
-              <p className="nss-mt-2 nss-text-sm nss-text-muted">{s.mission}</p>
+              <p className="nss-mt-2 nss-text-sm nss-text-muted">{about.mission}</p>
             </ClayCard>
           </Reveal>
           <Reveal delay={0.1}>
             <ClayCard className="nss-flex nss-flex-col nss-p-4 nss-sm-p-6" style={{ height: "100%" }}>
               <Eye style={{ height: "2rem", width: "2rem", color: "var(--primary)" }} />
               <h2 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">Vision</h2>
-              <p className="nss-mt-2 nss-text-sm nss-text-muted">{s.vision}</p>
+              <p className="nss-mt-2 nss-text-sm nss-text-muted">{about.vision}</p>
             </ClayCard>
           </Reveal>
         </div>
@@ -57,7 +63,7 @@ function About() {
             <Badge variant="accent" className="w-fit">Objectives</Badge>
             <h2 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">What we set out to do</h2>
             <ul className="nss-mt-4 nss-grid nss-gap-3 nss-sm-grid-cols-2" style={{ listStyle: "none" }}>
-              {s.objectives.map((o) => (
+              {about.objectives.map((o) => (
                 <li key={o} className="nss-flex nss-items-start nss-gap-2 nss-text-sm nss-text-muted">
                   <CheckCircle2 className="nss-shrink-0 nss-text-accent" style={{ marginTop: "2px", height: "1rem", width: "1rem" }} />
                   {o}
@@ -86,15 +92,15 @@ function About() {
               </div>
               <div className="nss-impact-stat" style={{ padding: "1rem" }}>
                 <dt className="nss-text-xs nss-text-muted nss-uppercase nss-font-bold">Principal</dt>
-                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">Asif PA</dd>
+                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">{s.principal || "Asif PA"}</dd>
               </div>
               <div className="nss-impact-stat" style={{ padding: "1rem" }}>
                 <dt className="nss-text-xs nss-text-muted nss-uppercase nss-font-bold">Programme Officer</dt>
-                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">Dr. Broose KV</dd>
+                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">{s.programmeOfficer || "Dr. Broose KV"}</dd>
               </div>
               <div className="nss-impact-stat" style={{ padding: "1rem" }}>
                 <dt className="nss-text-xs nss-text-muted nss-uppercase nss-font-bold">Volunteer Strength</dt>
-                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">50 Volunteers</dd>
+                <dd className="nss-font-semibold nss-text-base nss-mt-1 nss-text-primary">{s.volunteerStrength || 50} Volunteers</dd>
               </div>
             </dl>
           </ClayCard>

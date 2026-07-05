@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState } from "@/components/clay";
 import { MediaThumb } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { getVideos } from "@/lib/data";
 import type { VideoClip } from "@/types";
@@ -16,6 +17,10 @@ export const Route = createFileRoute("/videos")({
 
 function Videos() {
   const { list: videos } = Route.useLoaderData() as { list: VideoClip[] };
+  usePageMeta({
+    title: "Videos",
+    description: "Watch video highlights, camp moments, and community service activities of NSS Unit 466.",
+  });
   return (
     <PageShell>
       <PageHeader eyebrow="Videos" title="Video Clips Archive" description="Short clips — click to play. Organized by project, camp, and batch." />

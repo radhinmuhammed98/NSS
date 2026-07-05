@@ -3,8 +3,10 @@ import { getSanityClient } from "./sanityClient";
 import * as queries from "./queries";
 import * as mappers from "./mappers";
 import type {
-  SiteSettings,
   Batch,
+  SiteSettings,
+  HomePage,
+  AboutPage,
   Project,
   Camp,
   GalleryAlbum,
@@ -20,39 +22,34 @@ import type {
 } from "@/types";
 
 export class SanityRepository implements ContentRepository {
-  private client() {
+  private async client() {
     return getSanityClient();
   }
 
   async getSiteSettings(): Promise<SiteSettings> {
-    const raw = await this.client().fetch(queries.SETTINGS_QUERY);
+    const raw = await (await this.client()).fetch(queries.SETTINGS_QUERY);
     if (!raw) throw new Error("No Site Settings document found in Sanity.");
-    return mappers.mapSettings(raw);
+    return mappers.mapSiteSettings(raw);
   }
 
-  async getBatches(): Promise<Batch[]> {
-    const raw = await this.client().fetch(queries.BATCHES_QUERY);
-    return (raw || []).map(mappers.mapBatch);
+  async getHomePage(): Promise<HomePage> {
+    const raw = await (await this.client()).fetch(queries.HOME_QUERY);
+    return mappers.mapHomePage(raw || {});
   }
 
-  async getBatchBySlug(slug: string): Promise<Batch | undefined> {
-    const raw = await this.client().fetch(queries.BATCH_BY_SLUG_QUERY, { slug });
-    return raw ? mappers.mapBatch(raw) : undefined;
+  async getAboutPage(): Promise<AboutPage> {
+    const raw = await (await this.client()).fetch(queries.ABOUT_QUERY);
+    return mappers.mapAboutPage(raw || {});
   }
 
   async getProjects(): Promise<Project[]> {
-    const raw = await this.client().fetch(queries.PROJECTS_QUERY);
+    const raw = await (await this.client()).fetch(queries.PROJECTS_QUERY);
     return (raw || []).map(mappers.mapProject);
   }
 
   async getProjectBySlug(slug: string): Promise<Project | undefined> {
-    const raw = await this.client().fetch(queries.PROJECT_BY_SLUG_QUERY, { slug });
+    const raw = await (await this.client()).fetch(queries.PROJECT_BY_SLUG_QUERY, { slug });
     return raw ? mappers.mapProject(raw) : undefined;
-  }
-
-  async getProjectsByBatch(batchSlug: string): Promise<Project[]> {
-    const list = await this.getProjects();
-    return list.filter((p) => p.batchSlug === batchSlug);
   }
 
   async getFeaturedProjects(limit = 6): Promise<Project[]> {
@@ -61,18 +58,13 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getCamps(): Promise<Camp[]> {
-    const raw = await this.client().fetch(queries.CAMPS_QUERY);
+    const raw = await (await this.client()).fetch(queries.CAMPS_QUERY);
     return (raw || []).map(mappers.mapCamp);
   }
 
   async getCampBySlug(slug: string): Promise<Camp | undefined> {
-    const raw = await this.client().fetch(queries.CAMP_BY_SLUG_QUERY, { slug });
+    const raw = await (await this.client()).fetch(queries.CAMP_BY_SLUG_QUERY, { slug });
     return raw ? mappers.mapCamp(raw) : undefined;
-  }
-
-  async getCampsByBatch(batchSlug: string): Promise<Camp[]> {
-    const list = await this.getCamps();
-    return list.filter((c) => c.batchSlug === batchSlug);
   }
 
   async getFeaturedCamp(): Promise<Camp> {
@@ -83,28 +75,18 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getAlbums(): Promise<GalleryAlbum[]> {
-    const raw = await this.client().fetch(queries.ALBUMS_QUERY);
+    const raw = await (await this.client()).fetch(queries.ALBUMS_QUERY);
     return (raw || []).map(mappers.mapGalleryAlbum);
   }
 
   async getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined> {
-    const raw = await this.client().fetch(queries.ALBUM_BY_SLUG_QUERY, { slug });
+    const raw = await (await this.client()).fetch(queries.ALBUM_BY_SLUG_QUERY, { slug });
     return raw ? mappers.mapGalleryAlbum(raw) : undefined;
   }
 
-  async getAlbumsByBatch(batchSlug: string): Promise<GalleryAlbum[]> {
-    const list = await this.getAlbums();
-    return list.filter((a) => a.batchSlug === batchSlug);
-  }
-
   async getVideos(): Promise<VideoClip[]> {
-    const raw = await this.client().fetch(queries.VIDEOS_QUERY);
+    const raw = await (await this.client()).fetch(queries.VIDEOS_QUERY);
     return (raw || []).map(mappers.mapVideoClip);
-  }
-
-  async getVideosByBatch(batchSlug: string): Promise<VideoClip[]> {
-    const list = await this.getVideos();
-    return list.filter((v) => v.batchSlug === batchSlug);
   }
 
   async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
@@ -113,13 +95,8 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getReports(): Promise<Report[]> {
-    const raw = await this.client().fetch(queries.REPORTS_QUERY);
+    const raw = await (await this.client()).fetch(queries.REPORTS_QUERY);
     return (raw || []).map(mappers.mapReport);
-  }
-
-  async getReportsByBatch(batchSlug: string): Promise<Report[]> {
-    const list = await this.getReports();
-    return list.filter((r) => r.batchSlug === batchSlug);
   }
 
   async getReportsBySlugs(slugs: string[]): Promise<Report[]> {
@@ -128,23 +105,18 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getHighlights(): Promise<Highlight[]> {
-    const raw = await this.client().fetch(queries.HIGHLIGHTS_QUERY);
+    const raw = await (await this.client()).fetch(queries.HIGHLIGHTS_QUERY);
     return (raw || []).map(mappers.mapHighlight);
   }
 
   async getHighlightBySlug(slug: string): Promise<Highlight | undefined> {
-    const raw = await this.client().fetch(queries.HIGHLIGHT_BY_SLUG_QUERY, { slug });
+    const raw = await (await this.client()).fetch(queries.HIGHLIGHT_BY_SLUG_QUERY, { slug });
     return raw ? mappers.mapHighlight(raw) : undefined;
   }
 
   async getHighlightsBySlugs(slugs: string[]): Promise<Highlight[]> {
     const list = await this.getHighlights();
     return list.filter((h) => slugs.includes(h.slug));
-  }
-
-  async getHighlightsByBatch(batchSlug: string): Promise<Highlight[]> {
-    const list = await this.getHighlights();
-    return list.filter((h) => h.batchSlug === batchSlug);
   }
 
   async getFeaturedHighlight(): Promise<Highlight> {
@@ -155,7 +127,7 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getTimeline(newestFirst = false): Promise<TimelineItem[]> {
-    const raw = await this.client().fetch(queries.TIMELINE_QUERY);
+    const raw = await (await this.client()).fetch(queries.TIMELINE_QUERY);
     const list: TimelineItem[] = (raw || []).map(mappers.mapTimelineItem);
     return list.sort((a, b) =>
       newestFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date)
@@ -163,23 +135,22 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getTeam(): Promise<TeamMember[]> {
-    const raw = await this.client().fetch(queries.TEAM_QUERY);
+    const raw = await (await this.client()).fetch(queries.TEAM_QUERY);
     return (raw || []).map(mappers.mapTeamMember);
   }
 
-  async getTeamByBatch(batchSlug: string): Promise<TeamMember[]> {
-    const list = await this.getTeam();
-    return list.filter((m) => m.batchSlug === batchSlug);
+  async getCurrentBatchTeam(): Promise<TeamMember[]> {
+    const raw = await (await this.client()).fetch(queries.CURRENT_BATCH_TEAM_QUERY);
+    // If no members are linked to a current batch, fall back to all team members
+    if (!raw || raw.length === 0) {
+      return this.getTeam();
+    }
+    return raw.map(mappers.mapTeamMember);
   }
 
   async getStories(): Promise<VolunteerStory[]> {
-    const raw = await this.client().fetch(queries.STORIES_QUERY);
+    const raw = await (await this.client()).fetch(queries.STORIES_QUERY);
     return (raw || []).map(mappers.mapVolunteerStory);
-  }
-
-  async getStoriesByBatch(batchSlug: string): Promise<VolunteerStory[]> {
-    const list = await this.getStories();
-    return list.filter((s) => s.batchSlug === batchSlug);
   }
 
   async getFeaturedStories(limit = 3): Promise<VolunteerStory[]> {
@@ -188,18 +159,29 @@ export class SanityRepository implements ContentRepository {
   }
 
   async getNotices(): Promise<Notice[]> {
-    const raw = await this.client().fetch(queries.NOTICES_QUERY);
+    const raw = await (await this.client()).fetch(queries.NOTICES_QUERY);
     return (raw || []).map(mappers.mapNotice);
   }
 
   async getDonation(): Promise<Donation> {
-    const raw = await this.client().fetch(queries.DONATION_QUERY);
+    const raw = await (await this.client()).fetch(queries.DONATION_QUERY);
     return mappers.mapDonation(raw);
   }
 
   async getSocialLinks(): Promise<SocialLinks> {
-    const raw = await this.client().fetch(queries.SOCIAL_LINKS_QUERY);
+    const raw = await (await this.client()).fetch(queries.SOCIAL_LINKS_QUERY);
     return mappers.mapSocialLinks(raw);
+  }
+
+  // Batch methods
+  async getBatches(): Promise<Batch[]> {
+    const raw = await (await this.client()).fetch(queries.BATCHES_QUERY);
+    return (raw || []).map(mappers.mapBatch);
+  }
+
+  async getCurrentBatch(): Promise<Batch | undefined> {
+    const raw = await (await this.client()).fetch(queries.CURRENT_BATCH_QUERY);
+    return raw ? mappers.mapBatch(raw) : undefined;
   }
 
   // Filter helpers

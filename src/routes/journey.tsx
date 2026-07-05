@@ -4,6 +4,7 @@ import { ArrowUpDown } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { cn } from "@/lib/utils";
 import { ClayCard, Badge, Reveal, EmptyState } from "@/components/clay";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getTimeline } from "@/lib/data";
 
@@ -18,6 +19,11 @@ export const Route = createFileRoute("/journey")({
 function Journey() {
   const { items } = Route.useLoaderData();
   const [newestFirst, setNewestFirst] = useState(false);
+
+  usePageMeta({
+    title: "Our Journey",
+    description: "Explore the timeline and history of NSS Unit 466 at KHMHSS Valakkulam since 1982.",
+  });
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) =>

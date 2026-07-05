@@ -2,8 +2,9 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { NavDropdownGroup, BottomPillNav } from "./NavParts";
+import { Heart } from "lucide-react";
+import { getSiteSettingsSync } from "@/lib/content";
 import {
-  getBatches,
   getCamps,
   getHighlights,
   getNotices,
@@ -34,7 +35,6 @@ const navGroups = [
     label: "Our Legacy",
     icon: "local_florist",
     items: [
-      { to: "/batches",    label: "Batches",    icon: "school"       },
       { to: "/projects",   label: "Projects",   icon: "construction" },
       { to: "/camps",      label: "Camps",      icon: "forest"       },
       { to: "/highlights", label: "Highlights", icon: "star"         },
@@ -62,6 +62,7 @@ const bottomNavItems = [
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar() {
+  const s = getSiteSettingsSync();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled]             = useState(false);
   const dropdownRef                          = useRef<HTMLDivElement>(null);
@@ -77,7 +78,6 @@ export function Navbar() {
     "/journey":    true,
     "/notices":    true,
     "/team":       true,
-    "/batches":    true,
     "/highlights": true,
     "/about":      true,
     "/support":    true,
@@ -86,7 +86,7 @@ export function Navbar() {
   useEffect(() => {
     async function checkActive() {
       try {
-        const [rep, vid, st, pr, ca, tl, no, tm, ba, hl] = await Promise.all([
+        const [rep, vid, st, pr, ca, tl, no, tm, hl] = await Promise.all([
           getReports(),
           getVideos(),
           getStories(),
@@ -95,7 +95,6 @@ export function Navbar() {
           getTimeline(),
           getNotices(),
           getTeam(),
-          getBatches(),
           getHighlights(),
         ]);
         setActiveItems({
@@ -107,7 +106,6 @@ export function Navbar() {
           "/journey":    tl.length  > 0,
           "/notices":    no.length  > 0,
           "/team":       tm.length  > 0,
-          "/batches":    ba.length  > 1,
           "/highlights": hl.length  > 0,
           "/about":      true,
           "/support":    true,
@@ -177,23 +175,26 @@ export function Navbar() {
             to="/"
             className="nss-flex nss-items-center"
             style={{ gap: "0.625rem", minWidth: 0 }}
-            aria-label="NSS KHMHSS — Home"
           >
             <span className="nss-shrink-0 nss-flex nss-items-center nss-justify-center" style={{ height: "2.75rem", width: "2.75rem", overflow: "hidden", borderRadius: "var(--radius-lg)", backgroundColor: "#ffffff", padding: "2px", border: "1px solid rgba(27, 28, 25, 0.08)" }}>
-              <img src="/khm logo.png" alt="KHMHSS Logo" style={{ height: "100%", width: "100%", objectFit: "contain" }} />
+              <img
+                src="/nss-logo.svg"
+                alt="NSS Logo"
+                style={{ height: "100%", width: "100%", objectFit: "contain" }}
+              />
             </span>
             <span className="nss-flex nss-flex-col nss-leading-none" style={{ minWidth: 0 }}>
               <span
                 className="nss-truncate nss-text-sm nss-font-bold"
-                style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
+                style={{ fontFamily: "var(--font-display)", color: "var(--primary)", fontSize: "14.5px" }}
               >
-                KHMHSS Valakkulam
+                {s.unitName || "NSS Unit 466"}
               </span>
               <span
                 className="nss-text-xs nss-font-semibold nss-mt-1"
                 style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", fontSize: "10px" }}
               >
-                NSS Unit 466
+                {s.schoolName || "KHMHSS Valakkulam"}
               </span>
             </span>
           </Link>
@@ -220,7 +221,7 @@ export function Navbar() {
               style={{ fontFamily: "var(--font-sans)", color: "var(--secondary)", display: "inline-flex", alignItems: "center", gap: "6px", padding: "0.5rem 0.75rem", borderRadius: "9999px" }}
               activeProps={{ style: { background: "var(--secondary)", color: "#ffffff" } }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: "15px" }}>favorite</span>
+              <Heart style={{ height: "0.9375rem", width: "0.9375rem" }} aria-hidden="true" />
               Support
             </Link>
 

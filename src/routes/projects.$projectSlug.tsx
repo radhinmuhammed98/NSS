@@ -4,7 +4,7 @@ import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
 
-import { formatDate, getBatchTitle, getCampBySlug, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
+import { formatDate, getCampBySlug, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
 import type { ImpactMetric, Camp, Project, Report } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
@@ -76,7 +76,6 @@ function ProjectPage() {
           <span className="nss-flex nss-items-center nss-gap-1">
             <Calendar style={{ height: "1rem", width: "1rem" }} /> {formatDate(project.date)}
           </span>
-          <span>· {getBatchTitle(project.batchSlug)}</span>
         </div>
 
         <ClayCard tilt={false} className="nss-mt-6 nss-p-4 nss-sm-p-6">

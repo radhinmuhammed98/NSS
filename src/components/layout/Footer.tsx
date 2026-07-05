@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { getSiteSettingsSync } from "@/lib/content";
+import { getSiteSettingsSync, getSocialLinksSync } from "@/lib/content";
 import { NSSLogo } from "@/assets/NSSLogo";
+import { Facebook, Instagram, Youtube, Twitter, Heart, ArrowRight, MapPin } from "lucide-react";
 
 export function Footer() {
   const s = getSiteSettingsSync();
+  const social = getSocialLinksSync();
 
   return (
     <footer
@@ -35,7 +37,6 @@ export function Footer() {
             <Link
               to="/"
               className="nss-flex nss-items-center nss-gap-3"
-              aria-label="NSS Digital Legacy — Home"
             >
               <span className="nss-flex nss-items-center nss-justify-center" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "#ffffff", padding: "4px", border: "1px solid var(--border)", boxShadow: "var(--card-shadow-sm)" }}>
                 <NSSLogo height={40} width={40} decorative />
@@ -60,8 +61,7 @@ export function Footer() {
               className="nss-mt-4 nss-text-sm nss-leading-relaxed"
               style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", maxWidth: "20rem" }}
             >
-              A living archive of service, leadership, camps, projects, and memories.
-              Every batch serves and leaves, but their journey stays forever.
+              {s.footerDescription || "A living archive of service, leadership, camps, projects, and memories. Every batch serves and leaves, but their journey stays forever."}
             </p>
 
             <p
@@ -94,7 +94,6 @@ export function Footer() {
             title="Our Legacy"
             icon="local_florist"
             links={[
-              { to: "/batches", label: "Batches" },
               { to: "/projects", label: "Projects" },
               { to: "/camps", label: "Camps" },
               { to: "/highlights", label: "Highlights" },
@@ -107,7 +106,7 @@ export function Footer() {
               className="nss-mb-3 nss-text-xs nss-font-bold nss-uppercase nss-flex nss-items-center"
               style={{ fontFamily: "var(--font-sans)", color: "var(--muted-foreground)", gap: "6px" }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>location_on</span>
+              <MapPin style={{ height: "0.875rem", width: "0.875rem" }} />
               Reach Us
             </p>
             <ul
@@ -133,7 +132,7 @@ export function Footer() {
                   style={{ color: "var(--primary)", gap: "4px" }}
                 >
                   Contact Page
-                  <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>arrow_forward</span>
+                  <ArrowRight style={{ height: "1rem", width: "1rem", color: "var(--primary)" }} aria-hidden="true" />
                 </Link>
               </li>
             </ul>
@@ -149,16 +148,43 @@ export function Footer() {
             fontFamily: "var(--font-sans)",
             color: "var(--muted-foreground)",
             fontSize: "12px",
-            gap: "0.5rem"
+            gap: "1rem"
           }}
         >
-          <span>
-            © {new Date().getFullYear()} Not Me, But You — {s.unitName}, {s.schoolName}.
-          </span>
-          <span className="nss-flex nss-items-center nss-gap-1" style={{ opacity: 0.6 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>favorite</span>
-            Built as a permanent digital legacy.
-          </span>
+          <div className="nss-flex nss-flex-col nss-items-center nss-sm-items-start nss-gap-1">
+            <span>
+              © {new Date().getFullYear()} Not Me, But You — {s.unitName}, {s.schoolName}.
+            </span>
+            <span className="nss-flex nss-items-center nss-gap-1">
+              <Heart style={{ height: "0.875rem", width: "0.875rem", color: "var(--accent)" }} aria-hidden="true" />
+              Built as a permanent digital legacy.
+            </span>
+          </div>
+          
+          {social && (
+            <div className="nss-flex nss-items-center nss-gap-4">
+              {social.facebook && (
+                <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="nss-text-muted hover:nss-text-primary transition-colors">
+                  <Facebook style={{ height: "1.25rem", width: "1.25rem" }} />
+                </a>
+              )}
+              {social.instagram && (
+                <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="nss-text-muted hover:nss-text-primary transition-colors">
+                  <Instagram style={{ height: "1.25rem", width: "1.25rem" }} />
+                </a>
+              )}
+              {social.youtube && (
+                <a href={social.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="nss-text-muted hover:nss-text-primary transition-colors">
+                  <Youtube style={{ height: "1.25rem", width: "1.25rem" }} />
+                </a>
+              )}
+              {social.twitter && (
+                <a href={social.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="nss-text-muted hover:nss-text-primary transition-colors">
+                  <Twitter style={{ height: "1.25rem", width: "1.25rem" }} />
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </footer>

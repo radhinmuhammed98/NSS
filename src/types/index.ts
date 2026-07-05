@@ -1,6 +1,17 @@
 // NSS Digital Legacy — content model types
 
 export type ProjectStatus = "completed" | "ongoing" | "planned";
+export type BatchStatus = "current" | "previous" | "archive";
+
+export interface Batch {
+  slug: string;
+  title: string;
+  academicYear: string;
+  status: BatchStatus;
+  description?: string;
+}
+
+
 
 export interface ImpactMetric {
   label: string;
@@ -22,31 +33,38 @@ export interface SiteSettings {
   motto: string;
   location: string;
   academicYear: string;
+  schoolLogo?: string;
+  nssLogo?: string;
+  principal?: string;
   programmeOfficer: string;
   volunteerSecretary: string;
+  volunteerStrength?: number;
   email: string;
   phone?: string;
+  footerDescription?: string;
+}
+
+export interface HomePage {
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroImage?: string;
+  homeFeatures?: {
+    title: string;
+    subtitle?: string;
+    description?: string;
+    accentColor?: string;
+  }[];
+  reachOutCtaTitle?: string;
+  reachOutCtaSubtitle?: string;
+  reachOutCtaDescription?: string;
+}
+
+export interface AboutPage {
   mission: string;
   vision: string;
   objectives: string[];
   history: string;
   achievements: string[];
-}
-
-export interface Batch {
-  slug: string;
-  title: string;
-  yearRange: string;
-  year: number;
-  description: string;
-  theme: string;
-  coverImage: string;
-  programmeOfficer: string;
-  volunteerSecretary: string;
-  leaders: string[];
-  volunteerCount: number;
-  impactMetrics: ImpactMetric[];
-  featured: boolean;
 }
 
 export interface Project {
@@ -59,7 +77,7 @@ export interface Project {
   location: string;
   status: ProjectStatus;
   summary: string;
-  description: string;
+  description: any; // rich text now
   problemAddressed: string;
   whatNssDid: string;
   coverImage: string;
@@ -77,7 +95,7 @@ export interface CampDay {
   dayNumber: number;
   date: string;
   title: string;
-  description: string;
+  description: any; // rich text now
   activities: string[];
   guests?: string[];
   images?: ImageAsset[];
@@ -93,7 +111,7 @@ export interface Camp {
   startDate: string;
   endDate: string;
   summary: string;
-  description: string;
+  description: any; // rich text now
   programmeOfficer: string;
   campLeaders: string[];
   volunteerCount: number;
@@ -191,7 +209,7 @@ export interface VolunteerStory {
   photo: string;
   quote: string;
   title: string;
-  story: string;
+  story: any; // rich text now
   relatedProjectSlug?: string;
   relatedCampSlug?: string;
   featured: boolean;
@@ -202,7 +220,7 @@ export interface Notice {
   title: string;
   date: string;
   type: string;
-  description: string;
+  description: any; // rich text now
   attachment?: string;
   important: boolean;
 }
