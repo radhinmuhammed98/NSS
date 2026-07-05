@@ -109,7 +109,7 @@ function Home() {
               className="nss-mt-4 nss-text-xl nss-font-bold nss-leading-snug nss-text-accent"
               style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
-              "നമുക്കല്ല, സമൂഹത്തിനായി."
+              "മനസ്സ് നന്നാവട്ടെ"
             </p>
 
             {/* Bilingual motto */}
@@ -121,7 +121,7 @@ function Home() {
                 className="nss-mt-1 nss-text-sm nss-text-muted"
                 style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
               >
-                മനസ്സ് നന്നാവട്ടെ
+                നമുക്കല്ല, സമൂഹത്തിനായി
               </p>
             </div>
 
