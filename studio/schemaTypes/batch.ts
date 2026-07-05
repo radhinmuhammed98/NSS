@@ -59,6 +59,44 @@ export default defineType({
       rows: 3,
       description: 'A short note about this batch. Shown on the archive page.',
     }),
+    defineField({
+      name: 'leader1Name',
+      title: 'First Leader Name (e.g. Volunteer Secretary)',
+      type: 'string',
+      description: 'Name of the first Volunteer Secretary / Leader.',
+    }),
+    defineField({
+      name: 'leader1Role',
+      title: 'First Leader Role',
+      type: 'string',
+      initialValue: 'Volunteer Secretary',
+      description: 'e.g. Volunteer Secretary',
+    }),
+    defineField({
+      name: 'leader1Photo',
+      title: 'First Leader Photo',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'leader2Name',
+      title: 'Second Leader Name (e.g. Volunteer Secretary)',
+      type: 'string',
+      description: 'Name of the second Volunteer Secretary / Leader.',
+    }),
+    defineField({
+      name: 'leader2Role',
+      title: 'Second Leader Role',
+      type: 'string',
+      initialValue: 'Volunteer Secretary',
+      description: 'e.g. Volunteer Secretary',
+    }),
+    defineField({
+      name: 'leader2Photo',
+      title: 'Second Leader Photo',
+      type: 'image',
+      options: { hotspot: true },
+    }),
   ],
   preview: {
     select: {

@@ -9,6 +9,12 @@ export interface Batch {
   academicYear: string;
   status: BatchStatus;
   description?: string;
+  leader1Name?: string;
+  leader1Role?: string;
+  leader1Photo?: string;
+  leader2Name?: string;
+  leader2Role?: string;
+  leader2Photo?: string;
 }
 
 

@@ -24,6 +24,12 @@ export function mapBatch(b: any): Batch {
     academicYear: b.academicYear || "",
     status: b.status || "archive",
     description: b.description,
+    leader1Name: b.leader1Name,
+    leader1Role: b.leader1Role,
+    leader1Photo: b.leader1Photo,
+    leader2Name: b.leader2Name,
+    leader2Role: b.leader2Role,
+    leader2Photo: b.leader2Photo,
   };
 }
 

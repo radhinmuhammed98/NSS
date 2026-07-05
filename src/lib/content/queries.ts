@@ -336,7 +336,13 @@ export const BATCHES_QUERY = `*[_type == "batch"] | order(academicYear desc) {
   title,
   academicYear,
   status,
-  description
+  description,
+  leader1Name,
+  leader1Role,
+  "leader1Photo": leader1Photo.asset->url,
+  leader2Name,
+  leader2Role,
+  "leader2Photo": leader2Photo.asset->url
 }`;
 
 export const CURRENT_BATCH_QUERY = `*[_type == "batch" && status == "current"] | order(academicYear desc)[0] {
@@ -344,7 +350,13 @@ export const CURRENT_BATCH_QUERY = `*[_type == "batch" && status == "current"] |
   title,
   academicYear,
   status,
-  description
+  description,
+  leader1Name,
+  leader1Role,
+  "leader1Photo": leader1Photo.asset->url,
+  leader2Name,
+  leader2Role,
+  "leader2Photo": leader2Photo.asset->url
 }`;
 
 // Team members belonging to the current batch

@@ -162,11 +162,26 @@ export class MockRepository implements ContentRepository {
 
   // Batch methods
   async getBatches(): Promise<Batch[]> {
-    return [];
+    return [
+      {
+        slug: "batch-2025-26",
+        title: "Batch 2025-26",
+        academicYear: "2025-26",
+        status: "current",
+        description: "The active batch serving the community.",
+        leader1Name: "Ismail Ansari KF",
+        leader1Role: "Volunteer Secretary",
+        leader1Photo: "",
+        leader2Name: "(Name Coming Soon)",
+        leader2Role: "Volunteer Secretary",
+        leader2Photo: "",
+      }
+    ];
   }
 
   async getCurrentBatch(): Promise<Batch | undefined> {
-    return undefined;
+    const list = await this.getBatches();
+    return list.find((b) => b.status === "current");
   }
 
   // Helper filters
