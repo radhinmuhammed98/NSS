@@ -1,4 +1,4 @@
-export const CONTENT_SOURCE = import.meta.env.VITE_CONTENT_SOURCE || "mock";
+export const CONTENT_SOURCE = import.meta.env.VITE_CONTENT_SOURCE || "sanity";
 export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID;
 export const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET || "production";
 export const SANITY_API_VERSION = import.meta.env.VITE_SANITY_API_VERSION || "2026-01-01";
@@ -7,10 +7,10 @@ const isDev = import.meta.env.DEV;
 
 export function getContentSource(): "mock" | "sanity" {
   if (CONTENT_SOURCE === "sanity") {
-    if (!SANITY_PROJECT_ID) {
+    if (!SANITY_PROJECT_ID || SANITY_PROJECT_ID === "your_project_id_here" || SANITY_PROJECT_ID === "your_project_id") {
       if (isDev) {
         console.warn(
-          "Sanity project ID (VITE_SANITY_PROJECT_ID) is missing. Falling back to mock data in development."
+          "Sanity project ID (VITE_SANITY_PROJECT_ID) is missing or placeholder. Falling back to mock data in development."
         );
         return "mock";
       } else {
