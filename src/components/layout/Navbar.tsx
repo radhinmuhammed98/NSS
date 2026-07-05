@@ -185,8 +185,8 @@ export function Navbar() {
             </span>
             <span className="nss-flex nss-flex-col nss-leading-none" style={{ minWidth: 0 }}>
               <span
-                className="nss-truncate nss-text-sm nss-font-bold"
-                style={{ fontFamily: "var(--font-display)", color: "var(--primary)", fontSize: "14.5px" }}
+                className="nss-truncate nss-text-xs nss-font-extrabold nss-uppercase"
+                style={{ fontFamily: "var(--font-sans)", color: "var(--primary)", fontSize: "13.5px", letterSpacing: "0.03em" }}
               >
                 {s.unitName || "NSS Unit 466"}
               </span>

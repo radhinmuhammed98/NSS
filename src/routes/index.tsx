@@ -149,9 +149,18 @@ function Home() {
               />
             </div>
             {/* Volunteer count badge */}
-            <div className="nss-flex nss-items-center nss-gap-4 nss-card nss-p-4 nss-bg-primary nss-text-white" style={{ border: "1px solid var(--primary-container)" }}>
-              <p className="nss-flex nss-items-center nss-justify-center nss-font-display nss-text-2xl nss-font-bold nss-leading-none" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "rgba(255,255,255,0.1)" }}>50</p>
-              <p className="nss-text-sm nss-font-semibold nss-uppercase nss-leading-tight" style={{ color: "rgba(255, 255, 255, 0.85)" }}>NSS Volunteers</p>
+            <div 
+              className="nss-flex nss-items-center nss-gap-4 nss-card nss-p-4" 
+              style={{ 
+                border: "1px solid var(--primary-container)",
+                backgroundColor: "var(--primary)",
+                color: "#ffffff",
+                backdropFilter: "none",
+                WebkitBackdropFilter: "none"
+              }}
+            >
+              <p className="nss-flex nss-items-center nss-justify-center nss-font-display nss-text-2xl nss-font-bold nss-leading-none" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "rgba(255,255,255,0.15)", color: "#ffffff" }}>50</p>
+              <p className="nss-text-sm nss-font-semibold nss-uppercase nss-leading-tight" style={{ color: "rgba(255, 255, 255, 0.95)" }}>NSS Volunteers</p>
             </div>
           </div>
         </Section>

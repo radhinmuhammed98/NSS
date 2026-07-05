@@ -11,7 +11,7 @@
 
   /* Typography */
   --font-display: "Libre Caslon Text", "Georgia", ui-serif, serif;
-  --font-sans:    "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans:    "Inter", "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* ── Light Palette — Kerala Earthy Warmth ── */
   --background:        hsl(44 30% 97%);
