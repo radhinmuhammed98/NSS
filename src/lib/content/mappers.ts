@@ -11,6 +11,8 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
+  Donation,
+  SocialLinks,
 } from "@/types";
 
 export function mapSettings(s: any): SiteSettings {
@@ -241,5 +243,31 @@ export function mapNotice(n: any): Notice {
     description: n.description || "",
     attachment: n.attachment,
     important: Boolean(n.important),
+  };
+}
+
+export function mapDonation(d: any): Donation {
+  if (!d) return { enabled: false };
+  return {
+    enabled: Boolean(d.enabled),
+    upiId: d.upiId || undefined,
+    qrImageUrl: d.qrImageUrl || undefined,
+    bankAccount: d.bankAccount ? {
+      name: d.bankAccount.name || undefined,
+      account: d.bankAccount.account || undefined,
+      ifsc: d.bankAccount.ifsc || undefined,
+      bank: d.bankAccount.bank || undefined,
+      branch: d.bankAccount.branch || undefined,
+    } : undefined,
+  };
+}
+
+export function mapSocialLinks(s: any): SocialLinks {
+  if (!s) return {};
+  return {
+    facebook: s.facebook || undefined,
+    instagram: s.instagram || undefined,
+    youtube: s.youtube || undefined,
+    twitter: s.twitter || undefined,
   };
 }

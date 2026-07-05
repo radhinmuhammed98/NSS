@@ -26,6 +26,8 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
+  Donation,
+  SocialLinks,
 } from "@/types";
 
 export class MockRepository implements ContentRepository {
@@ -167,6 +169,29 @@ export class MockRepository implements ContentRepository {
 
   async getNotices(): Promise<Notice[]> {
     return [...notices].sort((a, b) => b.date.localeCompare(a.date));
+  }
+
+  async getDonation(): Promise<Donation> {
+    return {
+      enabled: true,
+      upiId: "nsskhmhss@okaxis",
+      bankAccount: {
+        name: "NSS Unit 466 KHMHSS",
+        account: "123456789012",
+        ifsc: "SBIN0001234",
+        bank: "State Bank of India",
+        branch: "Valakkulam",
+      },
+    };
+  }
+
+  async getSocialLinks(): Promise<SocialLinks> {
+    return {
+      facebook: "https://facebook.com/nssvalakkulam",
+      instagram: "https://instagram.com/nssvalakkulam",
+      youtube: "https://youtube.com/@nssvalakkulam",
+      twitter: "https://twitter.com/nssvalakkulam",
+    };
   }
 
   // Helper filters

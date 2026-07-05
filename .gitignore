@@ -33,3 +33,16 @@ dist-ssr
 
 # Local Netlify folder
 .netlify
+
+# Environment variables
+.env
+.env.*
+
+# Antigravity agent files
+.gemini/
+.gemini
+
+# Studio local files
+studio/.env
+studio/.sanity/
+studio/dist/

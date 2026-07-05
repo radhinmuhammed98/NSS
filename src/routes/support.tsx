@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout";
-import { getSiteSettings } from "@/lib/data";
-import type { SiteSettings } from "@/types";
+import { getSiteSettings, getDonation } from "@/lib/data";
+import type { SiteSettings, Donation } from "@/types";
 import {
   SupportHero,
   CausesGrid,
@@ -14,8 +14,8 @@ import {
 
 export const Route = createFileRoute("/support")({
   loader: async () => {
-    const s = await getSiteSettings();
-    return { s };
+    const [s, d] = await Promise.all([getSiteSettings(), getDonation()]);
+    return { s, d };
   },
   component: Support,
 });
@@ -23,20 +23,17 @@ export const Route = createFileRoute("/support")({
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 function Support() {
-  const { s } = Route.useLoaderData() as { s: SiteSettings };
+  const { s, d } = Route.useLoaderData() as { s: SiteSettings; d: Donation };
 
-  // Donation details — kept null intentionally until official details confirmed.
-  const upiId        = null as string | null;
-  const bankAccount  = null as {
-    name: string; account: string; ifsc: string; bank: string; branch: string;
-  } | null;
-  const qrImageUrl   = null as string | null;
+  const upiId        = d.enabled ? (d.upiId || null) : null;
+  const bankAccount  = d.enabled ? (d.bankAccount || null) : null;
+  const qrImageUrl   = d.enabled ? (d.qrImageUrl || null) : null;
 
   return (
     <PageShell>
       <SupportHero />
       <CausesGrid />
-      <DonationMethods upiId={upiId} bankAccount={bankAccount} qrImageUrl={qrImageUrl} />
+      <DonationMethods upiId={upiId} bankAccount={bankAccount as any} qrImageUrl={qrImageUrl} />
       <TransparencyBlock s={s} />
       <DonationEnquiryCTA s={s} />
     </PageShell>

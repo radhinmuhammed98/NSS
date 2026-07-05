@@ -6,51 +6,57 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'title',
+      title: 'Milestone Title',
+      type: 'string',
+      description: 'പ്രധാന നാഴികക്കല്ലിന്റെ വിഷയം (e.g. Unit 466 Founded or National Level Special Award)',
+      validation: (Rule) => Rule.required().error('തലക്കെട്ട് ആവശ്യമാണ് (Title is required)'),
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      description: 'യുആർഎൽ ലിങ്ക് രൂപീകരിക്കാൻ ഉപയോഗിക്കുന്നു (Auto-generate from title.)',
       options: {
         source: 'title',
         maxLength: 96,
       },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'title',
-      title: 'Milestone Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().error('Slug ആവശ്യമാണ് (Slug is required)'),
     }),
     defineField({
       name: 'date',
       title: 'Event Date',
       type: 'date',
-      validation: (Rule) => Rule.required(),
+      description: 'നാഴികക്കല്ല് രൂപപ്പെട്ട തീയതി (Milestone date)',
+      validation: (Rule) => Rule.required().error('തീയതി ആവശ്യമാണ് (Date is required)'),
     }),
     defineField({
       name: 'year',
       title: 'Year',
       type: 'number',
-      validation: (Rule) => Rule.required(),
+      description: 'നാഴികക്കല്ല് നടന്ന വർഷം (e.g., 2025)',
+      validation: (Rule) => Rule.required().integer().min(1980).max(2100).error('വർഷം ആവശ്യമാണ് (Valid year is required)'),
     }),
     defineField({
       name: 'type',
       title: 'Milestone Type',
       type: 'string',
-      description: 'e.g. Unit Founded, National Award, Website Launch',
-      validation: (Rule) => Rule.required(),
+      description: 'വിഭാഗം (e.g. Unit Founded, National Award, Website Launch, Camp Achievement)',
+      validation: (Rule) => Rule.required().error('നാഴികക്കല്ല് വിഭാഗം ആവശ്യമാണ് (Milestone type is required)'),
     }),
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
       rows: 4,
-      validation: (Rule) => Rule.required(),
+      description: 'നാഴികക്കല്ലിന്റെ വിശദ വിവരണം (A brief history/context of this milestone)',
+      validation: (Rule) => Rule.required().error('വിവരണം ആവശ്യമാണ് (Description is required)'),
     }),
     defineField({
       name: 'image',
       title: 'Milestone Image',
       type: 'image',
+      description: 'ബന്ധപ്പെട്ട പ്രധാന ചിത്രം ഉണ്ടെങ്കിൽ അപ്ലോഡ് ചെയ്യാം (Optional historical photo)',
       options: {
         hotspot: true,
       },
@@ -60,7 +66,7 @@ export default defineType({
       title: 'Associated Batch',
       type: 'reference',
       to: [{ type: 'batch' }],
-      description: 'Optional batch association',
+      description: 'ബന്ധപ്പെട്ട ബാച്ച് ഉണ്ടെങ്കിൽ തിരഞ്ഞെടുക്കാം (Optional batch association)',
     }),
     defineField({
       name: 'importance',
@@ -68,13 +74,13 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'High (Primary Milestones)', value: 'high' },
-          { title: 'Medium (Regular Achievements)', value: 'medium' },
-          { title: 'Low (Minor Updates)', value: 'low' },
+          { title: 'High (പ്രധാന നാഴികക്കല്ലുകൾ)', value: 'high' },
+          { title: 'Medium (സാധാരണ നേട്ടങ്ങൾ)', value: 'medium' },
+          { title: 'Low (ചെറിയ അപ്‌ഡേറ്റുകൾ)', value: 'low' },
         ],
       },
       initialValue: 'medium',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().error('പ്രാധാന്യ നില തിരഞ്ഞെടുക്കുക (Significance level is required)'),
     }),
   ],
   preview: {
@@ -85,7 +91,7 @@ export default defineType({
     },
     prepare({ title, type, media }) {
       return {
-        title,
+        title: title || 'Untitled Milestone',
         subtitle: type || '',
         media,
       }

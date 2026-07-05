@@ -206,3 +206,23 @@ export interface Notice {
   attachment?: string;
   important: boolean;
 }
+
+export interface Donation {
+  enabled: boolean;
+  upiId?: string;
+  qrImageUrl?: string;
+  bankAccount?: {
+    name?: string;
+    account?: string;
+    ifsc?: string;
+    bank?: string;
+    branch?: string;
+  };
+}
+
+export interface SocialLinks {
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  twitter?: string;
+}

@@ -14,6 +14,8 @@ import teamMember from './teamMember'
 import volunteerStory from './volunteerStory'
 import notice from './notice'
 import category from './category'
+import donation from './donation'
+import socialLinks from './socialLinks'
 
 export const schemaTypes = [
   // Helpers/Objects
@@ -35,4 +37,6 @@ export const schemaTypes = [
   volunteerStory,
   notice,
   category,
+  donation,
+  socialLinks,
 ]

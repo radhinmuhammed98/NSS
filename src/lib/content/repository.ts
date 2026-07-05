@@ -11,6 +11,8 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
+  Donation,
+  SocialLinks,
 } from "@/types";
 
 export interface ContentRepository {
@@ -46,6 +48,8 @@ export interface ContentRepository {
   getStoriesByBatch(batchSlug: string): Promise<VolunteerStory[]>;
   getFeaturedStories(limit?: number): Promise<VolunteerStory[]>;
   getNotices(): Promise<Notice[]>;
+  getDonation(): Promise<Donation>;
+  getSocialLinks(): Promise<SocialLinks>;
   
   // Filter-support helpers
   getAlbumTypes(): Promise<string[]>;

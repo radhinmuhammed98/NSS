@@ -13,6 +13,8 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
+  Donation,
+  SocialLinks,
 } from "@/types";
 
 export { projectCategories };
@@ -120,6 +122,12 @@ export const getFeaturedStories = (limit?: number): Promise<VolunteerStory[]> =>
 
 export const getNotices = (): Promise<Notice[]> =>
   contentRepository.getNotices();
+
+export const getDonation = (): Promise<Donation> =>
+  contentRepository.getDonation();
+
+export const getSocialLinks = (): Promise<SocialLinks> =>
+  contentRepository.getSocialLinks();
 
 export const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", {

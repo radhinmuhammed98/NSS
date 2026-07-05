@@ -321,3 +321,23 @@ export const NOTICES_QUERY = `*[_type == "notice"] | order(date desc) {
   "attachment": attachment.asset->url,
   important
 }`;
+
+export const DONATION_QUERY = `*[_type == "donation"][0] {
+  enabled,
+  upiId,
+  "qrImageUrl": qrImage.asset->url,
+  bankAccount {
+    name,
+    account,
+    ifsc,
+    bank,
+    branch
+  }
+}`;
+
+export const SOCIAL_LINKS_QUERY = `*[_type == "socialLinks"][0] {
+  facebook,
+  instagram,
+  youtube,
+  twitter
+}`;
