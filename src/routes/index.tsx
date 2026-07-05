@@ -117,12 +117,6 @@ function Home() {
               <p className="nss-font-display nss-text-base nss-font-semibold nss-italic">
                 &ldquo;Not Me, But You&rdquo;
               </p>
-              <p
-                className="nss-mt-1 nss-text-sm nss-text-muted"
-                style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
-              >
-                നമുക്കല്ല, സമൂഹത്തിനായി
-              </p>
             </div>
 
             {/* CTA buttons */}
