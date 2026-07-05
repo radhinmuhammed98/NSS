@@ -29,13 +29,13 @@ export function mapBatch(b: any): Batch {
 
 
 export const mapSiteSettings = (doc: any): SiteSettings => ({
-  schoolName: doc.schoolName || "",
-  unitName: doc.unitName || "",
-  motto: doc.motto || "",
-  location: doc.location || "",
-  academicYear: doc.academicYear || "",
-  schoolLogo: doc.schoolLogo,
-  nssLogo: doc.nssLogo,
+  schoolName: "KHMHSS Valakkulam",
+  unitName: "National Service Scheme (NSS) Unit 466",
+  motto: "Not Me, But You",
+  location: "Thennala, Malappuram, Kerala – 676508",
+  academicYear: doc.academicYear || "2025–26",
+  schoolLogo: "/khm-logo.webp",
+  nssLogo: "/nss-logo.svg",
   principal: doc.principal,
   programmeOfficer: doc.programmeOfficer || "",
   volunteerSecretary: doc.volunteerSecretary || "",
