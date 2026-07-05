@@ -214,7 +214,7 @@
       </div>
 
       <div class="splash-text">
-        <p class="splash-unit">NSS · KHMHSS Valakkulam · Unit 11223</p>
+        <p class="splash-unit">NSS · KHMHSS Valakkulam · Unit 466</p>
         <h1 class="splash-title">NSS <span>Digital</span> Legacy</h1>
         <p class="splash-motto">"Not Me, But You"</p>
         <p class="splash-motto-ml">മനസ്സ് നന്നാവട്ടെ</p>
@@ -227,5 +227,17 @@
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Safety fallback: remove splash screen after 5 seconds if React fails to load or load hangs
+      setTimeout(() => {
+        const splash = document.getElementById("nss-splash");
+        if (splash) {
+          console.warn("Splash screen removed by safety timeout fallback.");
+          splash.style.transition = "opacity 0.5s ease";
+          splash.style.opacity = "0";
+          setTimeout(() => splash.remove(), 500);
+        }
+      }, 5000);
+    </script>
   </body>
 </html>
