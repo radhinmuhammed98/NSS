@@ -23,8 +23,8 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'array',
-      of: [{ type: 'block' }],
+      type: 'text',
+      rows: 4,
       description: 'What happened on this day? Write a summary of the activities.',
       validation: (Rule) => Rule.required(),
     }),

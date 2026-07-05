@@ -48,8 +48,8 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Camp Overview',
-      type: 'array',
-      of: [{ type: 'block' }],
+      type: 'text',
+      rows: 6,
       description: 'Write a general summary of the camp. What was the main focus?',
       validation: (Rule) => Rule.required(),
     }),

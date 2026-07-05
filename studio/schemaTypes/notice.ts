@@ -23,8 +23,8 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Details (Optional)',
-      type: 'array',
-      of: [{ type: 'block' }],
+      type: 'text',
+      rows: 5,
       description: 'The full text of the announcement.',
     }),
     defineField({
