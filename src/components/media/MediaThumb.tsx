@@ -2,6 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import type { VideoClip } from "@/types";
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+}
+
 export function MediaThumb({ video }: { video: VideoClip }) {
   const [open, setOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -165,22 +172,45 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             >
               <X style={{ height: "1rem", width: "1rem" }} aria-hidden />
             </button>
-            <video
-              ref={videoRef}
-              src={video.url}
-              controls
-              playsInline
-              autoPlay
-              preload="metadata"
-              style={{
-                aspectRatio: "16/9",
-                width: "100%",
-                display: "block",
-                background: "#000",
-                borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-              }}
-              aria-label={video.title}
-            />
+            {(() => {
+              const ytEmbed = getYouTubeEmbedUrl(video.url);
+              if (ytEmbed) {
+                return (
+                  <iframe
+                    src={`${ytEmbed}?autoplay=1`}
+                    title={video.title}
+                    style={{
+                      aspectRatio: "16/9",
+                      width: "100%",
+                      display: "block",
+                      background: "#000",
+                      border: "none",
+                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                );
+              }
+              return (
+                <video
+                  ref={videoRef}
+                  src={video.url}
+                  controls
+                  playsInline
+                  autoPlay
+                  preload="metadata"
+                  style={{
+                    aspectRatio: "16/9",
+                    width: "100%",
+                    display: "block",
+                    background: "#000",
+                    borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+                  }}
+                  aria-label={video.title}
+                />
+              );
+            })()}
             <div className="nss-p-4">
               <p className="nss-font-display nss-font-bold">{video.title}</p>
               {video.description && (

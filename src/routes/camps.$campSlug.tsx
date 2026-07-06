@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, X } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
@@ -31,6 +32,9 @@ function CampPage() {
     camp: Camp;
     highlights: Highlight[];
   };
+
+  const [lightboxImage, setLightboxImage] = useState<ImageAsset | null>(null);
+
   return (
     <PageShell>
       <section className="nss-px-3 nss-pt-4">
@@ -79,20 +83,31 @@ function CampPage() {
                   <span className="nss-text-xs nss-font-bold nss-uppercase" style={{ fontSize: "10px" }}>Day</span>
                   <span className="nss-font-display nss-text-2xl nss-font-extrabold nss-leading-none">{d.dayNumber}</span>
                 </div>
-                <div className="nss-flex-1">
-                  <p className="nss-text-xs nss-text-muted">{formatDate(d.date || "")}</p>
-                  <h3 className="nss-font-display nss-text-lg nss-font-bold">{d.title}</h3>
-                  <p className="nss-mt-1 nss-text-sm nss-text-muted">{d.description}</p>
-                  <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
-                    {d.activities?.map((a) => <Badge key={a} variant="outline">{a}</Badge>)}
+                <div className="nss-flex-1 nss-flex nss-gap-4 nss-justify-between nss-items-center" style={{ minWidth: 0 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p className="nss-text-xs nss-text-muted">{formatDate(d.date || "")}</p>
+                    <h3 className="nss-font-display nss-text-lg nss-font-bold">{d.title}</h3>
+                    <p className="nss-mt-1 nss-text-sm nss-text-muted">{d.description}</p>
+                    <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
+                      {d.activities?.map((a) => <Badge key={a} variant="outline">{a}</Badge>)}
+                    </div>
+                    {d.guests && d.guests.length > 0 && (
+                      <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.join(", ")}</p>
+                    )}
                   </div>
-                  {d.guests && d.guests.length > 0 && (
-                    <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.join(", ")}</p>
-                  )}
                   {d.images && d.images.length > 0 && (
-                    <div className="nss-mt-3 nss-flex nss-gap-3" style={{ flexWrap: "wrap" }}>
+                    <div className="nss-flex nss-gap-2 nss-shrink-0" style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "16rem", alignSelf: "center" }}>
                       {d.images.map((im: ImageAsset) => (
-                        <img key={im.id} src={im.src} alt={im.alt} loading="lazy" decoding="async" className="nss-card nss-p-0" style={{ height: "5rem", width: "7rem", objectFit: "cover" }} />
+                        <img 
+                          key={im.id} 
+                          src={im.src} 
+                          alt={im.alt} 
+                          loading="lazy" 
+                          decoding="async" 
+                          onClick={() => setLightboxImage(im)}
+                          className="nss-card nss-p-0 nss-card-tilt" 
+                          style={{ height: "6rem", width: "8rem", objectFit: "cover", cursor: "pointer", border: "1.5px solid var(--border)" }} 
+                        />
                       ))}
                     </div>
                   )}
@@ -111,6 +126,73 @@ function CampPage() {
           </div>
         )}
       </Container>
+
+      {/* Lightbox Modal */}
+      {lightboxImage && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1.5rem",
+          }}
+        >
+          <div
+            className="nss-modal-backdrop"
+            onClick={() => setLightboxImage(null)}
+            aria-hidden
+          />
+          <div
+            className="nss-modal-panel"
+            style={{ position: "relative", zIndex: 110, width: "100%", maxWidth: "52rem", display: "flex", flexDirection: "column", alignItems: "center" }}
+          >
+            <button
+              type="button"
+              onClick={() => setLightboxImage(null)}
+              aria-label="Close image viewer"
+              style={{
+                position: "absolute",
+                right: "1rem",
+                top: "1rem",
+                zIndex: 120,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "2.5rem",
+                width: "2.5rem",
+                borderRadius: "50%",
+                background: "rgba(0, 0, 0, 0.72)",
+                color: "#fff",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              <X style={{ height: "1.25rem", width: "1.25rem" }} aria-hidden />
+            </button>
+            <img
+              src={lightboxImage.src}
+              alt={lightboxImage.alt}
+              style={{
+                width: "100%",
+                maxHeight: "80vh",
+                objectFit: "contain",
+                borderRadius: "var(--radius-xl)",
+                boxShadow: "var(--shadow-xl)"
+              }}
+            />
+            {lightboxImage.caption && (
+              <p style={{ color: "#fff", textAlign: "center", marginTop: "1rem", fontSize: "0.875rem", textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>
+                {lightboxImage.caption}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </PageShell>
   );
 }

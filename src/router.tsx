@@ -6,6 +6,7 @@ export const getRouter = () => {
     routeTree,
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
+    trailingSlash: "never",
   });
 
   return router;
