@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { Play, X } from "lucide-react";
 import type { VideoClip } from "@/types";
 
@@ -122,6 +123,15 @@ export function MediaThumb({ video }: { video: VideoClip }) {
           <button
             type="button"
             onClick={() => {
+              if (directVideo) {
+                flushSync(() => {
+                  setVideoError(false);
+                  setOpen(true);
+                });
+                playCurrentVideo();
+                return;
+              }
+
               setVideoError(false);
               setOpen(true);
             }}
@@ -299,8 +309,10 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                     controls
                     playsInline
                     autoPlay
+                    muted
                     preload="metadata"
                     onError={() => setVideoError(true)}
+                    onLoadedMetadata={playCurrentVideo}
                     onCanPlay={() => {
                       setVideoError(false);
                       playCurrentVideo();
