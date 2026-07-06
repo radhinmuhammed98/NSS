@@ -4,20 +4,94 @@ import type { VideoClip } from "@/types";
 
 function getYouTubeEmbedUrl(url: string): string | null {
   if (!url) return null;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    let id = "";
+
+    if (host === "youtu.be") {
+      id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (host.endsWith("youtube.com")) {
+      if (parsed.pathname === "/watch") id = parsed.searchParams.get("v") || "";
+      if (!id) {
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        if (["embed", "shorts", "live"].includes(parts[0])) id = parts[1] || "";
+      }
+    }
+
+    return id.length === 11 ? `https://www.youtube.com/embed/${id}` : null;
+  } catch {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|shorts\/|live\/|watch\?v=))([^#&?/\s]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+  }
+}
+
+function getGoogleDriveEmbedUrl(url: string): string | null {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.includes("drive.google.com")) return null;
+
+    const fileId = parsed.pathname.match(/\/file\/d\/([^/]+)/)?.[1] || parsed.searchParams.get("id");
+    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
+  } catch {
+    const fileId = url.match(/drive\.google\.com\/file\/d\/([^/]+)/)?.[1] || url.match(/[?&]id=([^&]+)/)?.[1];
+    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
+  }
+}
+
+function getVideoUrl(video: VideoClip): string {
+  if (typeof video.url === "string") return video.url;
+  if (video.url && typeof video.url === "object") {
+    return (video.url as { asset?: { url?: string } }).asset?.url || "";
+  }
+  return "";
+}
+
+function isDirectVideoUrl(url: string): boolean {
+  if (!url) return false;
+  if (url.startsWith("/") || url.startsWith("blob:") || url.startsWith("data:video/")) return true;
+
+  try {
+    const parsed = new URL(url);
+    return /\.(mp4|m4v|mov|webm|ogv)(?:$|[?#])/i.test(parsed.pathname);
+  } catch {
+    return /\.(mp4|m4v|mov|webm|ogv)(?:$|[?#])/i.test(url);
+  }
+}
+
+function getEmbeddedPlayerUrl(url: string): string | null {
+  return getYouTubeEmbedUrl(url) || getGoogleDriveEmbedUrl(url);
 }
 
 export function MediaThumb({ video }: { video: VideoClip }) {
   const [open, setOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const urlString = getVideoUrl(video);
+  const embedUrl = getEmbeddedPlayerUrl(urlString);
+  const directVideo = isDirectVideoUrl(urlString);
+
+  const playCurrentVideo = useCallback(() => {
+    const node = videoRef.current;
+    if (!node) return;
+    const playAttempt = node.play();
+    if (playAttempt) playAttempt.catch(() => undefined);
+  }, []);
 
   const close = useCallback(() => {
     setOpen(false);
     if (videoRef.current) videoRef.current.pause();
   }, []);
+
+  useEffect(() => {
+    if (!open || !directVideo) return;
+    const frame = window.requestAnimationFrame(playCurrentVideo);
+    return () => window.cancelAnimationFrame(frame);
+  }, [open, directVideo, playCurrentVideo, urlString]);
 
   useEffect(() => {
     if (!open) return;
@@ -47,7 +121,10 @@ export function MediaThumb({ video }: { video: VideoClip }) {
         >
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setVideoError(false);
+              setOpen(true);
+            }}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
             aria-label={`Play video: ${video.title}`}
             aria-haspopup="dialog"
@@ -69,7 +146,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "hsl(140 10% 6% / 0.22)",
+                background: "transparent",
                 transition: "background 0.22s ease",
               }}
             >
@@ -82,7 +159,6 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                   height: "3.75rem",
                   borderRadius: "50%",
                   background: "hsl(15 65% 38% / 0.92)",
-                  backdropFilter: "blur(4px)",
                   boxShadow: "0 6px 24px hsl(15 65% 38% / 0.4)",
                   transition: "transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease",
                 }}
@@ -173,22 +249,15 @@ export function MediaThumb({ video }: { video: VideoClip }) {
               <X style={{ height: "1rem", width: "1rem" }} aria-hidden />
             </button>
             {(() => {
-              let urlString = "";
-              if (typeof video.url === "string") {
-                urlString = video.url;
-              } else if (video.url && typeof video.url === "object") {
-                // If Sanity returns a file object without ->url
-                urlString = (video.url as any).asset?.url || "";
-              }
-              const ytEmbed = getYouTubeEmbedUrl(urlString);
-              if (ytEmbed) {
+              if (embedUrl) {
                 return (
                   <iframe
-                    src={`${ytEmbed}?autoplay=1`}
+                    src={`${embedUrl}?autoplay=1`}
                     title={video.title}
                     style={{
                       aspectRatio: "16/9",
                       width: "100%",
+                      minHeight: "260px",
                       display: "block",
                       background: "#000",
                       border: "none",
@@ -199,23 +268,73 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                   />
                 );
               }
+              if (!directVideo) {
+                return (
+                  <div
+                    style={{
+                      aspectRatio: "16/9",
+                      width: "100%",
+                      minHeight: "260px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "var(--surface-elevated)",
+                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+                      padding: "1rem",
+                      textAlign: "center",
+                    }}
+                  >
+                    <a className="nss-button nss-button-primary" href={urlString} target="_blank" rel="noreferrer">
+                      Open video
+                    </a>
+                  </div>
+                );
+              }
               return (
-                <video
-                  ref={videoRef}
-                  src={urlString}
-                  controls
-                  playsInline
-                  autoPlay
-                  preload="metadata"
-                  style={{
-                    aspectRatio: "16/9",
-                    width: "100%",
-                    display: "block",
-                    background: "#000",
-                    borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-                  }}
-                  aria-label={video.title}
-                />
+                <div style={{ position: "relative", background: "var(--surface-elevated)", borderRadius: "var(--radius-xl) var(--radius-xl) 0 0" }}>
+                  <video
+                    ref={videoRef}
+                    src={urlString}
+                    poster={video.thumbnail || undefined}
+                    controls
+                    playsInline
+                    autoPlay
+                    preload="metadata"
+                    onError={() => setVideoError(true)}
+                    onCanPlay={() => {
+                      setVideoError(false);
+                      playCurrentVideo();
+                    }}
+                    style={{
+                      aspectRatio: "16/9",
+                      width: "100%",
+                      minHeight: "260px",
+                      display: "block",
+                      background: "var(--surface-elevated)",
+                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+                      objectFit: "contain",
+                    }}
+                    aria-label={video.title}
+                  />
+                  {videoError && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "1rem",
+                        background: "hsl(44 30% 97% / 0.92)",
+                        textAlign: "center",
+                      }}
+                    >
+                      <a className="nss-button nss-button-primary" href={urlString} target="_blank" rel="noreferrer">
+                        Open video
+                      </a>
+                    </div>
+                  )}
+                </div>
               );
             })()}
             <div className="nss-p-4">
