@@ -225,7 +225,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                   {typeof video.description === "string" 
                     ? video.description 
                     : Array.isArray(video.description) 
-                      ? video.description.map(b => b.children?.map((c: any) => c.text).join("")).join(" ")
+                      ? (video.description as any[]).map((b: any) => b.children?.map((c: any) => c.text).join("")).join(" ")
                       : JSON.stringify(video.description)}
                 </p>
               )}

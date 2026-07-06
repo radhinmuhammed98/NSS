@@ -11,7 +11,7 @@ import type { Project } from "@/types";
 export const Route = createFileRoute("/projects/")({
   loader: async () => {
     const allProjects = await getProjects();
-    return { allProjects };
+    return { allProjects: allProjects.filter((p) => p.slug) };
   },
   component: Projects,
 });

@@ -91,7 +91,7 @@ function ProjectPage() {
           </div>
         )}
 
-        {relatedCamp && (
+        {relatedCamp && relatedCamp.slug && (
           <div className="nss-mt-10">
             <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Linked Camp</h2>
             <Reveal>

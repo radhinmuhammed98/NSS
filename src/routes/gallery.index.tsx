@@ -18,7 +18,11 @@ export const Route = createFileRoute("/gallery/")({
       getAlbumTypes(),
       getYearsFromAlbums(),
     ]);
-    return { albums, albumTypes, years };
+    return {
+      albums: albums.filter((a) => a.slug),
+      albumTypes,
+      years,
+    };
   },
   component: Gallery,
 });

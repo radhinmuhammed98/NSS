@@ -10,7 +10,7 @@ import type { Camp } from "@/types";
 export const Route = createFileRoute("/camps/")({
   loader: async () => {
     const allCamps = await getCamps();
-    return { allCamps };
+    return { allCamps: allCamps.filter((c) => c.slug) };
   },
   component: Camps,
 });

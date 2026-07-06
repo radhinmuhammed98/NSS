@@ -35,7 +35,7 @@ class CachingRepositoryWrapper implements ContentRepository {
 
   private async safeCall<T>(method: keyof ContentRepository, defaultValue: T, ...args: any[]): Promise<T> {
     const key = this.getCacheKey(method as string, args);
-    if (this.cache[key]) {
+    if (this.cache[key] !== undefined) {
       return this.cache[key];
     }
 
@@ -81,7 +81,7 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getCampBySlug(slug: string) { return this.safeCall<Camp | undefined>("getCampBySlug", undefined, slug); }
   async getFeaturedCamp() {
     const key = "getFeaturedCamp:[]";
-    if (this.cache[key]) return this.cache[key];
+    if (this.cache[key] !== undefined) return this.cache[key];
 
     const promise = (async () => {
       try {
@@ -107,7 +107,7 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getHighlightsBySlugs(slugs: string[]) { return this.safeCall<Highlight[]>("getHighlightsBySlugs", [], slugs); }
   async getFeaturedHighlight() {
     const key = "getFeaturedHighlight:[]";
-    if (this.cache[key]) return this.cache[key];
+    if (this.cache[key] !== undefined) return this.cache[key];
 
     const promise = (async () => {
       try {

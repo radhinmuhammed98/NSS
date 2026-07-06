@@ -94,8 +94,7 @@ export const getNotices = (): Promise<Notice[]> =>
   contentRepository.getNotices();
 
 export const getDonation = (): Promise<Donation> =>
-  // Check if getDonation is available on contentRepository, otherwise return default
-  'getDonation' in contentRepository ? (contentRepository as any).getDonation() : Promise.resolve({ enabled: false });
+  contentRepository.getDonation();
 
 export const getSocialLinks = (): Promise<SocialLinks> =>
   contentRepository.getSocialLinks();
@@ -104,13 +103,13 @@ export { getSocialLinksSync, getSiteSettingsSync };
 
 // Batch helpers
 export const getBatches = (): Promise<Batch[]> =>
-  'getBatches' in contentRepository ? (contentRepository as any).getBatches() : Promise.resolve([]);
+  contentRepository.getBatches();
 
 export const getCurrentBatch = (): Promise<Batch | undefined> =>
-  'getCurrentBatch' in contentRepository ? (contentRepository as any).getCurrentBatch() : Promise.resolve(undefined);
+  contentRepository.getCurrentBatch();
 
 export const getCurrentBatchTeam = (): Promise<TeamMember[]> =>
-  'getCurrentBatchTeam' in contentRepository ? (contentRepository as any).getCurrentBatchTeam() : contentRepository.getTeam();
+  contentRepository.getCurrentBatchTeam();
 
 export const formatDate = (iso?: string) => {
   if (!iso) return "";
