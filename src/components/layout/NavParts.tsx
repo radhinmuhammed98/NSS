@@ -84,6 +84,7 @@ export function NavDropdownGroup({
     >
       <button
         type="button"
+        onClick={() => isOpen ? onMouseLeave() : onMouseEnter()}
         className={cn(
           "nss-flex nss-items-center nss-gap-1 cursor-pointer select-none"
         )}
@@ -131,13 +132,8 @@ export function NavDropdownGroup({
           position: "absolute",
           left: 0,
           top: "100%",
-          marginTop: "0.5rem",
+          paddingTop: "0.5rem",
           width: "13rem",
-          borderRadius: "var(--radius-lg)",
-          border: "1px solid var(--border)",
-          overflow: "hidden",
-          background: "var(--background)",
-          boxShadow: "0 8px 30px rgba(4,36,19,0.12), 0 2px 8px rgba(4,36,19,0.06)",
           zIndex: 60,
           transformOrigin: "top left",
           opacity: isOpen ? 1 : 0,
@@ -145,7 +141,14 @@ export function NavDropdownGroup({
           pointerEvents: isOpen ? "auto" : "none"
         }}
       >
-        <div style={{ padding: "0.375rem" }}>
+        <div style={{
+          background: "var(--background)",
+          borderRadius: "var(--radius-lg)",
+          border: "1px solid var(--border)",
+          boxShadow: "0 8px 30px rgba(4,36,19,0.12), 0 2px 8px rgba(4,36,19,0.06)",
+          padding: "0.375rem",
+          overflow: "hidden"
+        }}>
           {group.items.map((item) => (
             <Link
               key={item.to}
