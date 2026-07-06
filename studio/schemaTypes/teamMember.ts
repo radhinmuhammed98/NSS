@@ -27,7 +27,7 @@ export default defineType({
       type: 'image',
       description: 'A clear photo of the person.',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.optional(),
       fields: [
         defineField({
           name: 'alt',

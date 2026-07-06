@@ -40,24 +40,24 @@ import type {
 
 // ─── Route ────────────────────────────────────────────────────────────────────
 
-export const Route = createFileRoute("/")(
-  {
-    loader: async () => {
-      const s         = await getSiteSettings();
-      const highlight = await getFeaturedHighlight();
-      const projects  = await getFeaturedProjects(3);
-      const camp      = await getFeaturedCamp();
-      const allAlbums = await getAlbums();
-      const albums    = allAlbums.slice(0, 3);
-      const videos    = await getFeaturedVideos(2);
-      const allReports = await getReports();
-      const reports   = allReports.slice(0, 3);
-      const stories   = await getFeaturedStories(2);
-      return { s, highlight, projects, camp, albums, videos, reports, stories };
-    },
-    component: Home,
-  }
-);
+export const Route = createFileRoute("/")({
+  loader: async () => {
+    const [s, highlight, projects, camp, allAlbums, videos, allReports, stories] = await Promise.all([
+      getSiteSettings(),
+      getFeaturedHighlight(),
+      getFeaturedProjects(3),
+      getFeaturedCamp(),
+      getAlbums(),
+      getFeaturedVideos(2),
+      getReports(),
+      getFeaturedStories(2),
+    ]);
+    const albums = allAlbums.slice(0, 3);
+    const reports = allReports.slice(0, 3);
+    return { s, highlight, projects, camp, albums, videos, reports, stories };
+  },
+  component: Home,
+});
 
 // ─── Page Component ───────────────────────────────────────────────────────────
 

@@ -19,28 +19,50 @@ import type {
   Notice,
 } from "@/types";
 
-// Synchronous site settings cache
+// Synchronous settings and social links caches
 let siteSettingsCache: SiteSettings = { ...mockSettings };
+let socialLinksCache: SocialLinks = {};
 
 class CachingRepositoryWrapper implements ContentRepository {
   private fallback = new MockRepository();
+  private cache: Record<string, Promise<any>> = {};
 
   constructor(private delegate: ContentRepository) {}
 
+  private getCacheKey(method: string, args: any[]): string {
+    return `${method}:${JSON.stringify(args)}`;
+  }
+
   private async safeCall<T>(method: keyof ContentRepository, defaultValue: T, ...args: any[]): Promise<T> {
-    try {
-      const fn = this.delegate[method] as (...a: any[]) => Promise<T>;
-      return await fn.apply(this.delegate, args);
-    } catch (error) {
-      console.error(`Sanity ContentRepository.${method} failed, falling back to mock data:`, error);
-      try {
-        const fn = this.fallback[method] as (...a: any[]) => Promise<T>;
-        return await fn.apply(this.fallback, args);
-      } catch (fallbackError) {
-        console.error(`Mock fallback for ${method} also failed:`, fallbackError);
-        return defaultValue;
-      }
+    const key = this.getCacheKey(method as string, args);
+    if (this.cache[key]) {
+      return this.cache[key];
     }
+
+    const promise = (async () => {
+      try {
+        const fn = this.delegate[method] as (...a: any[]) => Promise<T>;
+        return await fn.apply(this.delegate, args);
+      } catch (error) {
+        console.error(`Sanity ContentRepository.${method} failed, falling back to mock data:`, error);
+        try {
+          const fn = this.fallback[method] as (...a: any[]) => Promise<T>;
+          return await fn.apply(this.fallback, args);
+        } catch (fallbackError) {
+          console.error(`Mock fallback for ${method} also failed:`, fallbackError);
+          return defaultValue;
+        }
+      }
+    })();
+
+    this.cache[key] = promise;
+
+    // Remove failed calls from cache so they can be retried later
+    promise.catch(() => {
+      delete this.cache[key];
+    });
+
+    return promise;
   }
 
   async getSiteSettings() {
@@ -58,12 +80,21 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getCamps() { return this.safeCall<Camp[]>("getCamps", []); }
   async getCampBySlug(slug: string) { return this.safeCall<Camp | undefined>("getCampBySlug", undefined, slug); }
   async getFeaturedCamp() {
-    try {
-      return await this.delegate.getFeaturedCamp();
-    } catch (e) {
-      console.error("Sanity getFeaturedCamp failed, falling back to mock:", e);
-      return this.fallback.getFeaturedCamp();
-    }
+    const key = "getFeaturedCamp:[]";
+    if (this.cache[key]) return this.cache[key];
+
+    const promise = (async () => {
+      try {
+        return await this.delegate.getFeaturedCamp();
+      } catch (e) {
+        console.error("Sanity getFeaturedCamp failed, falling back to mock:", e);
+        return this.fallback.getFeaturedCamp();
+      }
+    })();
+
+    this.cache[key] = promise;
+    promise.catch(() => { delete this.cache[key]; });
+    return promise;
   }
   async getAlbums() { return this.safeCall<GalleryAlbum[]>("getAlbums", []); }
   async getAlbumBySlug(slug: string) { return this.safeCall<GalleryAlbum | undefined>("getAlbumBySlug", undefined, slug); }
@@ -75,12 +106,21 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getHighlightBySlug(slug: string) { return this.safeCall<Highlight | undefined>("getHighlightBySlug", undefined, slug); }
   async getHighlightsBySlugs(slugs: string[]) { return this.safeCall<Highlight[]>("getHighlightsBySlugs", [], slugs); }
   async getFeaturedHighlight() {
-    try {
-      return await this.delegate.getFeaturedHighlight();
-    } catch (e) {
-      console.error("Sanity getFeaturedHighlight failed, falling back to mock:", e);
-      return this.fallback.getFeaturedHighlight();
-    }
+    const key = "getFeaturedHighlight:[]";
+    if (this.cache[key]) return this.cache[key];
+
+    const promise = (async () => {
+      try {
+        return await this.delegate.getFeaturedHighlight();
+      } catch (e) {
+        console.error("Sanity getFeaturedHighlight failed, falling back to mock:", e);
+        return this.fallback.getFeaturedHighlight();
+      }
+    })();
+
+    this.cache[key] = promise;
+    promise.catch(() => { delete this.cache[key]; });
+    return promise;
   }
   async getTimeline(newestFirst?: boolean) { return this.safeCall<TimelineItem[]>("getTimeline", [], newestFirst); }
   async getTeam() { return this.safeCall<TeamMember[]>("getTeam", []); }
@@ -89,7 +129,11 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getFeaturedStories(limit?: number) { return this.safeCall<VolunteerStory[]>("getFeaturedStories", [], limit); }
   async getNotices() { return this.safeCall<Notice[]>("getNotices", []); }
   async getDonation() { return this.safeCall("getDonation", { enabled: false } as any); }
-  async getSocialLinks() { return this.safeCall<SocialLinks>("getSocialLinks", {} as SocialLinks); }
+  async getSocialLinks() {
+    const res = await this.safeCall<SocialLinks>("getSocialLinks", {} as SocialLinks);
+    socialLinksCache = res;
+    return res;
+  }
 
   async getAlbumTypes() { return this.safeCall<string[]>("getAlbumTypes", []); }
   async getReportTypes() { return this.safeCall<string[]>("getReportTypes", []); }
@@ -113,5 +157,5 @@ export function getSiteSettingsSync(): SiteSettings {
 }
 
 export function getSocialLinksSync(): SocialLinks {
-  return {};
+  return socialLinksCache;
 }

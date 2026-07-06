@@ -8,8 +8,7 @@ import type { SiteSettings, AboutPage } from "@/types";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
-    const s = await getSiteSettings();
-    const about = await getAboutPage();
+    const [s, about] = await Promise.all([getSiteSettings(), getAboutPage()]);
     return { s, about };
   },
   component: About,
