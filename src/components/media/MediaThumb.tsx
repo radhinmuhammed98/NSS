@@ -173,7 +173,14 @@ export function MediaThumb({ video }: { video: VideoClip }) {
               <X style={{ height: "1rem", width: "1rem" }} aria-hidden />
             </button>
             {(() => {
-              const ytEmbed = getYouTubeEmbedUrl(video.url);
+              let urlString = "";
+              if (typeof video.url === "string") {
+                urlString = video.url;
+              } else if (video.url && typeof video.url === "object") {
+                // If Sanity returns a file object without ->url
+                urlString = (video.url as any).asset?.url || "";
+              }
+              const ytEmbed = getYouTubeEmbedUrl(urlString);
               if (ytEmbed) {
                 return (
                   <iframe
@@ -195,7 +202,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
               return (
                 <video
                   ref={videoRef}
-                  src={video.url}
+                  src={urlString}
                   controls
                   playsInline
                   autoPlay
@@ -214,7 +221,13 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             <div className="nss-p-4">
               <p className="nss-font-display nss-font-bold">{video.title}</p>
               {video.description && (
-                <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">{video.description}</p>
+                <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">
+                  {typeof video.description === "string" 
+                    ? video.description 
+                    : Array.isArray(video.description) 
+                      ? video.description.map(b => b.children?.map((c: any) => c.text).join("")).join(" ")
+                      : JSON.stringify(video.description)}
+                </p>
               )}
             </div>
           </div>

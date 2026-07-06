@@ -212,7 +212,7 @@ export const VIDEOS_QUERY = `*[_type == "videoClip"] | order(year desc) {
   "batchSlug": batch->slug.current,
   "relatedProjectSlug": relatedProject->slug.current,
   "relatedCampSlug": relatedCamp->slug.current,
-  "url": videoUrl,
+  "url": coalesce(videoUrl.asset->url, videoUrl),
   "thumbnail": thumbnail.asset->url,
   duration,
   description,
