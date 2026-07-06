@@ -66,7 +66,10 @@ function CampPage() {
           <p className="nss-mt-3 nss-text-muted">{camp.description}</p>
           <p className="nss-mt-3 nss-text-sm"><span className="nss-font-semibold">Programme Officer:</span> {camp.programmeOfficer}</p>
           <div className="nss-mt-2 nss-flex nss-flex-wrap nss-gap-2">
-            {camp.campLeaders?.map((l: string) => <Badge key={l}>{l}</Badge>)}
+            {camp.campLeaders?.map((l: any, idx: number) => {
+              const label = typeof l === "string" ? l : (l?.name || l?.title || "Leader");
+              return <Badge key={`${label}-${idx}`}>{label}</Badge>;
+            })}
           </div>
         </ClayCard>
 
@@ -89,10 +92,13 @@ function CampPage() {
                     <h3 className="nss-font-display nss-text-lg nss-font-bold">{d.title}</h3>
                     <p className="nss-mt-1 nss-text-sm nss-text-muted">{d.description}</p>
                     <div className="nss-mt-3 nss-flex nss-flex-wrap nss-gap-2">
-                      {d.activities?.map((a) => <Badge key={a} variant="outline">{a}</Badge>)}
+                      {d.activities?.map((a: any, idx: number) => {
+                        const label = typeof a === "string" ? a : (a?.title || a?.name || "Activity");
+                        return <Badge key={`${label}-${idx}`} variant="outline">{label}</Badge>;
+                      })}
                     </div>
                     {d.guests && d.guests.length > 0 && (
-                      <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.join(", ")}</p>
+                      <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.map((g: any) => typeof g === "string" ? g : (g?.name || g?.title || "Guest")).join(", ")}</p>
                     )}
                   </div>
                   {d.images && d.images.length > 0 && (

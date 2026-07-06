@@ -147,7 +147,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
           />
           <div
             className="nss-card nss-p-0 nss-modal-panel"
-            style={{ position: "relative", zIndex: 10, width: "100%", maxWidth: "52rem" }}
+            style={{ position: "relative", zIndex: 50, width: "100%", maxWidth: "52rem" }}
           >
             <button
               ref={closeBtnRef}
