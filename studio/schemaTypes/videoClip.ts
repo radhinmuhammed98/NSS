@@ -21,11 +21,20 @@ export default defineType({
       
     }),
     defineField({
+      name: 'videoFile',
+      title: 'Upload Video',
+      type: 'file',
+      description: 'Upload the video here when available. The website uses this before the external URL.',
+      options: {
+        accept: 'video/*',
+      },
+    }),
+    defineField({
       name: 'videoUrl',
-      title: 'Video URL',
+      title: 'External Video URL',
       type: 'url',
-      description: 'Link to the video (e.g. YouTube, Google Drive, or raw MP4 URL).',
-      
+      description: 'Optional fallback link, such as YouTube, Google Drive, or a raw MP4 URL.',
+      hidden: ({ document }) => Boolean(document?.videoFile),
     }),
     defineField({
       name: 'type',
@@ -106,3 +115,4 @@ export default defineType({
     },
   ],
 });
+

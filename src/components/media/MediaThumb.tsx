@@ -1,54 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { Play, X } from "lucide-react";
+import { ExternalLink, Play, X } from "lucide-react";
 import type { VideoClip } from "@/types";
 
-function getYouTubeEmbedUrl(url: string): string | null {
-  if (!url) return null;
-
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.replace(/^www\./, "");
-    let id = "";
-
-    if (host === "youtu.be") {
-      id = parsed.pathname.split("/").filter(Boolean)[0] || "";
-    } else if (host.endsWith("youtube.com")) {
-      if (parsed.pathname === "/watch") id = parsed.searchParams.get("v") || "";
-      if (!id) {
-        const parts = parsed.pathname.split("/").filter(Boolean);
-        if (["embed", "shorts", "live"].includes(parts[0])) id = parts[1] || "";
-      }
-    }
-
-    return id.length === 11 ? `https://www.youtube.com/embed/${id}` : null;
-  } catch {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|shorts\/|live\/|watch\?v=))([^#&?/\s]{11})/);
-    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-  }
-}
-
-function getGoogleDriveEmbedUrl(url: string): string | null {
-  if (!url) return null;
-
-  try {
-    const parsed = new URL(url);
-    if (!parsed.hostname.includes("drive.google.com")) return null;
-
-    const fileId = parsed.pathname.match(/\/file\/d\/([^/]+)/)?.[1] || parsed.searchParams.get("id");
-    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
-  } catch {
-    const fileId = url.match(/drive\.google\.com\/file\/d\/([^/]+)/)?.[1] || url.match(/[?&]id=([^&]+)/)?.[1];
-    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
-  }
-}
-
-function getVideoUrl(video: VideoClip): string {
-  if (typeof video.url === "string") return video.url;
+export function getVideoUrl(video: Pick<VideoClip, "url">): string {
+  if (typeof video.url === "string") return video.url.trim();
   if (video.url && typeof video.url === "object") {
-    return (video.url as { asset?: { url?: string } }).asset?.url || "";
+    return ((video.url as { asset?: { url?: string } }).asset?.url || "").trim();
   }
   return "";
+}
+
+export function hasPlayableVideo(video: Pick<VideoClip, "url">): boolean {
+  return getVideoUrl(video).length > 0;
 }
 
 function isDirectVideoUrl(url: string): boolean {
@@ -63,8 +27,21 @@ function isDirectVideoUrl(url: string): boolean {
   }
 }
 
-function getEmbeddedPlayerUrl(url: string): string | null {
-  return getYouTubeEmbedUrl(url) || getGoogleDriveEmbedUrl(url);
+function textFromValue(value: unknown): string {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return "";
+  return value
+    .map((block) => {
+      const children = typeof block === "object" && block ? (block as { children?: unknown }).children : null;
+      if (!Array.isArray(children)) return "";
+      return children
+        .map((child) => typeof child === "object" && child && "text" in child ? String((child as { text?: string }).text ?? "") : "")
+        .join("");
+    })
+    .filter(Boolean)
+    .join(" ")
+    .trim();
 }
 
 export function MediaThumb({ video }: { video: VideoClip }) {
@@ -73,8 +50,8 @@ export function MediaThumb({ video }: { video: VideoClip }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const urlString = getVideoUrl(video);
-  const embedUrl = getEmbeddedPlayerUrl(urlString);
   const directVideo = isDirectVideoUrl(urlString);
+  const description = textFromValue(video.description);
 
   const playCurrentVideo = useCallback(() => {
     const node = videoRef.current;
@@ -97,7 +74,7 @@ export function MediaThumb({ video }: { video: VideoClip }) {
   useEffect(() => {
     if (!open) return;
     closeBtnRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
@@ -106,11 +83,20 @@ export function MediaThumb({ video }: { video: VideoClip }) {
     };
   }, [open, close]);
 
+  if (!hasPlayableVideo(video)) return null;
+
   return (
     <>
-      {/* Thumbnail */}
       <div className="nss-card nss-p-0">
-        <div
+        <button
+          type="button"
+          onClick={() => {
+            flushSync(() => {
+              setVideoError(false);
+              setOpen(true);
+            });
+            if (directVideo) playCurrentVideo();
+          }}
           style={{
             position: "relative",
             aspectRatio: "16/9",
@@ -118,69 +104,42 @@ export function MediaThumb({ video }: { video: VideoClip }) {
             overflow: "hidden",
             borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
             background: "var(--clay-deep)",
+            display: "block",
           }}
+          aria-label={`Play video: ${video.title}`}
+          aria-haspopup="dialog"
         >
-          <button
-            type="button"
-            onClick={() => {
-              if (directVideo) {
-                flushSync(() => {
-                  setVideoError(false);
-                  setOpen(true);
-                });
-                playCurrentVideo();
-                return;
-              }
-
-              setVideoError(false);
-              setOpen(true);
-            }}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
-            aria-label={`Play video: ${video.title}`}
-            aria-haspopup="dialog"
-          >
-            {video.thumbnail && (
-              <img
-                src={video.thumbnail}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="nss-img-zoom"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            )}
+          {video.thumbnail ? (
+            <img
+              src={video.thumbnail}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="nss-img-zoom"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : (
+            <span className="nss-flex nss-items-center nss-justify-center nss-text-sm nss-text-muted" style={{ height: "100%" }}>
+              {video.title}
+            </span>
+          )}
+          <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <span
+              className="nss-play-btn"
               style={{
-                position: "absolute",
-                inset: 0,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "transparent",
-                transition: "background 0.22s ease",
+                width: "3.75rem",
+                height: "3.75rem",
+                borderRadius: "50%",
+                background: "hsl(15 65% 38% / 0.92)",
+                boxShadow: "0 6px 24px hsl(15 65% 38% / 0.4)",
               }}
             >
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "3.75rem",
-                  height: "3.75rem",
-                  borderRadius: "50%",
-                  background: "hsl(15 65% 38% / 0.92)",
-                  boxShadow: "0 6px 24px hsl(15 65% 38% / 0.4)",
-                  transition: "transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease",
-                }}
-                className="nss-play-btn"
-              >
-                <Play
-                  style={{ height: "1.25rem", width: "1.25rem", transform: "translateX(2px)", fill: "#fff", color: "#fff" }}
-                  aria-hidden
-                />
-              </span>
+              <Play style={{ height: "1.25rem", width: "1.25rem", transform: "translateX(2px)", fill: "#fff", color: "#fff" }} aria-hidden />
             </span>
-          </button>
+          </span>
           {video.duration && (
             <span
               aria-hidden
@@ -194,172 +153,66 @@ export function MediaThumb({ video }: { video: VideoClip }) {
                 fontSize: "11px",
                 fontWeight: 700,
                 color: "#fff",
-                letterSpacing: "0.03em",
-                pointerEvents: "none",
               }}
             >
               {video.duration}
             </span>
           )}
-        </div>
+        </button>
         <div className="nss-p-4">
           <p className="nss-font-semibold nss-leading-tight nss-break-words">{video.title}</p>
-          {video.description && (
-            <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">{video.description}</p>
-          )}
+          {description && <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">{description}</p>}
         </div>
       </div>
 
-      {/* Modal */}
       {open && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label={`Video: ${video.title}`}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 50,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-          }}
+          style={{ position: "fixed", inset: 0, zIndex: 110, display: "grid", placeItems: "center", padding: "clamp(1rem, 3vw, 2rem)" }}
         >
-          <div
-            className="nss-modal-backdrop"
-            onClick={close}
-            aria-hidden
-          />
-          <div
-            className="nss-card nss-p-0 nss-modal-panel"
-            style={{ position: "relative", zIndex: 50, width: "100%", maxWidth: "52rem" }}
-          >
+          <button type="button" className="nss-modal-backdrop" onClick={close} aria-label="Close video player" style={{ cursor: "pointer" }} />
+          <div className="nss-card nss-p-0 nss-modal-panel" style={{ position: "relative", zIndex: 111, width: "min(100%, 58rem)", overflow: "hidden" }}>
             <button
               ref={closeBtnRef}
               type="button"
               onClick={close}
               aria-label="Close video player"
-              style={{
-                position: "absolute",
-                right: "0.75rem",
-                top: "0.75rem",
-                zIndex: 20,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "2.25rem",
-                width: "2.25rem",
-                borderRadius: "50%",
-                background: "hsl(140 10% 6% / 0.72)",
-                color: "#fff",
-                transition: "background 0.18s ease, transform 0.18s ease",
-              }}
+              style={{ position: "absolute", right: "0.75rem", top: "0.75rem", zIndex: 112, display: "flex", alignItems: "center", justifyContent: "center", height: "2.5rem", width: "2.5rem", borderRadius: "50%", background: "hsl(140 10% 6% / 0.72)", color: "#fff" }}
             >
-              <X style={{ height: "1rem", width: "1rem" }} aria-hidden />
+              <X style={{ height: "1.1rem", width: "1.1rem" }} aria-hidden />
             </button>
-            {(() => {
-              if (embedUrl) {
-                return (
-                  <iframe
-                    src={`${embedUrl}?autoplay=1`}
-                    title={video.title}
-                    style={{
-                      aspectRatio: "16/9",
-                      width: "100%",
-                      minHeight: "260px",
-                      display: "block",
-                      background: "#000",
-                      border: "none",
-                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-                    }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                );
-              }
-              if (!directVideo) {
-                return (
-                  <div
-                    style={{
-                      aspectRatio: "16/9",
-                      width: "100%",
-                      minHeight: "260px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      background: "var(--surface-elevated)",
-                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-                      padding: "1rem",
-                      textAlign: "center",
-                    }}
-                  >
-                    <a className="nss-button nss-button-primary" href={urlString} target="_blank" rel="noreferrer">
-                      Open video
-                    </a>
-                  </div>
-                );
-              }
-              return (
-                <div style={{ position: "relative", background: "var(--surface-elevated)", borderRadius: "var(--radius-xl) var(--radius-xl) 0 0" }}>
-                  <video
-                    ref={videoRef}
-                    src={urlString}
-                    poster={video.thumbnail || undefined}
-                    controls
-                    playsInline
-                    autoPlay
-                    muted
-                    preload="metadata"
-                    onError={() => setVideoError(true)}
-                    onLoadedMetadata={playCurrentVideo}
-                    onCanPlay={() => {
-                      setVideoError(false);
-                      playCurrentVideo();
-                    }}
-                    style={{
-                      aspectRatio: "16/9",
-                      width: "100%",
-                      minHeight: "260px",
-                      display: "block",
-                      background: "var(--surface-elevated)",
-                      borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-                      objectFit: "contain",
-                    }}
-                    aria-label={video.title}
-                  />
-                  {videoError && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "1rem",
-                        background: "hsl(44 30% 97% / 0.92)",
-                        textAlign: "center",
-                      }}
-                    >
-                      <a className="nss-button nss-button-primary" href={urlString} target="_blank" rel="noreferrer">
-                        Open video
-                      </a>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
+            {directVideo && !videoError ? (
+              <video
+                ref={videoRef}
+                src={urlString}
+                poster={video.thumbnail || undefined}
+                controls
+                playsInline
+                autoPlay
+                muted
+                preload="metadata"
+                onError={() => setVideoError(true)}
+                onLoadedMetadata={playCurrentVideo}
+                onCanPlay={() => {
+                  setVideoError(false);
+                  playCurrentVideo();
+                }}
+                style={{ aspectRatio: "16/9", width: "100%", maxHeight: "76vh", display: "block", background: "#000", objectFit: "contain" }}
+                aria-label={video.title}
+              />
+            ) : (
+              <div className="nss-flex nss-flex-col nss-items-center nss-justify-center nss-gap-4 nss-p-8" style={{ minHeight: "18rem", background: "var(--surface-elevated)", textAlign: "center" }}>
+                <p className="nss-font-display nss-text-xl nss-font-bold">Open this video</p>
+                <a className="nss-button nss-button-primary" href={urlString} target="_blank" rel="noreferrer">
+                  Open video <ExternalLink style={{ height: "1rem", width: "1rem" }} />
+                </a>
+              </div>
+            )}
             <div className="nss-p-4">
               <p className="nss-font-display nss-font-bold">{video.title}</p>
-              {video.description && (
-                <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">
-                  {typeof video.description === "string" 
-                    ? video.description 
-                    : Array.isArray(video.description) 
-                      ? (video.description as any[]).map((b: any) => b.children?.map((c: any) => c.text).join("")).join(" ")
-                      : JSON.stringify(video.description)}
-                </p>
-              )}
+              {description && <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">{description}</p>}
             </div>
           </div>
         </div>

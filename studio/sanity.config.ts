@@ -137,9 +137,102 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
-    // Filter out singleton types from new document creation
-    templates: (templates) =>
-      templates.filter((template) => !singletonTypes.has(template.schemaId)),
+    // Filter out singleton types from new document creation and inject dynamic initial value resolvers
+    templates: (prev) => {
+      const filtered = prev.filter((template) => !singletonTypes.has(template.schemaId));
+      return filtered.map((template) => {
+        if (template.schemaType === 'project') {
+          return {
+            ...template,
+            value: async (params: any, context: any) => {
+              const { getClient } = context;
+              const client = getClient({ apiVersion: '2023-01-01' });
+              const currentBatch = await client.fetch(`*[_type == "batch" && status == "current"][0]`);
+              
+              let yearValue = new Date().getFullYear();
+              let batchRef = undefined;
+              
+              if (currentBatch) {
+                batchRef = {
+                  _type: 'reference',
+                  _ref: currentBatch._id
+                };
+                if (currentBatch.academicYear) {
+                  const matches = currentBatch.academicYear.match(/^(\d{4})/);
+                  if (matches) {
+                    yearValue = parseInt(matches[1], 10);
+                  }
+                }
+              }
+              
+              return {
+                date: new Date().toISOString().split('T')[0],
+                status: 'completed',
+                batch: batchRef,
+                year: yearValue,
+                featured: false,
+                campRelated: false,
+                images: [],
+                impactMetrics: [],
+                organizers: [],
+                reports: [],
+                highlights: []
+              };
+            }
+          };
+        }
+        if (template.schemaType === 'camp') {
+          return {
+            ...template,
+            value: async (params: any, context: any) => {
+              const { getClient } = context;
+              const client = getClient({ apiVersion: '2023-01-01' });
+              const currentBatch = await client.fetch(`*[_type == "batch" && status == "current"][0]`);
+              
+              let yearValue = new Date().getFullYear();
+              let batchRef = undefined;
+              
+              if (currentBatch) {
+                batchRef = {
+                  _type: 'reference',
+                  _ref: currentBatch._id
+                };
+                if (currentBatch.academicYear) {
+                  const matches = currentBatch.academicYear.match(/^(\d{4})/);
+                  if (matches) {
+                    yearValue = parseInt(matches[1], 10);
+                  }
+                }
+              }
+              
+              return {
+                date: new Date().toISOString().split('T')[0],
+                batch: batchRef,
+                year: yearValue,
+                featured: false,
+                campDiary: [
+                  {
+                    _type: 'campDay',
+                    dayNumber: 1,
+                    title: 'Day 1',
+                    description: '',
+                    activities: [],
+                    guests: [],
+                    images: []
+                  }
+                ],
+                projects: [],
+                impactMetrics: [],
+                reports: [],
+                highlights: [],
+                campLeaders: []
+              };
+            }
+          };
+        }
+        return template;
+      });
+    },
   },
 
   document: {

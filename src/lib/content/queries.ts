@@ -228,7 +228,7 @@ export const VIDEOS_QUERY = `*[_type == "videoClip"] | order(year desc) {
   "batchSlug": batch->slug.current,
   "relatedProjectSlug": relatedProject->slug.current,
   "relatedCampSlug": relatedCamp->slug.current,
-  "url": coalesce(videoUrl.asset->url, videoUrl),
+  "url": coalesce(videoFile.asset->url, videoUrl),
   "thumbnail": thumbnail.asset->url,
   duration,
   description,
@@ -386,4 +386,5 @@ export const CURRENT_BATCH_TEAM_QUERY = `*[_type == "teamMember" && batch->statu
   bio,
   order
 }`;
+
 

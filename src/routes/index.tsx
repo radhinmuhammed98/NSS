@@ -12,6 +12,7 @@ import {
 } from "@/components/clay";
 import {
   MediaThumb,
+  hasPlayableVideo,
   AlbumCard,
   CampCard,
   ProjectCard,
@@ -52,9 +53,10 @@ export const Route = createFileRoute("/")({
       getReports(),
       getFeaturedStories(2),
     ]);
+    const videosWithFiles = videos.filter(hasPlayableVideo);
     const albums = allAlbums.slice(0, 3);
     const reports = allReports.slice(0, 3);
-    return { s, highlight, projects, camp, albums, videos, reports, stories };
+    return { s, highlight, projects, camp, albums, videos: videosWithFiles, reports, stories };
   },
   component: Home,
 });
@@ -342,3 +344,5 @@ function Home() {
     </PageShell>
   );
 }
+
+

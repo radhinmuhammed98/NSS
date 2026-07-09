@@ -1,4 +1,5 @@
-export { MediaThumb } from "./MediaThumb";
+export { MediaThumb, getVideoUrl, hasPlayableVideo } from "./MediaThumb";
+export { ImageLightbox } from "./ImageLightbox";
 export {
   ProjectCard,
   CampCard,
@@ -6,3 +7,5 @@ export {
   AlbumCard,
   StoryCard,
 } from "./cards";
+
+

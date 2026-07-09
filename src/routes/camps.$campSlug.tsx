@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, MapPin, Users, X } from "lucide-react";
+import { Calendar, MapPin, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
-import { HighlightCard } from "@/components/media";
+import { HighlightCard, ImageLightbox } from "@/components/media";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs } from "@/lib/data";
 import type { CampDay, ImageAsset, ImpactMetric, Camp, Highlight } from "@/types";
@@ -180,73 +180,8 @@ function CampPage() {
           </div>
         )}
       </Container>
-
-      {/* Lightbox Modal */}
-      {lightboxImage && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 100,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1.5rem",
-          }}
-        >
-          <div
-            className="nss-modal-backdrop"
-            onClick={() => setLightboxImage(null)}
-            aria-hidden
-          />
-          <div
-            className="nss-modal-panel"
-            style={{ position: "relative", zIndex: 110, width: "100%", maxWidth: "52rem", display: "flex", flexDirection: "column", alignItems: "center" }}
-          >
-            <button
-              type="button"
-              onClick={() => setLightboxImage(null)}
-              aria-label="Close image viewer"
-              style={{
-                position: "absolute",
-                right: "1rem",
-                top: "1rem",
-                zIndex: 120,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "2.5rem",
-                width: "2.5rem",
-                borderRadius: "50%",
-                background: "rgba(0, 0, 0, 0.72)",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              <X style={{ height: "1.25rem", width: "1.25rem" }} aria-hidden />
-            </button>
-            <img
-              src={lightboxImage.src}
-              alt={lightboxImage.alt}
-              style={{
-                width: "100%",
-                maxHeight: "80vh",
-                objectFit: "contain",
-                borderRadius: "var(--radius-xl)",
-                boxShadow: "var(--shadow-xl)"
-              }}
-            />
-            {lightboxImage.caption && (
-              <p style={{ color: "#fff", textAlign: "center", marginTop: "1rem", fontSize: "0.875rem", textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>
-                {lightboxImage.caption}
-              </p>
-            )}
-          </div>
-        </div>
-      )}
+      <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
     </PageShell>
   );
 }
+

@@ -1,12 +1,13 @@
+import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, ExternalLink, FileText, HandHeart, Images, MapPin, Target, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { Badge, ClayCard, ImpactStat, Reveal, SectionHeading } from "@/components/clay";
-import { HighlightCard } from "@/components/media";
+import { HighlightCard, ImageLightbox } from "@/components/media";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
-import type { Camp, Highlight, ImpactMetric, Project, Report } from "@/types";
+import type { Camp, Highlight, ImageAsset, ImpactMetric, Project, Report } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
   loader: async ({ params }: { params: { projectSlug: string } }) => {
@@ -48,6 +49,7 @@ function ProjectPage() {
     description: project.summary || textFromRichContent(project.description),
   });
 
+  const [activeImage, setActiveImage] = useState<ImageAsset | null>(null);
   const galleryImages = project.images?.filter((image) => image.src).slice(0, 6) ?? [];
   const organizers = project.organizers?.filter(Boolean) ?? [];
 
@@ -173,7 +175,9 @@ function ProjectPage() {
             <div className="nss-grid nss-gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 12rem), 1fr))" }}>
               {galleryImages.map((image) => (
                 <figure key={image.id} className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
-                  <img src={image.src} alt={image.alt} loading="lazy" decoding="async" style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }} />
+                  <button type="button" onClick={() => setActiveImage(image)} aria-label={`Open ${image.alt || image.caption || "project image"}`} style={{ display: "block", width: "100%" }}>
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" className="nss-img-zoom" style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }} />
+                  </button>
                   {(image.caption || image.credit) && (
                     <figcaption className="nss-p-4 nss-text-xs nss-text-muted">{image.caption || image.credit}</figcaption>
                   )}
@@ -265,4 +269,5 @@ function textFromRichContent(value: unknown): string {
 
   return text || "Details will be updated soon.";
 }
+
 

@@ -86,7 +86,7 @@ export class SanityRepository implements ContentRepository {
 
   async getVideos(): Promise<VideoClip[]> {
     const raw = await (await this.client()).fetch(queries.VIDEOS_QUERY);
-    return (raw || []).map(mappers.mapVideoClip);
+    return (raw || []).map(mappers.mapVideoClip).filter((video) => video.url);
   }
 
   async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
@@ -215,3 +215,4 @@ export class SanityRepository implements ContentRepository {
     return [...new Set(list.map((h) => h.year))].sort((a, b) => b - a);
   }
 }
+

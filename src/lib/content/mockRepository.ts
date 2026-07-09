@@ -78,7 +78,7 @@ export class MockRepository implements ContentRepository {
   }
 
   async getVideos(): Promise<VideoClip[]> {
-    return [...videoClips].sort((a, b) => b.year - a.year);
+    return [...videoClips].filter((video) => video.url).sort((a, b) => b.year - a.year);
   }
 
   async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
@@ -209,3 +209,4 @@ export class MockRepository implements ContentRepository {
     return [...new Set(highlights.map((h) => h.year))].sort((a, b) => b - a);
   }
 }
+
