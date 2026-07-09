@@ -1,31 +1,34 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { ArrowLeft, Calendar, ExternalLink, FileText, HandHeart, Images, MapPin, Target, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
+import { Badge, ClayCard, ImpactStat, Reveal, SectionHeading } from "@/components/clay";
 import { HighlightCard } from "@/components/media";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
-import { formatDate, getCampBySlug, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
-import type { ImpactMetric, Camp, Project, Report } from "@/types";
+import { formatDate, getCampBySlug, getHighlightsBySlugs, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
+import type { Camp, Highlight, ImpactMetric, Project, Report } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
   loader: async ({ params }: { params: { projectSlug: string } }) => {
     const project = await getProjectBySlug(params.projectSlug);
     if (!project) throw notFound();
 
-    // Query related camp & reports concurrently
-    const [relatedCamp, reports] = await Promise.all([
+    const [relatedCamp, reports, highlights] = await Promise.all([
       project.relatedCampSlug ? getCampBySlug(project.relatedCampSlug) : Promise.resolve(null),
-      getReportsBySlugs(project.reportSlugs),
+      getReportsBySlugs(project.reportSlugs ?? []),
+      getHighlightsBySlugs(project.highlightSlugs ?? []),
     ]);
 
-    return { project, relatedCamp, reports };
+    return { project, relatedCamp, reports, highlights };
   },
 
   notFoundComponent: () => (
     <PageShell>
       <Container className="nss-py-20 nss-text-center">
         <h1 className="nss-font-display nss-text-3xl nss-font-extrabold">Project not found</h1>
-        <Link to="/projects" style={{ display: "inline-block", marginTop: "1rem", color: "var(--primary)" }}>← Back to projects</Link>
+        <Link to="/projects" style={{ display: "inline-block", marginTop: "1rem", color: "var(--primary)" }}>
+          Back to projects
+        </Link>
       </Container>
     </PageShell>
   ),
@@ -33,104 +36,233 @@ export const Route = createFileRoute("/projects/$projectSlug")({
 });
 
 function ProjectPage() {
-  const { project, relatedCamp, reports } = Route.useLoaderData() as {
+  const { project, relatedCamp, reports, highlights } = Route.useLoaderData() as {
     project: Project;
     relatedCamp: Camp | null;
     reports: Report[];
+    highlights: Highlight[];
   };
+
+  usePageMeta({
+    title: project.title,
+    description: project.summary || textFromRichContent(project.description),
+  });
+
+  const galleryImages = project.images?.filter((image) => image.src).slice(0, 6) ?? [];
+  const organizers = project.organizers?.filter(Boolean) ?? [];
 
   return (
     <PageShell>
-      <section className="nss-px-3 nss-pt-4">
-        <Container className="nss-px-0">
-          <Reveal>
-            <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
-              <div style={{ position: "relative" }}>
+      <Container className="nss-py-8">
+        <Link to="/projects" className="nss-button nss-button-soft" style={{ marginBottom: "1.25rem" }}>
+          <ArrowLeft style={{ height: "1rem", width: "1rem" }} /> Projects
+        </Link>
+
+        <Reveal>
+          <ClayCard tilt={false} className="nss-p-0" style={{ overflow: "hidden" }}>
+            <div style={{ position: "relative", minHeight: "22rem" }}>
+              {project.coverImage ? (
                 <img
                   src={project.coverImage}
                   alt={project.title}
                   width={1280}
-                  height={549}
+                  height={720}
                   fetchPriority="high"
                   decoding="async"
-                  style={{ aspectRatio: "21/9", width: "100%", objectFit: "cover" }}
+                  style={{ height: "100%", minHeight: "22rem", width: "100%", objectFit: "cover" }}
                 />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(27, 28, 25, 0.7) 0%, transparent 100%)" }} />
-                <div style={{ position: "absolute", bottom: 0, padding: "1.5rem", color: "#ffffff" }}>
+              ) : (
+                <div style={{ minHeight: "22rem", background: "var(--clay-deep)" }} />
+              )}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.28) 58%, rgba(0,0,0,0.08))",
+                }}
+              />
+              <div
+                className="nss-flex nss-flex-col nss-justify-between nss-gap-8 nss-p-5 nss-sm-p-8"
+                style={{ position: "absolute", inset: 0, color: "#fff", maxWidth: "48rem" }}
+              >
+                <div className="nss-flex nss-flex-wrap nss-gap-2">
                   <Badge variant="accent">{project.category}</Badge>
-                  <h1 className="nss-mt-2 nss-font-display nss-text-3xl nss-font-extrabold nss-text-balance nss-sm-text-4xl" style={{ color: "#ffffff" }}>
+                  <Badge variant="outline" style={{ color: "#fff", borderColor: "rgba(255,255,255,0.55)" }}>
+                    {project.status}
+                  </Badge>
+                  {project.featured && <Badge variant="accent">Featured</Badge>}
+                </div>
+                <div>
+                  <h1 className="nss-font-display nss-text-4xl nss-font-extrabold nss-text-balance nss-sm-text-5xl" style={{ color: "#fff" }}>
                     {project.title}
                   </h1>
+                  <p className="nss-mt-4 nss-text-base nss-leading-relaxed" style={{ color: "rgba(255,255,255,0.86)", maxWidth: "42rem" }}>
+                    {project.summary}
+                  </p>
+                  <div className="nss-mt-5 nss-flex nss-flex-wrap nss-gap-4 nss-text-sm" style={{ color: "rgba(255,255,255,0.82)" }}>
+                    <span className="nss-flex nss-items-center nss-gap-1"><MapPin style={{ height: "1rem", width: "1rem" }} /> {project.location}</span>
+                    <span className="nss-flex nss-items-center nss-gap-1"><Calendar style={{ height: "1rem", width: "1rem" }} /> {formatDate(project.date)}</span>
+                    <span className="nss-flex nss-items-center nss-gap-1"><Users style={{ height: "1rem", width: "1rem" }} /> {project.year}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </Reveal>
-        </Container>
-      </section>
+          </ClayCard>
+        </Reveal>
 
-      <Container className="nss-py-8">
-        <div className="nss-flex nss-flex-wrap nss-gap-4 nss-text-sm nss-text-muted">
-          <span className="nss-flex nss-items-center nss-gap-1">
-            <MapPin style={{ height: "1rem", width: "1rem" }} /> {project.location}
-          </span>
-          <span className="nss-flex nss-items-center nss-gap-1">
-            <Calendar style={{ height: "1rem", width: "1rem" }} /> {formatDate(project.date)}
-          </span>
+        <div className="nss-mt-6 nss-grid nss-gap-5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 22rem), 1fr))" }}>
+          <div className="nss-flex nss-flex-col nss-gap-5" style={{ minWidth: 0 }}>
+            <InfoCard icon={FileText} title="Overview">
+              <p className="nss-text-muted">{textFromRichContent(project.description)}</p>
+            </InfoCard>
+
+            {project.problemAddressed && (
+              <InfoCard icon={Target} title="Problem addressed">
+                <p className="nss-text-muted">{project.problemAddressed}</p>
+              </InfoCard>
+            )}
+
+            {project.whatNssDid && (
+              <InfoCard icon={HandHeart} title="What NSS did">
+                <p className="nss-text-muted">{project.whatNssDid}</p>
+              </InfoCard>
+            )}
+          </div>
+
+          <aside className="nss-flex nss-flex-col nss-gap-5">
+            <ClayCard tilt={false} className="nss-p-5">
+              <h2 className="nss-font-display nss-text-xl nss-font-bold">Project details</h2>
+              <DetailRow label="Category" value={project.category} />
+              <DetailRow label="Location" value={project.location} />
+              <DetailRow label="Date" value={formatDate(project.date)} />
+              <DetailRow label="Batch" value={project.batchSlug?.replace("batch-", "")} />
+              {organizers.length > 0 && (
+                <div className="nss-mt-4">
+                  <p className="nss-text-xs nss-font-bold nss-uppercase nss-text-muted">Organizers</p>
+                  <div className="nss-mt-2 nss-flex nss-flex-wrap nss-gap-2">
+                    {organizers.map((name) => <Badge key={name} variant="outline">{name}</Badge>)}
+                  </div>
+                </div>
+              )}
+            </ClayCard>
+
+            {relatedCamp?.slug && (
+              <ClayCard tilt={false} className="nss-p-5">
+                <Badge variant="accent">Linked Camp</Badge>
+                <h3 className="nss-mt-3 nss-font-display nss-text-xl nss-font-bold">{relatedCamp.title}</h3>
+                <p className="nss-mt-2 nss-text-sm nss-text-muted">{relatedCamp.summary}</p>
+                <Link to="/camps/$campSlug" params={{ campSlug: relatedCamp.slug }} className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
+                  View camp <ExternalLink style={{ height: "0.9rem", width: "0.9rem" }} />
+                </Link>
+              </ClayCard>
+            )}
+          </aside>
         </div>
 
-        <ClayCard tilt={false} className="nss-mt-6 nss-p-4 nss-sm-p-6">
-          <h2 className="nss-font-display nss-text-xl nss-font-bold">Overview</h2>
-          <p className="nss-mt-3 nss-text-muted">{project.description}</p>
-        </ClayCard>
-
-        {project.impactMetrics && project.impactMetrics.length > 0 && (
-          <div className="nss-mt-6 nss-grid nss-grid-cols-2 nss-gap-4 nss-sm-grid-cols-4">
-            {project.impactMetrics.map((m: ImpactMetric) => (
-              <ImpactStat key={m.label} label={m.label} value={m.value} />
+        {project.impactMetrics?.length > 0 && (
+          <div className="nss-mt-8 nss-grid nss-grid-cols-2 nss-gap-4 nss-sm-grid-cols-4">
+            {project.impactMetrics.map((metric: ImpactMetric) => (
+              <ImpactStat key={metric.label} label={metric.label} value={metric.value} />
             ))}
           </div>
         )}
 
-        {relatedCamp && relatedCamp.slug && (
-          <div className="nss-mt-10">
-            <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Linked Camp</h2>
-            <Reveal>
-              <ClayCard tilt={false} className="nss-flex nss-flex-col nss-gap-4 nss-sm-flex-row nss-p-4 nss-sm-p-6">
-                <div className="nss-badge-accent nss-flex nss-shrink-0 nss-flex-col nss-items-center nss-justify-center" style={{ height: "4rem", width: "4rem", borderRadius: "var(--radius-lg)" }}>
-                  <Calendar style={{ height: "1.5rem", width: "1.5rem" }} />
-                </div>
-                <div>
-                  <h3 className="nss-font-display nss-text-lg nss-font-bold">{relatedCamp.title}</h3>
-                  <p className="nss-text-xs nss-text-muted">{formatDate(relatedCamp.startDate)}</p>
-                  <p className="nss-mt-2 nss-text-sm nss-text-muted">{relatedCamp.summary}</p>
-                  <Link
-                    to="/camps/$campSlug"
-                    params={{ campSlug: relatedCamp.slug }}
-                    className="nss-mt-4 nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary hover:underline"
-                  >
-                    View camp details →
-                  </Link>
-                </div>
-              </ClayCard>
-            </Reveal>
-          </div>
+        {galleryImages.length > 0 && (
+          <section className="nss-mt-10">
+            <SectionHeading eyebrow="Gallery" title="Project photos" description="A quick visual record from this activity." />
+            <div className="nss-grid nss-gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 12rem), 1fr))" }}>
+              {galleryImages.map((image) => (
+                <figure key={image.id} className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
+                  <img src={image.src} alt={image.alt} loading="lazy" decoding="async" style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }} />
+                  {(image.caption || image.credit) && (
+                    <figcaption className="nss-p-4 nss-text-xs nss-text-muted">{image.caption || image.credit}</figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </section>
         )}
 
         {reports.length > 0 && (
-          <div className="nss-mt-10">
-            <h2 className="nss-mb-4 nss-font-display nss-text-xl nss-font-bold">Reports</h2>
-            <div className="nss-grid nss-gap-4 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-              {reports.map((r) => (
-                <ClayCard key={r.slug} className="nss-p-4 nss-sm-p-6">
-                  <Badge variant="outline">{r.type}</Badge>
-                  <h3 className="nss-mt-3 nss-font-display nss-font-bold">{r.title}</h3>
-                  <p className="nss-mt-2 nss-text-sm nss-text-muted">{r.description}</p>
+          <section className="nss-mt-10">
+            <SectionHeading eyebrow="Reports" title="Attached reports" description="Official documents connected to this project." />
+            <div className="nss-grid nss-gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 18rem), 1fr))" }}>
+              {reports.map((report) => (
+                <ClayCard key={report.slug} tilt={false} className="nss-flex nss-flex-col nss-gap-3 nss-p-5">
+                  <Badge variant="outline">{report.type}</Badge>
+                  <h3 className="nss-font-display nss-text-lg nss-font-bold">{report.title}</h3>
+                  <p className="nss-flex-1 nss-text-sm nss-text-muted">{report.description}</p>
+                  <a href={report.file} className="nss-flex nss-items-center nss-gap-1 nss-text-sm nss-font-semibold nss-text-primary">
+                    Open report <ExternalLink style={{ height: "0.9rem", width: "0.9rem" }} />
+                  </a>
                 </ClayCard>
               ))}
             </div>
-          </div>
+          </section>
+        )}
+
+        {highlights.length > 0 && (
+          <section className="nss-mt-10">
+            <SectionHeading eyebrow="Highlights" title="Related highlights" description="Milestones and stories attached to this project." />
+            <div className="nss-grid nss-gap-5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 18rem), 1fr))" }}>
+              {highlights.map((highlight) => <HighlightCard key={highlight.slug} highlight={highlight} />)}
+            </div>
+          </section>
+        )}
+
+        {galleryImages.length === 0 && reports.length === 0 && highlights.length === 0 && (
+          <ClayCard tilt={false} className="nss-mt-10 nss-flex nss-items-center nss-gap-3 nss-p-5">
+            <Images style={{ height: "1.25rem", width: "1.25rem", color: "var(--secondary)" }} aria-hidden />
+            <p className="nss-text-sm nss-text-muted">More project media and documents can be attached from the content studio when available.</p>
+          </ClayCard>
         )}
       </Container>
     </PageShell>
   );
 }
+
+function InfoCard({ icon: Icon, title, children }: { icon: typeof FileText; title: string; children: React.ReactNode }) {
+  return (
+    <ClayCard tilt={false} className="nss-p-5 nss-sm-p-6">
+      <div className="nss-flex nss-items-center nss-gap-3">
+        <span className="nss-flex nss-items-center nss-justify-center" style={{ height: "2.5rem", width: "2.5rem", borderRadius: "var(--radius-lg)", background: "hsl(15 65% 38% / 0.1)", color: "var(--secondary)" }}>
+          <Icon style={{ height: "1.15rem", width: "1.15rem" }} aria-hidden />
+        </span>
+        <h2 className="nss-font-display nss-text-xl nss-font-bold">{title}</h2>
+      </div>
+      <div className="nss-mt-4 nss-leading-relaxed">{children}</div>
+    </ClayCard>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value?: string | number }) {
+  if (!value) return null;
+  return (
+    <div className="nss-mt-4" style={{ borderTop: "1px solid var(--border)", paddingTop: "0.85rem" }}>
+      <p className="nss-text-xs nss-font-bold nss-uppercase nss-text-muted">{label}</p>
+      <p className="nss-mt-1 nss-text-sm nss-font-semibold">{value}</p>
+    </div>
+  );
+}
+
+function textFromRichContent(value: unknown): string {
+  if (!value) return "Details will be updated soon.";
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return "Details will be updated soon.";
+
+  const text = value
+    .map((block) => {
+      if (!block || typeof block !== "object") return "";
+      const children = (block as { children?: unknown }).children;
+      if (!Array.isArray(children)) return "";
+      return children
+        .map((child) => typeof child === "object" && child && "text" in child ? String((child as { text?: string }).text ?? "") : "")
+        .join("");
+    })
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+
+  return text || "Details will be updated soon.";
+}
+
