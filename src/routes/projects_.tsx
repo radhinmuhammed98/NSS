@@ -8,7 +8,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import { getProjects, projectCategories } from "@/lib/data";
 import type { Project } from "@/types";
 
-export const Route = createFileRoute("/projects/")({
+export const Route = createFileRoute("/projects_")({
   loader: async () => {
     const allProjects = await getProjects();
     return { allProjects: allProjects.filter((p) => p.slug) };

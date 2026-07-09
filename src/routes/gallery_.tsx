@@ -11,7 +11,7 @@ import {
 } from "@/lib/data";
 import type { GalleryAlbum } from "@/types";
 
-export const Route = createFileRoute("/gallery/")({
+export const Route = createFileRoute("/gallery_")({
   loader: async () => {
     const [albums, albumTypes, years] = await Promise.all([
       getAlbums(),

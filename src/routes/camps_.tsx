@@ -7,7 +7,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 import { getCamps } from "@/lib/data";
 import type { Camp } from "@/types";
 
-export const Route = createFileRoute("/camps/")({
+export const Route = createFileRoute("/camps_")({
   loader: async () => {
     const allCamps = await getCamps();
     return { allCamps: allCamps.filter((c) => c.slug) };

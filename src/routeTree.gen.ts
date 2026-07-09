@@ -14,16 +14,16 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as ProjectsRouteImport } from './routes/projects_'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as HighlightsRouteImport } from './routes/highlights'
+import { Route as GalleryRouteImport } from './routes/gallery_'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CampsRouteImport } from './routes/camps_'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
-import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
-import { Route as CampsIndexRouteImport } from './routes/camps.index'
 import { Route as ProjectsProjectSlugRouteImport } from './routes/projects.$projectSlug'
 import { Route as GalleryAlbumSlugRouteImport } from './routes/gallery.$albumSlug'
 import { Route as CampsCampSlugRouteImport } from './routes/camps.$campSlug'
@@ -53,6 +53,11 @@ const ReportsRoute = ReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects_',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoticesRoute = NoticesRouteImport.update({
   id: '/notices',
   path: '/notices',
@@ -68,9 +73,19 @@ const HighlightsRoute = HighlightsRouteImport.update({
   path: '/highlights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery_',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampsRoute = CampsRouteImport.update({
+  id: '/camps_',
+  path: '/camps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -86,21 +101,6 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryIndexRoute = GalleryIndexRouteImport.update({
-  id: '/gallery/',
-  path: '/gallery/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CampsIndexRoute = CampsIndexRouteImport.update({
-  id: '/camps/',
-  path: '/camps/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsProjectSlugRoute = ProjectsProjectSlugRouteImport.update({
@@ -123,10 +123,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/camps': typeof CampsRoute
   '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/highlights': typeof HighlightsRoute
   '/journey': typeof JourneyRoute
   '/notices': typeof NoticesRoute
+  '/projects': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
   '/support': typeof SupportRoute
@@ -135,18 +138,18 @@ export interface FileRoutesByFullPath {
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/camps/': typeof CampsIndexRoute
-  '/gallery/': typeof GalleryIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/camps': typeof CampsRoute
   '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/highlights': typeof HighlightsRoute
   '/journey': typeof JourneyRoute
   '/notices': typeof NoticesRoute
+  '/projects': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
   '/support': typeof SupportRoute
@@ -155,19 +158,19 @@ export interface FileRoutesByTo {
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/camps': typeof CampsIndexRoute
-  '/gallery': typeof GalleryIndexRoute
-  '/projects': typeof ProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
+  '/camps_': typeof CampsRoute
   '/contact': typeof ContactRoute
+  '/gallery_': typeof GalleryRoute
   '/highlights': typeof HighlightsRoute
   '/journey': typeof JourneyRoute
   '/notices': typeof NoticesRoute
+  '/projects_': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
   '/support': typeof SupportRoute
@@ -176,9 +179,6 @@ export interface FileRoutesById {
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
-  '/camps/': typeof CampsIndexRoute
-  '/gallery/': typeof GalleryIndexRoute
-  '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,10 +186,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
+    | '/camps'
     | '/contact'
+    | '/gallery'
     | '/highlights'
     | '/journey'
     | '/notices'
+    | '/projects'
     | '/reports'
     | '/stories'
     | '/support'
@@ -198,18 +201,18 @@ export interface FileRouteTypes {
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/camps/'
-    | '/gallery/'
-    | '/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/admin'
+    | '/camps'
     | '/contact'
+    | '/gallery'
     | '/highlights'
     | '/journey'
     | '/notices'
+    | '/projects'
     | '/reports'
     | '/stories'
     | '/support'
@@ -218,18 +221,18 @@ export interface FileRouteTypes {
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/camps'
-    | '/gallery'
-    | '/projects'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/admin'
+    | '/camps_'
     | '/contact'
+    | '/gallery_'
     | '/highlights'
     | '/journey'
     | '/notices'
+    | '/projects_'
     | '/reports'
     | '/stories'
     | '/support'
@@ -238,19 +241,19 @@ export interface FileRouteTypes {
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
-    | '/camps/'
-    | '/gallery/'
-    | '/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
+  CampsRoute: typeof CampsRoute
   ContactRoute: typeof ContactRoute
+  GalleryRoute: typeof GalleryRoute
   HighlightsRoute: typeof HighlightsRoute
   JourneyRoute: typeof JourneyRoute
   NoticesRoute: typeof NoticesRoute
+  ProjectsRoute: typeof ProjectsRoute
   ReportsRoute: typeof ReportsRoute
   StoriesRoute: typeof StoriesRoute
   SupportRoute: typeof SupportRoute
@@ -259,9 +262,6 @@ export interface RootRouteChildren {
   CampsCampSlugRoute: typeof CampsCampSlugRoute
   GalleryAlbumSlugRoute: typeof GalleryAlbumSlugRoute
   ProjectsProjectSlugRoute: typeof ProjectsProjectSlugRoute
-  CampsIndexRoute: typeof CampsIndexRoute
-  GalleryIndexRoute: typeof GalleryIndexRoute
-  ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -301,6 +301,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects_': {
+      id: '/projects_'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notices': {
       id: '/notices'
       path: '/notices'
@@ -322,11 +329,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HighlightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gallery_': {
+      id: '/gallery_'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/camps_': {
+      id: '/camps_'
+      path: '/camps'
+      fullPath: '/camps'
+      preLoaderRoute: typeof CampsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -348,27 +369,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects/': {
-      id: '/projects/'
-      path: '/projects'
-      fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery/': {
-      id: '/gallery/'
-      path: '/gallery'
-      fullPath: '/gallery/'
-      preLoaderRoute: typeof GalleryIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/camps/': {
-      id: '/camps/'
-      path: '/camps'
-      fullPath: '/camps/'
-      preLoaderRoute: typeof CampsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/$projectSlug': {
@@ -399,10 +399,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
+  CampsRoute: CampsRoute,
   ContactRoute: ContactRoute,
+  GalleryRoute: GalleryRoute,
   HighlightsRoute: HighlightsRoute,
   JourneyRoute: JourneyRoute,
   NoticesRoute: NoticesRoute,
+  ProjectsRoute: ProjectsRoute,
   ReportsRoute: ReportsRoute,
   StoriesRoute: StoriesRoute,
   SupportRoute: SupportRoute,
@@ -411,9 +414,6 @@ const rootRouteChildren: RootRouteChildren = {
   CampsCampSlugRoute: CampsCampSlugRoute,
   GalleryAlbumSlugRoute: GalleryAlbumSlugRoute,
   ProjectsProjectSlugRoute: ProjectsProjectSlugRoute,
-  CampsIndexRoute: CampsIndexRoute,
-  GalleryIndexRoute: GalleryIndexRoute,
-  ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
