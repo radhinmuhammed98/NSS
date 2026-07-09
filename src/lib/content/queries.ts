@@ -115,7 +115,15 @@ export const CAMPS_QUERY = `*[_type == "camp"] | order(year desc) {
     title,
     description,
     activities,
-    guests,
+    guests[] {
+      _type == "guest" => {
+        name,
+        designation,
+        "photo": photo.asset->url,
+        organisation
+      },
+      _type != "guest" => @
+    },
     images[] {
       "id": _key,
       "src": image.asset->url,
@@ -152,7 +160,15 @@ export const CAMP_BY_SLUG_QUERY = `*[_type == "camp" && slug.current == $slug][0
     title,
     description,
     activities,
-    guests,
+    guests[] {
+      _type == "guest" => {
+        name,
+        designation,
+        "photo": photo.asset->url,
+        organisation
+      },
+      _type != "guest" => @
+    },
     images[] {
       "id": _key,
       "src": image.asset->url,

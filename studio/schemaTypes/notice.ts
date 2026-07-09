@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'The main heading of the notice.',
       placeholder: 'e.g., Blood Donation Camp Announcement',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'date',

@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'The name of the camp.',
       placeholder: 'e.g., Annual Special Camp 2026',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'slug',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'slug',
       description: 'The web address for this camp. Generate it from the title.',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'date',
@@ -27,7 +27,7 @@ export default defineType({
       type: 'date',
       description: 'When did the camp start?',
       initialValue: () => new Date().toISOString().split('T')[0],
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'coverImage',
@@ -35,7 +35,7 @@ export default defineType({
       type: 'image',
       description: 'Upload the main photo for this camp.',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+      
       fields: [
         defineField({
           name: 'alt',
@@ -51,7 +51,7 @@ export default defineType({
       type: 'text',
       rows: 6,
       description: 'Write a general summary of the camp. What was the main focus?',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'theme',

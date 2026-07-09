@@ -11,21 +11,21 @@ export default defineType({
       type: 'string',
       description: 'The title of the video.',
       placeholder: 'e.g., Annual Camp Highlights',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'videoUrl',
       title: 'Video URL',
       type: 'url',
       description: 'Link to the video (e.g. YouTube, Google Drive, or raw MP4 URL).',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'type',

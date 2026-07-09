@@ -12,14 +12,14 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'alt',
       title: 'Alternative Text',
       type: 'string',
       description: 'Important for accessibility and SEO.',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'caption',

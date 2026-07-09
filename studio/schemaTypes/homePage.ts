@@ -11,14 +11,14 @@ export default defineType({
       type: 'string',
       description: 'The main big text shown at the top of the homepage.',
       placeholder: 'e.g., Empowering Youth, Serving Community',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'heroSubtitle',
       title: 'Hero Subtitle',
       type: 'text',
       description: 'A short paragraph under the main title.',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'heroImage',
@@ -26,14 +26,14 @@ export default defineType({
       type: 'image',
       description: 'The large background or main photo for the top section.',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'servicePillars',
       title: 'Three Service Pillars',
       type: 'array',
       description: 'Add exactly three main pillars or focus areas (e.g., Community Health, Education, Environment).',
-      validation: (Rule) => Rule.required().min(3).max(3),
+      validation: (Rule) => Rule.min(3).max(3),
       of: [
         {
           type: 'object',
@@ -42,13 +42,13 @@ export default defineType({
               name: 'title',
               title: 'Pillar Title',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              
             }),
             defineField({
               name: 'description',
               title: 'Description',
               type: 'text',
-              validation: (Rule) => Rule.required(),
+              
             }),
             defineField({
               name: 'icon',
@@ -66,7 +66,7 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'project' }],
       description: 'Select one project to highlight on the homepage.',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'featuredCamp',
@@ -74,7 +74,7 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'camp' }],
       description: 'Select one camp to highlight on the homepage.',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'featuredGallery',
@@ -82,7 +82,7 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'galleryAlbum' }],
       description: 'Select one photo album to show on the homepage.',
-      validation: (Rule) => Rule.required(),
+      
     }),
   ],
   preview: {

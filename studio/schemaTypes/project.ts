@@ -10,7 +10,7 @@ export default defineType({
       title: 'Project Title',
       type: 'string',
       description: 'The name of the community service or project.',
-      validation: (Rule) => Rule.required(),
+      
       placeholder: 'e.g., Snehaveedu Construction',
     }),
     defineField({
@@ -19,7 +19,7 @@ export default defineType({
       type: 'slug',
       description: 'The web address for this project. Generate it from the title.',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'date',
@@ -27,7 +27,7 @@ export default defineType({
       type: 'date',
       description: 'When did this project happen?',
       initialValue: () => new Date().toISOString().split('T')[0],
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'coverImage',
@@ -35,7 +35,7 @@ export default defineType({
       type: 'image',
       description: 'Upload the main photo for this project to be shown on the homepage and project list.',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+      
       fields: [
         defineField({
           name: 'alt',
@@ -51,7 +51,7 @@ export default defineType({
       type: 'text',
       rows: 6,
       description: 'Write a full story about the project. Why did you do it? What was the impact? Write naturally as paragraphs.',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'location',
@@ -133,7 +133,7 @@ export default defineType({
           "Other",
         ]
       },
-      validation: (Rule) => Rule.required(),
+      
     }),
   ],
   preview: {

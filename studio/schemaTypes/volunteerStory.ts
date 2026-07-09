@@ -10,7 +10,7 @@ export default defineType({
       title: 'Volunteer Name',
       type: 'string',
       description: 'വളന്റിയറുടെ പേര്',
-      validation: (Rule) => Rule.required().error('പേര് നൽകുക (Volunteer name is required)'),
+      validation: (Rule) => Rule.error('പേര് നൽകുക (Volunteer name is required)'),
     }),
     defineField({
       name: 'slug',
@@ -21,7 +21,7 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
-      validation: (Rule) => Rule.required().error('Slug ആവശ്യമാണ് (Slug is required)'),
+      validation: (Rule) => Rule.error('Slug ആവശ്യമാണ് (Slug is required)'),
     }),
     defineField({
       name: 'photo',
@@ -31,21 +31,21 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required().error('ഫോട്ടോ നിർബന്ധമാണ് (Photo is required)'),
+      validation: (Rule) => Rule.error('ഫോട്ടോ നിർബന്ധമാണ് (Photo is required)'),
     }),
     defineField({
       name: 'quote',
       title: 'Highlight Quote',
       type: 'string',
       description: 'പ്രധാന വാക്യം / സന്ദേശം (A short inspirational quote from the story to highlight)',
-      validation: (Rule) => Rule.required().error('ഹൈലൈറ്റ് വാക്യം നൽകുക (Highlight quote is required)'),
+      validation: (Rule) => Rule.error('ഹൈലൈറ്റ് വാക്യം നൽകുക (Highlight quote is required)'),
     }),
     defineField({
       name: 'title',
       title: 'Story Title',
       type: 'string',
       description: 'അനുഭവക്കുറിപ്പിന്റെ തലക്കെട്ട് (e.g. My Life-Changing Seven Days)',
-      validation: (Rule) => Rule.required().error('തലക്കെട്ട് ആവശ്യമാണ് (Story title is required)'),
+      validation: (Rule) => Rule.error('തലക്കെട്ട് ആവശ്യമാണ് (Story title is required)'),
     }),
     defineField({
       name: 'story',
@@ -53,7 +53,7 @@ export default defineType({
       type: 'text',
       rows: 8,
       description: 'വളന്റിയർ പങ്കുവെക്കുന്ന പൂർണ്ണമായ അനുഭവം (The full experience story)',
-      validation: (Rule) => Rule.required().error('അനുഭവക്കുറിപ്പ് നൽകുക (The full story content is required)'),
+      validation: (Rule) => Rule.error('അനുഭവക്കുറിപ്പ് നൽകുക (The full story content is required)'),
     }),
     defineField({
       name: 'relatedProject',

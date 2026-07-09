@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'The full name of the team member.',
       placeholder: 'e.g., John Doe',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'role',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'string',
       description: 'Their position in NSS.',
       placeholder: 'e.g., Programme Officer, Volunteer Secretary',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'photo',

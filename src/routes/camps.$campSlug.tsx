@@ -98,7 +98,55 @@ function CampPage() {
                       })}
                     </div>
                     {d.guests && d.guests.length > 0 && (
-                      <p className="nss-mt-2 nss-text-xs nss-text-muted">Guests: {d.guests.map((g: any) => typeof g === "string" ? g : (g?.name || g?.title || "Guest")).join(", ")}</p>
+                      <div className="nss-mt-3">
+                        <p className="nss-text-xs nss-font-semibold nss-text-muted" style={{ margin: 0 }}>Guests & Resource Persons:</p>
+                        <div className="nss-mt-1.5 nss-flex nss-flex-wrap nss-gap-2">
+                          {d.guests.map((g: any, idx: number) => {
+                            if (typeof g === "string") {
+                              return (
+                                <Badge key={idx} variant="outline" className="nss-py-1 nss-px-2.5">
+                                  👤 {g}
+                                </Badge>
+                              );
+                            }
+                            return (
+                              <div
+                                key={idx}
+                                className="nss-flex nss-items-center nss-gap-2 nss-px-2.5 nss-py-1 nss-rounded-full nss-border nss-bg-card nss-text-xs"
+                                style={{ borderColor: "var(--border)", maxWidth: "100%", background: "var(--clay-deep)" }}
+                              >
+                                {g.photo ? (
+                                  <img
+                                    src={g.photo}
+                                    alt={g.name}
+                                    style={{
+                                      height: "1.5rem",
+                                      width: "1.5rem",
+                                      borderRadius: "50%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                ) : (
+                                  <div
+                                    className="nss-flex nss-items-center nss-justify-center nss-rounded-full"
+                                    style={{ height: "1.5rem", width: "1.5rem", fontSize: "10px", background: "var(--muted)" }}
+                                  >
+                                    👤
+                                  </div>
+                                )}
+                                <div style={{ minWidth: 0, lineHeight: 1.1 }}>
+                                  <span className="nss-font-semibold">{g.name}</span>
+                                  {(g.designation || g.organisation) && (
+                                    <span className="nss-text-muted" style={{ fontSize: "10px", marginLeft: "4px" }}>
+                                      ({[g.designation, g.organisation].filter(Boolean).join(" · ")})
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     )}
                   </div>
                   {d.images && d.images.length > 0 && (

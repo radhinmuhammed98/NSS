@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'The title of the report.',
       placeholder: 'e.g., Annual Activity Report 2025-26',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'file',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'file',
       description: 'Upload the PDF document.',
       options: { accept: '.pdf' },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'date',

@@ -10,7 +10,7 @@ export default defineType({
       title: 'Day Number',
       type: 'number',
       description: 'Which day of the camp is this? (e.g., 1, 2, 3)',
-      validation: (Rule) => Rule.required().min(1).max(7),
+      validation: (Rule) => Rule.min(1).max(7),
     }),
     defineField({
       name: 'title',
@@ -18,7 +18,6 @@ export default defineType({
       type: 'string',
       description: 'A brief title for this day.',
       placeholder: 'e.g., Inauguration & Ice Breaking',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
@@ -26,7 +25,48 @@ export default defineType({
       type: 'text',
       rows: 4,
       description: 'What happened on this day? Write a summary of the activities.',
-      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'activities',
+      title: 'Activities',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'List the key activities of the day.',
+    }),
+    defineField({
+      name: 'guests',
+      title: 'Guests / Resource Persons',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'guest',
+          title: 'Guest / Resource Person',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+            }),
+            defineField({
+              name: 'designation',
+              title: 'Designation',
+              type: 'string',
+            }),
+            defineField({
+              name: 'photo',
+              title: 'Photo (optional)',
+              type: 'image',
+              options: { hotspot: true },
+            }),
+            defineField({
+              name: 'organisation',
+              title: 'Organisation (optional)',
+              type: 'string',
+            }),
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'images',
@@ -43,7 +83,7 @@ export default defineType({
     },
     prepare({ title, dayNumber }) {
       return {
-        title: `Day ${dayNumber}: ${title}`,
+        title: `Day ${dayNumber || '?'}: ${title || 'Untitled'}`,
       };
     },
   },

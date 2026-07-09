@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'A catchy title for this achievement or highlight.',
       placeholder: 'e.g., Best NSS Unit Award 2025',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'date',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'date',
       description: 'When did this happen?',
       initialValue: () => new Date().toISOString().split('T')[0],
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'image',
@@ -27,7 +27,7 @@ export default defineType({
       type: 'image',
       description: 'A photo representing this highlight.',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
+      
       fields: [
         defineField({
           name: 'alt',

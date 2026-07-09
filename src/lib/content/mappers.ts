@@ -123,7 +123,15 @@ export function mapCamp(c: any): Camp {
       title: day.title || "",
       description: day.description || "",
       activities: day.activities || [],
-      guests: day.guests || [],
+      guests: (day.guests || []).map((g: any) => {
+        if (typeof g === "string") return g;
+        return {
+          name: g.name || "",
+          designation: g.designation,
+          photo: g.photo,
+          organisation: g.organisation,
+        };
+      }),
       images: (day.images || []).map((img: any) => ({
         id: img.id || img._key || Math.random().toString(),
         src: img.src || "",

@@ -97,13 +97,20 @@ export interface Project {
   campRelated: boolean;
 }
 
+export interface GuestPerson {
+  name: string;
+  designation?: string;
+  photo?: string;
+  organisation?: string;
+}
+
 export interface CampDay {
   dayNumber: number;
   date: string;
   title: string;
   description: any; // rich text now
   activities: string[];
-  guests?: string[];
+  guests?: (string | GuestPerson)[];
   images?: ImageAsset[];
 }
 

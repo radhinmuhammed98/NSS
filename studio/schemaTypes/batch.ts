@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'e.g., Batch 2024-25',
       placeholder: 'e.g., Batch 2024-25',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'slug',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'slug',
       description: 'Auto-generate from title.',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'academicYear',
@@ -27,7 +27,7 @@ export default defineType({
       type: 'string',
       description: 'e.g., 2024-25',
       placeholder: 'e.g., 2024-25',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'status',
@@ -50,7 +50,7 @@ export default defineType({
         layout: 'radio',
       },
       initialValue: 'current',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'description',

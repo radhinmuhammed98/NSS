@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       description: 'The name of the photo album.',
       placeholder: 'e.g., Onam Celebrations 2025',
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'slug',
@@ -19,7 +19,7 @@ export default defineType({
       type: 'slug',
       description: 'The web address for this album. Generate it from the title.',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      
     }),
     defineField({
       name: 'images',
@@ -27,7 +27,7 @@ export default defineType({
       type: 'array',
       of: [{ type: 'imageAsset' }],
       description: 'Upload all the photos for this album here.',
-      validation: (Rule) => Rule.required().min(1),
+      validation: (Rule) => Rule.min(1),
     }),
     defineField({
       name: 'date',
