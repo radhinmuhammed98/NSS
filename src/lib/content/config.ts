@@ -28,10 +28,7 @@ export function getContentSource(): "mock" | "sanity" {
     return "mock";
   }
 
-  // Fallback to mock data on localhost if no source is explicitly set, to avoid CORS issues
-  if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
-    return "mock";
-  }
+  // Removed fallback to mock data on localhost so Sanity is always used
 
   return "sanity";
 }
