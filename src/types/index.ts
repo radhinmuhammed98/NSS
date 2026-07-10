@@ -88,6 +88,7 @@ export interface Project {
   whatNssDid: string;
   coverImage: string;
   images: ImageAsset[];
+  videos?: VideoClip[];
   impactMetrics: ImpactMetric[];
   relatedCampSlug?: string;
   reportSlugs: string[];
@@ -112,6 +113,7 @@ export interface CampDay {
   activities: string[];
   guests?: (string | GuestPerson)[];
   images?: ImageAsset[];
+  videos?: VideoClip[];
 }
 
 export interface Camp {
@@ -147,6 +149,7 @@ export interface GalleryAlbum {
   description: string;
   coverImage: string;
   images: ImageAsset[];
+  videos?: VideoClip[];
 }
 
 export interface VideoClip {

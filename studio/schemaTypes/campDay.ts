@@ -78,6 +78,14 @@ export default defineType({
       description: 'Upload some key photos from this day. / ഈ ദിവസത്തെ പ്രധാന ഫോട്ടോകൾ ചേർക്കുക.',
       initialValue: [],
     }),
+    defineField({
+      name: 'videos',
+      title: 'Videos of the Day / ഈ ദിവസത്തെ വീഡിയോകൾ',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'videoClip' }] }],
+      description: 'Select videos for this day from the Videos section. / ഈ ദിവസത്തെ വീഡിയോകൾ തിരഞ്ഞെടുക്കുക.',
+      initialValue: [],
+    }),
   ],
   preview: {
     select: {

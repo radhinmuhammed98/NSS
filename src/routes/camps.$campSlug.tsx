@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, PlayCircle, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
 import { HighlightCard, ImageLightbox } from "@/components/media";
@@ -149,9 +149,9 @@ function CampPage() {
                       </div>
                     )}
                   </div>
-                  {d.images && d.images.length > 0 && (
+                  {(d.images?.length ? d.images.length > 0 : false) || (d.videos?.length ? d.videos.length > 0 : false) ? (
                     <div className="nss-flex nss-gap-2 nss-shrink-0" style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "flex-end", maxWidth: "16rem", alignSelf: "center" }}>
-                      {d.images.map((im: ImageAsset) => (
+                      {d.images?.map((im: ImageAsset) => (
                         <img 
                           key={im.id} 
                           src={im.src} 
@@ -163,8 +163,20 @@ function CampPage() {
                           style={{ height: "6rem", width: "8rem", objectFit: "cover", cursor: "pointer", border: "1.5px solid var(--border)" }} 
                         />
                       ))}
+                      {d.videos?.map((vid) => (
+                        <div key={vid.slug} className="nss-card nss-p-0 nss-card-tilt" style={{ position: "relative", height: "6rem", width: "8rem", overflow: "hidden", border: "1.5px solid var(--border)" }}>
+                          {vid.thumbnail ? (
+                            <img src={vid.thumbnail} alt={vid.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                          ) : (
+                            <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
+                          )}
+                          <a href={vid.url} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100">
+                            <PlayCircle style={{ height: "2rem", width: "2rem", color: "#fff", opacity: 0.9 }} />
+                          </a>
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </ClayCard>
             </Reveal>

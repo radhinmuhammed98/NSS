@@ -91,6 +91,7 @@ export function mapProject(p: any): Project {
       caption: img.caption,
       credit: img.credit,
     })),
+    videos: (p.videos || []).filter(Boolean).map(mapVideoClip),
     impactMetrics: p.impactMetrics || [],
     relatedCampSlug: p.relatedCampSlug,
     reportSlugs: p.reportSlugs || [],
@@ -139,6 +140,7 @@ export function mapCamp(c: any): Camp {
         caption: img.caption,
         credit: img.credit,
       })),
+      videos: (day.videos || []).filter(Boolean).map(mapVideoClip),
     })),
     projectSlugs: c.projectSlugs || [],
     impactMetrics: c.impactMetrics || [],
@@ -165,6 +167,7 @@ export function mapGalleryAlbum(a: any): GalleryAlbum {
       caption: img.caption,
       credit: img.credit,
     })),
+    videos: (a.videos || []).filter(Boolean).map(mapVideoClip),
   };
 }
 

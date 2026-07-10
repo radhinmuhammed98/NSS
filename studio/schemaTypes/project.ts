@@ -114,6 +114,14 @@ export default defineType({
       description: 'Add more photos from the project. Drag to reorder. / ഈ പദ്ധതിയുടെ മറ്റ് ചിത്രങ്ങൾ ചേർക്കുക.',
       group: 'photos',
     }),
+    defineField({
+      name: 'videos',
+      title: 'Linked Videos / വീഡിയോകൾ',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'videoClip' }] }],
+      description: 'Select videos related to this project from the Videos section. / ഈ പ്രോജക്റ്റുമായി ബന്ധപ്പെട്ട വീഡിയോകൾ തിരഞ്ഞെടുക്കുക.',
+      group: 'photos',
+    }),
 
     // --- WHAT HAPPENED ---
     defineField({

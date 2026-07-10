@@ -27,7 +27,13 @@ export default defineType({
       type: 'array',
       of: [{ type: 'imageAsset' }],
       description: 'Upload all the photos for this album here.',
-      validation: (Rule) => Rule.min(1),
+    }),
+    defineField({
+      name: 'videos',
+      title: 'Videos',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'videoClip' }] }],
+      description: 'Select videos for this album from the Videos section.',
     }),
     defineField({
       name: 'date',

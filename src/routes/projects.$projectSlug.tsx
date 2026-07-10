@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Calendar, ExternalLink, FileText, HandHeart, Images, MapPin, Target, Users } from "lucide-react";
+import { ArrowLeft, Calendar, ExternalLink, FileText, HandHeart, Images, MapPin, PlayCircle, Target, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { Badge, ClayCard, ImpactStat, Reveal, SectionHeading } from "@/components/clay";
 import { HighlightCard, ImageLightbox } from "@/components/media";
@@ -187,6 +187,32 @@ function ProjectPage() {
           </section>
         )}
 
+        {project.videos && project.videos.length > 0 && (
+          <section className="nss-mt-10">
+            <SectionHeading eyebrow="Media" title="Project videos" description="Watch moments from this activity." />
+            <div className="nss-grid nss-gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 18rem), 1fr))" }}>
+              {project.videos.map((video) => (
+                <ClayCard key={video.slug} tilt={false} className="nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
+                  <div style={{ position: "relative", aspectRatio: "16/9" }}>
+                    {video.thumbnail ? (
+                      <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                      <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
+                    )}
+                    <a href={video.url} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100">
+                       <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
+                    </a>
+                  </div>
+                  <div className="nss-p-4">
+                    <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
+                    {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
+                  </div>
+                </ClayCard>
+              ))}
+            </div>
+          </section>
+        )}
+
         {reports.length > 0 && (
           <section className="nss-mt-10">
             <SectionHeading eyebrow="Reports" title="Attached reports" description="Official documents connected to this project." />
@@ -214,7 +240,7 @@ function ProjectPage() {
           </section>
         )}
 
-        {galleryImages.length === 0 && reports.length === 0 && highlights.length === 0 && (
+        {galleryImages.length === 0 && (!project.videos || project.videos.length === 0) && reports.length === 0 && highlights.length === 0 && (
           <ClayCard tilt={false} className="nss-mt-10 nss-flex nss-items-center nss-gap-3 nss-p-5">
             <Images style={{ height: "1.25rem", width: "1.25rem", color: "var(--secondary)" }} aria-hidden />
             <p className="nss-text-sm nss-text-muted">More project media and documents can be attached from the content studio when available.</p>
