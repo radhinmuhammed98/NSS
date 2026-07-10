@@ -19,10 +19,14 @@ export const HOME_QUERY = `*[_type == "homePage"][0] {
   heroTitle,
   heroSubtitle,
   "heroImage": heroImage.asset->url,
-  homeFeatures,
-  reachOutCtaTitle,
-  reachOutCtaSubtitle,
-  reachOutCtaDescription
+  servicePillars[] {
+    title,
+    description,
+    icon
+  },
+  "featuredProject": featuredProject->slug.current,
+  "featuredCamp": featuredCamp->slug.current,
+  "featuredGallery": featuredGallery->slug.current
 }`;
 
 export const ABOUT_QUERY = `*[_type == "about"][0] {
@@ -101,15 +105,14 @@ export const CAMPS_QUERY = `*[_type == "camp"] | order(year desc) {
   "batchSlug": batch->slug.current,
   location,
   theme,
-  startDate,
+  "startDate": date,
   endDate,
-  summary,
   description,
   programmeOfficer,
   campLeaders,
   volunteerCount,
   "coverImage": coverImage.asset->url,
-  dayWiseActivities[] {
+  campDiary[] {
     dayNumber,
     date,
     title,
@@ -146,15 +149,14 @@ export const CAMP_BY_SLUG_QUERY = `*[_type == "camp" && slug.current == $slug][0
   "batchSlug": batch->slug.current,
   location,
   theme,
-  startDate,
+  "startDate": date,
   endDate,
-  summary,
   description,
   programmeOfficer,
   campLeaders,
   volunteerCount,
   "coverImage": coverImage.asset->url,
-  dayWiseActivities[] {
+  campDiary[] {
     dayNumber,
     date,
     title,
@@ -304,12 +306,12 @@ export const TEAM_QUERY = `*[_type == "teamMember"] | order(order asc) {
 
 export const STORIES_QUERY = `*[_type == "volunteerStory"] {
   "slug": slug.current,
-  name,
+  "name": coalesce(name, author),
   "batchSlug": batch->slug.current,
   "photo": photo.asset->url,
   quote,
   title,
-  story,
+  "story": coalesce(story, content),
   "relatedProjectSlug": relatedProject->slug.current,
   "relatedCampSlug": relatedCamp->slug.current,
   featured

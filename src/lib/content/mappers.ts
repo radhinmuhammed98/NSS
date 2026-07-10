@@ -52,13 +52,13 @@ export const mapSiteSettings = (doc: any): SiteSettings => ({
 });
 
 export const mapHomePage = (doc: any): HomePage => ({
-  heroTitle: doc.heroTitle,
-  heroSubtitle: doc.heroSubtitle,
-  heroImage: doc.heroImage,
-  homeFeatures: doc.homeFeatures,
-  reachOutCtaTitle: doc.reachOutCtaTitle,
-  reachOutCtaSubtitle: doc.reachOutCtaSubtitle,
-  reachOutCtaDescription: doc.reachOutCtaDescription,
+  heroTitle: doc?.heroTitle || "",
+  heroSubtitle: doc?.heroSubtitle || "",
+  heroImage: doc?.heroImage || "",
+  homeFeatures: doc?.servicePillars || [],
+  reachOutCtaTitle: doc?.reachOutCtaTitle || "",
+  reachOutCtaSubtitle: doc?.reachOutCtaSubtitle || "",
+  reachOutCtaDescription: doc?.reachOutCtaDescription || "",
 });
 
 export const mapAboutPage = (doc: any): AboutPage => ({
@@ -111,13 +111,13 @@ export function mapCamp(c: any): Camp {
     theme: c.theme || "",
     startDate: c.startDate || "",
     endDate: c.endDate || "",
-    summary: c.summary || "",
+    summary: c.summary || c.description?.substring(0, 100) || "",
     description: c.description || "",
     programmeOfficer: c.programmeOfficer || "",
     campLeaders: c.campLeaders || [],
     volunteerCount: Number(c.volunteerCount || 0),
     coverImage: c.coverImage || "",
-    dayWiseActivities: (c.dayWiseActivities || []).map((day: any) => ({
+    dayWiseActivities: (c.dayWiseActivities || c.campDiary || []).map((day: any) => ({
       dayNumber: Number(day.dayNumber || 0),
       date: day.date || "",
       title: day.title || "",
@@ -247,12 +247,12 @@ export function mapTeamMember(m: any): TeamMember {
 export function mapVolunteerStory(s: any): VolunteerStory {
   return {
     slug: s.slug,
-    name: s.name || "",
+    name: s.name || s.author || "",
     batchSlug: s.batchSlug || "",
     photo: s.photo || "",
     quote: s.quote || "",
     title: s.title || "",
-    story: s.story || "",
+    story: s.story || s.content || "",
     relatedProjectSlug: s.relatedProjectSlug,
     relatedCampSlug: s.relatedCampSlug,
     featured: Boolean(s.featured),
