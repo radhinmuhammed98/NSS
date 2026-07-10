@@ -39,14 +39,8 @@ class CachingRepositoryWrapper implements ContentRepository {
         const fn = this.delegate[method] as (...a: any[]) => Promise<T>;
         return await fn.apply(this.delegate, args);
       } catch (error) {
-        console.error(`Sanity ContentRepository.${method} failed, falling back to mock data:`, error);
-        try {
-          const fn = this.fallback[method] as (...a: any[]) => Promise<T>;
-          return await fn.apply(this.fallback, args);
-        } catch (fallbackError) {
-          console.error(`Mock fallback for ${method} also failed:`, fallbackError);
-          return defaultValue;
-        }
+        console.error(`Sanity fetch failed for ${String(method)}. Check CORS settings in manage.sanity.io or network tab for errors:`, error);
+        return defaultValue;
       }
     })();
 
@@ -72,8 +66,11 @@ class CachingRepositoryWrapper implements ContentRepository {
       try {
         return await this.delegate.getFeaturedCamp();
       } catch (e) {
-        console.error("Sanity getFeaturedCamp failed, falling back to mock:", e);
-        return this.fallback.getFeaturedCamp();
+        console.error("Sanity getFeaturedCamp failed. Check CORS settings in manage.sanity.io:", e);
+        // Let it bubble up or return a default empty structure depending on typing.
+        // It throws in sanityRepository if not found, so we can rethrow or return mock as a last resort,
+        // but here we want to avoid silent mock data. Let's just throw to show it's broken.
+        throw e;
       }
     })();
 
@@ -93,8 +90,8 @@ class CachingRepositoryWrapper implements ContentRepository {
       try {
         return await this.delegate.getFeaturedHighlight();
       } catch (e) {
-        console.error("Sanity getFeaturedHighlight failed, falling back to mock:", e);
-        return this.fallback.getFeaturedHighlight();
+        console.error("Sanity getFeaturedHighlight failed. Check CORS settings in manage.sanity.io:", e);
+        throw e;
       }
     })();
 
