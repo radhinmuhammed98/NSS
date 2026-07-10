@@ -65,7 +65,7 @@ export class MockRepository implements ContentRepository {
     return camps.find((c) => c.slug === slug);
   }
 
-  async getFeaturedCamp(): Promise<Camp> {
+  async getFeaturedCamp(): Promise<Camp | undefined> {
     return camps.find((c) => c.featured) ?? camps[0];
   }
 
@@ -106,7 +106,7 @@ export class MockRepository implements ContentRepository {
     return highlights.filter((h) => slugs.includes(h.slug));
   }
 
-  async getFeaturedHighlight(): Promise<Highlight> {
+  async getFeaturedHighlight(): Promise<Highlight | undefined> {
     return highlights.find((h) => h.featured) ?? (await this.getHighlights())[0];
   }
 

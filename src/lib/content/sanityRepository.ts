@@ -67,10 +67,9 @@ export class SanityRepository implements ContentRepository {
     return raw ? mappers.mapCamp(raw) : undefined;
   }
 
-  async getFeaturedCamp(): Promise<Camp> {
+  async getFeaturedCamp(): Promise<Camp | undefined> {
     const list = await this.getCamps();
     const featured = list.find((c) => c.featured) ?? list[0];
-    if (!featured) throw new Error("No Camp documents found in Sanity.");
     return featured;
   }
 
@@ -119,10 +118,9 @@ export class SanityRepository implements ContentRepository {
     return list.filter((h) => slugs.includes(h.slug));
   }
 
-  async getFeaturedHighlight(): Promise<Highlight> {
+  async getFeaturedHighlight(): Promise<Highlight | undefined> {
     const list = await this.getHighlights();
     const featured = list.find((h) => h.featured) ?? list[0];
-    if (!featured) throw new Error("No Highlights found in Sanity.");
     return featured;
   }
 

@@ -26,7 +26,7 @@ export interface ContentRepository {
   getFeaturedProjects(limit?: number): Promise<Project[]>;
   getCamps(): Promise<Camp[]>;
   getCampBySlug(slug: string): Promise<Camp | undefined>;
-  getFeaturedCamp(): Promise<Camp>;
+  getFeaturedCamp(): Promise<Camp | undefined>;
   getAlbums(): Promise<GalleryAlbum[]>;
   getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined>;
   getVideos(): Promise<VideoClip[]>;
@@ -36,7 +36,7 @@ export interface ContentRepository {
   getHighlights(): Promise<Highlight[]>;
   getHighlightBySlug(slug: string): Promise<Highlight | undefined>;
   getHighlightsBySlugs(slugs: string[]): Promise<Highlight[]>;
-  getFeaturedHighlight(): Promise<Highlight>;
+  getFeaturedHighlight(): Promise<Highlight | undefined>;
   getTimeline(newestFirst?: boolean): Promise<TimelineItem[]>;
   getTeam(): Promise<TeamMember[]>;
   getCurrentBatchTeam(): Promise<TeamMember[]>;

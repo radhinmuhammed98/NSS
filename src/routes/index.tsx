@@ -75,9 +75,9 @@ function Home() {
     stories,
   } = Route.useLoaderData() as {
     s:         SiteSettings;
-    highlight: Highlight;
+    highlight: Highlight | undefined;
     projects:  Project[];
-    camp:      Camp;
+    camp:      Camp | undefined;
     albums:    GalleryAlbum[];
     videos:    VideoClip[];
     reports:   Report[];
