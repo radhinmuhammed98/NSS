@@ -32,8 +32,8 @@ export default defineType({
       name: 'videos',
       title: 'Videos',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'videoClip' }] }],
-      description: 'Select videos for this album from the Videos section.',
+      of: [{ type: 'videoAsset' }],
+      description: 'Upload videos for this album directly here.',
     }),
     defineField({
       name: 'date',

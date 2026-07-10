@@ -59,15 +59,11 @@ export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc) {
     caption,
     credit
   },
-  videos[]-> {
-    "slug": slug.current,
+  videos[] {
+    "slug": _key,
     title,
-    type,
-    year,
-    "url": coalesce(videoFile.asset->url, videoUrl),
-    "thumbnail": thumbnail.asset->url,
-    duration,
-    description
+    "url": video.asset->url,
+    "thumbnail": thumbnail.asset->url
   },
   impactMetrics,
   "relatedCampSlug": relatedCamp->slug.current,
@@ -99,15 +95,11 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
     caption,
     credit
   },
-  videos[]-> {
-    "slug": slug.current,
+  videos[] {
+    "slug": _key,
     title,
-    type,
-    year,
-    "url": coalesce(videoFile.asset->url, videoUrl),
-    "thumbnail": thumbnail.asset->url,
-    duration,
-    description
+    "url": video.asset->url,
+    "thumbnail": thumbnail.asset->url
   },
   impactMetrics,
   "relatedCampSlug": relatedCamp->slug.current,
@@ -154,15 +146,11 @@ export const CAMPS_QUERY = `*[_type == "camp"] | order(year desc) {
       caption,
       credit
     },
-    videos[]-> {
-      "slug": slug.current,
+    videos[] {
+      "slug": _key,
       title,
-      type,
-      year,
-      "url": coalesce(videoFile.asset->url, videoUrl),
-      "thumbnail": thumbnail.asset->url,
-      duration,
-      description
+      "url": video.asset->url,
+      "thumbnail": thumbnail.asset->url
     }
   },
   "projectSlugs": projects[]->slug.current,
@@ -208,15 +196,11 @@ export const CAMP_BY_SLUG_QUERY = `*[_type == "camp" && slug.current == $slug][0
       caption,
       credit
     },
-    videos[]-> {
-      "slug": slug.current,
+    videos[] {
+      "slug": _key,
       title,
-      type,
-      year,
-      "url": coalesce(videoFile.asset->url, videoUrl),
-      "thumbnail": thumbnail.asset->url,
-      duration,
-      description
+      "url": video.asset->url,
+      "thumbnail": thumbnail.asset->url
     }
   },
   "projectSlugs": projects[]->slug.current,
@@ -242,15 +226,11 @@ export const ALBUMS_QUERY = `*[_type == "galleryAlbum"] | order(date desc) {
     caption,
     credit
   },
-  videos[]-> {
-    "slug": slug.current,
+  videos[] {
+    "slug": _key,
     title,
-    type,
-    year,
-    "url": coalesce(videoFile.asset->url, videoUrl),
-    "thumbnail": thumbnail.asset->url,
-    duration,
-    description
+    "url": video.asset->url,
+    "thumbnail": thumbnail.asset->url
   }
 }`;
 
@@ -270,15 +250,11 @@ export const ALBUM_BY_SLUG_QUERY = `*[_type == "galleryAlbum" && slug.current ==
     caption,
     credit
   },
-  videos[]-> {
-    "slug": slug.current,
+  videos[] {
+    "slug": _key,
     title,
-    type,
-    year,
-    "url": coalesce(videoFile.asset->url, videoUrl),
-    "thumbnail": thumbnail.asset->url,
-    duration,
-    description
+    "url": video.asset->url,
+    "thumbnail": thumbnail.asset->url
   }
 }`;
 

@@ -1,4 +1,5 @@
 import imageAsset from './imageAsset'
+import videoAsset from './videoAsset'
 import campDay from './campDay'
 import batch from './batch'
 import siteSettings from './siteSettings'
@@ -20,6 +21,7 @@ import socialLinks from './socialLinks'
 export const schemaTypes = [
   // Helpers/Objects
   imageAsset,
+  videoAsset,
   campDay,
 
   // People grouping

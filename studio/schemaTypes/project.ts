@@ -116,10 +116,10 @@ export default defineType({
     }),
     defineField({
       name: 'videos',
-      title: 'Linked Videos / വീഡിയോകൾ',
+      title: 'Direct Video Uploads / വീഡിയോ അപ്‌ലോഡുകൾ',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'videoClip' }] }],
-      description: 'Select videos related to this project from the Videos section. / ഈ പ്രോജക്റ്റുമായി ബന്ധപ്പെട്ട വീഡിയോകൾ തിരഞ്ഞെടുക്കുക.',
+      of: [{ type: 'videoAsset' }],
+      description: 'Upload videos related to this project directly here. / ഈ പ്രോജക്റ്റുമായി ബന്ധപ്പെട്ട വീഡിയോകൾ നേരിട്ട് അപ്‌ലോഡ് ചെയ്യുക.',
       group: 'photos',
     }),
 
