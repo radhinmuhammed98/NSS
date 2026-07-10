@@ -1,22 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout";
-import { getSiteSettings, getDonation } from "@/lib/data";
+import { getSiteSettings } from "@/lib/data";
 import { usePageMeta } from "@/hooks/usePageMeta";
-import type { SiteSettings, Donation } from "@/types";
+import type { SiteSettings } from "@/types";
 import {
   SupportHero,
   CausesGrid,
-  DonationMethods,
+  SupportMethods,
   TransparencyBlock,
-  DonationEnquiryCTA,
+  SupportEnquiryCTA,
 } from "./-SupportSections";
 
 // ─── Route ────────────────────────────────────────────────────────────────────
 
 export const Route = createFileRoute("/support")({
   loader: async () => {
-    const [s, d] = await Promise.all([getSiteSettings(), getDonation()]);
-    return { s, d };
+    const s = await getSiteSettings();
+    return { s };
   },
   component: Support,
 });
@@ -24,23 +24,19 @@ export const Route = createFileRoute("/support")({
 // ─── Page Component ───────────────────────────────────────────────────────────
 
 function Support() {
-  const { s, d } = Route.useLoaderData() as { s: SiteSettings; d: Donation };
+  const { s } = Route.useLoaderData() as { s: SiteSettings };
   usePageMeta({
     title: "Support NSS",
-    description: "Support the work of NSS Unit 466 at KHMHSS Valakkulam through donations and volunteering.",
+    description: "Support the work of NSS Unit 466 at KHMHSS Valakkulam through volunteering and community partnership.",
   });
-
-  const upiId        = d.enabled ? (d.upiId || null) : null;
-  const bankAccount  = d.enabled ? (d.bankAccount || null) : null;
-  const qrImageUrl   = d.enabled ? (d.qrImageUrl || null) : null;
 
   return (
     <PageShell>
       <SupportHero />
       <CausesGrid />
-      <DonationMethods upiId={upiId} bankAccount={bankAccount as any} qrImageUrl={qrImageUrl} />
+      <SupportMethods />
       <TransparencyBlock s={s} />
-      <DonationEnquiryCTA s={s} />
+      <SupportEnquiryCTA s={s} />
     </PageShell>
   );
 }

@@ -129,7 +129,7 @@ export function SupportHero() {
           >
             Your support empowers NSS volunteers of KHMHSS Valakkulam to conduct
             community service activities — from blood donation camps to environmental
-            drives. Every contribution, big or small, fuels the spirit of{" "}
+            drives. Every act of involvement, big or small, fuels the spirit of{" "}
             <span className="nss-font-semibold nss-italic" style={{ color: "rgba(255,255,255,0.9)" }}>"Not Me, But You."</span>
           </p>
 
@@ -188,7 +188,7 @@ export function CausesGrid() {
             Where your support goes
           </h2>
           <p className="nss-mt-3 nss-text-sm nss-text-muted nss-leading-relaxed">
-            Every rupee supports one of these five pillars of NSS service at
+            Every act of support empowers one of these five pillars of NSS service at
             KHMHSS Valakkulam.
           </p>
         </div>
@@ -221,17 +221,7 @@ type BankDetails = {
   branch: string;
 };
 
-export function DonationMethods({
-  upiId,
-  bankAccount,
-  qrImageUrl,
-}: {
-  upiId: string | null;
-  bankAccount: BankDetails | null;
-  qrImageUrl: string | null;
-}) {
-  const hasDonationDetails = upiId || bankAccount || qrImageUrl;
-
+export function SupportMethods() {
   return (
     <section style={{ background: "#f5f3ee" }}>
       <Container className="nss-py-16">
@@ -240,109 +230,51 @@ export function DonationMethods({
             <span
               className="nss-badge nss-badge-accent nss-mb-3"
             >
-              Donate · സംഭാവന
+              Get Involved · പങ്കാളിത്തം
             </span>
             <h2
               className="nss-text-3xl nss-font-extrabold nss-text-balance nss-sm-text-4xl"
               style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
             >
-              How to contribute
+              Ways to support us
             </h2>
           </div>
         </Reveal>
 
-        {hasDonationDetails ? (
-          <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-            {upiId && (
-              <Reveal>
-                <DonateCard icon={Phone} badge="UPI" title="Pay via UPI" iconBg="#042413">
-                  <p className="nss-text-sm nss-text-muted">
-                    Send directly to our registered UPI ID:
-                  </p>
-                  <p
-                    className="nss-mt-3 nss-text-base nss-font-bold nss-break-all"
-                    style={{ background: "var(--muted)", color: "var(--primary)", padding: "0.75rem 1rem", borderRadius: "var(--radius-lg)", fontFamily: "monospace", userSelect: "all" }}
-                  >
-                    {upiId}
-                  </p>
-                </DonateCard>
-              </Reveal>
-            )}
-
-            {bankAccount && (
-              <Reveal delay={0.08}>
-                <DonateCard icon={Landmark} badge="Bank Transfer" title="Bank Account" iconBg="#1b3a27">
-                  <ul className="nss-mt-1 nss-flex nss-flex-col nss-gap-2 nss-text-sm" style={{ listStyle: "none" }}>
-                    {(
-                      [
-                        ["Account Name", bankAccount.name],
-                        ["Account No.", bankAccount.account],
-                        ["IFSC Code",   bankAccount.ifsc],
-                        ["Bank",        bankAccount.bank],
-                        ["Branch",      bankAccount.branch],
-                      ] as [string, string][]
-                    ).map(([label, value]) => (
-                      <li key={label} className="nss-flex nss-flex-col">
-                        <span className="nss-text-xs nss-text-muted">{label}</span>
-                        <span className="nss-font-semibold" style={{ fontFamily: "monospace" }}>{value}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </DonateCard>
-              </Reveal>
-            )}
-
-            {qrImageUrl && (
-              <Reveal delay={0.16}>
-                <DonateCard
-                  icon={QrCode}
-                  badge="QR Code"
-                  title="Scan to Pay"
-                  iconBg="#a04021"
-                  className="nss-items-center nss-text-center"
-                >
-                  <p className="nss-text-sm nss-text-muted">Scan with any UPI app</p>
-                  <img
-                    src={qrImageUrl}
-                    alt="NSS donation QR code"
-                    style={{ background: "#ffffff", padding: "8px", height: "12rem", width: "12rem", borderRadius: "var(--radius-lg)", objectFit: "contain", margin: "1rem auto 0 auto" }}
-                  />
-                </DonateCard>
-              </Reveal>
-            )}
-          </div>
-        ) : (
-          /* Graceful empty state — no dummy data ever shown */
+        <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2 lg-grid-cols-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
           <Reveal>
-            <div className="nss-mx-auto nss-flex nss-flex-col nss-items-center nss-gap-4 nss-p-6 nss-text-center nss-sm-p-8" style={{ maxWidth: "32rem", borderRadius: "var(--radius-lg)", border: "1px solid rgba(194, 200, 193, 0.4)", backgroundColor: "var(--surface)" }}>
-              <span
-                className="nss-flex nss-items-center nss-justify-center"
-                style={{ background: "#1b3a27", height: "3.5rem", width: "3.5rem", borderRadius: "var(--radius-lg)" }}
-              >
-                <Heart style={{ height: "1.5rem", width: "1.5rem", color: "#ffffff" }} aria-hidden />
-              </span>
-              <h3
-                className="nss-text-xl nss-font-bold"
-                style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
-              >
-                Coming Soon
-              </h3>
-              <p className="nss-text-sm nss-text-muted nss-leading-relaxed">
-                Official donation details will be updated soon. Please contact
-                the school office to make a contribution directly.
+            <DonateCard icon={Users} badge="Volunteer" title="Participate in Drives" iconBg="#042413">
+              <p className="nss-text-sm nss-text-muted">
+                Join us as an associate volunteer during public health camps, blood donations, and community outreach drives.
               </p>
-              <p
-                className="nss-text-sm nss-font-semibold nss-italic"
-                style={{
-                  fontFamily: "'Noto Sans Malayalam', sans-serif",
-                  color: "var(--muted-foreground)",
-                }}
-              >
-                സഹായ വിവരങ്ങൾ ഉടൻ ലഭ്യമാകും
+              <p className="nss-mt-4 nss-text-xs nss-text-muted">
+                No formal registration required—just your presence and willingness to serve.
               </p>
-            </div>
+            </DonateCard>
           </Reveal>
-        )}
+
+          <Reveal delay={0.08}>
+            <DonateCard icon={Leaf} badge="Contribution" title="Material & Saplings" iconBg="#1b3a27">
+              <p className="nss-text-sm nss-text-muted">
+                Donate plant saplings, organic seeds, books, or tools to support our environmental initiatives and camp libraries.
+              </p>
+              <p className="nss-mt-4 nss-text-xs nss-text-muted">
+                Drop them off at the school NSS office during working hours.
+              </p>
+            </DonateCard>
+          </Reveal>
+
+          <Reveal delay={0.16}>
+            <DonateCard icon={Heart} badge="Advocacy" title="Spread the Word" iconBg="#a04021">
+              <p className="nss-text-sm nss-text-muted">
+                Help us raise awareness about health, hygiene, and environmental preservation by sharing our reports and activities.
+              </p>
+              <p className="nss-mt-4 nss-text-xs nss-text-muted">
+                Follow our official social links in the footer and stay connected.
+              </p>
+            </DonateCard>
+          </Reveal>
+        </div>
       </Container>
     </section>
   );
@@ -366,14 +298,10 @@ export function TransparencyBlock({ s }: { s: SiteSettings }) {
               className="nss-text-2xl nss-font-extrabold"
               style={{ fontFamily: "var(--font-display)", color: "var(--primary)" }}
             >
-              Our Commitment to Transparency
+              Our Commitment to Community
             </h2>
             <p className="nss-mt-3 nss-text-sm nss-leading-relaxed nss-text-muted">
-              All contributions received are intended <strong>exclusively</strong>{" "}
-              for the NSS activities of <strong>{s.unitName}</strong>,{" "}
-              {s.schoolName}, Valakkulam. Funds are used for camp expenses,
-              community service materials, awareness programmes, and student
-              welfare activities under the supervision of the Programme Officer.
+              All community service activities and programs of <strong>{s.unitName}</strong> at {s.schoolName}, Valakkulam are planned and executed with maximum responsibility. We ensure resources are directed fully toward student leadership development and community welfare.
             </p>
             <p
               className="nss-mt-4 nss-text-sm nss-font-semibold nss-italic"
@@ -388,9 +316,9 @@ export function TransparencyBlock({ s }: { s: SiteSettings }) {
   );
 }
 
-// ─── DonationEnquiryCTA ───────────────────────────────────────────────────────
+// ─── SupportEnquiryCTA ───────────────────────────────────────────────────────
 
-export function DonationEnquiryCTA({ s }: { s: SiteSettings }) {
+export function SupportEnquiryCTA({ s }: { s: SiteSettings }) {
   return (
     <section style={{ background: "var(--primary)" }}>
       <Container className="nss-py-12">
@@ -400,7 +328,7 @@ export function DonationEnquiryCTA({ s }: { s: SiteSettings }) {
               className="nss-text-base nss-font-medium"
               style={{ color: "rgba(255,255,255,0.6)" }}
             >
-              For donation enquiries
+              Have ideas or want to partner?
             </p>
             <h2
               className="nss-text-2xl nss-font-extrabold nss-text-white nss-sm-text-3xl nss-text-balance"
@@ -412,8 +340,7 @@ export function DonationEnquiryCTA({ s }: { s: SiteSettings }) {
               className="nss-text-sm nss-leading-relaxed"
               style={{ color: "rgba(255,255,255,0.65)", maxWidth: "28rem" }}
             >
-              Visit {s.schoolName} during school hours, or reach us by email for
-              any donation-related questions or to arrange a direct contribution.
+              Visit {s.schoolName} during school hours, or reach us by email to collaborate on community projects or share resources.
             </p>
 
             <div className="nss-flex nss-flex-col sm-flex-row nss-gap-3 nss-mt-2" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
