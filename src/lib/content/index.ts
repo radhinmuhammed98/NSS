@@ -34,11 +34,6 @@ class CachingRepositoryWrapper implements ContentRepository {
   }
 
   private async safeCall<T>(method: keyof ContentRepository, defaultValue: T, ...args: any[]): Promise<T> {
-    const key = this.getCacheKey(method as string, args);
-    if (this.cache[key] !== undefined) {
-      return this.cache[key];
-    }
-
     const promise = (async () => {
       try {
         const fn = this.delegate[method] as (...a: any[]) => Promise<T>;
@@ -54,13 +49,6 @@ class CachingRepositoryWrapper implements ContentRepository {
         }
       }
     })();
-
-    this.cache[key] = promise;
-
-    // Remove failed calls from cache so they can be retried later
-    promise.catch(() => {
-      delete this.cache[key];
-    });
 
     return promise;
   }
@@ -80,9 +68,6 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getCamps() { return this.safeCall<Camp[]>("getCamps", []); }
   async getCampBySlug(slug: string) { return this.safeCall<Camp | undefined>("getCampBySlug", undefined, slug); }
   async getFeaturedCamp() {
-    const key = "getFeaturedCamp:[]";
-    if (this.cache[key] !== undefined) return this.cache[key];
-
     const promise = (async () => {
       try {
         return await this.delegate.getFeaturedCamp();
@@ -92,8 +77,6 @@ class CachingRepositoryWrapper implements ContentRepository {
       }
     })();
 
-    this.cache[key] = promise;
-    promise.catch(() => { delete this.cache[key]; });
     return promise;
   }
   async getAlbums() { return this.safeCall<GalleryAlbum[]>("getAlbums", []); }
@@ -106,9 +89,6 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getHighlightBySlug(slug: string) { return this.safeCall<Highlight | undefined>("getHighlightBySlug", undefined, slug); }
   async getHighlightsBySlugs(slugs: string[]) { return this.safeCall<Highlight[]>("getHighlightsBySlugs", [], slugs); }
   async getFeaturedHighlight() {
-    const key = "getFeaturedHighlight:[]";
-    if (this.cache[key] !== undefined) return this.cache[key];
-
     const promise = (async () => {
       try {
         return await this.delegate.getFeaturedHighlight();
@@ -118,8 +98,6 @@ class CachingRepositoryWrapper implements ContentRepository {
       }
     })();
 
-    this.cache[key] = promise;
-    promise.catch(() => { delete this.cache[key]; });
     return promise;
   }
   async getTimeline(newestFirst?: boolean) { return this.safeCall<TimelineItem[]>("getTimeline", [], newestFirst); }

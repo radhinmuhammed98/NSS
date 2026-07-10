@@ -8,7 +8,7 @@ export async function getSanityClient() {
       throw new Error("Cannot instantiate Sanity client without a valid VITE_SANITY_PROJECT_ID.");
     }
     const { createClient } = await import("@sanity/client");
-    const useCdn = import.meta.env.DEV ? false : (import.meta.env.VITE_SANITY_USE_CDN !== "false");
+    const useCdn = false; // Bypass CDN to ensure data syncs immediately after Sanity updates
     clientInstance = createClient({
       projectId: SANITY_PROJECT_ID,
       dataset: SANITY_DATASET,
