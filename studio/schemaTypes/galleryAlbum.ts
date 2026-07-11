@@ -63,6 +63,31 @@ export default defineType({
       description: 'A short description of this album.',
     }),
     defineField({
+      name: 'type',
+      title: 'Album Type',
+      type: 'string',
+      description: 'Select the type of media for this album.',
+      options: {
+        list: [
+          { title: 'NSS Group Photos', value: 'NSS Group Photos' },
+          { title: 'Campus Photos', value: 'Campus Photos' },
+          { title: 'Posters & Artwork', value: 'Posters & Artwork' },
+          { title: 'Reels / Short Videos', value: 'Reels / Short Videos' },
+          { title: 'Awards & Certificates', value: 'Awards & Certificates' },
+          { title: 'Newspaper Clippings', value: 'Newspaper Clippings' },
+          { title: 'Other NSS Media', value: 'Other NSS Media' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'showOnHome',
+      title: 'Show on Homepage?',
+      type: 'boolean',
+      description: 'Display this album in the homepage media section.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'featured',
       title: 'Feature on Homepage?',
       type: 'boolean',

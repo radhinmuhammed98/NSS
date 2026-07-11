@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import type { VideoClip } from "@/types";
 
 export function VideoLightbox({
   video,

@@ -11,8 +11,6 @@ import {
   ActivityCard,
 } from "@/components/clay";
 import {
-  MediaThumb,
-  hasPlayableVideo,
   AlbumCard,
   CampCard,
   ProjectCard,
@@ -33,7 +31,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   VolunteerStory,
 } from "@/types";
@@ -51,7 +48,7 @@ export const Route = createFileRoute("/")({
       getReports(),
       getFeaturedStories(2),
     ]);
-    const albums = allAlbums.slice(0, 3);
+    const albums = allAlbums.filter((a) => a.showOnHome === true).slice(0, 3);
     const reports = allReports.slice(0, 3);
     return { s, highlight, projects, camp, albums, reports, stories };
   },

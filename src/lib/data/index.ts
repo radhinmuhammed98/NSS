@@ -14,7 +14,6 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
-  Donation,
   SocialLinks,
 } from "@/types";
 
@@ -44,7 +43,7 @@ export const getCamps = (): Promise<Camp[]> =>
 export const getCampBySlug = (slug: string): Promise<Camp | undefined> =>
   contentRepository.getCampBySlug(slug);
 
-export const getFeaturedCamp = (): Promise<Camp> =>
+export const getFeaturedCamp = (): Promise<Camp | undefined> =>
   contentRepository.getFeaturedCamp();
 
 export const getAlbums = (): Promise<GalleryAlbum[]> =>
@@ -70,7 +69,7 @@ export const getHighlightBySlug = (slug: string): Promise<Highlight | undefined>
 export const getHighlightsBySlugs = (slugs: string[]): Promise<Highlight[]> =>
   contentRepository.getHighlightsBySlugs(slugs);
 
-export const getFeaturedHighlight = (): Promise<Highlight> =>
+export const getFeaturedHighlight = (): Promise<Highlight | undefined> =>
   contentRepository.getFeaturedHighlight();
 
 export const getTimeline = (newestFirst?: boolean): Promise<TimelineItem[]> =>
@@ -87,9 +86,6 @@ export const getFeaturedStories = (limit?: number): Promise<VolunteerStory[]> =>
 
 export const getNotices = (): Promise<Notice[]> =>
   contentRepository.getNotices();
-
-export const getDonation = (): Promise<Donation> =>
-  contentRepository.getDonation();
 
 export const getSocialLinks = (): Promise<SocialLinks> =>
   contentRepository.getSocialLinks();

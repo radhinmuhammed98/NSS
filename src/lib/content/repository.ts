@@ -12,7 +12,6 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
-  Donation,
   SocialLinks,
 } from "@/types";
 
@@ -41,7 +40,6 @@ export interface ContentRepository {
   getStories(): Promise<VolunteerStory[]>;
   getFeaturedStories(limit?: number): Promise<VolunteerStory[]>;
   getNotices(): Promise<Notice[]>;
-  getDonation(): Promise<Donation>;
   getSocialLinks(): Promise<SocialLinks>;
 
   // Batch methods

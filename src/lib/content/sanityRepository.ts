@@ -16,7 +16,6 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
-  Donation,
   SocialLinks,
 } from "@/types";
 
@@ -53,7 +52,7 @@ export class SanityRepository implements ContentRepository {
 
   async getFeaturedProjects(limit = 6): Promise<Project[]> {
     const list = await this.getProjects();
-    return list.filter((p) => p.featured).slice(0, limit);
+    return list.filter((p) => p.featured && p.showOnHome !== false).slice(0, limit);
   }
 
   async getCamps(): Promise<Camp[]> {
@@ -148,11 +147,6 @@ export class SanityRepository implements ContentRepository {
   async getNotices(): Promise<Notice[]> {
     const raw = await (await this.client()).fetch(queries.NOTICES_QUERY);
     return (raw || []).map(mappers.mapNotice);
-  }
-
-  async getDonation(): Promise<Donation> {
-    const raw = await (await this.client()).fetch(queries.DONATION_QUERY);
-    return mappers.mapDonation(raw);
   }
 
   async getSocialLinks(): Promise<SocialLinks> {

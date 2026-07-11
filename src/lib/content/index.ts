@@ -101,7 +101,6 @@ class CachingRepositoryWrapper implements ContentRepository {
   async getStories() { return this.safeCall<VolunteerStory[]>("getStories", []); }
   async getFeaturedStories(limit?: number) { return this.safeCall<VolunteerStory[]>("getFeaturedStories", [], limit); }
   async getNotices() { return this.safeCall<Notice[]>("getNotices", []); }
-  async getDonation() { return this.safeCall("getDonation", { enabled: false } as any); }
   async getSocialLinks() {
     const res = await this.safeCall<SocialLinks>("getSocialLinks", {} as SocialLinks);
     socialLinksCache = res;

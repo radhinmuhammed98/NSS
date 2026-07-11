@@ -71,6 +71,7 @@ export const PROJECTS_QUERY = `*[_type == "project"] | order(date desc) {
   "highlightSlugs": highlights[]->slug.current,
   organizers,
   featured,
+  showOnHome,
   campRelated
 }`;
 
@@ -107,6 +108,7 @@ export const PROJECT_BY_SLUG_QUERY = `*[_type == "project" && slug.current == $s
   "highlightSlugs": highlights[]->slug.current,
   organizers,
   featured,
+  showOnHome,
   campRelated
 }`;
 
@@ -231,7 +233,8 @@ export const ALBUMS_QUERY = `*[_type == "galleryAlbum"] | order(date desc) {
     title,
     "url": video.asset->url,
     "thumbnail": thumbnail.asset->url
-  }
+  },
+  showOnHome
 }`;
 
 export const ALBUM_BY_SLUG_QUERY = `*[_type == "galleryAlbum" && slug.current == $slug][0] {
@@ -255,7 +258,8 @@ export const ALBUM_BY_SLUG_QUERY = `*[_type == "galleryAlbum" && slug.current ==
     title,
     "url": video.asset->url,
     "thumbnail": thumbnail.asset->url
-  }
+  },
+  showOnHome
 }`;
 
 export const REPORTS_QUERY = `*[_type == "report"] | order(date desc) {
@@ -348,18 +352,6 @@ export const NOTICES_QUERY = `*[_type == "notice"] | order(date desc) {
   important
 }`;
 
-export const DONATION_QUERY = `*[_type == "donation"][0] {
-  enabled,
-  upiId,
-  "qrImageUrl": qrImage.asset->url,
-  bankAccount {
-    name,
-    account,
-    ifsc,
-    bank,
-    branch
-  }
-}`;
 
 export const SOCIAL_LINKS_QUERY = `*[_type == "socialLinks"][0] {
   facebook,

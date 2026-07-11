@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { ExternalLink, Play, X } from "lucide-react";
-import type { VideoClip } from "@/types";
+interface VideoClip {
+  slug?: string;
+  title: string;
+  url: string;
+  thumbnail?: string;
+  duration?: string;
+  description?: any;
+}
 
 export function getVideoUrl(video: Pick<VideoClip, "url">): string {
   if (typeof video.url === "string") return video.url.trim();

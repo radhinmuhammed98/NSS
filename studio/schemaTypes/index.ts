@@ -14,7 +14,6 @@ import timelineItem from './timelineItem'
 import teamMember from './teamMember'
 import volunteerStory from './volunteerStory'
 import notice from './notice'
-import donation from './donation'
 import socialLinks from './socialLinks'
 
 export const schemaTypes = [
@@ -39,6 +38,5 @@ export const schemaTypes = [
   teamMember,
   volunteerStory,
   notice,
-  donation,
   socialLinks,
 ]

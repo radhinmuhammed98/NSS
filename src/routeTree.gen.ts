@@ -9,9 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VideosRouteImport } from './routes/videos'
 import { Route as TeamRouteImport } from './routes/team'
-import { Route as SupportRouteImport } from './routes/support'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ProjectsRouteImport } from './routes/projects_'
@@ -28,19 +26,9 @@ import { Route as ProjectsProjectSlugRouteImport } from './routes/projects.$proj
 import { Route as GalleryAlbumSlugRouteImport } from './routes/gallery.$albumSlug'
 import { Route as CampsCampSlugRouteImport } from './routes/camps.$campSlug'
 
-const VideosRoute = VideosRouteImport.update({
-  id: '/videos',
-  path: '/videos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SupportRoute = SupportRouteImport.update({
-  id: '/support',
-  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoriesRoute = StoriesRouteImport.update({
@@ -132,9 +120,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
-  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
-  '/videos': typeof VideosRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
@@ -152,9 +138,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
-  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
-  '/videos': typeof VideosRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
@@ -173,9 +157,7 @@ export interface FileRoutesById {
   '/projects_': typeof ProjectsRoute
   '/reports': typeof ReportsRoute
   '/stories': typeof StoriesRoute
-  '/support': typeof SupportRoute
   '/team': typeof TeamRoute
-  '/videos': typeof VideosRoute
   '/camps/$campSlug': typeof CampsCampSlugRoute
   '/gallery/$albumSlug': typeof GalleryAlbumSlugRoute
   '/projects/$projectSlug': typeof ProjectsProjectSlugRoute
@@ -195,9 +177,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/reports'
     | '/stories'
-    | '/support'
     | '/team'
-    | '/videos'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
@@ -215,9 +195,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/reports'
     | '/stories'
-    | '/support'
     | '/team'
-    | '/videos'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
@@ -235,9 +213,7 @@ export interface FileRouteTypes {
     | '/projects_'
     | '/reports'
     | '/stories'
-    | '/support'
     | '/team'
-    | '/videos'
     | '/camps/$campSlug'
     | '/gallery/$albumSlug'
     | '/projects/$projectSlug'
@@ -256,9 +232,7 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   ReportsRoute: typeof ReportsRoute
   StoriesRoute: typeof StoriesRoute
-  SupportRoute: typeof SupportRoute
   TeamRoute: typeof TeamRoute
-  VideosRoute: typeof VideosRoute
   CampsCampSlugRoute: typeof CampsCampSlugRoute
   GalleryAlbumSlugRoute: typeof GalleryAlbumSlugRoute
   ProjectsProjectSlugRoute: typeof ProjectsProjectSlugRoute
@@ -266,25 +240,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/videos': {
-      id: '/videos'
-      path: '/videos'
-      fullPath: '/videos'
-      preLoaderRoute: typeof VideosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/team': {
       id: '/team'
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/support': {
-      id: '/support'
-      path: '/support'
-      fullPath: '/support'
-      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stories': {
@@ -408,9 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   ReportsRoute: ReportsRoute,
   StoriesRoute: StoriesRoute,
-  SupportRoute: SupportRoute,
   TeamRoute: TeamRoute,
-  VideosRoute: VideosRoute,
   CampsCampSlugRoute: CampsCampSlugRoute,
   GalleryAlbumSlugRoute: GalleryAlbumSlugRoute,
   ProjectsProjectSlugRoute: ProjectsProjectSlugRoute,

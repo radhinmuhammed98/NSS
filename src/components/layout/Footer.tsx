@@ -85,7 +85,6 @@ export function Footer() {
               { to: "/team",    label: "Our Team"          },
               { to: "/stories", label: "Volunteer Stories" },
               { to: "/notices", label: "Notices"           },
-              { to: "/support", label: "Support NSS"       },
             ]}
           />
 

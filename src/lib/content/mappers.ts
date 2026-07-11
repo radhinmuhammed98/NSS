@@ -10,7 +10,6 @@ import type {
   TeamMember,
   VolunteerStory,
   Notice,
-  Donation,
   SocialLinks,
   HomePage,
   AboutPage,
@@ -97,6 +96,7 @@ export function mapProject(p: any): Project {
     highlightSlugs: p.highlightSlugs || [],
     organizers: p.organizers || [],
     featured: Boolean(p.featured),
+    showOnHome: p.showOnHome !== false,
     campRelated: Boolean(p.campRelated),
   };
 }
@@ -167,6 +167,7 @@ export function mapGalleryAlbum(a: any): GalleryAlbum {
       credit: img.credit,
     })),
     videos: a.videos || [],
+    showOnHome: Boolean(a.showOnHome),
   };
 }
 
@@ -253,22 +254,6 @@ export function mapNotice(n: any): Notice {
     description: n.description || "",
     attachment: n.attachment,
     important: Boolean(n.important),
-  };
-}
-
-export function mapDonation(d: any): Donation {
-  if (!d) return { enabled: false };
-  return {
-    enabled: Boolean(d.enabled),
-    upiId: d.upiId || undefined,
-    qrImageUrl: d.qrImageUrl || undefined,
-    bankAccount: d.bankAccount ? {
-      name: d.bankAccount.name || undefined,
-      account: d.bankAccount.account || undefined,
-      ifsc: d.bankAccount.ifsc || undefined,
-      bank: d.bankAccount.bank || undefined,
-      branch: d.bankAccount.branch || undefined,
-    } : undefined,
   };
 }
 

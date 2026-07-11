@@ -95,6 +95,7 @@ export interface Project {
   highlightSlugs: string[];
   organizers: string[];
   featured: boolean;
+  showOnHome?: boolean;
   campRelated: boolean;
 }
 
@@ -150,6 +151,7 @@ export interface GalleryAlbum {
   coverImage: string;
   images: ImageAsset[];
   videos?: any[];
+  showOnHome?: boolean;
 }
 
 
@@ -226,19 +228,6 @@ export interface Notice {
   description: any; // rich text now
   attachment?: string;
   important: boolean;
-}
-
-export interface Donation {
-  enabled: boolean;
-  upiId?: string;
-  qrImageUrl?: string;
-  bankAccount?: {
-    name?: string;
-    account?: string;
-    ifsc?: string;
-    bank?: string;
-    branch?: string;
-  };
 }
 
 export interface SocialLinks {

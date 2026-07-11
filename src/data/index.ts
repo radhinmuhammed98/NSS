@@ -8,7 +8,6 @@ import type {
   SiteSettings,
   TeamMember,
   TimelineItem,
-  VideoClip,
   VolunteerStory,
 } from "@/types";
 
@@ -246,9 +245,10 @@ export const galleryAlbums: GalleryAlbum[] = [
     date: "2025-11-20",
     year: 2025,
     batchSlug: "batch-2025-26",
-    type: "Project Album",
+    type: "Campus Photos",
     description: "Activity photos from the blood donation drive.",
     coverImage: img04,
+    showOnHome: false,
     images: [
       { id: "ga1", src: img04, alt: "Volunteers at registration table", caption: "Registration counter" },
       { id: "ga2", src: img09, alt: "Donor room setup", caption: "Camp setup" },
@@ -260,9 +260,10 @@ export const galleryAlbums: GalleryAlbum[] = [
     date: "2025-11-14",
     year: 2025,
     batchSlug: "batch-2025-26",
-    type: "Project Album",
+    type: "NSS Group Photos",
     description: "Photos from our primary school interactive program.",
     coverImage: img10,
+    showOnHome: false,
     images: [
       { id: "ga3", src: img10, alt: "Volunteers playing with children", caption: "Interactive games" },
       { id: "ga4", src: img11, alt: "Singing session", caption: "Volunteers teaching songs" },
@@ -275,9 +276,10 @@ export const galleryAlbums: GalleryAlbum[] = [
     date: "2026-01-08",
     year: 2026,
     batchSlug: "batch-2025-26",
-    type: "Camp Album",
+    type: "NSS Group Photos",
     description: "Captures from the seven-day residential special camp.",
     coverImage: img05,
+    showOnHome: false,
     images: [
       { id: "ga6", src: img05, alt: "Inauguration ceremony", caption: "Inauguration gathering" },
       { id: "ga7", src: img06, alt: "Volunteers heading out", caption: "Outreach field work" },
@@ -291,9 +293,10 @@ export const galleryAlbums: GalleryAlbum[] = [
     date: "2026-02-12",
     year: 2026,
     batchSlug: "batch-2025-26",
-    type: "Project Album",
+    type: "Newspaper Clippings",
     description: "Documentation and record evaluation by district coordinator.",
     coverImage: img13,
+    showOnHome: false,
     images: [
       { id: "ga10", src: img13, alt: "Reviewing camp logs", caption: "Register audit" },
       { id: "ga11", src: img14, alt: "Coordinator evaluation", caption: "District coordinator review" },
@@ -305,9 +308,10 @@ export const galleryAlbums: GalleryAlbum[] = [
     date: "2026-02-15",
     year: 2026,
     batchSlug: "batch-2025-26",
-    type: "Other",
+    type: "Other NSS Media",
     description: "Regular activities, meetings, and volunteer life.",
     coverImage: img15,
+    showOnHome: true,
     images: [
       { id: "ga12", src: img15, alt: "Volunteers gathering", caption: "Unit meeting" },
       { id: "ga13", src: img16, alt: "Group discussion", caption: "Committee session" },
@@ -317,7 +321,7 @@ export const galleryAlbums: GalleryAlbum[] = [
   },
 ];
 
-export const videoClips: VideoClip[] = [
+export const videoClips: any[] = [
   {
     slug: "nss-orientation-video",
     title: "NSS Orientation Program - Activity Video",

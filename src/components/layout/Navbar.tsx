@@ -2,7 +2,6 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { NavDropdownGroup, BottomPillNav } from "./NavParts";
-import { Heart } from "lucide-react";
 import { getSiteSettingsSync } from "@/lib/content";
 import {
   getCamps,
@@ -27,7 +26,6 @@ const navGroups = [
       { to: "/team",    label: "Our Team",          icon: "people"        },
       { to: "/stories", label: "Volunteer Stories", icon: "auto_stories"  },
       { to: "/notices", label: "Notices",           icon: "notifications" },
-      { to: "/support", label: "Support NSS",       icon: "favorite"      },
     ],
   },
   {
@@ -77,7 +75,6 @@ export function Navbar() {
     "/team":       true,
     "/highlights": true,
     "/about":      true,
-    "/support":    true,
   });
 
   useEffect(() => {
@@ -103,7 +100,6 @@ export function Navbar() {
           "/team":       tm.length  > 0,
           "/highlights": hl.length  > 0,
           "/about":      true,
-          "/support":    true,
         });
       } catch (err) {
         console.error("Error loading active nav items:", err);
@@ -209,16 +205,6 @@ export function Navbar() {
                 onMouseLeave={() => setActiveDropdown(null)}
               />
             ))}
-
-            {/* Support NSS prominent link */}
-            <Link
-              to="/support"
-              style={{ fontFamily: "var(--font-sans)", color: "var(--secondary)", display: "inline-flex", alignItems: "center", gap: "6px", padding: "0.5rem 0.75rem", borderRadius: "9999px" }}
-              activeProps={{ style: { background: "var(--secondary)", color: "#ffffff" } }}
-            >
-              <Heart style={{ height: "0.9375rem", width: "0.9375rem" }} aria-hidden="true" />
-              Support
-            </Link>
 
             {/* Contact CTA */}
             <Link
