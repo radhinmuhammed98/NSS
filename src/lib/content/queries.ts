@@ -258,21 +258,6 @@ export const ALBUM_BY_SLUG_QUERY = `*[_type == "galleryAlbum" && slug.current ==
   }
 }`;
 
-export const VIDEOS_QUERY = `*[_type == "videoClip"] | order(year desc) {
-  "slug": slug.current,
-  title,
-  type,
-  year,
-  "batchSlug": batch->slug.current,
-  "relatedProjectSlug": relatedProject->slug.current,
-  "relatedCampSlug": relatedCamp->slug.current,
-  "url": coalesce(videoFile.asset->url, videoUrl),
-  "thumbnail": thumbnail.asset->url,
-  duration,
-  description,
-  featured
-}`;
-
 export const REPORTS_QUERY = `*[_type == "report"] | order(date desc) {
   "slug": slug.current,
   title,

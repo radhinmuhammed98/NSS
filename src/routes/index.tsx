@@ -24,7 +24,6 @@ import {
   getFeaturedHighlight,
   getFeaturedProjects,
   getFeaturedStories,
-  getFeaturedVideos,
   getReports,
   getSiteSettings,
 } from "@/lib/data";
@@ -43,20 +42,18 @@ import type {
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const [s, highlight, projects, camp, allAlbums, videos, allReports, stories] = await Promise.all([
+    const [s, highlight, projects, camp, allAlbums, allReports, stories] = await Promise.all([
       getSiteSettings(),
       getFeaturedHighlight(),
       getFeaturedProjects(3),
       getFeaturedCamp(),
       getAlbums(),
-      getFeaturedVideos(2),
       getReports(),
       getFeaturedStories(2),
     ]);
-    const videosWithFiles = videos.filter(hasPlayableVideo);
     const albums = allAlbums.slice(0, 3);
     const reports = allReports.slice(0, 3);
-    return { s, highlight, projects, camp, albums, videos: videosWithFiles, reports, stories };
+    return { s, highlight, projects, camp, albums, reports, stories };
   },
   component: Home,
 });
@@ -70,7 +67,6 @@ function Home() {
     projects,
     camp,
     albums,
-    videos,
     reports,
     stories,
   } = Route.useLoaderData() as {
@@ -79,7 +75,6 @@ function Home() {
     projects:  Project[];
     camp:      Camp | undefined;
     albums:    GalleryAlbum[];
-    videos:    VideoClip[];
     reports:   Report[];
     stories:   VolunteerStory[];
   };
@@ -225,14 +220,14 @@ function Home() {
           </Section>
         )}
 
-        {/* ── 7. Gallery & Videos Preview ─────────────────────────────────── */}
-        {(albums?.length > 0 || videos?.length > 0) && (
+        {/* ── 7. Gallery Preview ─────────────────────────────────── */}
+        {(albums?.length > 0) && (
           <Section gap="large">
             {albums?.length > 0 && (
               <div className="nss-flex nss-flex-col nss-gap-4" style={{ minWidth: 0 }}>
                 <SectionHeading
                   eyebrow="Media"
-                  title="Gallery & Video Clips"
+                  title="Gallery"
                   description="Explore our visual record of service."
                 />
                 <div className="nss-mb-4 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-sm-justify-between">
@@ -245,31 +240,6 @@ function Home() {
                   {albums.map((a, i) => (
                     <Reveal key={a.slug} delay={i * 0.06}>
                       <AlbumCard album={a} />
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {videos?.length > 0 && (
-              <div className="nss-flex nss-flex-col nss-gap-4" style={{ minWidth: 0 }}>
-                {!albums?.length && (
-                  <SectionHeading
-                    eyebrow="Media"
-                    title="Featured Video Clips"
-                    description="Explore our visual record of service."
-                  />
-                )}
-                <div className="nss-mb-4 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row nss-sm-items-center nss-sm-justify-between">
-                  <h3 className="nss-font-display nss-text-lg nss-font-bold nss-leading-tight">Featured Clips</h3>
-                  <ClayButton to="/videos" variant="soft">
-                    All Videos <ArrowRight style={{ height: "1rem", width: "1rem" }} />
-                  </ClayButton>
-                </div>
-                <div className="nss-grid nss-grid-cols-1 nss-gap-5 nss-sm-grid-cols-2">
-                  {videos.map((v, i) => (
-                    <Reveal key={v.slug} delay={i * 0.08}>
-                      <MediaThumb video={v} />
                     </Reveal>
                   ))}
                 </div>

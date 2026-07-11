@@ -10,7 +10,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -78,8 +77,7 @@ class CachingRepositoryWrapper implements ContentRepository {
   }
   async getAlbums() { return this.safeCall<GalleryAlbum[]>("getAlbums", []); }
   async getAlbumBySlug(slug: string) { return this.safeCall<GalleryAlbum | undefined>("getAlbumBySlug", undefined, slug); }
-  async getVideos() { return this.safeCall<VideoClip[]>("getVideos", []); }
-  async getFeaturedVideos(limit?: number) { return this.safeCall<VideoClip[]>("getFeaturedVideos", [], limit); }
+
   async getReports() { return this.safeCall<Report[]>("getReports", []); }
   async getReportsBySlugs(slugs: string[]) { return this.safeCall<Report[]>("getReportsBySlugs", [], slugs); }
   async getHighlights() { return this.safeCall<Highlight[]>("getHighlights", []); }

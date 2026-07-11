@@ -6,7 +6,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -29,8 +28,7 @@ export interface ContentRepository {
   getFeaturedCamp(): Promise<Camp | undefined>;
   getAlbums(): Promise<GalleryAlbum[]>;
   getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined>;
-  getVideos(): Promise<VideoClip[]>;
-  getFeaturedVideos(limit?: number): Promise<VideoClip[]>;
+
   getReports(): Promise<Report[]>;
   getReportsBySlugs(slugs: string[]): Promise<Report[]>;
   getHighlights(): Promise<Highlight[]>;

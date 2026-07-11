@@ -10,7 +10,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -81,16 +80,6 @@ export class SanityRepository implements ContentRepository {
   async getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined> {
     const raw = await (await this.client()).fetch(queries.ALBUM_BY_SLUG_QUERY, { slug });
     return raw ? mappers.mapGalleryAlbum(raw) : undefined;
-  }
-
-  async getVideos(): Promise<VideoClip[]> {
-    const raw = await (await this.client()).fetch(queries.VIDEOS_QUERY);
-    return (raw || []).map(mappers.mapVideoClip).filter((video) => video.url);
-  }
-
-  async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
-    const list = await this.getVideos();
-    return list.filter((v) => v.featured).slice(0, limit);
   }
 
   async getReports(): Promise<Report[]> {

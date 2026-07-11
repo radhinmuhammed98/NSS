@@ -20,7 +20,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -75,15 +74,6 @@ export class MockRepository implements ContentRepository {
 
   async getAlbumBySlug(slug: string): Promise<GalleryAlbum | undefined> {
     return galleryAlbums.find((a) => a.slug === slug);
-  }
-
-  async getVideos(): Promise<VideoClip[]> {
-    return [...videoClips].filter((video) => video.url).sort((a, b) => b.year - a.year);
-  }
-
-  async getFeaturedVideos(limit = 6): Promise<VideoClip[]> {
-    const list = await this.getVideos();
-    return list.filter((v) => v.featured).slice(0, limit);
   }
 
   async getReports(): Promise<Report[]> {

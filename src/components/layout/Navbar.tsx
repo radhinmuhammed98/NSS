@@ -13,7 +13,6 @@ import {
   getStories,
   getTeam,
   getTimeline,
-  getVideos,
 } from "@/lib/data";
 
 // ─── Nav Data ─────────────────────────────────────────────────────────────────
@@ -45,7 +44,6 @@ const navGroups = [
     icon: "photo_camera",
     items: [
       { to: "/gallery", label: "Gallery", icon: "photo_library" },
-      { to: "/videos",  label: "Videos",  icon: "videocam"      },
       { to: "/reports", label: "Reports", icon: "description"   },
     ],
   },
@@ -71,7 +69,6 @@ export function Navbar() {
   // Active-item visibility gates (hide links to empty sections)
   const [activeItems, setActiveItems] = useState<Record<string, boolean>>({
     "/reports":    true,
-    "/videos":     true,
     "/stories":    true,
     "/projects":   true,
     "/camps":      true,
@@ -86,9 +83,8 @@ export function Navbar() {
   useEffect(() => {
     async function checkActive() {
       try {
-        const [rep, vid, st, pr, ca, tl, no, tm, hl] = await Promise.all([
+        const [rep, st, pr, ca, tl, no, tm, hl] = await Promise.all([
           getReports(),
-          getVideos(),
           getStories(),
           getProjects(),
           getCamps(),
@@ -99,7 +95,6 @@ export function Navbar() {
         ]);
         setActiveItems({
           "/reports":    rep.length > 0,
-          "/videos":     vid.length > 0,
           "/stories":    st.length  > 0,
           "/projects":   pr.length  > 0,
           "/camps":      ca.length  > 0,

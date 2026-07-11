@@ -8,7 +8,6 @@ import about from './about'
 import project from './project'
 import camp from './camp'
 import galleryAlbum from './galleryAlbum'
-import videoClip from './videoClip'
 import report from './report'
 import highlight from './highlight'
 import timelineItem from './timelineItem'
@@ -34,7 +33,6 @@ export const schemaTypes = [
   project,
   camp,
   galleryAlbum,
-  videoClip,
   report,
   highlight,
   timelineItem,

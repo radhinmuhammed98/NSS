@@ -4,7 +4,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -91,7 +90,7 @@ export function mapProject(p: any): Project {
       caption: img.caption,
       credit: img.credit,
     })),
-    videos: (p.videos || []).filter(Boolean).map(mapVideoClip),
+    videos: p.videos || [],
     impactMetrics: p.impactMetrics || [],
     relatedCampSlug: p.relatedCampSlug,
     reportSlugs: p.reportSlugs || [],
@@ -140,7 +139,7 @@ export function mapCamp(c: any): Camp {
         caption: img.caption,
         credit: img.credit,
       })),
-      videos: (day.videos || []).filter(Boolean).map(mapVideoClip),
+      videos: day.videos || [],
     })),
     projectSlugs: c.projectSlugs || [],
     impactMetrics: c.impactMetrics || [],
@@ -167,24 +166,7 @@ export function mapGalleryAlbum(a: any): GalleryAlbum {
       caption: img.caption,
       credit: img.credit,
     })),
-    videos: (a.videos || []).filter(Boolean).map(mapVideoClip),
-  };
-}
-
-export function mapVideoClip(v: any): VideoClip {
-  return {
-    slug: v.slug,
-    title: v.title || "",
-    type: v.type || "",
-    year: Number(v.year || 0),
-    batchSlug: v.batchSlug,
-    relatedProjectSlug: v.relatedProjectSlug,
-    relatedCampSlug: v.relatedCampSlug,
-    url: v.url || "",
-    thumbnail: v.thumbnail || "",
-    duration: v.duration || "",
-    description: v.description || "",
-    featured: Boolean(v.featured),
+    videos: a.videos || [],
   };
 }
 

@@ -8,7 +8,6 @@ import type {
   Project,
   Camp,
   GalleryAlbum,
-  VideoClip,
   Report,
   Highlight,
   TimelineItem,
@@ -54,11 +53,7 @@ export const getAlbums = (): Promise<GalleryAlbum[]> =>
 export const getAlbumBySlug = (slug: string): Promise<GalleryAlbum | undefined> =>
   contentRepository.getAlbumBySlug(slug);
 
-export const getVideos = (): Promise<VideoClip[]> =>
-  contentRepository.getVideos();
 
-export const getFeaturedVideos = (limit?: number): Promise<VideoClip[]> =>
-  contentRepository.getFeaturedVideos(limit);
 
 export const getReports = (): Promise<Report[]> =>
   contentRepository.getReports();
