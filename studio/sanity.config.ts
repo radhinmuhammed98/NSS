@@ -5,7 +5,7 @@ import { schemaTypes } from './schemaTypes'
 import { media } from 'sanity-plugin-media'
 
 // Define singleton types
-const singletonTypes = new Set(['siteSettings', 'homePage', 'socialLinks', 'donation', 'about'])
+const singletonTypes = new Set(['siteSettings', 'homePage', 'socialLinks', 'about'])
 
 // Define singleton actions (prevent delete, duplicate, etc.)
 const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
@@ -60,15 +60,6 @@ export default defineConfig({
                           .title('About')
                       ),
                     S.listItem()
-                      .title('Donation')
-                      .id('donation')
-                      .child(
-                        S.document()
-                          .schemaType('donation')
-                          .documentId('donation')
-                          .title('Donation')
-                      ),
-                    S.listItem()
                       .title('Social Links')
                       .id('socialLinks')
                       .child(
@@ -92,7 +83,6 @@ export default defineConfig({
                     S.documentTypeListItem('camp').title('Camps'),
                     S.documentTypeListItem('highlight').title('Highlights'),
                     S.documentTypeListItem('galleryAlbum').title('Gallery'),
-                    S.documentTypeListItem('videoClip').title('Videos'),
                   ])
               ),
               
