@@ -173,16 +173,13 @@ function ProjectPage() {
         {galleryImages.length > 0 && (
           <section className="nss-mt-10">
             <SectionHeading eyebrow="Gallery" title="Project photos" description="A quick visual record from this activity." />
-            <div className="nss-grid nss-gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 12rem), 1fr))" }}>
-              {galleryImages.map((image) => (
-                <figure key={image.id} className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
-                  <button type="button" onClick={() => setActiveImage(image)} aria-label={`Open ${image.alt || image.caption || "project image"}`} style={{ display: "block", width: "100%" }}>
-                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" className="nss-img-zoom" style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }} />
-                  </button>
-                  {(image.caption || image.credit) && (
-                    <figcaption className="nss-p-4 nss-text-xs nss-text-muted">{image.caption || image.credit}</figcaption>
-                  )}
-                </figure>
+            <div className="nss-columns-1 nss-sm-columns-2 nss-lg-columns-3">
+              {galleryImages.map((image, index) => (
+                <div key={image.id} className="nss-break-inside-avoid nss-mb-4">
+                  <Reveal delay={index * 0.04}>
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" onClick={() => setActiveImage(image)} className="nss-card nss-p-0 nss-card-tilt nss-w-full" style={{ height: "auto", objectFit: "contain", cursor: "zoom-in" }} />
+                  </Reveal>
+                </div>
               ))}
             </div>
           </section>
@@ -191,24 +188,28 @@ function ProjectPage() {
         {project.videos && project.videos.length > 0 && (
           <section className="nss-mt-10">
             <SectionHeading eyebrow="Media" title="Project videos" description="Watch moments from this activity." />
-            <div className="nss-grid nss-gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 18rem), 1fr))" }}>
-              {project.videos.map((video) => (
-                <ClayCard key={video.slug} tilt={false} className="nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
-                  <div style={{ position: "relative", aspectRatio: "16/9" }}>
-                    {video.thumbnail ? (
-                      <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
-                    )}
-                    <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
-                       <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
-                    </button>
-                  </div>
-                  <div className="nss-p-4">
-                    <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
-                    {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
-                  </div>
-                </ClayCard>
+            <div className="nss-columns-1 nss-sm-columns-2 nss-lg-columns-3">
+              {project.videos.map((video, index) => (
+                <div key={video.slug} className="nss-break-inside-avoid nss-mb-4">
+                  <Reveal delay={index * 0.04}>
+                    <figure className="nss-card nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
+                      <div style={{ position: "relative" }}>
+                        {video.thumbnail ? (
+                          <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }} />
+                        ) : (
+                          <div style={{ width: "100%", aspectRatio: "16/9", background: "var(--clay-deep)" }} />
+                        )}
+                        <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
+                           <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
+                        </button>
+                      </div>
+                      <div className="nss-p-4">
+                        <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
+                        {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
+                      </div>
+                    </figure>
+                  </Reveal>
+                </div>
               ))}
             </div>
           </section>
@@ -248,6 +249,7 @@ function ProjectPage() {
           </ClayCard>
         )}
       </Container>
+      <ImageLightbox image={activeImage} onClose={() => setActiveImage(null)} />
       <VideoLightbox video={activeVideo} onClose={() => setActiveVideo(null)} />
     </PageShell>
   );

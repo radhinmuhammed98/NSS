@@ -161,11 +161,11 @@ function CampPage() {
                           decoding="async" 
                           onClick={() => setLightboxImage(im)}
                           className="nss-card nss-p-0 nss-card-tilt" 
-                          style={{ height: "6rem", width: "8rem", objectFit: "cover", cursor: "pointer", border: "1.5px solid var(--border)" }} 
+                          style={{ height: "6rem", width: "auto", maxWidth: "10rem", objectFit: "cover", cursor: "pointer", border: "1.5px solid var(--border)" }} 
                         />
                       ))}
                       {d.videos?.map((vid) => (
-                        <div key={vid.slug} className="nss-card nss-p-0 nss-card-tilt" style={{ position: "relative", height: "6rem", width: "8rem", overflow: "hidden", border: "1.5px solid var(--border)" }}>
+                        <div key={vid.slug} className="nss-card nss-p-0 nss-card-tilt" style={{ position: "relative", height: "6rem", width: "auto", maxWidth: "10rem", overflow: "hidden", border: "1.5px solid var(--border)", display: "flex", aspectRatio: "16/9" }}>
                           {vid.thumbnail ? (
                             <img src={vid.thumbnail} alt={vid.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           ) : (

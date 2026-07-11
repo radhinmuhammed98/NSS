@@ -43,9 +43,9 @@ function AlbumPage() {
         <Badge variant="accent" className="w-fit">{album.type}</Badge>
         <h1 className="nss-mt-2 nss-text-3xl nss-font-extrabold nss-sm-text-4xl" style={{ fontFamily: "var(--font-display)" }}>{album.title}</h1>
         <p className="nss-mt-2 nss-text-sm nss-text-muted">{album.description} - {formatDate(album.date)}</p>
-        <div className="nss-mt-8 nss-columns-2 nss-sm-columns-3">
+        <div className="nss-columns-1 nss-sm-columns-2 nss-lg-columns-3">
           {album.images.map((image: ImageAsset, index: number) => (
-            <Reveal key={image.id} delay={index * 0.04} className="nss-mb-4" style={{ breakInside: "avoid" }}>
+            <Reveal key={image.id} delay={index * 0.04} className="nss-break-inside-avoid nss-mb-4">
               <figure className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
                 <button
                   type="button"
@@ -61,7 +61,7 @@ function AlbumPage() {
                     width={640}
                     height={480}
                     className="nss-img-zoom"
-                    style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                    style={{ width: "100%", height: "auto", objectFit: "cover", display: "block" }}
                   />
                 </button>
                 {image.caption && <figcaption className="nss-px-3 nss-py-2 nss-text-xs nss-text-muted">{image.caption}</figcaption>}
@@ -73,26 +73,28 @@ function AlbumPage() {
         {album.videos && album.videos.length > 0 && (
           <div className="nss-mt-12">
             <h2 className="nss-text-2xl nss-font-extrabold nss-mb-6" style={{ fontFamily: "var(--font-display)" }}>Videos</h2>
-            <div className="nss-grid nss-gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 18rem), 1fr))" }}>
+            <div className="nss-columns-1 nss-sm-columns-2 nss-lg-columns-3">
               {album.videos.map((video, index) => (
-                <Reveal key={video.slug} delay={index * 0.04}>
-                  <figure className="nss-card nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
-                    <div style={{ position: "relative", aspectRatio: "16/9" }}>
-                      {video.thumbnail ? (
-                        <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                      ) : (
-                        <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
-                      )}
-                      <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
-                         <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
-                      </button>
-                    </div>
-                    <div className="nss-p-4">
-                      <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
-                      {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
-                    </div>
-                  </figure>
-                </Reveal>
+                <div key={video.slug} className="nss-break-inside-avoid nss-mb-4">
+                  <Reveal delay={index * 0.04}>
+                    <figure className="nss-card nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
+                      <div style={{ position: "relative" }}>
+                        {video.thumbnail ? (
+                          <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }} />
+                        ) : (
+                          <div style={{ width: "100%", aspectRatio: "16/9", background: "var(--clay-deep)" }} />
+                        )}
+                        <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
+                           <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
+                        </button>
+                      </div>
+                      <div className="nss-p-4">
+                        <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
+                        {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
+                      </div>
+                    </figure>
+                  </Reveal>
+                </div>
               ))}
             </div>
           </div>
