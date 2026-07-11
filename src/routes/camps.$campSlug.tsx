@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Calendar, MapPin, PlayCircle, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
-import { HighlightCard, ImageLightbox } from "@/components/media";
+import { HighlightCard, ImageLightbox, VideoLightbox } from "@/components/media";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs } from "@/lib/data";
 import type { CampDay, ImageAsset, ImpactMetric, Camp, Highlight } from "@/types";
@@ -34,6 +34,7 @@ function CampPage() {
   };
 
   const [lightboxImage, setLightboxImage] = useState<ImageAsset | null>(null);
+  const [activeVideo, setActiveVideo] = useState<any | null>(null);
 
   return (
     <PageShell>
@@ -170,9 +171,9 @@ function CampPage() {
                           ) : (
                             <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
                           )}
-                          <a href={vid.url} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100">
+                          <button type="button" onClick={() => setActiveVideo(vid)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${vid.title}`}>
                             <PlayCircle style={{ height: "2rem", width: "2rem", color: "#fff", opacity: 0.9 }} />
-                          </a>
+                          </button>
                         </div>
                       ))}
                     </div>
@@ -193,6 +194,7 @@ function CampPage() {
         )}
       </Container>
       <ImageLightbox image={lightboxImage} onClose={() => setLightboxImage(null)} />
+      <VideoLightbox video={activeVideo} onClose={() => setActiveVideo(null)} />
     </PageShell>
   );
 }

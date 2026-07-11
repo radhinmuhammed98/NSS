@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, ExternalLink, FileText, HandHeart, Images, MapPin, PlayCircle, Target, Users } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { Badge, ClayCard, ImpactStat, Reveal, SectionHeading } from "@/components/clay";
-import { HighlightCard, ImageLightbox } from "@/components/media";
+import { HighlightCard, ImageLightbox, VideoLightbox } from "@/components/media";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
@@ -50,6 +50,7 @@ function ProjectPage() {
   });
 
   const [activeImage, setActiveImage] = useState<ImageAsset | null>(null);
+  const [activeVideo, setActiveVideo] = useState<any | null>(null);
   const galleryImages = project.images?.filter((image) => image.src).slice(0, 6) ?? [];
   const organizers = project.organizers?.filter(Boolean) ?? [];
 
@@ -199,9 +200,9 @@ function ProjectPage() {
                     ) : (
                       <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
                     )}
-                    <a href={video.url} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100">
+                    <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
                        <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
-                    </a>
+                    </button>
                   </div>
                   <div className="nss-p-4">
                     <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
@@ -247,6 +248,7 @@ function ProjectPage() {
           </ClayCard>
         )}
       </Container>
+      <VideoLightbox video={activeVideo} onClose={() => setActiveVideo(null)} />
     </PageShell>
   );
 }

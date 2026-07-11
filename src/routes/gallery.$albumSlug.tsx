@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PlayCircle } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
 import { Badge, Reveal } from "@/components/clay";
-import { ImageLightbox } from "@/components/media";
+import { ImageLightbox, VideoLightbox } from "@/components/media";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getAlbumBySlug } from "@/lib/data";
@@ -30,6 +30,7 @@ export const Route = createFileRoute("/gallery/$albumSlug")({
 function AlbumPage() {
   const { album } = Route.useLoaderData() as { album: GalleryAlbum };
   const [activeImage, setActiveImage] = useState<ImageAsset | null>(null);
+  const [activeVideo, setActiveVideo] = useState<any | null>(null);
 
   usePageMeta({
     title: album.title,
@@ -82,9 +83,9 @@ function AlbumPage() {
                       ) : (
                         <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
                       )}
-                      <a href={video.url} target="_blank" rel="noopener noreferrer" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100">
+                      <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
                          <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
-                      </a>
+                      </button>
                     </div>
                     <div className="nss-p-4">
                       <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
@@ -98,6 +99,7 @@ function AlbumPage() {
         )}
       </Container>
       <ImageLightbox image={activeImage} onClose={() => setActiveImage(null)} />
+      <VideoLightbox video={activeVideo} onClose={() => setActiveVideo(null)} />
     </PageShell>
   );
 }
