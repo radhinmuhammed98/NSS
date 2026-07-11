@@ -227,10 +227,11 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-img, video {
+img, video, iframe {
   max-width: 100%;
   height: auto;
   display: block;
+  border-radius: var(--radius-md);
 }
 
 /* Focus ring — visible only via keyboard */
