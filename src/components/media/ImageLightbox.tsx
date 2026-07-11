@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import type { ImageAsset } from "@/types";
 
@@ -31,7 +32,7 @@ export function ImageLightbox({
 
   if (!image) return null;
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -50,7 +51,7 @@ export function ImageLightbox({
         aria-label="Close image viewer"
         onClick={close}
         className="nss-modal-backdrop"
-        style={{ cursor: "zoom-out" }}
+        style={{ cursor: "zoom-out", zIndex: 119 }}
       />
       <figure
         className="nss-modal-panel"
@@ -58,64 +59,89 @@ export function ImageLightbox({
           position: "relative",
           zIndex: 121,
           display: "flex",
-          maxHeight: "88vh",
-          width: "min(100%, 68rem)",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "0.75rem",
+          maxHeight: "90vh",
+          maxWidth: "90vw",
+          backgroundColor: "hsl(var(--surface-0) / 0.95)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid hsl(var(--border) / 0.5)",
+          borderRadius: "var(--radius-3)",
+          overflow: "hidden",
+          boxShadow: "0 20px 60px hsl(0 0% 0% / 0.4)",
         }}
       >
         <button
           ref={closeButtonRef}
           type="button"
+          aria-label="Close viewer"
           onClick={close}
-          aria-label="Close image viewer"
           style={{
             position: "absolute",
-            right: "0.75rem",
             top: "0.75rem",
-            zIndex: 122,
+            right: "0.75rem",
+            zIndex: 10,
+            display: "grid",
+            placeItems: "center",
+            width: "2.5rem",
+            height: "2.5rem",
+            borderRadius: "50%",
+            backgroundColor: "hsl(var(--surface-2) / 0.8)",
+            backdropFilter: "blur(4px)",
+            border: "1px solid hsl(var(--border) / 0.6)",
+            color: "var(--text-1)",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+          }}
+          className="hover:bg-[hsl(var(--surface-3))] hover:scale-105 active:scale-95"
+        >
+          <X size={20} />
+        </button>
+
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            flex: "1 1 auto",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "2.5rem",
-            width: "2.5rem",
-            borderRadius: "50%",
-            background: "rgba(0, 0, 0, 0.72)",
-            color: "#fff",
-            boxShadow: "var(--shadow-md)",
+            padding: "1rem",
+            overflow: "hidden",
           }}
         >
-          <X style={{ height: "1.2rem", width: "1.2rem" }} aria-hidden />
-        </button>
-        <img
-          src={image.src}
-          alt={image.alt || image.caption || "Expanded gallery image"}
-          style={{
-            display: "block",
-            maxHeight: "82vh",
-            maxWidth: "100%",
-            objectFit: "contain",
-            borderRadius: "var(--radius-xl)",
-            boxShadow: "var(--shadow-xl)",
-            background: "var(--surface-elevated)",
-          }}
-        />
-        {(image.caption || image.credit) && (
-          <figcaption
-            className="nss-text-sm"
+          <img
+            src={image.url}
+            alt={image.alt || ""}
             style={{
-              maxWidth: "52rem",
-              color: "#fff",
+              width: "auto",
+              height: "auto",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+              borderRadius: "calc(var(--radius-2) - 2px)",
+            }}
+          />
+        </div>
+
+        {image.caption && (
+          <figcaption
+            style={{
+              padding: "1rem 1.5rem",
+              borderTop: "1px solid hsl(var(--border) / 0.5)",
+              backgroundColor: "hsl(var(--surface-1) / 0.5)",
+              color: "var(--text-2)",
+              fontSize: "0.9375rem",
+              lineHeight: 1.5,
               textAlign: "center",
-              textShadow: "0 2px 8px rgba(0,0,0,0.75)",
+              flex: "0 0 auto",
             }}
           >
-            {image.caption || image.credit}
+            {image.caption}
           </figcaption>
         )}
       </figure>
-    </div>
+    </div>,
+    document.body
   );
 }

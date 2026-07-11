@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 export function VideoLightbox({
@@ -30,7 +31,10 @@ export function VideoLightbox({
 
   if (!video) return null;
 
-  return (
+  const isYouTube = video.url.includes("youtube.com") || video.url.includes("youtu.be");
+  const videoId = isYouTube ? video.url.split(/[v/]/).pop()?.split("?")[0] : null;
+
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -42,6 +46,7 @@ export function VideoLightbox({
         display: "grid",
         placeItems: "center",
         padding: "clamp(1rem, 3vw, 2rem)",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
       }}
     >
       <button
@@ -49,7 +54,13 @@ export function VideoLightbox({
         aria-label="Close video player"
         onClick={close}
         className="nss-modal-backdrop"
-        style={{ cursor: "zoom-out" }}
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "transparent",
+          cursor: "zoom-out",
+          zIndex: 119,
+        }}
       />
       <figure
         className="nss-modal-panel"
@@ -58,78 +69,73 @@ export function VideoLightbox({
           zIndex: 121,
           display: "flex",
           maxHeight: "88vh",
-          width: "min(100%, 68rem)",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "0.75rem",
+          maxWidth: "88vw",
+          width: "1280px",
+          aspectRatio: "16 / 9",
+          backgroundColor: "hsl(var(--surface-0))",
+          border: "1px solid hsl(var(--border) / 0.5)",
+          borderRadius: "var(--radius-3)",
+          overflow: "hidden",
+          boxShadow: "0 20px 60px hsl(0 0% 0% / 0.4), 0 0 0 1px hsl(var(--border) / 0.5)",
         }}
       >
         <button
           ref={closeButtonRef}
           type="button"
-          onClick={close}
           aria-label="Close video player"
+          onClick={close}
           style={{
             position: "absolute",
-            right: "0.75rem",
-            top: "0.75rem",
-            zIndex: 122,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "2.5rem",
+            top: "1rem",
+            right: "1rem",
+            zIndex: 10,
+            display: "grid",
+            placeItems: "center",
             width: "2.5rem",
+            height: "2.5rem",
             borderRadius: "50%",
-            background: "rgba(0, 0, 0, 0.72)",
-            color: "#fff",
-            boxShadow: "var(--shadow-md)",
+            backgroundColor: "hsl(var(--surface-2) / 0.8)",
+            backdropFilter: "blur(4px)",
+            border: "1px solid hsl(var(--border) / 0.6)",
+            color: "var(--text-1)",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
           }}
+          className="hover:bg-[hsl(var(--surface-3))] hover:scale-105 active:scale-95"
         >
-          <X style={{ height: "1.2rem", width: "1.2rem" }} aria-hidden />
+          <X size={20} />
         </button>
-        <div style={{ width: "100%", background: "#000", borderRadius: "var(--radius-xl)", overflow: "hidden", boxShadow: "var(--shadow-xl)" }}>
-          {video.url.includes("youtube.com") || video.url.includes("youtu.be") ? (
-            <iframe
-              width="100%"
-              height="100%"
-              style={{ aspectRatio: "16/9", border: "none" }}
-              src={video.url.replace("watch?v=", "embed/").replace("youtu.be/", "www.youtube.com/embed/")}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title={video.title}
-            />
-          ) : (
-            <video
-              src={video.url}
-              poster={video.thumbnail}
-              controls
-              autoPlay
-              style={{
-                display: "block",
-                width: "100%",
-                maxHeight: "82vh",
-                objectFit: "contain",
-              }}
-            >
-              Your browser does not support the video tag.
-            </video>
-          )}
-        </div>
-        {video.title && (
-          <figcaption
-            className="nss-text-sm nss-font-bold"
+
+        {isYouTube ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+            title={video.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
             style={{
-              maxWidth: "52rem",
-              color: "#fff",
-              textAlign: "center",
-              textShadow: "0 2px 8px rgba(0,0,0,0.75)",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
-          >
-            {video.title}
-          </figcaption>
+          />
+        ) : (
+          <video
+            src={video.url}
+            title={video.title}
+            controls
+            autoPlay
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "black",
+              objectFit: "contain",
+            }}
+          />
         )}
       </figure>
-    </div>
+    </div>,
+    document.body
   );
 }
