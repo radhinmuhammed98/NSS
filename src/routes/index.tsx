@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
-import { HeroLogoHero } from "@/components/layout/HeroLogoImpl";
 import {
   SectionHeading,
   ClayButton,
@@ -83,141 +81,79 @@ function Home() {
       <Container className="nss-flex nss-flex-col nss-gap-8 nss-py-8">
 
         {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-        <Section>
-          <div
-            className="nss-card nss-p-6 nss-sm-p-10"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: 0,
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            {/* Subtle radial glow behind logo */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                top: "-20%",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "60vw",
-                maxWidth: 520,
-                height: "60vw",
-                maxHeight: 520,
-                borderRadius: "50%",
-                background: "radial-gradient(circle, hsl(150 60% 50% / 0.07) 0%, transparent 70%)",
-                pointerEvents: "none",
-              }}
-            />
+        <Section className="nss-grid nss-grid-cols-1 nss-items-center nss-gap-6 nss-card nss-p-4 nss-sm-p-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
 
-            {/* ── Large hero logo — shared element with navbar ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              style={{ marginBottom: "2rem" }}
-            >
-              <HeroLogoHero mobileSize={108} desktopSize={160} />
-            </motion.div>
+          {/* Text column */}
+          <div className="nss-flex nss-flex-col" style={{ minWidth: 0 }}>
+            <div>
+              <Badge variant="accent">
+                <Sparkles style={{ marginRight: "4px", height: "0.875rem", width: "0.875rem" }} />
+                KHMHSS Valakkulam · Unit 466 · {s.academicYear}
+              </Badge>
+            </div>
 
-            {/* ── School name ── */}
-            <motion.h1
-              className="nss-font-display nss-font-extrabold nss-break-words nss-text-gradient"
-              style={{ fontSize: "clamp(1.75rem, 5vw, 3rem)", lineHeight: 1.15, marginBottom: "0.5rem" }}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <h1 className="nss-mt-4 nss-text-4xl nss-font-extrabold nss-leading-tight nss-break-words nss-text-balance nss-sm-text-5xl nss-text-gradient" style={{ fontFamily: "var(--font-display)" }}>
               KHMHSS Valakkulam
-            </motion.h1>
-
-            {/* ── NSS identity line ── */}
-            <motion.p
-              className="nss-font-sans nss-font-bold nss-text-primary"
-              style={{ fontSize: "clamp(0.95rem, 2.5vw, 1.2rem)", letterSpacing: "0.04em", marginBottom: "0.35rem" }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
+            </h1>
+            <p className="nss-mt-2 nss-text-lg nss-font-bold nss-leading-tight nss-text-primary nss-sm-text-xl">
               National Service Scheme · Unit 466
-            </motion.p>
+            </p>
 
-            {/* ── Malayalam motto ── */}
-            <motion.p
-              style={{
-                fontFamily: "'Noto Sans Malayalam', 'Manjari', sans-serif",
-                fontSize: "clamp(1rem, 2.8vw, 1.25rem)",
-                fontWeight: 600,
-                color: "var(--accent)",
-                marginTop: "0.75rem",
-                marginBottom: "0.25rem",
-                lineHeight: 1.6,
-              }}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            <p 
+              className="nss-mt-4 nss-text-xl nss-font-bold nss-leading-snug nss-text-accent"
+              style={{ fontFamily: "'Noto Sans Malayalam', sans-serif" }}
             >
-              "നമുക്കല്ല, സമൂഹത്തിനായി."
-            </motion.p>
+              "മനസ്സ് നന്നാവട്ടെ"
+            </p>
 
-            {/* ── English motto ── */}
-            <motion.div
-              style={{
-                marginTop: "1rem",
-                padding: "0.4rem 1.25rem",
-                borderRadius: "var(--radius-full)",
-                background: "var(--clay)",
-                border: "1px solid var(--border)",
-                display: "inline-block",
-              }}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.45, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p className="nss-font-display nss-text-sm nss-font-semibold nss-italic" style={{ color: "var(--muted-foreground)" }}>
-                "Not Me, But You"
+            {/* Bilingual motto */}
+            <div className="nss-mt-4" style={{ borderLeft: "4px solid var(--accent)", paddingLeft: "1rem" }}>
+              <p className="nss-font-display nss-text-base nss-font-semibold nss-italic">
+                &ldquo;Not Me, But You&rdquo;
               </p>
-            </motion.div>
+            </div>
 
-            {/* ── CTA buttons ── */}
-            <motion.div
-              style={{ marginTop: "2rem", display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
-            >
+            {/* CTA buttons */}
+            <div className="nss-mt-6 nss-flex nss-flex-col nss-gap-3 nss-sm-flex-row">
               <ClayButton to="/camps" variant="primary" className="nss-justify-center">
                 Special Camp <ArrowRight style={{ height: "1rem", width: "1rem" }} />
               </ClayButton>
               <ClayButton to="/projects" variant="soft" className="nss-justify-center">
                 Our Initiatives
               </ClayButton>
-            </motion.div>
+            </div>
+          </div>
 
-            {/* ── School image strip below ── */}
-            <motion.div
-              style={{ marginTop: "2.5rem", width: "100%", borderRadius: "var(--radius-xl)", overflow: "hidden" }}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
-            >
+          {/* Media column */}
+          <div className="nss-grid nss-gap-3" style={{ minWidth: 0 }}>
+            <div className="nss-card nss-p-0" style={{ overflow: "hidden" }}>
               <img
                 src="/gate.webp"
                 alt="KHMHSS Valakkulam School Gate"
                 width={1280}
-                height={480}
+                height={960}
                 fetchPriority="high"
-                style={{ width: "100%", height: "clamp(180px, 30vw, 340px)", objectFit: "cover", display: "block" }}
+                style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover" }}
               />
-            </motion.div>
+            </div>
+            {/* Volunteer count badge */}
+            <div 
+              className="nss-flex nss-items-center nss-gap-4 nss-card nss-p-4" 
+              style={{ 
+                border: "1px solid var(--primary-container)",
+                backgroundColor: "var(--primary)",
+                color: "#ffffff",
+                backdropFilter: "none",
+                WebkitBackdropFilter: "none"
+              }}
+            >
+              <p className="nss-flex nss-items-center nss-justify-center nss-font-display nss-text-2xl nss-font-bold nss-leading-none" style={{ height: "3rem", width: "3rem", borderRadius: "var(--radius-lg)", backgroundColor: "rgba(255,255,255,0.15)", color: "#ffffff" }}>50</p>
+              <p className="nss-text-sm nss-font-semibold nss-uppercase nss-leading-tight" style={{ color: "rgba(255, 255, 255, 0.95)" }}>NSS Volunteers</p>
+            </div>
           </div>
         </Section>
 
-
+        {/* ── 3. Featured Highlight ────────────────────────────────────────── */}
         {highlight && (
           <Section>
             <Reveal>

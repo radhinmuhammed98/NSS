@@ -151,19 +151,6 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-@keyframes nssLogoEntrance {
-  0%   { opacity: 0; transform: scale(0.55) rotate(-8deg) translateY(24px); }
-  60%  { transform: scale(1.08) rotate(2deg) translateY(-4px); }
-  100% { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
-}
-@keyframes nssLogoPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(27,150,80,0.18), 0 8px 32px rgba(27,58,39,0.18); }
-  50%       { box-shadow: 0 0 0 14px rgba(27,150,80,0.06), 0 8px 32px rgba(27,58,39,0.24); }
-}
-@keyframes nssLogoFloat {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
-}
 
 .nss-anim-fade-up   { animation: fadeUp   0.5s var(--ease-out) both; }
 .nss-anim-fade-in   { animation: fadeIn   0.4s ease both; }
