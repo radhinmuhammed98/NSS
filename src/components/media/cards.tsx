@@ -21,7 +21,7 @@ export function ProjectCard({ project }: { project: Project }) {
               loading="lazy"
               decoding="async"
               className="nss-img-zoom"
-              style={{ aspectRatio: "16/9", width: "100%", objectFit: "cover", display: "block" }}
+              style={{ aspectRatio: "16/9", width: "100%", objectFit: "cover", display: "block", borderRadius: 0 }}
             />
           ) : (
             <div style={{ aspectRatio: "16/9", background: "var(--clay-deep)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -40,13 +40,15 @@ export function ProjectCard({ project }: { project: Project }) {
           </div>
           <h3 className="nss-font-display nss-text-lg nss-font-bold nss-leading-tight nss-break-words">{project.title}</h3>
           <p className="nss-mt-2 nss-flex-1 nss-text-sm nss-leading-relaxed nss-text-muted">{project.summary}</p>
-          <div className="nss-mt-4 nss-flex nss-flex-wrap nss-items-center nss-gap-4 nss-text-xs nss-text-muted">
-            <span className="nss-flex nss-items-center nss-gap-1">
-              <Calendar style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden /> {formatDate(project.date)}
+          <div className="nss-mt-4 nss-flex nss-flex-wrap nss-items-center nss-gap-x-4 nss-gap-y-1 nss-text-xs nss-text-muted" style={{ minWidth: 0 }}>
+            <span className="nss-flex nss-items-center nss-gap-1" style={{ flexShrink: 0 }}>
+              <Calendar style={{ height: "0.875rem", width: "0.875rem", flexShrink: 0 }} aria-hidden />
+              <span style={{ whiteSpace: "nowrap" }}>{formatDate(project.date)}</span>
             </span>
             {project.location && (
-              <span className="nss-flex nss-items-center nss-gap-1">
-                <MapPin style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden /> {project.location}
+              <span className="nss-flex nss-items-center nss-gap-1" style={{ minWidth: 0 }}>
+                <MapPin style={{ height: "0.875rem", width: "0.875rem", flexShrink: 0 }} aria-hidden />
+                <span className="nss-truncate">{project.location}</span>
               </span>
             )}
           </div>
@@ -72,7 +74,7 @@ export function CampCard({ camp }: { camp: Camp }) {
               loading="lazy"
               decoding="async"
               className="nss-img-zoom"
-              style={{ aspectRatio: "16/9", width: "100%", objectFit: "cover", display: "block" }}
+              style={{ aspectRatio: "16/9", width: "100%", objectFit: "cover", display: "block", borderRadius: 0 }}
             />
           ) : (
             <div style={{ aspectRatio: "16/9", background: "var(--clay-deep)" }} />
@@ -87,12 +89,14 @@ export function CampCard({ camp }: { camp: Camp }) {
           <Badge variant="outline" className="w-fit">{camp.theme}</Badge>
           <h3 className="nss-mt-2 nss-font-display nss-text-lg nss-font-bold nss-leading-tight nss-break-words">{camp.title}</h3>
           <p className="nss-mt-2 nss-flex-1 nss-text-sm nss-leading-relaxed nss-text-muted">{camp.summary}</p>
-          <div className="nss-mt-4 nss-flex nss-flex-wrap nss-items-center nss-gap-4 nss-text-xs nss-text-muted">
-            <span className="nss-flex nss-items-center nss-gap-1">
-              <MapPin style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden /> {camp.location}
+          <div className="nss-mt-4 nss-flex nss-flex-wrap nss-items-center nss-gap-x-4 nss-gap-y-1 nss-text-xs nss-text-muted" style={{ minWidth: 0 }}>
+            <span className="nss-flex nss-items-center nss-gap-1" style={{ minWidth: 0 }}>
+              <MapPin style={{ height: "0.875rem", width: "0.875rem", flexShrink: 0 }} aria-hidden />
+              <span className="nss-truncate">{camp.location}</span>
             </span>
-            <span className="nss-flex nss-items-center nss-gap-1">
-              <Users style={{ height: "0.875rem", width: "0.875rem" }} aria-hidden /> {camp.volunteerCount} volunteers
+            <span className="nss-flex nss-items-center nss-gap-1" style={{ flexShrink: 0 }}>
+              <Users style={{ height: "0.875rem", width: "0.875rem", flexShrink: 0 }} aria-hidden />
+              <span style={{ whiteSpace: "nowrap" }}>{camp.volunteerCount} volunteers</span>
             </span>
           </div>
         </div>
@@ -144,7 +148,7 @@ export function AlbumCard({ album }: { album: GalleryAlbum }) {
               loading="lazy"
               decoding="async"
               className="nss-img-zoom"
-              style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover", display: "block" }}
+              style={{ aspectRatio: "4/3", width: "100%", objectFit: "cover", display: "block", borderRadius: 0 }}
             />
           ) : (
             <div style={{ aspectRatio: "4/3", background: "var(--clay-deep)" }} />

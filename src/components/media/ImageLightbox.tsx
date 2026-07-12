@@ -44,15 +44,18 @@ export function ImageLightbox({
         display: "grid",
         placeItems: "center",
         padding: "clamp(1rem, 3vw, 2rem)",
+        backgroundColor: "rgba(0, 0, 0, 0.82)",
       }}
     >
+      {/* Backdrop click to close */}
       <button
         type="button"
         aria-label="Close image viewer"
         onClick={close}
         className="nss-modal-backdrop"
-        style={{ cursor: "zoom-out", zIndex: 119 }}
+        style={{ cursor: "zoom-out", zIndex: 119, background: "transparent" }}
       />
+
       <figure
         className="nss-modal-panel"
         style={{
@@ -62,14 +65,14 @@ export function ImageLightbox({
           flexDirection: "column",
           maxHeight: "90vh",
           maxWidth: "90vw",
-          backgroundColor: "hsl(var(--surface-0) / 0.95)",
-          backdropFilter: "blur(12px)",
-          border: "1px solid hsl(var(--border) / 0.5)",
-          borderRadius: "var(--radius-3)",
+          backgroundColor: "var(--surface-elevated)",
+          border: "1px solid var(--border)",
+          borderRadius: "var(--radius-xl)",
           overflow: "hidden",
-          boxShadow: "0 20px 60px hsl(0 0% 0% / 0.4)",
+          boxShadow: "var(--shadow-xl)",
         }}
       >
+        {/* Close button */}
         <button
           ref={closeButtonRef}
           type="button"
@@ -85,23 +88,21 @@ export function ImageLightbox({
             width: "2.5rem",
             height: "2.5rem",
             borderRadius: "50%",
-            backgroundColor: "hsl(var(--surface-2) / 0.8)",
+            backgroundColor: "rgba(0,0,0,0.65)",
             backdropFilter: "blur(4px)",
-            border: "1px solid hsl(var(--border) / 0.6)",
-            color: "var(--text-1)",
+            border: "1px solid rgba(255,255,255,0.18)",
+            color: "#fff",
             cursor: "pointer",
             transition: "all 0.2s ease",
           }}
-          className="hover:bg-[hsl(var(--surface-3))] hover:scale-105 active:scale-95"
         >
           <X size={20} />
         </button>
 
+        {/* Image */}
         <div
           style={{
             position: "relative",
-            width: "100%",
-            height: "100%",
             flex: "1 1 auto",
             display: "flex",
             alignItems: "center",
@@ -111,7 +112,7 @@ export function ImageLightbox({
           }}
         >
           <img
-            src={image.url}
+            src={image.src}
             alt={image.alt || ""}
             style={{
               width: "auto",
@@ -119,19 +120,20 @@ export function ImageLightbox({
               maxWidth: "100%",
               maxHeight: "100%",
               objectFit: "contain",
-              borderRadius: "calc(var(--radius-2) - 2px)",
+              borderRadius: "var(--radius-md)",
             }}
           />
         </div>
 
+        {/* Caption */}
         {image.caption && (
           <figcaption
             style={{
-              padding: "1rem 1.5rem",
-              borderTop: "1px solid hsl(var(--border) / 0.5)",
-              backgroundColor: "hsl(var(--surface-1) / 0.5)",
-              color: "var(--text-2)",
-              fontSize: "0.9375rem",
+              padding: "0.75rem 1.25rem",
+              borderTop: "1px solid var(--border)",
+              backgroundColor: "var(--surface)",
+              color: "var(--muted-foreground)",
+              fontSize: "0.875rem",
               lineHeight: 1.5,
               textAlign: "center",
               flex: "0 0 auto",

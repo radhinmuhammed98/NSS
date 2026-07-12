@@ -9,9 +9,9 @@ export function Footer() {
 
   return (
     <footer
-      className="nss-mt-16 nss-px-3 nss-pb-28 nss-sm-py-8"
+      className="nss-mt-16"
       aria-label="Site footer"
-      style={{ background: "#f5f3ee", paddingLeft: "1rem", paddingRight: "1rem", paddingBottom: "7rem" }}
+      style={{ background: "#f5f3ee", paddingLeft: "1rem", paddingRight: "1rem", paddingBottom: "calc(7rem + env(safe-area-inset-bottom, 0px))" }}
     >
       {/* Decorative top border */}
       <div
