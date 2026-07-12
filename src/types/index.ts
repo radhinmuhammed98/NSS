@@ -146,12 +146,17 @@ export interface GalleryAlbum {
   date: string;
   year: number;
   batchSlug?: string;
+  /** New canonical field (from `category` in Sanity) */
+  category: string;
+  /** Legacy alias — equals category when set, falls back to old `type` value */
   type: string;
   description: string;
   coverImage: string;
   images: ImageAsset[];
   videos?: any[];
   showOnHome?: boolean;
+  /** Precomputed count from GROQ (avoids loading full image array on list pages) */
+  imageCount?: number;
 }
 
 

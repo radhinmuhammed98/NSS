@@ -150,13 +150,15 @@ export function mapCamp(c: any): Camp {
 }
 
 export function mapGalleryAlbum(a: any): GalleryAlbum {
+  const category = a.category || a.type || "Other";
   return {
     slug: a.slug,
     title: a.title || "",
     date: a.date || "",
     year: Number(a.year || 0),
     batchSlug: a.batchSlug,
-    type: a.type || "General",
+    category,
+    type: category, // keep type === category for backward compat
     description: a.description || "",
     coverImage: a.coverImage || "",
     images: (a.images || []).map((img: any) => ({
@@ -168,6 +170,7 @@ export function mapGalleryAlbum(a: any): GalleryAlbum {
     })),
     videos: a.videos || [],
     showOnHome: Boolean(a.showOnHome),
+    imageCount: a.imageCount != null ? Number(a.imageCount) : undefined,
   };
 }
 
