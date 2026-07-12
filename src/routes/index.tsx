@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { PageShell, Container } from "@/components/layout";
+import { HeroLogo } from "@/components/layout/HeroLogo";
 import {
   SectionHeading,
   ClayButton,
@@ -85,6 +86,11 @@ function Home() {
 
           {/* Text column */}
           <div className="nss-flex nss-flex-col" style={{ minWidth: 0 }}>
+            {/* ── Animated Hero Logo (mobile: centered above text, desktop: column) */}
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
+              <HeroLogo isHomePage={true} />
+            </div>
+
             <div>
               <Badge variant="accent">
                 <Sparkles style={{ marginRight: "4px", height: "0.875rem", width: "0.875rem" }} />

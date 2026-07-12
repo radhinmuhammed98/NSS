@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { NavDropdownGroup, BottomPillNav } from "./NavParts";
 import { getSiteSettingsSync } from "@/lib/content";
+import { useHeroLogoProgress } from "./HeroLogo";
 import {
   getCamps,
   getHighlights,
@@ -63,6 +64,12 @@ export function Navbar() {
   const [scrolled, setScrolled]             = useState(false);
   const dropdownRef                          = useRef<HTMLDivElement>(null);
   const location                             = useLocation();
+  const isHomePage                           = location.pathname === "/";
+
+  // Hero logo progress: 0 = hero logo visible, 1 = logo has flown to navbar
+  const heroLogoProgress = useHeroLogoProgress(isHomePage);
+  // Navbar logo is hidden on homepage until hero logo has mostly arrived
+  const navLogoOpacity = isHomePage ? Math.max(0, (heroLogoProgress - 0.78) / 0.22) : 1;
 
   // Active-item visibility gates (hide links to empty sections)
   const [activeItems, setActiveItems] = useState<Record<string, boolean>>({
@@ -167,7 +174,20 @@ export function Navbar() {
             className="nss-flex nss-items-center"
             style={{ gap: "0.625rem", minWidth: 0 }}
           >
-            <span className="nss-shrink-0 nss-flex nss-items-center nss-justify-center" style={{ height: "2.75rem", width: "2.75rem", overflow: "hidden", borderRadius: "var(--radius-lg)", backgroundColor: "#ffffff", padding: "2px", border: "1px solid rgba(27, 28, 25, 0.08)" }}>
+            <span
+              className="nss-shrink-0 nss-flex nss-items-center nss-justify-center"
+              style={{
+                height: "2.75rem",
+                width: "2.75rem",
+                overflow: "hidden",
+                borderRadius: "var(--radius-lg)",
+                backgroundColor: "#ffffff",
+                padding: "2px",
+                border: "1px solid rgba(27, 28, 25, 0.08)",
+                opacity: navLogoOpacity,
+                transition: "opacity 0.2s ease",
+              }}
+            >
               <img
                 src="/nss-logo.svg"
                 alt="NSS Logo"
