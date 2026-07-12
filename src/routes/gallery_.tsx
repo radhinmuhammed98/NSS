@@ -1,213 +1,302 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowRight, Images } from "lucide-react";
+import { ArrowLeft, Calendar, FileText, Images, Search, Users } from "lucide-react";
 import { PageShell, PageHeader, Container } from "@/components/layout";
 import { Reveal, EmptyState, Badge } from "@/components/clay";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { getAlbums, formatDate } from "@/lib/data";
 import type { GalleryAlbum } from "@/types";
 
-// Canonical display order for categories
-const CATEGORY_ORDER: string[] = [
-  "Group Photos",
-  "Camp Memories",
-  "Reels & Videos",
-  "Posters & Artwork",
-  "Awards & Certificates",
-  "Newspaper Clippings",
-  "Campus & NSS Life",
-  "Other",
+const CATEGORIES = [
+  { value: "Group Photos",          label: "Group Photos",          icon: "👥" },
+  { value: "Camp Memories",         label: "Camp Memories",         icon: "🏕️" },
+  { value: "Reels & Videos",        label: "Reels & Videos",        icon: "🎬" },
+  { value: "Posters & Artwork",     label: "Posters & Artwork",     icon: "🎨" },
+  { value: "Awards & Certificates", label: "Awards & Certificates", icon: "🏆" },
+  { value: "Newspaper Coverage",    label: "Newspaper Coverage",    icon: "📰" },
+  { value: "Campus & NSS Life",     label: "Campus & NSS Life",     icon: "🌿" },
+  { value: "Awareness Programs",    label: "Awareness Programs",    icon: "📢" },
+  { value: "Blood Donation",        label: "Blood Donation",        icon: "🩸" },
+  { value: "Children's Day",       label: "Children's Day",       icon: "🎈" },
+  { value: "Field Visits",          label: "Field Visits",          icon: "🚌" },
+  { value: "Other",                 label: "Other",                 icon: "📁" }
 ];
-
-const CATEGORY_ICONS: Record<string, string> = {
-  "Group Photos":          "👥",
-  "Camp Memories":         "🏕️",
-  "Reels & Videos":        "🎬",
-  "Posters & Artwork":     "🎨",
-  "Awards & Certificates": "🏆",
-  "Newspaper Clippings":   "📰",
-  "Campus & NSS Life":     "🌿",
-  "Other":                 "📁",
-};
 
 export const Route = createFileRoute("/gallery_")({
   loader: async () => {
     const all = await getAlbums();
     return { albums: all.filter((a) => a.slug) };
   },
-  component: Gallery,
+  component: GalleryArchive,
 });
 
-function Gallery() {
+function GalleryArchive() {
   const { albums } = Route.useLoaderData() as { albums: GalleryAlbum[] };
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [search, setSearch] = useState("");
+  const [yearFilter, setYearFilter] = useState("All");
+  const [batchFilter, setBatchFilter] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(9);
 
   usePageMeta({
-    title: "Gallery",
-    description:
-      "Browse photo albums from NSS Unit 466 — group photos, camp memories, awards, posters, and more.",
+    title: "NSS Media Archive",
+    description: "Browse photo albums, camp memories, posters, certificates, and video reels from NSS Unit 466.",
   });
 
-  // Build unique categories that actually have albums, in display order
-  const categoriesWithData = useMemo(() => {
-    const present = new Set(albums.map((a) => a.category || a.type || "Other"));
-    const ordered = CATEGORY_ORDER.filter((c) => present.has(c));
-    // Append any unknown categories not in the canonical list
-    [...present].forEach((c) => { if (!CATEGORY_ORDER.includes(c)) ordered.push(c); });
-    return ordered;
+  // Extract years and batches for filters
+  const years = useMemo(() => {
+    return [...new Set(albums.map((a) => a.year).filter(Boolean))].sort((a, b) => b - a);
   }, [albums]);
 
-  // Filter to active category (or show all)
-  const visible = useMemo(() => {
-    if (activeCategory === "All") return albums;
-    return albums.filter((a) => (a.category || a.type || "Other") === activeCategory);
-  }, [albums, activeCategory]);
+  const batches = useMemo(() => {
+    return [...new Set(albums.map((a) => a.batchName).filter(Boolean))].sort();
+  }, [albums]);
 
-  // Group visible albums by category
-  const grouped = useMemo(() => {
-    const map = new Map<string, GalleryAlbum[]>();
-    for (const album of visible) {
-      const cat = album.category || album.type || "Other";
-      if (!map.has(cat)) map.set(cat, []);
-      map.get(cat)!.push(album);
-    }
-    // Return in display order
-    const result: { category: string; albums: GalleryAlbum[] }[] = [];
-    const allCats = activeCategory === "All" ? categoriesWithData : [activeCategory];
-    for (const cat of allCats) {
-      const list = map.get(cat);
-      if (list && list.length > 0) result.push({ category: cat, albums: list });
-    }
-    return result;
-  }, [visible, categoriesWithData, activeCategory]);
+  // Count albums in each category
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    albums.forEach((a) => {
+      const cat = a.category || a.type || "Other";
+      counts[cat] = (counts[cat] || 0) + 1;
+    });
+    return counts;
+  }, [albums]);
+
+  // Filtered albums
+  const filtered = useMemo(() => {
+    return albums.filter((a) => {
+      const cat = a.category || a.type || "Other";
+      const matchesCategory = activeCategory === "All" || cat === activeCategory;
+      const matchesSearch = search.trim() === "" || a.title.toLowerCase().includes(search.toLowerCase());
+      const matchesYear = yearFilter === "All" || String(a.year) === yearFilter;
+      const matchesBatch = batchFilter === "All" || a.batchName === batchFilter;
+      return matchesCategory && matchesSearch && matchesYear && matchesBatch;
+    });
+  }, [albums, activeCategory, search, yearFilter, batchFilter]);
+
+  const visibleAlbums = useMemo(() => {
+    return filtered.slice(0, visibleCount);
+  }, [filtered, visibleCount]);
+
+  const handleCategorySelect = (category: string) => {
+    setActiveCategory(category);
+    setVisibleCount(9);
+  };
+
+  const handleResetFilters = () => {
+    setActiveCategory("All");
+    setSearch("");
+    setYearFilter("All");
+    setBatchFilter("All");
+    setVisibleCount(9);
+  };
 
   return (
     <PageShell>
       <PageHeader
-        eyebrow="Gallery"
-        title="Photo Albums"
-        description="Memories preserved album by album — automatically organised by category."
+        eyebrow="Media Archive"
+        title="NSS Gallery"
+        description="A long-term digital record of service, campaigns, and memories."
       />
       <Container className="nss-py-8">
 
-        {/* ── Category tab bar ─────────────────────────────────── */}
-        <div
-          role="tablist"
-          aria-label="Filter by category"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "0.5rem",
-            marginBottom: "2rem",
-          }}
-        >
-          {["All", ...categoriesWithData].map((cat) => {
-            const isActive = activeCategory === cat;
-            return (
-              <button
-                key={cat}
-                role="tab"
-                type="button"
-                aria-selected={isActive}
-                onClick={() => setActiveCategory(cat)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                  padding: "0.375rem 0.875rem",
-                  borderRadius: "var(--radius-full)",
-                  fontSize: "0.8125rem",
-                  fontWeight: isActive ? 700 : 600,
-                  border: isActive
-                    ? "2px solid var(--primary)"
-                    : "1.5px solid var(--border)",
-                  background: isActive ? "var(--primary)" : "var(--surface-elevated)",
-                  color: isActive ? "#fff" : "var(--foreground)",
-                  cursor: "pointer",
-                  transition: "all 0.18s ease",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {cat !== "All" && (
-                  <span aria-hidden style={{ fontSize: "0.9rem" }}>
-                    {CATEGORY_ICONS[cat] ?? "📁"}
-                  </span>
-                )}
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ── Category groups ───────────────────────────────────── */}
-        {grouped.length === 0 ? (
-          <EmptyState message="No albums yet. Check back soon!" />
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
-            {grouped.map(({ category, albums: catAlbums }) => (
-              <section key={category} aria-labelledby={`cat-${category}`}>
-                {/* Category heading — only show when "All" is selected */}
-                {activeCategory === "All" && (
-                  <div
+        {/* ── 1. Category Overview (Only shown when no specific category is selected) ── */}
+        {activeCategory === "All" && (
+          <section className="nss-mb-10">
+            <h2 className="nss-font-display nss-text-xl nss-font-bold nss-mb-4">Browse by Category</h2>
+            <div className="nss-grid nss-grid-cols-2 nss-gap-3 nss-sm-grid-cols-3 nss-lg-grid-cols-4">
+              {CATEGORIES.map((cat) => {
+                const count = categoryCounts[cat.value] || 0;
+                return (
+                  <button
+                    key={cat.value}
+                    type="button"
+                    onClick={() => handleCategorySelect(cat.value)}
+                    className="nss-card nss-p-4 nss-flex nss-flex-col nss-items-center nss-justify-center nss-text-center nss-card-tilt"
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.625rem",
-                      marginBottom: "1.25rem",
-                      paddingBottom: "0.75rem",
-                      borderBottom: "2px solid var(--clay-deep)",
+                      backgroundColor: "var(--surface-elevated)",
+                      border: "1px solid var(--border)",
+                      minHeight: "7rem",
                     }}
                   >
-                    <span aria-hidden style={{ fontSize: "1.25rem" }}>
-                      {CATEGORY_ICONS[category] ?? "📁"}
+                    <span style={{ fontSize: "2rem", marginBottom: "0.5rem" }} aria-hidden>
+                      {cat.icon}
                     </span>
-                    <h2
-                      id={`cat-${category}`}
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: "1.25rem",
-                        fontWeight: 700,
-                        color: "var(--foreground)",
-                        margin: 0,
-                      }}
-                    >
-                      {category}
-                    </h2>
-                    <span
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 600,
-                        color: "var(--muted-foreground)",
-                        marginLeft: "auto",
-                      }}
-                    >
-                      {catAlbums.length} album{catAlbums.length !== 1 ? "s" : ""}
+                    <span className="nss-font-semibold nss-text-sm nss-leading-tight" style={{ color: "var(--foreground)" }}>
+                      {cat.label}
                     </span>
-                  </div>
-                )}
+                    <span className="nss-text-xs nss-text-muted nss-mt-1">
+                      {count} album{count !== 1 ? "s" : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
-                <div
-                  className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3"
-                >
-                  {catAlbums.map((album, i) => (
-                    <Reveal key={album.slug} delay={i * 0.05}>
-                      <GalleryAlbumCard album={album} />
-                    </Reveal>
-                  ))}
-                </div>
-              </section>
-            ))}
+        {/* ── 2. Active Category Title & Back Navigation ── */}
+        {activeCategory !== "All" && (
+          <div className="nss-flex nss-flex-col nss-items-start nss-gap-2 nss-mb-6">
+            <button
+              type="button"
+              onClick={() => handleCategorySelect("All")}
+              className="nss-button nss-button-soft"
+              style={{ padding: "0.5rem 1rem", minHeight: "auto", display: "inline-flex", gap: "0.375rem" }}
+            >
+              <ArrowLeft size={16} /> All Categories
+            </button>
+            <div className="nss-flex nss-items-center nss-gap-2 nss-mt-2">
+              <span style={{ fontSize: "2rem" }} aria-hidden>
+                {CATEGORIES.find((c) => c.value === activeCategory)?.icon || "📁"}
+              </span>
+              <h2 className="nss-font-display nss-text-2xl nss-font-extrabold m-0">
+                {activeCategory}
+              </h2>
+              <Badge variant="outline">{filtered.length} albums</Badge>
+            </div>
           </div>
         )}
+
+        {/* ── 3. Filters & Search Box ── */}
+        <div
+          className="nss-card nss-p-4 nss-mb-6"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            backgroundColor: "var(--surface)",
+          }}
+        >
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", alignItems: "center" }}>
+            
+            {/* Search Input */}
+            <div style={{ position: "relative", flex: "1 1 200px" }}>
+              <span style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", color: "var(--muted-foreground)" }}>
+                <Search size={16} />
+              </span>
+              <input
+                type="text"
+                placeholder="Search albums by title..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "0.625rem 0.75rem 0.625rem 2.25rem",
+                  borderRadius: "var(--radius-full)",
+                  border: "1px solid var(--border)",
+                  background: "var(--background)",
+                  color: "var(--foreground)",
+                  fontSize: "0.875rem",
+                }}
+              />
+            </div>
+
+            {/* Year Dropdown */}
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span className="nss-text-xs nss-font-semibold nss-text-muted">Year:</span>
+              <select
+                value={yearFilter}
+                onChange={(e) => setYearFilter(e.target.value)}
+                style={{
+                  padding: "0.5rem 1.5rem 0.5rem 0.75rem",
+                  borderRadius: "var(--radius-full)",
+                  border: "1px solid var(--border)",
+                  background: "var(--background)",
+                  color: "var(--foreground)",
+                  fontSize: "0.875rem",
+                  cursor: "pointer",
+                }}
+              >
+                <option value="All">All Years</option>
+                {years.map((y) => (
+                  <option key={y} value={String(y)}>{y}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Batch Dropdown */}
+            {batches.length > 0 && (
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <span className="nss-text-xs nss-font-semibold nss-text-muted">Batch:</span>
+                <select
+                  value={batchFilter}
+                  onChange={(e) => setBatchFilter(e.target.value)}
+                  style={{
+                    padding: "0.5rem 1.5rem 0.5rem 0.75rem",
+                    borderRadius: "var(--radius-full)",
+                    border: "1px solid var(--border)",
+                    background: "var(--background)",
+                    color: "var(--foreground)",
+                    fontSize: "0.875rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <option value="All">All Batches</option>
+                  {batches.map((b) => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Reset Button (If active filters exist) */}
+            {(search || yearFilter !== "All" || batchFilter !== "All" || activeCategory !== "All") && (
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="nss-text-xs nss-font-semibold text-primary"
+                style={{ textDecoration: "underline", marginLeft: "auto" }}
+              >
+                Clear all filters
+              </button>
+            )}
+
+          </div>
+        </div>
+
+        {/* ── 4. Albums Listing ── */}
+        <h2 className="nss-font-display nss-text-xl nss-font-bold nss-mb-4">
+          {activeCategory === "All" ? "All Archive Albums" : "Albums"} ({filtered.length})
+        </h2>
+
+        {visibleAlbums.length > 0 ? (
+          <>
+            <div className="nss-grid nss-gap-5 nss-sm-grid-cols-2 nss-lg-grid-cols-3">
+              {visibleAlbums.map((album, i) => (
+                <Reveal key={album.slug} delay={i * 0.04}>
+                  <ArchiveAlbumCard album={album} />
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Pagination / Load More */}
+            {filtered.length > visibleCount && (
+              <div className="nss-flex nss-justify-center nss-mt-8">
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((prev) => prev + 9)}
+                  className="nss-button nss-button-primary"
+                >
+                  Load More Albums
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <EmptyState message="No albums found matching your search and filter criteria." />
+        )}
+
       </Container>
     </PageShell>
   );
 }
 
-// ── Inline album card ─────────────────────────────────────────────────────────
-function GalleryAlbumCard({ album }: { album: GalleryAlbum }) {
+// ── Gallery Album Card ──
+function ArchiveAlbumCard({ album }: { album: GalleryAlbum }) {
   const count = album.imageCount ?? album.images.length;
   const category = album.category || album.type || "Other";
+  const icon = CATEGORIES.find((c) => c.value === category)?.icon || "📁";
 
   return (
     <Link
@@ -220,7 +309,7 @@ function GalleryAlbumCard({ album }: { album: GalleryAlbum }) {
         className="nss-card nss-p-0 nss-card-tilt"
         style={{ height: "100%", display: "flex", flexDirection: "column" }}
       >
-        {/* Cover */}
+        {/* Cover Image */}
         <div
           style={{
             position: "relative",
@@ -263,42 +352,62 @@ function GalleryAlbumCard({ album }: { album: GalleryAlbum }) {
             </div>
           )}
 
-          {/* Photo count badge */}
+          {/* Counts Badge */}
           <span
             style={{
               position: "absolute",
               bottom: "0.625rem",
               right: "0.625rem",
-              background: "rgba(4,36,19,0.75)",
+              background: "rgba(4,36,19,0.78)",
               color: "#fff",
               fontSize: "11px",
               fontWeight: 700,
-              padding: "2px 8px",
+              padding: "3px 8px",
               borderRadius: "var(--radius-md)",
               backdropFilter: "blur(4px)",
             }}
-            aria-label={`${count} photos`}
           >
-            {count} {count === 1 ? "photo" : "photos"}
+            {count} photo{count !== 1 ? "s" : ""}
+            {album.videos && album.videos.length > 0 && ` · ${album.videos.length} vid`}
           </span>
         </div>
 
-        {/* Info */}
-        <div style={{ padding: "1rem", flex: 1, display: "flex", flexDirection: "column", gap: "0.375rem" }}>
-          <Badge variant="outline" className="w-fit" style={{ fontSize: "0.7rem" }}>
-            {CATEGORY_ICONS[category] ?? "📁"} {category}
-          </Badge>
+        {/* Info Area */}
+        <div style={{ padding: "1.25rem", flex: 1, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <div className="nss-flex nss-flex-wrap nss-gap-2">
+            <Badge variant="outline" style={{ fontSize: "10px" }}>
+              {icon} {category}
+            </Badge>
+            {album.batchName && (
+              <Badge variant="soft" style={{ fontSize: "10px", textTransform: "none" }}>
+                {album.batchName}
+              </Badge>
+            )}
+          </div>
+
           <h3
             className="nss-font-display nss-font-bold nss-leading-tight nss-break-words"
-            style={{ fontSize: "1rem", marginTop: "0.25rem" }}
+            style={{ fontSize: "1.05rem", marginTop: "0.25rem" }}
           >
             {album.title}
           </h3>
-          {album.date && (
-            <p style={{ fontSize: "0.75rem", color: "var(--muted-foreground)", marginTop: "auto", paddingTop: "0.375rem" }}>
-              {formatDate(album.date)}
+
+          {album.description && (
+            <p className="nss-text-xs nss-text-muted nss-line-clamp-2" style={{ marginTop: "0.25rem" }}>
+              {album.description}
             </p>
           )}
+
+          <div style={{ marginTop: "auto", paddingTop: "0.75rem", display: "flex", justifyContent: "between", alignItems: "center", borderTop: "1px solid var(--border)", fontSize: "11px", color: "var(--muted-foreground)" }}>
+            <span className="nss-flex nss-items-center nss-gap-1">
+              <Calendar size={12} /> {formatDate(album.date)}
+            </span>
+            {album.relatedActivityTitle && (
+              <span className="nss-truncate" style={{ maxWidth: "10rem", marginLeft: "auto", textAlign: "right" }} title={`Related to: ${album.relatedActivityTitle}`}>
+                🔗 {album.relatedActivityTitle}
+              </span>
+            )}
+          </div>
         </div>
       </article>
     </Link>

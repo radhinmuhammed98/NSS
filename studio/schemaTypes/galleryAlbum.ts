@@ -7,8 +7,12 @@ export const GALLERY_CATEGORIES = [
   { title: 'Reels & Videos',        value: 'Reels & Videos'        },
   { title: 'Posters & Artwork',     value: 'Posters & Artwork'     },
   { title: 'Awards & Certificates', value: 'Awards & Certificates' },
-  { title: 'Newspaper Clippings',   value: 'Newspaper Clippings'   },
+  { title: 'Newspaper Coverage',    value: 'Newspaper Coverage'    },
   { title: 'Campus & NSS Life',     value: 'Campus & NSS Life'     },
+  { title: 'Awareness Programs',    value: 'Awareness Programs'    },
+  { title: 'Blood Donation',        value: 'Blood Donation'        },
+  { title: 'Children\'s Day',       value: 'Children\'s Day'       },
+  { title: 'Field Visits',          value: 'Field Visits'          },
   { title: 'Other',                 value: 'Other'                 },
 ] as const;
 
@@ -17,12 +21,20 @@ export default defineType({
   title: 'Gallery Album',
   type: 'document',
   fields: [
-    // ── Step 1: Name ──────────────────────────────────────────────
+    // ── Step 1: Name & Slug ────────────────────────────────────────
     defineField({
       name: 'title',
       title: 'Album Name',
       type: 'string',
       description: 'Give this album a clear name. e.g. "Onam Celebrations 2025" or "Blood Donation Camp"',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'The web address for this album. Generate it from the title.',
+      options: { source: 'title', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
 
@@ -39,16 +51,14 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
 
-    // ── Step 3: Photos ────────────────────────────────────────────
+    // ── Step 3: Photos & Videos ───────────────────────────────────
     defineField({
       name: 'images',
       title: 'Photos',
       type: 'array',
       of: [{ type: 'imageAsset' }],
-      description: 'Upload all photos for this album. The first photo will be used as the cover automatically.',
+      description: 'Upload all photos for this album. The first photo will be used as the cover automatically if no Custom Cover is provided.',
     }),
-
-    // ── Step 4: Videos (optional) ─────────────────────────────────
     defineField({
       name: 'videos',
       title: 'Videos (Optional)',
@@ -57,7 +67,7 @@ export default defineType({
       description: 'Optionally add videos. Paste a YouTube link or upload a video file.',
     }),
 
-    // ── Step 5: Date ──────────────────────────────────────────────
+    // ── Step 4: Metadata ──────────────────────────────────────────
     defineField({
       name: 'date',
       title: 'Date',
@@ -65,8 +75,6 @@ export default defineType({
       description: 'When were these photos taken?',
       initialValue: () => new Date().toISOString().split('T')[0],
     }),
-
-    // ── Optional extras ───────────────────────────────────────────
     defineField({
       name: 'coverImage',
       title: 'Custom Cover Image (Optional)',
@@ -77,15 +85,36 @@ export default defineType({
         defineField({ name: 'alt', type: 'string', title: 'Alternative text' }),
       ],
     }),
-
     defineField({
       name: 'description',
-      title: 'Description (Optional)',
+      title: 'Short Description (Optional)',
       type: 'text',
       rows: 3,
       description: 'A short caption shown below the album title.',
     }),
+    defineField({
+      name: 'batch',
+      title: 'Batch (Optional)',
+      type: 'reference',
+      to: [{ type: 'batch' }],
+      description: 'Link this album to a specific batch of volunteers.',
+    }),
+    defineField({
+      name: 'relatedActivity',
+      title: 'Related Activity (Optional)',
+      type: 'reference',
+      to: [{ type: 'project' }],
+      description: 'Link this album to a specific activity/project.',
+    }),
 
+    // ── Step 5: Visibility ────────────────────────────────────────
+    defineField({
+      name: 'featured',
+      title: 'Feature Album?',
+      type: 'boolean',
+      description: 'Feature this album in highlight sections.',
+      initialValue: false,
+    }),
     defineField({
       name: 'showOnHome',
       title: 'Show on Homepage?',

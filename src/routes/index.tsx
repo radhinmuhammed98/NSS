@@ -48,7 +48,7 @@ export const Route = createFileRoute("/")({
       getReports(),
       getFeaturedStories(2),
     ]);
-    const albums = allAlbums.filter((a) => a.showOnHome === true).slice(0, 3);
+    const albums = allAlbums.filter((a) => a.showOnHome === true).slice(0, 6);
     const reports = allReports.slice(0, 3);
     return { s, highlight, projects, camp, albums, reports, stories };
   },

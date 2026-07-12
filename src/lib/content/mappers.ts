@@ -151,12 +151,17 @@ export function mapCamp(c: any): Camp {
 
 export function mapGalleryAlbum(a: any): GalleryAlbum {
   const category = a.category || a.type || "Other";
+  const dateStr = a.date || "";
+  const yearFromDate = dateStr ? Number(dateStr.split("-")[0]) : 0;
   return {
     slug: a.slug,
     title: a.title || "",
-    date: a.date || "",
-    year: Number(a.year || 0),
+    date: dateStr,
+    year: Number(a.year || yearFromDate || 0),
     batchSlug: a.batchSlug,
+    batchName: a.batchName,
+    relatedActivitySlug: a.relatedActivitySlug,
+    relatedActivityTitle: a.relatedActivityTitle,
     category,
     type: category, // keep type === category for backward compat
     description: a.description || "",
@@ -170,6 +175,7 @@ export function mapGalleryAlbum(a: any): GalleryAlbum {
     })),
     videos: a.videos || [],
     showOnHome: Boolean(a.showOnHome),
+    featured: Boolean(a.featured),
     imageCount: a.imageCount != null ? Number(a.imageCount) : undefined,
   };
 }

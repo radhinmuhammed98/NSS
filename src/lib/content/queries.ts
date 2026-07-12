@@ -222,6 +222,11 @@ export const ALBUMS_QUERY = `*[_type == "galleryAlbum"] | order(date desc) {
   description,
   "coverImage": coalesce(coverImage.asset->url, images[0].image.asset->url),
   "imageCount": count(images),
+  "batchName": batch->name,
+  "batchSlug": batch->slug.current,
+  "relatedActivitySlug": relatedActivity->slug.current,
+  "relatedActivityTitle": relatedActivity->title,
+  featured,
   showOnHome
 }`;
 
@@ -247,6 +252,11 @@ export const ALBUM_BY_SLUG_QUERY = `*[_type == "galleryAlbum" && slug.current ==
     "url": video.asset->url,
     "thumbnail": thumbnail.asset->url
   },
+  "batchName": batch->name,
+  "batchSlug": batch->slug.current,
+  "relatedActivitySlug": relatedActivity->slug.current,
+  "relatedActivityTitle": relatedActivity->title,
+  featured,
   showOnHome
 }`;
 

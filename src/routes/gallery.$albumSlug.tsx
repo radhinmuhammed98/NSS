@@ -92,6 +92,22 @@ function AlbumPage() {
               {album.videos && album.videos.length > 0 && ` · ${album.videos.length} video${album.videos.length !== 1 ? "s" : ""}`}
             </p>
           )}
+          {(album.batchName || album.relatedActivitySlug) && (
+            <div className="nss-flex nss-flex-wrap nss-gap-2 nss-mt-3">
+              {album.batchName && (
+                <Badge variant="soft" style={{ textTransform: "none" }}>
+                  🎓 Batch: {album.batchName}
+                </Badge>
+              )}
+              {album.relatedActivitySlug && (
+                <Link to="/projects/$projectSlug" params={{ projectSlug: album.relatedActivitySlug }}>
+                  <Badge variant="outline">
+                    🔗 Related: {album.relatedActivityTitle}
+                  </Badge>
+                </Link>
+              )}
+            </div>
+          )}
         </div>
 
         {/* ── Photo masonry grid ─────────────────────────────────── */}
