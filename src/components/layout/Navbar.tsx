@@ -1,9 +1,10 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { NavDropdownGroup, BottomPillNav } from "./NavParts";
 import { getSiteSettingsSync } from "@/lib/content";
-import { useHeroLogoProgress } from "./HeroLogo";
+import { NavbarLogo, useHeroLogoProgress } from "./HeroLogoImpl";
 import {
   getCamps,
   getHighlights,
@@ -66,10 +67,8 @@ export function Navbar() {
   const location                             = useLocation();
   const isHomePage                           = location.pathname === "/";
 
-  // Hero logo progress: 0 = hero logo visible, 1 = logo has flown to navbar
+  // Shared-element logo progress (0 = hero visible, 1 = hero gone)
   const heroLogoProgress = useHeroLogoProgress(isHomePage);
-  // Navbar logo is hidden on homepage until hero logo has mostly arrived
-  const navLogoOpacity = isHomePage ? Math.max(0, (heroLogoProgress - 0.78) / 0.22) : 1;
 
   // Active-item visibility gates (hide links to empty sections)
   const [activeItems, setActiveItems] = useState<Record<string, boolean>>({
@@ -146,15 +145,25 @@ export function Navbar() {
     (item) => activeItems[item.to] !== false
   );
 
+  // On homepage: navbar is transparent until scroll begins
+  // Scrolled or non-homepage: solid background
+  const navSolid = scrolled || !isHomePage;
+
   return (
     <>
       {/* ── Top Header ──────────────────────────────────────────────────────── */}
-      <header
-        ref={dropdownRef}
-        className={cn(
-          "nss-navbar",
-          scrolled && "nss-navbar-scrolled"
-        )}
+      <motion.header
+        ref={dropdownRef as React.RefObject<HTMLElement>}
+        className={cn("nss-navbar", scrolled && "nss-navbar-scrolled")}
+        animate={{
+          backgroundColor: navSolid
+            ? "var(--background)"
+            : "rgba(255,255,255,0)",
+          boxShadow: scrolled
+            ? "0 1px 0 rgba(27,58,39,0.07), 0 4px 16px rgba(27,58,39,0.06)"
+            : "none",
+        }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: "fixed",
           top: 0,
@@ -163,7 +172,9 @@ export function Navbar() {
           height: "4rem",
           display: "flex",
           alignItems: "center",
-          zIndex: 50
+          zIndex: 50,
+          backdropFilter: navSolid ? "blur(12px)" : "none",
+          WebkitBackdropFilter: navSolid ? "blur(12px)" : "none",
         }}
       >
         <div className="nss-container nss-flex nss-items-center nss-justify-between" style={{ height: "100%" }}>
@@ -174,27 +185,16 @@ export function Navbar() {
             className="nss-flex nss-items-center"
             style={{ gap: "0.625rem", minWidth: 0 }}
           >
-            <span
-              className="nss-shrink-0 nss-flex nss-items-center nss-justify-center"
-              style={{
-                height: "2.75rem",
-                width: "2.75rem",
-                overflow: "hidden",
-                borderRadius: "var(--radius-lg)",
-                backgroundColor: "#ffffff",
-                padding: "2px",
-                border: "1px solid rgba(27, 28, 25, 0.08)",
-                opacity: navLogoOpacity,
-                transition: "opacity 0.2s ease",
-              }}
+            {/* Shared-element logo — morphs from hero on scroll */}
+            <NavbarLogo isHomePage={isHomePage} progress={heroLogoProgress} />
+
+            {/* Unit name text — fades in as navbar becomes solid */}
+            <motion.span
+              className="nss-flex nss-flex-col nss-leading-none"
+              style={{ minWidth: 0 }}
+              animate={{ opacity: navSolid ? 1 : 0, x: navSolid ? 0 : -8 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img
-                src="/nss-logo.svg"
-                alt="NSS Logo"
-                style={{ height: "100%", width: "100%", objectFit: "contain" }}
-              />
-            </span>
-            <span className="nss-flex nss-flex-col nss-leading-none" style={{ minWidth: 0 }}>
               <span
                 className="nss-truncate nss-text-xs nss-font-extrabold nss-uppercase"
                 style={{ fontFamily: "var(--font-sans)", color: "var(--primary)", fontSize: "13.5px", letterSpacing: "0.03em" }}
@@ -207,14 +207,16 @@ export function Navbar() {
               >
                 {s.schoolName || "KHMHSS Valakkulam"}
               </span>
-            </span>
+            </motion.span>
           </Link>
 
-          {/* ── Desktop nav groups · xl+ only ───────────────────────────── */}
-          <nav
+          {/* ── Desktop nav groups · fade in with scroll ──────────────────── */}
+          <motion.nav
             className="nss-xl-flex nss-items-center nss-gap-1 nss-xl-only"
             role="navigation"
             aria-label="Main navigation"
+            animate={{ opacity: navSolid ? 1 : 0, y: navSolid ? 0 : -6 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           >
             {filteredNavGroups.map((group) => (
               <NavDropdownGroup
@@ -234,9 +236,9 @@ export function Navbar() {
             >
               Contact
             </Link>
-          </nav>
+          </motion.nav>
         </div>
-      </header>
+      </motion.header>
 
       {/* ── Mobile Bottom Pill Nav ──────────────────────────────────────────── */}
       <BottomPillNav items={filteredBottomNavItems} />
