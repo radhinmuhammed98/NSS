@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { createPortal } from "react-dom";
 import { ExternalLink, Play, X } from "lucide-react";
 interface VideoClip {
   slug?: string;
@@ -172,21 +173,21 @@ export function MediaThumb({ video }: { video: VideoClip }) {
         </div>
       </div>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
           role="dialog"
           aria-modal="true"
           aria-label={`Video: ${video.title}`}
-          style={{ position: "fixed", inset: 0, zIndex: 110, display: "grid", placeItems: "center", padding: "clamp(1rem, 3vw, 2rem)" }}
+          style={{ position: "fixed", inset: 0, zIndex: 120, display: "grid", placeItems: "center", padding: "clamp(1rem, 3vw, 2rem)" }}
         >
-          <button type="button" className="nss-modal-backdrop" onClick={close} aria-label="Close video player" style={{ cursor: "pointer" }} />
-          <div className="nss-card nss-p-0 nss-modal-panel" style={{ position: "relative", zIndex: 111, width: "min(100%, 58rem)", overflow: "hidden" }}>
+          <button type="button" className="nss-modal-backdrop" onClick={close} aria-label="Close video player" style={{ position: "fixed", inset: 0, zIndex: 119, background: "transparent", cursor: "pointer" }} />
+          <div className="nss-card nss-p-0 nss-modal-panel" style={{ position: "relative", zIndex: 121, width: "min(100%, 58rem)", overflow: "hidden" }}>
             <button
               ref={closeBtnRef}
               type="button"
               onClick={close}
               aria-label="Close video player"
-              style={{ position: "absolute", right: "0.75rem", top: "0.75rem", zIndex: 112, display: "flex", alignItems: "center", justifyContent: "center", height: "2.5rem", width: "2.5rem", borderRadius: "50%", background: "hsl(140 10% 6% / 0.72)", color: "#fff" }}
+              style={{ position: "absolute", right: "0.75rem", top: "0.75rem", zIndex: 122, display: "flex", alignItems: "center", justifyContent: "center", height: "2.5rem", width: "2.5rem", borderRadius: "50%", background: "hsl(140 10% 6% / 0.72)", color: "#fff" }}
             >
               <X style={{ height: "1.1rem", width: "1.1rem" }} aria-hidden />
             </button>
@@ -222,7 +223,8 @@ export function MediaThumb({ video }: { video: VideoClip }) {
               {description && <p className="nss-mt-1 nss-text-sm nss-leading-relaxed nss-text-muted">{description}</p>}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
