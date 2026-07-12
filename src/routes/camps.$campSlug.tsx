@@ -6,6 +6,7 @@ import { ClayCard, Badge, Reveal, ImpactStat } from "@/components/clay";
 import { HighlightCard, ImageLightbox, VideoLightbox } from "@/components/media";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs } from "@/lib/data";
+import { getVideoUrl, isDirectVideoUrl } from "@/components/media/MediaThumb";
 import type { CampDay, ImageAsset, ImpactMetric, Camp, Highlight } from "@/types";
 
 export const Route = createFileRoute("/camps/$campSlug")({
@@ -164,18 +165,24 @@ function CampPage() {
                           style={{ height: "6rem", width: "auto", maxWidth: "10rem", objectFit: "cover", cursor: "pointer", border: "1.5px solid var(--border)" }} 
                         />
                       ))}
-                      {d.videos?.map((vid) => (
-                        <div key={vid.slug} className="nss-card nss-p-0 nss-card-tilt" style={{ position: "relative", height: "6rem", width: "auto", maxWidth: "10rem", overflow: "hidden", border: "1.5px solid var(--border)", display: "flex", aspectRatio: "16/9" }}>
-                          {vid.thumbnail ? (
-                            <img src={vid.thumbnail} alt={vid.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          ) : (
-                            <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
-                          )}
-                          <button type="button" onClick={() => setActiveVideo(vid)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${vid.title}`}>
-                            <PlayCircle style={{ height: "2rem", width: "2rem", color: "#fff", opacity: 0.9 }} />
-                          </button>
-                        </div>
-                      ))}
+                      {d.videos?.map((vid) => {
+                        const urlString = getVideoUrl(vid);
+                        const directVideo = isDirectVideoUrl(urlString);
+                        return (
+                          <div key={vid.slug} className="nss-card nss-p-0 nss-card-tilt" style={{ position: "relative", height: "6rem", width: "auto", maxWidth: "10rem", overflow: "hidden", border: "1.5px solid var(--border)", display: "flex", aspectRatio: "16/9" }}>
+                            {vid.thumbnail ? (
+                              <img src={vid.thumbnail} alt={vid.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            ) : directVideo ? (
+                              <video src={`${urlString}#t=0.1`} preload="metadata" muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            ) : (
+                              <div style={{ width: "100%", height: "100%", background: "var(--clay-deep)" }} />
+                            )}
+                            <button type="button" onClick={() => setActiveVideo(vid)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${vid.title}`}>
+                              <PlayCircle style={{ height: "2rem", width: "2rem", color: "#fff", opacity: 0.9 }} />
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : null}
                 </div>

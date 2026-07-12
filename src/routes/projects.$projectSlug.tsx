@@ -7,6 +7,7 @@ import { HighlightCard, ImageLightbox, VideoLightbox } from "@/components/media"
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 import { formatDate, getCampBySlug, getHighlightsBySlugs, getProjectBySlug, getReportsBySlugs } from "@/lib/data";
+import { getVideoUrl, isDirectVideoUrl } from "@/components/media/MediaThumb";
 import type { Camp, Highlight, ImageAsset, ImpactMetric, Project, Report } from "@/types";
 
 export const Route = createFileRoute("/projects/$projectSlug")({
@@ -189,28 +190,34 @@ function ProjectPage() {
           <section className="nss-mt-10">
             <SectionHeading eyebrow="Media" title="Project videos" description="Watch moments from this activity." />
             <div className="nss-columns-1 nss-sm-columns-2 nss-lg-columns-3">
-              {project.videos.map((video, index) => (
-                <div key={video.slug} className="nss-break-inside-avoid nss-mb-4">
-                  <Reveal delay={index * 0.04}>
-                    <figure className="nss-card nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
-                      <div style={{ position: "relative" }}>
-                        {video.thumbnail ? (
-                          <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }} />
-                        ) : (
-                          <div style={{ width: "100%", aspectRatio: "16/9", background: "var(--clay-deep)" }} />
-                        )}
-                        <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
-                           <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
-                        </button>
-                      </div>
-                      <div className="nss-p-4">
-                        <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
-                        {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
-                      </div>
-                    </figure>
-                  </Reveal>
-                </div>
-              ))}
+              {project.videos.map((video, index) => {
+                const urlString = getVideoUrl(video);
+                const directVideo = isDirectVideoUrl(urlString);
+                return (
+                  <div key={video.slug} className="nss-break-inside-avoid nss-mb-4">
+                    <Reveal delay={index * 0.04}>
+                      <figure className="nss-card nss-p-0 nss-flex nss-flex-col" style={{ overflow: "hidden" }}>
+                        <div style={{ position: "relative" }}>
+                          {video.thumbnail ? (
+                            <img src={video.thumbnail} alt={video.title} style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }} />
+                          ) : directVideo ? (
+                            <video src={`${urlString}#t=0.1`} preload="metadata" muted playsInline style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
+                          ) : (
+                            <div style={{ width: "100%", aspectRatio: "16/9", background: "var(--clay-deep)" }} />
+                          )}
+                          <button type="button" onClick={() => setActiveVideo(video)} style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.3)" }} className="nss-transition-opacity hover:nss-opacity-100" aria-label={`Play ${video.title}`}>
+                             <PlayCircle style={{ height: "3rem", width: "3rem", color: "#fff", opacity: 0.9 }} />
+                          </button>
+                        </div>
+                        <div className="nss-p-4">
+                          <h3 className="nss-font-bold nss-text-sm nss-line-clamp-1">{video.title}</h3>
+                          {video.duration && <p className="nss-mt-1 nss-text-xs nss-text-muted">{video.duration}</p>}
+                        </div>
+                      </figure>
+                    </Reveal>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}

@@ -23,7 +23,7 @@ export function hasPlayableVideo(video: Pick<VideoClip, "url">): boolean {
   return getVideoUrl(video).length > 0;
 }
 
-function isDirectVideoUrl(url: string): boolean {
+export function isDirectVideoUrl(url: string): boolean {
   if (!url) return false;
   if (url.startsWith("/") || url.startsWith("blob:") || url.startsWith("data:video/")) return true;
 
@@ -124,6 +124,14 @@ export function MediaThumb({ video }: { video: VideoClip }) {
               loading="lazy"
               decoding="async"
               className="nss-img-zoom"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : directVideo ? (
+            <video
+              src={`${urlString}#t=0.1`}
+              preload="metadata"
+              muted
+              playsInline
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
           ) : (
